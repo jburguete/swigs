@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<system initial_time="2010 1 1 0 0 0" final_time="2010 1 1 0 0 10" solution_file="dambreak-slope.bin">
+	<channel name="s1" cell_size="1">
+		<geometry>
+			<cross_section name="1.sec" x="0">
+				<transient_section name="1.tra">
+					-1 23 0.06953567787843 0
+					-1 20 0.06953567787843 0
+					1 20 0.06953567787843 0
+					1 23
+				</transient_section>
+			</cross_section>
+			<cross_section name="2.sec" x="200">
+				<transient_section name="2.tra">
+					-1 3 0.06953567787843 0
+					-1 0 0.06953567787843 0
+					1 0 0.06953567787843 0
+					1 3
+				</transient_section>
+			</cross_section>
+		</geometry>
+		<initial type="xqh">
+			0 28.87612826982411 2
+			39.5 28.87612826982411 2
+			39.5 9.095410461653955 1
+			200 9.095410461653955 1
+		</initial>
+		<inlet type="q_h" depth="2" discharge="28.87612826982411"/>
+		<outlet type="qh">
+			0 0
+			1 9.095410461653955
+			2 28.87612826982411
+		</outlet>
+	</channel>
+	<channel name="s2" cell_size="1">
+		<geometry>
+			<cross_section name="1.sec" x="0">
+				<transient_section name="1.tra">
+					-1 3 0.06953567787843 0
+					-1 0 0.06953567787843 0
+					1 0 0.06953567787843 0
+					1 3
+				</transient_section>
+			</cross_section>
+			<cross_section name="2.sec" x="200">
+				<transient_section name="2.tra">
+					-1 23 0.06953567787843 0
+					-1 20 0.06953567787843 0
+					1 20 0.06953567787843 0
+					1 23
+				</transient_section>
+			</cross_section>
+		</geometry>
+		<initial type="xqh">
+			0 -9.095410461653955 1
+			160.5 -9.095410461653955 1
+			160.5 -28.87612826982411 2
+			200 -28.87612826982411 2
+		</initial>
+		<inlet type="qh">
+			0 0
+			1 9.095410461653955
+			2 28.87612826982411
+		</inlet>
+		<outlet type="q_h" depth="2" discharge="-28.87612826982411"/>
+	</channel>
+	<channel name="t1" cell_size="1">
+		<geometry>
+			<cross_section name="1.sec" x="0">
+				<transient_section name="1.tra">
+					-3 23 0.035261024408632 0
+					0 20 0.035261024408632 0
+					3 23
+				</transient_section>
+			</cross_section>
+			<cross_section name="2.sec" x="200">
+				<transient_section name="2.tra">
+					-3 3 0.035261024408632 0
+					0 0 0.035261024408632 0
+					3 3
+				</transient_section>
+			</cross_section>
+		</geometry>
+		<initial type="xqh">
+			0 42.70836966782442 2
+			39.5 42.70836966782442 2
+			39.5 6.726146743897963 1
+			200 6.726146743897963 1
+		</initial>
+		<inlet type="q_h" depth="2" discharge="42.70836966782442"/>
+		<outlet type="qh">
+			0 0
+			1 6.726146743897963
+			2 42.70836966782442
+		</outlet>
+	</channel>
+	<channel name="t2" cell_size="1">
+		<geometry>
+			<cross_section name="1.sec" x="0">
+				<transient_section name="1.tra">
+					-3 3 0.035261024408632 0
+					0 0 0.035261024408632 0
+					3 3
+				</transient_section>
+			</cross_section>
+			<cross_section name="2.sec" x="200">
+				<transient_section name="2.tra">
+					-3 23 0.035261024408632 0
+					0 20 0.035261024408632 0
+					3 23
+				</transient_section>
+			</cross_section>
+		</geometry>
+		<initial type="xqh">
+			0 -6.726146743897963 1
+			160.5 -6.726146743897963 1
+			160.5 -42.70836966782442 2
+			200 -42.70836966782442 2
+		</initial>
+		<inlet type="qh">
+			0 0
+			1 6.726146743897963
+			2 42.70836966782442
+		</inlet>
+		<outlet type="q_h" depth="2" discharge="-42.70836966782442"/>
+	</channel>
+</system>

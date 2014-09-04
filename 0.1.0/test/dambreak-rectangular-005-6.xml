@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<system initial_time="2010 1 1 0 0 0" final_time="2010 1 1 0 0 6" solution_file="dambreak-slope-square.bin">
+	<transport name="Solute1" solubility="100"/>
+	<channel name="s1" cell_size="1">
+		<geometry>
+			<cross_section name="1.sec" x="0">
+				<transient_section name="1.tra">
+					-10 30.05 0 0
+					-10 10.05 0 0
+					10 10.05 0 0
+					10 30.05
+				</transient_section>
+			</cross_section>
+			<cross_section name="2.sec" x="201">
+				<transient_section name="2.tra">
+					-10 20 0 0
+					-10 0 0 0
+					10 0 0 0
+					10 20
+				</transient_section>
+			</cross_section>
+		</geometry>
+		<initial type="xqh">
+			0 0 10
+			100.5 0 10
+			100.5 0 1
+			201 0 1
+		</initial>
+		<inlet type="h" depth="10"/>
+		<outlet type="h" depth="1"/>
+		<transport>
+			<initial type="xc">
+				0 1
+				100.5 1
+				100.5 0
+				201 0
+			</initial>
+		</transport>
+	</channel>
+	<channel name="s2" cell_size="1">
+		<geometry>
+			<cross_section name="1.sec" x="0">
+				<transient_section name="1.tra">
+					-10 20 0 0
+					-10 0 0 0
+					10 0 0 0
+					10 20
+				</transient_section>
+			</cross_section>
+			<cross_section name="2.sec" x="201">
+				<transient_section name="2.tra">
+					-10 30.05 0 0
+					-10 10.05 0 0
+					10 10.05 0 0
+					10 30.05
+				</transient_section>
+			</cross_section>
+		</geometry>
+		<initial type="xqh">
+			0 0 1
+			100.5 0 1
+			100.5 0 10
+			201 0 10
+		</initial>
+		<inlet type="h" depth="1"/>
+		<outlet type="h" depth="10"/>
+		<transport>
+			<initial type="xc">
+				0 0
+				100.5 0
+				100.5 1
+				201 1
+			</initial>
+		</transport>
+	</channel>
+</system>

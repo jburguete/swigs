@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<system solution_file="sol.tmp" max_steady_time="0.0000000000000e+00" depth_min="1.0000000000000e-02">
+  <channel cell_size="1.0000000000000e+00">
+    <geometry>
+      <cross_section name="Section1" x="0.0000000000000e+00">
+        <transient_section name="Transient1" dz="1.0000000000000e-01">
+        0.0000000000000e+00 0.0000000000000e+00 3.0000000000000e-02 0
+        1.0000000000000e+00 1.0000000000000e+00
+      </transient_section>
+      </cross_section>
+      <cross_section name="Section2" x="1.0000000000000e+00">
+        <transient_section name="Transient2" dz="1.0000000000000e-01">
+        0.0000000000000e+00 0.0000000000000e+00 3.0000000000000e-02 0
+        1.0000000000000e+00 1.0000000000000e+00
+      </transient_section>
+      </cross_section>
+    </geometry>
+    <initial type="dry"/>
+    <inlet type="q" discharge="0.0000000000000e+00"/>
+    <outlet type="q" discharge="0.0000000000000e+00"/>
+  </channel>
+</system>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<simulate>
+  <system name="test/s1-01.xml">
+    <parameters cell_size="1" simulation_time="20">
+      <profile name="test/s1-01" time="1" solution="test/test-s1-01" qerror="1.33e-2" herror="4.96e-3" serror="2.14e-2" mass="110.55" solute="100.5"/>
+      <profile name="test/s01-1" channel="2" time="1" solution="test/test-s01-1" qerror="1.33e-2" herror="4.96e-3" serror="2.14e-2" mass="110.55" solute="100.5"/>
+    </parameters>
+  </system>
+</simulate>
+

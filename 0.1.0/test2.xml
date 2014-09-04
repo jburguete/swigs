@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<simulate>
+  <channel name="test/est-5-00.xml">
+    <parameters cell_size="2" simulation_time="1600">
+      <profile name="test/est-5-00" time="1" solution="test/test-est-5-00" qerror="2.16e-1" herror="7.72e-3"/>
+    </parameters>
+  </channel>
+  <channel name="test/est-5-01.xml">
+    <parameters cell_size="2" simulation_time="1600">
+      <profile name="test/est-5-01" time="1" solution="test/test-est-5-01" qerror="2.20e-1" herror="7.67e-3"/>
+    </parameters>
+  </channel>
+  <channel name="test/est-5-10.xml">
+    <parameters cell_size="2" simulation_time="1600">
+      <profile name="test/est-5-10" time="1" solution="test/test-est-5-10" qerror="2.16e-1" herror="7.72e-3"/>
+    </parameters>
+  </channel>
+  <channel name="test/est-5-11.xml">
+    <parameters cell_size="2" simulation_time="1600">
+      <profile name="test/est-5-11" time="1" solution="test/test-est-5-11" qerror="2.20e-1" herror="7.67e-3"/>
+    </parameters>
+  </channel>
+</simulate>

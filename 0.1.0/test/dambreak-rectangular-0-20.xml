@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<system initial_time="2010 1 1 0 0 0" final_time="2010 1 1 0 0 20" solution_file="dambreak-rectangular-0-20.bin">
+	<transport name="Solute1" solubility="100"/>
+	<channel name="s01-1" cell_size="1">
+		<geometry>
+			<cross_section name="1.sec" x="0">
+				<transient_section name="1.tra">
+					0 10 0 0
+					0 0 0 0
+					1 0 0 0
+					1 10
+				</transient_section>
+			</cross_section>
+			<cross_section name="2.sec" x="201">
+				<transient_section name="2.tra">
+					0 10 0 0
+					0 0 0 0
+					1 0 0 0
+					1 10
+				</transient_section>
+			</cross_section>
+		</geometry>
+		<initial type="xqh">
+			0 0 0.1
+			100.5 0 0.1
+			100.5 0 1
+			201 0 1
+		</initial>
+		<inlet type="q" discharge="0"/>
+		<outlet type="q" discharge="0"/>
+		<transport>
+			<initial type="xc">
+				0 0
+				100.5 0
+				100.5 1
+				201 1
+			</initial>
+		</transport>
+	</channel>
+	<channel name="s1-01" cell_size="1">
+		<geometry>
+			<cross_section name="1.sec" x="0">
+				<transient_section name="1.tra">
+					0 10 0 0
+					0 0 0 0
+					1 0 0 0
+					1 10
+				</transient_section>
+			</cross_section>
+			<cross_section name="2.sec" x="201">
+				<transient_section name="2.tra">
+					0 10 0 0
+					0 0 0 0
+					1 0 0 0
+					1 10
+				</transient_section>
+			</cross_section>
+		</geometry>
+		<initial type="xqh">
+			0 0 1
+			100.5 0 1
+			100.5 0 0.1
+			201 0 0.1
+		</initial>
+		<inlet type="q" discharge="0"/>
+		<outlet type="q" discharge="0"/>
+		<transport>
+			<initial type="xc">
+				0 1
+				100.5 1
+				100.5 0
+				201 0
+			</initial>
+		</transport>
+	</channel>
+</system>

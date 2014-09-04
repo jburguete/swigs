@@ -1,0 +1,169 @@
+objects = jb_def.o jb_math.o jb_win.o jb_xml.o \
+	points.o transient_section.o cross_section.o channel_geometry.o \
+	initial_flow.o initial_transport.o junction_data.o boundary_flow.o \
+	boundary_transport.o transport.o channel_transport.o channel.o system.o \
+	section.o channel_segment.o section_changes.o mesh.o model.o \
+	parameters.o flow_scheme.o diffusion_scheme.o transport_scheme.o \
+	transport_simulate.o write.o simulate.o draw.o init.o
+jb = jb/jb_config_base.h jb/jb_config.h jb/jb_def.h jb/jb_math.h jb/jb_win.h \
+	jb/jb_xml.h jb/jb_def.c jb/jb_math.c jb/jb_win.c jb/jb_xml.c
+src = config.h def.h \
+	points.h transient_section.h cross_section.h channel_geometry.h \
+	initial_flow.h initial_transport.h junction_data.h boundary_flow.h \
+	boundary_transport.h transport.h channel_transport.h channel.h system.h \
+	section.h channel_segment.h section_changes.h mesh.h model.h \
+	parameters.h flow_scheme.h diffusion_scheme.h transport_scheme.h \
+	transport_simulate.h write.h simulate.h draw.h \
+	points.c transient_section.c cross_section.c channel_geometry.c \
+	initial_flow.c initial_transport.c junction_data.c boundary_flow.c \
+	boundary_transport.c transport.c channel_transport.c channel.c \
+	variables_system.c system.c section.c channel_segment.c \
+	section_changes.c variables_mesh.c mesh.c model.c parameters.c \
+	flow_scheme.c diffusion_scheme.c transport_scheme.c transport_simulate.c \
+	write.c simulate.c draw.c init.c
+configs = jb/jb_config_base.h jb/jb_config.h config.h def.h makefile
+basedir = /usr/i586-mingw32msvc/
+hdir = -I$(basedir)include/
+ldir = -I$(basedir)lib/
+hdirs = $(hdir)glib-2.0 $(ldir)glib-2.0/include $(hdir)libxml2
+libs = -lm -lintl -lgthread-2.0 -lglib-2.0 -lxml2
+flags = -c -mms-bitfields
+flags_fast = $(flags) -O3
+flags_default = $(flags) -O2
+flags_small = $(flags) -Os
+gcc = i586-mingw32msvc-gcc -Wall -std=gnu99 -mwindows
+bindir = ../4.2.0/win32/
+dlldir = $(basedir)bin/
+dlls = $(dlldir)intl.dll $(dlldir)libgthread-2.0-0.dll \
+	$(dlldir)libglib-2.0-0.dll $(dlldir)zlib1.dll $(dlldir)libxml2-2.dll
+podir = $(bindir)share/locale/
+name = $(bindir)bin/swigsbin.exe
+ 
+all: $(name) po/swigs.pot $(podir)es/LC_MESSAGES/swigsbin.mo \
+	$(podir)fr/LC_MESSAGES/swigsbin.mo
+
+$(name): $(objects)
+	$(gcc) $(objects) $(libs) -o $(name)
+
+jb_def.o: jb/jb_def.c jb/jb_def.h $(configs)
+	$(gcc) jb/jb_def.c -o jb_def.o $(flags_small) $(hdirs)
+
+jb_math.o: jb/jb_math.c jb/jb_math.h jb_def.o
+	$(gcc) jb/jb_math.c -o jb_math.o $(flags_fast) $(hdirs)
+
+jb_win.o: jb/jb_win.c jb/jb_win.h jb_math.o
+	$(gcc) jb/jb_win.c -o jb_win.o $(flags_small) $(hdirs)
+
+jb_xml.o: jb/jb_xml.c jb/jb_xml.h jb_def.o
+	$(gcc) jb/jb_xml.c -o jb_xml.o $(flags_small) $(hdirs)
+
+points.o: points.c points.h jb_win.o jb_xml.o
+	$(gcc) points.c -o points.o $(flags_default) $(hdirs)
+
+transient_section.o: transient_section.c transient_section.h points.o jb_xml.o
+	$(gcc) transient_section.c -o transient_section.o $(flags_default) \
+		$(hdirs)
+
+initial_flow.o: initial_flow.c initial_flow.h points.o
+	$(gcc) initial_flow.c -o initial_flow.o $(flags_default) $(hdirs)
+
+initial_transport.o: initial_transport.c initial_transport.h points.o
+	$(gcc) initial_transport.c -o initial_transport.o $(flags_default) \
+	$(hdirs)
+
+cross_section.o: cross_section.c cross_section.h transient_section.o
+	$(gcc) cross_section.c -o cross_section.o $(flags_default) $(hdirs)
+
+channel_geometry.o: channel_geometry.c channel_geometry.h cross_section.o
+	$(gcc) channel_geometry.c -o channel_geometry.o $(flags_default) \
+	$(hdirs)
+
+junction_data.o: junction_data.c junction_data.h jb_win.o jb_xml.o
+	$(gcc) junction_data.c -o junction_data.o $(flags_default) $(hdirs)
+
+boundary_flow.o: boundary_flow.c boundary_flow.h points.o junction_data.o
+	$(gcc) boundary_flow.c -o boundary_flow.o $(flags_default) $(hdirs)
+
+boundary_transport.o: boundary_transport.c boundary_transport.h points.o
+	$(gcc) boundary_transport.c -o boundary_transport.o $(flags_default) \
+	$(hdirs)
+
+transport.o: transport.c transport.h jb_xml.o
+	$(gcc) transport.c -o transport.o $(flags_default) $(hdirs)
+
+channel_transport.o: channel_transport.c channel_transport.h \
+	initial_transport.o boundary_transport.o transport.o
+	$(gcc) channel_transport.c -o channel_transport.o $(flags_default) $(hdirs)
+
+channel.o: channel.c channel.h channel_geometry.o initial_flow.o \
+	boundary_flow.o channel_transport.o
+	$(gcc) channel.c -o channel.o $(flags_default) $(hdirs)
+
+system.o: system.c system.h channel.o
+	$(gcc) system.c -o system.o $(flags_default) $(hdirs)
+
+section.o: section.c section.h system.o
+	$(gcc) section.c -o section.o $(flags_default) $(hdirs)
+
+channel_segment.o: channel_segment.c channel_segment.h section.o
+	$(gcc) channel_segment.c -o channel_segment.o $(flags_default) $(hdirs)
+
+section_changes.o: section_changes.c section_changes.h channel_geometry.o
+	$(gcc) section_changes.c -o section_changes.o $(flags_default) $(hdirs)
+
+mesh.o: mesh.c mesh.h channel.o channel_segment.o section_changes.o
+	$(gcc) mesh.c -o mesh.o $(flags_default) $(hdirs)
+
+model.o: model.c model.h mesh.o
+	$(gcc) model.c -o model.o $(flags_fast) $(hdirs)
+
+parameters.o: parameters.c parameters.h model.o
+	$(gcc) parameters.c -o parameters.o $(flags_fast) $(hdirs)
+
+diffusion_scheme.o: diffusion_scheme.c diffusion_scheme.h mesh.o
+	$(gcc) diffusion_scheme.c -o diffusion_scheme.o $(flags_fast) $(hdirs)
+
+transport_scheme.o: transport_scheme.c transport_scheme.h diffusion_scheme.o
+	$(gcc) transport_scheme.c -o transport_scheme.o $(flags_fast) $(hdirs)
+
+flow_scheme.o: flow_scheme.c flow_scheme.h transport_scheme.o parameters.o
+	$(gcc) flow_scheme.c -o flow_scheme.o $(flags_fast) $(hdirs)
+
+transport_simulate.o: transport_simulate.c transport_simulate.h \
+	diffusion_scheme.o transport_scheme.o
+	$(gcc) transport_simulate.c -o transport_simulate.o $(flags_fast) $(hdirs)
+
+write.o: write.c write.h flow_scheme.o
+	$(gcc) write.c -o write.o $(flags_small) $(hdirs)
+
+simulate.o: simulate.c simulate.h transport_simulate.o write.o
+	$(gcc) simulate.c -o simulate.o $(flags_fast) $(hdirs)
+
+draw.o: draw.c draw.h simulate.o
+	$(gcc) draw.c -o draw.o $(flags_small) $(hdirs)
+
+init.o: init.c variables_system.c variables_mesh.c draw.o
+	$(gcc) init.c -o init.o $(flags_small) $(hdirs)
+
+po/swigs.pot: makefile $(src) $(jb)
+	xgettext -d swigsbin -o po/swigs.pot --from-code=UTF-8 $(src)
+#	msginit -l es -o po/es/LC_MESSAGES/swigsbin.po -i po/swigs.pot \
+		--no-translator
+#	msginit -l fr -o po/fr/LC_MESSAGES/swigsbin.po -i po/swigs.pot \
+		--no-translator
+	msgmerge -U po/es/LC_MESSAGES/swigs.po po/swigs.pot
+	msgmerge -U po/fr/LC_MESSAGES/swigs.po po/swigs.pot
+	nedit */*/*/swigs.po
+
+$(podir)es/LC_MESSAGES/swigsbin.mo: po/es/LC_MESSAGES/swigs.po po/swigs.pot
+	msgfmt -c -v -o $(podir)es/LC_MESSAGES/swigsbin.mo \
+		po/es/LC_MESSAGES/swigs.po
+
+$(podir)fr/LC_MESSAGES/swigsbin.mo: po/fr/LC_MESSAGES/swigs.po po/swigs.pot
+	msgfmt -c -v -o $(podir)fr/LC_MESSAGES/swigsbin.mo \
+		po/fr/LC_MESSAGES/swigs.po
+
+install:
+	cp $(dlls) $(bindir)bin
+	cp -r $(basedir)share/locale/es $(basedir)/share/locale/fr \
+		$(bindir)share/locale

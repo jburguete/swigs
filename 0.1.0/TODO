@@ -1,0 +1,18 @@
+Prioridad alta:
+	- Añadir licencia
+	- Comentar el código usando Doxygen
+
+Prioridad media:
+	- Programar un método iterativo para la corrección de aforos
+	- Introducir fechas en condicioness de contorno de soluto y en secciones
+		variables en tiempo
+	- Crear fichero (y un subdirectorio) de resultados en el directorio del
+		fichero de entrada
+
+Prioridad baja:
+	- Introducir tiempo de duración de la animación
+	- Activar el editor de cauces
+	- Introducir en confluencias y condiciones de contorno internas la etiqueta
+		de la sección en lugar de su ordinal
+	- Compilar versión para Windows 64 bits
+	- Estabilizar el cálculo con tamaños de celda grandes

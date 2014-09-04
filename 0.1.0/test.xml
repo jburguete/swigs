@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<simulate>
+	<system name="test/dambreak-rectangular-0-20.xml" mass="221.1" solute="201">
+		<profile name="test/dambreak-rectangular-0-1-01-20" channel="2" time="1" solution="test/test-dambreak-rectangular-0-1-01-20" qerror="3.11e-2" herror="5.42e-3" serror="4.34e-2"/>
+		<profile name="test/dambreak-rectangular-0-01-1-20" channel="1" time="1" solution="test/test-dambreak-rectangular-0-01-1-20" qerror="3.11e-2" herror="5.42e-3" serror="4.34e-2"/>
+	</system>
+	<system name="test/dambreak-rectangular-0-40.xml" mass="275.1" solute="261">
+		<profile name="test/dambreak-rectangular-0-1-01-40" channel="2" time="1" solution="test/test-dambreak-rectangular-0-1-01-40" qerror="4.34e-2" herror="8.87e-3" serror="2.90e-2"/>
+		<profile name="test/dambreak-rectangular-0-01-1-40" channel="1" time="1" solution="test/test-dambreak-rectangular-0-01-1-40" qerror="4.34e-2" herror="8.87e-3" serror="2.90e-2"/>
+	</system>
+	<system name="test/dambreak-triangular-0-20.xml" mass="209.04" solute="201">
+		<profile name="test/dambreak-triangular-0-1-02-20" channel="2" time="1" solution="test/test-dambreak-triangular-0-1-02-20" qerror="3.17e-2" herror="8.60e-3" serror="4.14e-2"/>
+		<profile name="test/dambreak-triangular-0-02-1-20" channel="1" time="1" solution="test/test-dambreak-triangular-0-02-1-20" qerror="3.17e-2" herror="8.60e-3" serror="4.14e-2"/>
+	</system>
+	<system name="test/dambreak-triangular-0-40.xml" mass="275.1" solute="261">
+		<profile name="test/dambreak-triangular-0-1-02-40" channel="2" time="1" solution="test/test-dambreak-triangular-0-1-02-40" qerror="3.46e-2" herror="2.65e-2" serror="2.98e-2"/>
+		<profile name="test/dambreak-triangular-0-02-1-40" channel="1" time="1" solution="test/test-dambreak-triangular-0-02-1-40" qerror="3.46e-2" herror="2.65e-2" serror="2.98e-2"/>
+	</system>
+	<system name="test/rankine-hugoniot-rectangular-slope.xml" mass="2710.258814641932">
+		<profile name="test/rankine-hugoniot-rectangular-1" channel="1" time="1" solution="test/test-rankine-hugoniot-rectangular-1" qerror="1.82" herror="9.28e-2"/>
+		<profile name="test/rankine-hugoniot-rectangular-2" channel="2" time="1" solution="test/test-rankine-hugoniot-rectangular-2" qerror="1.83" herror="9.38e-2"/>
+	</system>
+	<system name="test/rankine-hugoniot-triangular-slope.xml" mass="2710.258814641932">
+		<profile name="test/rankine-hugoniot-triangular-1" channel="1" time="1" solution="test/test-rankine-hugoniot-triangular-1" qerror="6.93" herror="2.00e-1"/>
+		<profile name="test/rankine-hugoniot-triangular-2" channel="2" time="1" solution="test/test-rankine-hugoniot-triangular-2" qerror="6.93" herror="2.00e-1"/>
+	</system>
+	<system name="test/boundary.xml" mass="7.291487846730206e+03" solute="3.091487846730204e+02">
+		<profile name="test/c1" channel="1" time="1" solution="test/test-c1" qerror="4.44e-1" herror="1.14e-2" serror="4.64e-2"/>
+		<profile name="test/c2" channel="2" time="1" solution="test/test-c1" qerror="4.54" herror="1.07e-1" serror="1.06e-1"/>
+		<profile name="test/c3" channel="3" time="1" solution="test/test-c3" qerror="4.44e-1" herror="1.14e-2" serror="4.64e-2"/>
+		<profile name="test/c4" channel="4" time="1" solution="test/test-c3" qerror="4.54" herror="1.07e-1" serror="1.06e-1"/>
+		<profile name="test/t1" channel="5" time="1" solution="test/test-t1" qerror="3.09" herror="5.66e-2" serror="5.87e-2"/>
+		<profile name="test/t2" channel="6" time="1" solution="test/test-t2" qerror="3.09" herror="5.66e-2" serror="5.87e-2"/>
+	</system>
+	<system name="test/est.xml">
+		<profile name="test/est-1-00" channel="1" time="0" solution="test/test-est-1-00" qerror="2.97e-12" herror="3.08e-4"/>
+		<profile name="test/est-1-01" channel="2" time="0" solution="test/test-est-1-00" qerror="1.18e-2" herror="3.86e-5"/>
+		<profile name="test/est-1-10" channel="3" time="0" solution="test/test-est-1-10" qerror="3.22e-12" herror="3.08e-0"/>
+		<profile name="test/est-1-11" channel="4" time="0" solution="test/test-est-1-10" qerror="1.18e-2" herror="3.86e-5"/>
+		<profile name="test/est-2-00" channel="5" time="0" solution="test/test-est-2-00" qerror="2.44e-13" herror="6.39e-4"/>
+		<profile name="test/est-2-01" channel="6" time="0" solution="test/test-est-2-00" qerror="2.44e-13" herror="6.39e-4"/>
+		<profile name="test/est-2-10" channel="7" time="0" solution="test/test-est-2-10" qerror="2.44e-13" herror="6.39e-4"/>
+		<profile name="test/est-2-11" channel="8" time="0" solution="test/test-est-2-10" qerror="2.44e-13" herror="6.39e-4"/>
+		<profile name="test/est-3-00" channel="9" time="0" solution="test/test-est-3-00" qerror="2.18e-5" herror="2.92e-4"/>
+		<profile name="test/est-3-01" channel="10" time="0" solution="test/test-est-3-00" qerror="2.13e-3" herror="4.36e-4"/>
+		<profile name="test/est-3-10" channel="11" time="0" solution="test/test-est-3-10" qerror="2.18e-5" herror="2.92e-4"/>
+		<profile name="test/est-3-11" channel="12" time="0" solution="test/test-est-3-10" qerror="2.13e-3" herror="4.36e-4"/>
+		<profile name="test/est-4-00" channel="13" time="0" solution="test/test-est-4-00" qerror="2.98e-2" herror="8.32e-3"/>
+		<profile name="test/est-4-01" channel="14" time="0" solution="test/test-est-4-00" qerror="2.98e-2" herror="8.32e-3"/>
+		<profile name="test/est-4-10" channel="15" time="0" solution="test/test-est-4-10" qerror="2.98e-2" herror="8.32e-3"/>
+		<profile name="test/est-4-11" channel="16" time="0" solution="test/test-est-4-10" qerror="2.98e-2" herror="8.32e-3"/>
+		<profile name="test/est-5-00" channel="17" time="0" solution="test/test-est-5-00" qerror="3.10e-2" herror="8.04e-3"/>
+		<profile name="test/est-5-01" channel="18" time="0" solution="test/test-est-5-00" qerror="3.27e-2" herror="7.96e-3"/>
+		<profile name="test/est-5-10" channel="19" time="0" solution="test/test-est-5-10" qerror="3.10e-2" herror="8.04e-3"/>
+		<profile name="test/est-5-11" channel="20" time="0" solution="test/test-est-5-10" qerror="3.27e-2" herror="7.96e-3"/>
+		<profile name="test/est-6-00" channel="21" time="0" solution="test/test-est-6-00" qerror="2.95e-2" herror="8.11e-3"/>
+		<profile name="test/est-6-01" channel="22" time="0" solution="test/test-est-6-00" qerror="3.38e-2" herror="7.90e-3"/>
+		<profile name="test/est-6-10" channel="23" time="0" solution="test/test-est-6-10" qerror="2.95e-2" herror="8.11e-3"/>
+		<profile name="test/est-6-11" channel="24" time="0" solution="test/test-est-6-10" qerror="3.38e-2" herror="7.90e-3"/>
+	</system>
+</simulate>
+

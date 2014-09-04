@@ -1,0 +1,103 @@
+objects = jb_def.o jb_math.o jb_win.o jb_xml.o \
+	points.o transient_section.o cross_section.o channel_geometry.o \
+	initial_flow.o initial_transport.o junction_data.o boundary_flow.o \
+	boundary_transport.o transport.o channel_transport.o channel.o system.o
+jb = jb/jb_config_base.h jb/jb_config.h jb/jb_def.h jb/jb_math.h jb/jb_win.h \
+	jb/jb_xml.h jb/jb_def.c jb/jb_math.c jb/jb_win.c jb/jb_xml.c
+src = config.h def.h \
+	points.h transient_section.h cross_section.h channel_geometry.h \
+	initial_flow.h initial_transport.h junction_data.h boundary_flow.h \
+	boundary_transport.h transport.h channel_transport.h channel.h system.h \
+	points.c transient_section.c cross_section.c channel_geometry.c \
+	initial_flow.c initial_transport.c junction_data.c boundary_flow.c \
+	boundary_transport.c transport.c channel_transport.c channel.c \
+	variables_system.c system.c
+configs = jb/jb_config_base.h jb/jb_config.h config.h def.h makefile
+libs = -lgthread-2.0 -lglib-2.0 -lxml2
+flags = -c
+flags_fast = $(flags) -O3
+flags_default = $(flags) -O2
+flags_small = $(flags) -Os
+hdirs = -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include \
+	-I/usr/include/libxml2
+gcc = gcc -Wall -std=gnu99
+name = swigs-system
+ 
+all: $(name) po/swigs.pot po/es/LC_MESSAGES/swigs.mo \
+	po/fr/LC_MESSAGES/swigs.mo
+
+$(name): $(objects)
+	$(gcc) $(objects) $(libs) -o $(name)
+
+jb_def.o: jb/jb_def.c jb/jb_def.h $(configs)
+	$(gcc) jb/jb_def.c -o jb_def.o $(flags_small) $(hdirs)
+
+jb_math.o: jb/jb_math.c jb/jb_math.h jb_def.o
+	$(gcc) jb/jb_math.c -o jb_math.o $(flags_fast) $(hdirs)
+
+jb_win.o: jb/jb_win.c jb/jb_win.h jb_math.o
+	$(gcc) jb/jb_win.c -o jb_win.o $(flags_small) $(hdirs)
+
+jb_xml.o: jb/jb_xml.c jb/jb_xml.h jb_def.o
+	$(gcc) jb/jb_xml.c -o jb_xml.o $(flags_small) $(hdirs)
+
+points.o: points.c points.h jb_win.o jb_xml.o
+	$(gcc) points.c -o points.o $(flags_default) $(hdirs)
+
+transient_section.o: transient_section.c transient_section.h points.o jb_xml.o
+	$(gcc) transient_section.c -o transient_section.o $(flags_default) \
+		$(hdirs)
+
+initial_flow.o: initial_flow.c initial_flow.h points.o
+	$(gcc) initial_flow.c -o initial_flow.o $(flags_default) $(hdirs)
+
+initial_transport.o: initial_transport.c initial_transport.h points.o
+	$(gcc) initial_transport.c -o initial_transport.o $(flags_default) \
+	$(hdirs)
+
+cross_section.o: cross_section.c cross_section.h transient_section.o
+	$(gcc) cross_section.c -o cross_section.o $(flags_default) $(hdirs)
+
+channel_geometry.o: channel_geometry.c channel_geometry.h cross_section.o
+	$(gcc) channel_geometry.c -o channel_geometry.o $(flags_default) \
+	$(hdirs)
+
+junction_data.o: junction_data.c junction_data.h jb_win.o jb_xml.o
+	$(gcc) junction_data.c -o junction_data.o $(flags_default) $(hdirs)
+
+boundary_flow.o: boundary_flow.c boundary_flow.h points.o junction_data.o
+	$(gcc) boundary_flow.c -o boundary_flow.o $(flags_default) $(hdirs)
+
+boundary_transport.o: boundary_transport.c boundary_transport.h points.o
+	$(gcc) boundary_transport.c -o boundary_transport.o $(flags_default) \
+	$(hdirs)
+
+transport.o: transport.c transport.h jb_xml.o
+	$(gcc) transport.c -o transport.o $(flags_default) $(hdirs)
+
+channel_transport.o: channel_transport.c channel_transport.h \
+	initial_transport.o boundary_transport.o transport.o
+	$(gcc) channel_transport.c -o channel_transport.o $(flags_default) $(hdirs)
+
+channel.o: channel.c channel.h channel_geometry.o initial_flow.o \
+	boundary_flow.o channel_transport.o
+	$(gcc) channel.c -o channel.o $(flags_default) $(hdirs)
+
+system.o: system.c system.h variables_system.c channel.o
+	$(gcc) system.c -o system.o $(flags_default) $(hdirs) -DMAKE_SYSTEM=1
+
+po/swigs.pot: makefile $(src) $(jb)
+	xgettext -d swigs -o po/swigs.pot --from-code=UTF-8 $(src)
+#	msginit -l es -o po/es/LC_MESSAGES/swigsbin.po -i po/swigs.pot \
+		--no-translator
+#	msginit -l fr -o po/fr/LC_MESSAGES/swigsbin.po -i po/swigs.pot \
+		--no-translator
+	msgmerge -U po/es/LC_MESSAGES/swigs.po po/swigs.pot
+	msgmerge -U po/fr/LC_MESSAGES/swigs.po po/swigs.pot
+	nedit */*/*/swigs.po
+
+po/es/LC_MESSAGES/swigs.mo: po/es/LC_MESSAGES/swigs.po po/swigs.pot
+	msgfmt -c -v -o po/es/LC_MESSAGES/swigs.mo po/es/LC_MESSAGES/swigs.po
+
+po/fr/LC_MESSAGES/swigs.mo: po/fr/LC_MESSAGES/swigs.po po/swigs.pot
+	msgfmt -c -v -o po/fr/LC_MESSAGES/swigs.mo po/fr/LC_MESSAGES/swigs.po

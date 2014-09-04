@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+<system initial_time="2010 1 1 0 0 0" final_time="2010 1 1 0 0 20" solution_file="boundary.bin">
+	<transport name="Solute1" solubility="100"/>
+	<channel name="c1" cell_size="1">
+		<geometry>
+			<cross_section name="1.sec" x="0.00000000000000e+00" angle="0.00000000000000e+00">
+				<transient_section name="1.tra">
+					0.00000000000000e+00 1.00000000000000e+01 0.00000000000000e+00 0
+					0.00000000000000e+00 0.00000000000000e+00 0.00000000000000e+00 0
+					1.00000000000000e+01 0.00000000000000e+00 0.00000000000000e+00 0
+					1.00000000000000e+01 1.00000000000000e+01
+				</transient_section>
+			</cross_section>
+			<cross_section name="2.sec" x="0.00000000000000e+00" y="2.00000000000000e+02" angle="0.00000000000000e+00">
+				<transient_section name="2.tra">
+					0.00000000000000e+00 1.00000000000000e+01 0.00000000000000e+00 0
+					0.00000000000000e+00 0.00000000000000e+00 0.00000000000000e+00 0
+					1.00000000000000e+01 0.00000000000000e+00 0.00000000000000e+00 0
+					1.00000000000000e+01 1.00000000000000e+01
+				</transient_section>
+			</cross_section>
+		</geometry>
+		<initial type="xqh">
+			0.00000000000000e+00 0.00000000000000e+00 4.00000000000000e-01
+		</initial>
+		<inlet type="q" discharge="2.460522592574884e+01"/>
+		<outlet type="q" discharge="0.00000000000000e+00"/>
+		<transport>
+			<initial type="dry"/>
+			<boundary name="inlet" type="q" initial="1" final="1">
+				0.000000000000e+00 2.460522592574884e+01
+			</boundary>
+		</transport>
+	</channel>
+	<channel name="c2" cell_size="1">
+		<geometry>
+			<cross_section name="1.sec" x="0.00000000000000e+00" angle="0.00000000000000e+00">
+				<transient_section name="1.tra">
+					0.00000000000000e+00 1.00000000000000e+01 0.00000000000000e+00 0
+					0.00000000000000e+00 0.00000000000000e+00 0.00000000000000e+00 0
+					1.00000000000000e+01 0.00000000000000e+00 0.00000000000000e+00 0
+					1.00000000000000e+01 1.00000000000000e+01
+				</transient_section>
+			</cross_section>
+			<cross_section name="2.sec" x="0.00000000000000e+00" y="2.00000000000000e+02" angle="0.00000000000000e+00">
+				<transient_section name="2.tra">
+					0.00000000000000e+00 1.00000000000000e+01 0.00000000000000e+00 0
+					0.00000000000000e+00 0.00000000000000e+00 0.00000000000000e+00 0
+					1.00000000000000e+01 0.00000000000000e+00 0.00000000000000e+00 0
+					1.00000000000000e+01 1.00000000000000e+01
+				</transient_section>
+			</cross_section>
+		</geometry>
+		<initial type="xqh">
+			0.00000000000000e+00 0.00000000000000e+00 4.00000000000000e-01
+		</initial>
+		<inlet type="h" depth="1.000000000000000e+00"/>
+		<outlet type="q" discharge="0.00000000000000e+00"/>
+		<transport>
+			<initial type="dry"/>
+			<boundary name="inlet" type="q" initial="1" final="1">
+				0.000000000000e+00 2.460522592574884e+01
+			</boundary>
+		</transport>
+	</channel>
+	<channel name="c3" cell_size="1">
+		<geometry>
+			<cross_section name="1.sec" x="0.00000000000000e+00" angle="0.00000000000000e+00">
+				<transient_section name="1.tra">
+					0.00000000000000e+00 1.00000000000000e+01 0.00000000000000e+00 0
+					0.00000000000000e+00 0.00000000000000e+00 0.00000000000000e+00 0
+					1.00000000000000e+01 0.00000000000000e+00 0.00000000000000e+00 0
+					1.00000000000000e+01 1.00000000000000e+01
+				</transient_section>
+			</cross_section>
+			<cross_section name="2.sec" x="0.00000000000000e+00" y="2.00000000000000e+02" angle="0.00000000000000e+00">
+				<transient_section name="2.tra">
+					0.00000000000000e+00 1.00000000000000e+01 0.00000000000000e+00 0
+					0.00000000000000e+00 0.00000000000000e+00 0.00000000000000e+00 0
+					1.00000000000000e+01 0.00000000000000e+00 0.00000000000000e+00 0
+					1.00000000000000e+01 1.00000000000000e+01
+				</transient_section>
+			</cross_section>
+		</geometry>
+		<initial type="xqh">
+			0.00000000000000e+00 0.00000000000000e+00 4.00000000000000e-01
+		</initial>
+		<inlet type="q" discharge="0.00000000000000e+00"/>
+		<outlet type="q" discharge="-2.460522592574884e+01"/>
+		<transport>
+			<initial type="dry"/>
+			<boundary name="inlet" type="q" initial="2" final="2">
+				0.000000000000e+00 2.460522592574884e+01
+			</boundary>
+		</transport>
+	</channel>
+	<channel name="c4" cell_size="1">
+		<geometry>
+			<cross_section name="1.sec" x="0.00000000000000e+00" angle="0.00000000000000e+00">
+				<transient_section name="1.tra">
+					0.00000000000000e+00 1.00000000000000e+01 0.00000000000000e+00 0
+					0.00000000000000e+00 0.00000000000000e+00 0.00000000000000e+00 0
+					1.00000000000000e+01 0.00000000000000e+00 0.00000000000000e+00 0
+					1.00000000000000e+01 1.00000000000000e+01
+				</transient_section>
+			</cross_section>
+			<cross_section name="2.sec" x="0.00000000000000e+00" y="2.00000000000000e+02" angle="0.00000000000000e+00">
+				<transient_section name="2.tra">
+					0.00000000000000e+00 1.00000000000000e+01 0.00000000000000e+00 0
+					0.00000000000000e+00 0.00000000000000e+00 0.00000000000000e+00 0
+					1.00000000000000e+01 0.00000000000000e+00 0.00000000000000e+00 0
+					1.00000000000000e+01 1.00000000000000e+01
+				</transient_section>
+			</cross_section>
+		</geometry>
+		<initial type="xqh">
+			0.00000000000000e+00 0.00000000000000e+00 4.00000000000000e-01
+		</initial>
+		<inlet type="q" discharge="0.00000000000000e+00"/>
+		<outlet type="h" depth="1.000000000000000e+00"/>
+		<transport>
+			<initial type="dry"/>
+			<boundary name="inlet" type="q" initial="2" final="2">
+				0.000000000000e+00 2.460522592574884e+01
+			</boundary>
+		</transport>
+	</channel>
+	<channel name="t1" cell_size="1">
+		<geometry>
+			<cross_section name="1.sec" x="0.00000000000000e+00" angle="0.00000000000000e+00">
+				<transient_section name="1.tra">
+					0.00000000000000e+00 1.00000000000000e+01 0.00000000000000e+00 0
+					1.00000000000000e+02 0.00000000000000e+00 0.00000000000000e+00 0
+					2.00000000000000e+02 1.00000000000000e+01
+				</transient_section>
+			</cross_section>
+			<cross_section name="2.sec" x="0.00000000000000e+00" y="2.00000000000000e+02" angle="0.00000000000000e+00">
+				<transient_section name="2.tra">
+					0.00000000000000e+00 1.00000000000000e+01 0.00000000000000e+00 0
+					1.00000000000000e+02 0.00000000000000e+00 0.00000000000000e+00 0
+					2.00000000000000e+02 1.00000000000000e+01
+				</transient_section>
+			</cross_section>
+		</geometry>
+		<initial type="xqh">
+			0.00000000000000e+00 0.00000000000000e+00 5.00000000000000e-01
+		</initial>
+		<inlet type="q_h" depth="1.00000000000000e+00" discharge="2.807674431675745e+01"/>
+		<outlet type="q" discharge="0.00000000000000e+00"/>
+		<transport>
+			<initial type="dry"/>
+			<boundary name="inlet" type="q" initial="1" final="1">
+				0.000000000000e+00 2.807674431675745e+01
+			</boundary>
+		</transport>
+	</channel>
+	<channel name="t2" cell_size="1">
+		<geometry>
+			<cross_section name="1.sec" x="0.00000000000000e+00" angle="0.00000000000000e+00">
+				<transient_section name="1.tra">
+					0.00000000000000e+00 1.00000000000000e+01 0.00000000000000e+00 0
+					1.00000000000000e+02 0.00000000000000e+00 0.00000000000000e+00 0
+					2.00000000000000e+02 1.00000000000000e+01
+				</transient_section>
+			</cross_section>
+			<cross_section name="2.sec" x="0.00000000000000e+00" y="2.00000000000000e+02" angle="0.00000000000000e+00">
+				<transient_section name="2.tra">
+					0.00000000000000e+00 1.00000000000000e+01 0.00000000000000e+00 0
+					1.00000000000000e+02 0.00000000000000e+00 0.00000000000000e+00 0
+					2.00000000000000e+02 1.00000000000000e+01
+				</transient_section>
+			</cross_section>
+		</geometry>
+		<initial type="xqh">
+			0.00000000000000e+00 0.00000000000000e+00 5.00000000000000e-01
+		</initial>
+		<inlet type="q" discharge="0.00000000000000e+00"/>
+		<outlet type="q_h" depth="1.00000000000000e+00" discharge="-2.807674431675745e+01"/>
+		<transport>
+			<initial type="dry"/>
+			<boundary name="inlet" type="q" initial="2" final="2">
+				0.000000000000e+00 2.807674431675745e+01
+			</boundary>
+		</transport>
+	</channel>
+</system>
