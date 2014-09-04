@@ -23,7 +23,7 @@ REQUIRED
 * png (to work with PNG files)
 * gtk+ (to make the interface windows)
 * freeglut (interaction with OpenGL to draw graphics)
-* jb (utility library of J. Burguete)
+* [jb](https://github.com/jburguete/jb.git) (utility library of J. Burguete)
 * doxygen (optional: standard comments format to generate documentation)
 * latex (optional: to build the PDF manuals)
 
@@ -37,6 +37,8 @@ FILES
 * *.h: Header files.
 * *.c: Source files.
 * *.png: Diagram and logo files.
+* swigs.ico: icon file.
+* swigs.rc: resources file.
 * Doxyfile: configuration file to generate doxygen documentation.
 * po/es/LC_MESSAGES/*.po: spanish language files.
 * po/fr/LC_MESSAGES/*.po: french language files.
@@ -47,25 +49,26 @@ FILES
 BUILDING INSTRUCTIONS
 ---------------------
 
-Debian Linux 7.4
+Debian Linux 7.6
 ________________
-Debian kFreeBSD 7.4
+Debian kFreeBSD 7.6
 ___________________
-Debian Hurd 7.4
+Debian Hurd 7.6
 _______________
-FreeBSD 9.2
+FreeBSD 10.0
 ___________
+NetBSD 6.1.3 (with modular xorg)
+____________
 
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 5.2/src
+* cd 0.1.0
 * link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.4.2 jb)
-* cd ..
 * aclocal
 * autoconf
 * automake --add-missing
 * ./configure
 * make
-* strip surcos surcos_gui (optional: to make a final version)
+* strip swigs swigsbin (optional: to make a final version)
 
 Microsoft Windows 7 32 bits
 ___________________________
@@ -76,13 +79,11 @@ ____________________________
 utilities. You can follow detailed instructions in
 [MinGW-64-Make](https://github.com/jburguete/MinGW-64-Make)
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 5.2/src
+* cd 0.1.0
 * link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.4.2 jb)
-* cd ..
 * aclocal
 * autoconf
 * automake --add-missing
-* LDFLAGS='-lglut -lopengl32' CPPFLAGS='-I/mingw/include' configure
 * make
 * strip win32/bin/*.exe (optional: to make a final version)
 
@@ -95,50 +96,26 @@ ____________________________
 utilities. You can follow detailed instructions in
 [MinGW-64-Make](https://github.com/jburguete/MinGW-64-Make)
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 5.2/src
+* cd 0.1.0
 * link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.4.2 jb)
-* cd ..
 * aclocal
 * autoconf
 * automake --add-missing
-* CPPFLAGS='-I/mingw/include' configure --host=x86_64-w64-mingw32
+* configure --host=x86_64-w64-mingw32
 * make
 * strip win64/bin/*.exe (optional: to make a final version)
 
-NetBSD 6.1
+OpenBSD 5.4
 __________
 
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 5.2/src
+* cd 0.1.0
 * link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.4.2 jb)
-* cd ..
-* sudo ln -s /usr/X11R7/include/GL/glu.h /usr/pkg/include/GL
-* sudo ln -s /usr/X11R7/lib/libGL.so.2 /usr/pkg/lib
+* export AUTOMAKE_VERSION=1.13 AUTOCONF_VERSION=2.69
 * aclocal
 * autoconf
 * automake --add-missing
-* CPPFLAGS=-I/usr/pkg/include LDFLAGS=-L/usr/pkg/lib ./configure --host=x86_64--netbsd
+* ./configure
 * make
-* strip surcos surcos_gui (optional: to make a final version)
+* strip swigs swigsbin (optional: to make a final version)
 
-OpenBSD 5.2
-__________
-
-* download the latest [JB library](https://github.com/jburguete/jb)
-* cd 5.2/src
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.4.2 jb)
-* cd ..
-* AUTOCONF_VERSION=2.69 aclocal-1.11
-* autoconf-2.69
-* automake --add-missing
-* CPPFLAGS='-I/usr/local/include -I/usr/X11R6/include' LDFLAGS='-L/usr/local/lib -L/usr/X11R6/lib' ./configure
-* make
-* strip surcos surcos_gui (optional: to make a final version)
-
-MAKING REFERENCE MANUAL INSTRUCTIONS
-------------------------------------
-
-* cd 5.2
-* doxygen
-* cd doc/latex
-* make
