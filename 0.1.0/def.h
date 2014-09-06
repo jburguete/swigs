@@ -51,14 +51,27 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \def MESH_BOUNDARY_REDUCED
  * \brief Macro to select half sized cells at boundaries.
  * \def MODEL_FRICTION_SIMPLE
+ * \brief Macro to select uniform velocity friction model on compound cross
+ *   sections.
  * \def MODEL_FRICTION_CONSTANT_SLOPE
+ * \brief Macro to select constant slope friction model on compound cross
+ *   sections.
  * \def MODEL_FRICTION_MINIMIZATION_STRESS
+ * \brief Macro to select minimization stress friction model on compound cross
+ *   sections.
  * \def MODEL_FRICTION_MINIMIZATION_LOSS
+ * \brief Macro to select minimization energy losses friction model on compound
+ *   cross sections.
  * \def MODEL_FRICTION_STRESS_B
+ * \brief Macro to select calculation of friction stress by width.
  * \def MODEL_FRICTION_STRESS_P
+ * \brief Macro to select calculation of friction stress by wetted perimeter.
  * \def MODEL_PRESSURE_HYDROSTATIC
+ * \brief Macro to select hydrostatic pressure model.
  * \def MODEL_PRESSURE_STRONG_SLOPE
+ * \brief Macro to select strong slope pressure model.
  * \def MODEL_PRESSURE_HIGH_ORDER
+ * \brief Macro to select high order pressure model.
  * \def MODEL_DIFFUSION_CONSTANT
  * \def MODEL_DIFFUSION_B
  * \def MODEL_DIFFUSION_H
