@@ -1,6 +1,7 @@
 /*
 SWIGS (Shallow Water in Irregular Geometries Simulator): a software to simulate
-transient or steady flows with solute transport in channels, channel networks and rivers
+transient or steady flows with solute transport in channels, channel networks
+and rivers.
 
 Copyright 2005-2014 Javier Burguete Tolosa.
 
@@ -34,13 +35,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 typedef struct
 {
 	int n;
-	#if INTERFACE == INTERFACE_DEMO
-		JBFLOAT x[N_DEMO_MAX_SECTIONS];
-		CrossSection cs[N_DEMO_MAX_SECTIONS];
-	#else
-		JBFLOAT *x;
-		CrossSection *cs;
-	#endif
+	JBFLOAT *x;
+	CrossSection *cs;
 } ChannelGeometry;
 
 static inline void _channel_geometry_print(ChannelGeometry *cg,FILE *file)
@@ -108,10 +104,8 @@ static inline void _channel_geometry_delete_section(ChannelGeometry *cg,int i)
 	#endif
 	cross_section_delete(cs);
 	for (j=i; j<cg->n; ++j, ++cs) *cs = *(cs + 1);
-	#if INTERFACE != INTERFACE_DEMO
-		cg->cs = g_try_realloc(cg->cs, j * sizeof(CrossSection));
-		cg->x = g_try_realloc(cg->x, j * sizeof(JBFLOAT));
-	#endif
+	cg->cs = g_try_realloc(cg->cs, j * sizeof(CrossSection));
+	cg->x = g_try_realloc(cg->x, j * sizeof(JBFLOAT));
 	--cg->n;
 	channel_geometry_actualize_x(cg,i);
 	#if DEBUG_CHANNEL_GEOMETRY_DELETE_SECTION
@@ -129,28 +123,24 @@ static inline int _channel_geometry_insert_section
 	(ChannelGeometry *cg,CrossSection *cs,int i)
 {
 	register int j;
+	register JBFLOAT *x;
 	register CrossSection *rcs;
 	#if DEBUG_CHANNEL_GEOMETRY_INSERT_SECTION
 		fprintf(stderr,"channel_geometry_insert_section: start\n");
 	#endif
 	j = cg->n + 2;
-	#if INTERFACE != INTERFACE_DEMO
-		register JBFLOAT *x;
-		rcs=(CrossSection*)g_try_realloc(cg->cs,j*sizeof(CrossSection));
-		x=(JBFLOAT*)g_try_realloc(cg->x,j*sizeof(JBFLOAT));
-		if (!rcs || !x)
-		{
-			channel_geometry_error(gettext("Not enough memory"));
-			#if DEBUG_CHANNEL_GEOMETRY_INSERT_SECTION
-				fprintf(stderr,"channel_geometry_insert_section: end\n");
-			#endif
-			return 0;
-		}
-		cg->cs = rcs;
-		cg->x = x;
-	#else
-		rcs = cg->cs;
-	#endif
+	rcs=(CrossSection*)g_try_realloc(cg->cs,j*sizeof(CrossSection));
+	x=(JBFLOAT*)g_try_realloc(cg->x,j*sizeof(JBFLOAT));
+	if (!rcs || !x)
+	{
+		channel_geometry_error(gettext("Not enough memory"));
+		#if DEBUG_CHANNEL_GEOMETRY_INSERT_SECTION
+			fprintf(stderr,"channel_geometry_insert_section: end\n");
+		#endif
+		return 0;
+	}
+	cg->cs = rcs;
+	cg->x = x;
 	++cg->n;
 	--j;
 	for (rcs+=j; --j>=i; --rcs) *rcs = *(rcs-1);
@@ -175,10 +165,8 @@ static inline void _channel_geometry_delete(ChannelGeometry *cg)
 		fprintf(stderr,"channel_geometry_delete: start\n");
 	#endif
 	for (i=0; i<=cg->n; ++i) cross_section_delete(cg->cs+i); 
-	#if INTERFACE != INTERFACE_DEMO
-		jb_free_null((void**)&cg->cs);
-		jb_free_null((void**)&cg->x);
-	#endif
+	jb_free_null((void**)&cg->cs);
+	jb_free_null((void**)&cg->x);
 	cg->n = -1;
 	#if DEBUG_CHANNEL_GEOMETRY_DELETE
 		fprintf(stderr,"channel_geometry_delete: end\n");
@@ -204,17 +192,13 @@ static inline int _channel_geometry_copy
 	if (cg == cg_copy) goto exit0;
 
 	cg->n = -1;
-	#if INTERFACE != INTERFACE_DEMO
-		cg->x = 0;
-		cg->cs = 0;
-	#endif
+	cg->x = 0;
+	cg->cs = 0;
 
-	#if INTERFACE != INTERFACE_DEMO
-		cg->x = (JBFLOAT*)g_try_malloc((cg_copy->n + 1) * sizeof(JBFLOAT));
-		cg->cs = (CrossSection*)g_try_malloc
-			((cg_copy->n + 1) * sizeof(CrossSection));
-		if (!cg->x || !cg->cs) goto exit1;
-	#endif
+	cg->x = (JBFLOAT*)g_try_malloc((cg_copy->n + 1) * sizeof(JBFLOAT));
+	cg->cs = (CrossSection*)g_try_malloc
+		((cg_copy->n + 1) * sizeof(CrossSection));
+	if (!cg->x || !cg->cs) goto exit1;
 	for (i=0; i<=cg_copy->n; ++i)
 	{
 		if (!cross_section_copy(cg->cs + i, cg_copy->cs + i))
@@ -233,10 +217,7 @@ exit0:
 	#endif
 	return 1;
 
-#if INTERFACE != INTERFACE_DEMO
 exit1:
-#endif
-
 	channel_geometry_error(gettext("Not enough memory"));
 
 exit2:
@@ -263,36 +244,21 @@ static inline int _channel_geometry_open_xml
 		fprintf(stderr,"CGOX node=%s\n",node->name);
 	#endif
 	
-	#if INTERFACE == INTERFACE_DEMO
-		char str[JB_BUFFER_SIZE];
-	#else
-		cg->x = 0;
-		cg->cs = 0;
-	#endif
+	cg->x = 0;
+	cg->cs = 0;
 
 	cg->n = -1;
 
 	for (j=0, node=node->children; node; ++j, node=node->next)
 	{
-		#if INTERFACE != INTERFACE_DEMO
-			cg->cs = (CrossSection*)
-				jb_try_realloc(cg->cs, (j + 1) * sizeof(CrossSection));
-			cg->x = (JBFLOAT*)jb_try_realloc(cg->x, (j + 1) * sizeof(JBFLOAT));
-			if (!cg->cs || !cg->x)
-			{
-				channel_geometry_error(gettext("Not enough memory"));
-				goto exit0;
-			}
-		#else
-			if (j>=N_DEMO_MAX_SECTIONS)
-			{
-				snprintf(str,JB_BUFFER_SIZE,
-					gettext("Demo version can open to %d channel sections"),
-					N_DEMO_MAX_SECTIONS);
-				jbw_show_error(str);
-				goto exit0;
-			}
-		#endif
+		cg->cs = (CrossSection*)
+			jb_try_realloc(cg->cs, (j + 1) * sizeof(CrossSection));
+		cg->x = (JBFLOAT*)jb_try_realloc(cg->x, (j + 1) * sizeof(JBFLOAT));
+		if (!cg->cs || !cg->x)
+		{
+			channel_geometry_error(gettext("Not enough memory"));
+			goto exit0;
+		}
 		if (!cross_section_open_xml(cg->cs+j,node))
 		{
 			channel_geometry_error(message);

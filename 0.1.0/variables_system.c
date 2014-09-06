@@ -1,6 +1,7 @@
 /*
 SWIGS (Shallow Water in Irregular Geometries Simulator): a software to simulate
-transient or steady flows with solute transport in channels, channel networks and rivers
+transient or steady flows with solute transport in channels, channel networks
+and rivers.
 
 Copyright 2005-2014 Javier Burguete Tolosa.
 
@@ -32,7 +33,7 @@ variables_system.c
 Source file to define the necessary variables to define a system of channels
 
 Author: Javier Burguete Tolosa
-Copyright (c) 2005-2013. All rights reserved
+Copyright (c) 2005-2014. All rights reserved
 */
 
 /*
@@ -82,16 +83,9 @@ BoundaryFlow bfnew[3]={{0,1,1,0,0,0,bfnew1t,bfnew1p1,0,"Inner1",0},
 	{0,2,1,0,0,0,bfnew3t,bfnew3p1,0,"Outlet",0}};
 BoundaryTransport btnew[1]={{0,1,1,0,0,0,0.,bfnew1t,bfnew1p1,"Boundary"}};
 ChannelTransport ctnew[1]={{-1,{{0,0,0}},NULL}};
-#if INTERFACE != INTERFACE_DEMO
-	JBFLOAT cgnewx[NEW_GEOMETRY_SIZE]={0.,1.};
-	Channel chanew[1]={{1,-1,0,1,0,1.,{{1,cgnewx,csnew}},
-		{{0,0,0}},bfnew+1,NULL,NULL,NULL,NULL,"Channel"}};
-#else
-	Channel chanew[1]={{1,-1,0,1,0,1.,{{1,{0.,1.},
-		{{0,0,0,0,0,0,0.,0.,90.,0.,0.,0.,0.,0.,csnewt1,tsnew,"Section1"},
-		{0,0,0,0,0,0,1.,0.,90.,0.,0.,0.,0.,0.,csnewt2,tsnew+1,"Section2"}}}},
-		{{0,0,0}},bfnew+1,NULL,NULL,NULL,NULL,"Channel"}};
-#endif
+JBFLOAT cgnewx[NEW_GEOMETRY_SIZE]={0.,1.};
+Channel chanew[1]={{1,-1,0,1,0,1.,{{1,cgnewx,csnew}},
+	{{0,0,0}},bfnew+1,NULL,NULL,NULL,NULL,"Channel"}};
 System sys[1],sysnew[1]={{0,-1,0.,0.,0.,0.,0.9,0.5,1e-12,0.,SECTION_WIDTH_MIN,
 	FLOW_DEPTH_MIN,GRANULOMETRIC_COEFFICIENT,NULL,NULL,chanew,"New.xml",".",
 	"sol.tmp","./sol.tmp"}};

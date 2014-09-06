@@ -1,6 +1,7 @@
 /*
 SWIGS (Shallow Water in Irregular Geometries Simulator): a software to simulate
-transient or steady flows with solute transport in channels, channel networks and rivers
+transient or steady flows with solute transport in channels, channel networks
+and rivers.
 
 Copyright 2005-2014 Javier Burguete Tolosa.
 
@@ -26,21 +27,66 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+/**
+ * \file cross_section.h
+ * \brief Header file to define cross section structures and methods.
+ * \authors Javier Burguete Tolosa.
+ * \copyright Copyright 2005-2014 Javier Burguete Tolosa.
+ */
 #ifndef CROSS_SECTION__H
 #define CROSS_SECTION__H 1
 
 #include "transient_section.h"
 
+/**
+ * \enum CrossSectionType
+ * \brief Enumeration to define cross section types.
+ */
 enum CrossSectionType
 {
+/**
+ * \var CROSS_SECTION_TYPE_TIME
+ * \brief Variable in time cross section.
+ * \var CROSS_SECTION_TYPE_CONTROL_Q
+ * \brief Controled by discharge cross section.
+ * \var CROSS_SECTION_TYPE_CONTROL_H
+ * \brief Controled by depth cross section.
+ * \var CROSS_SECTION_TYPE_CONTROL_Z
+ * \brief Controled by surface level cross section.
+ */
 	CROSS_SECTION_TYPE_TIME=0,
 	CROSS_SECTION_TYPE_CONTROL_Q=1,
 	CROSS_SECTION_TYPE_CONTROL_H=2,
 	CROSS_SECTION_TYPE_CONTROL_Z=3,
 };
 
+/**
+ * \struct CrossSection
+ * \brief Structure to define a cross section.
+ */
 typedef struct
 {
+/**
+ * \var n
+ * \brief transient sections number.
+ * \var type
+ * \brief type.
+ * \var control
+ * \var i
+ * \var j
+ * \var nt
+ * \var x
+ * \var y
+ * \var angle
+ * \var parameter
+ * \var time
+ * \var tolerance
+ * \var tmax
+ * \var pt
+ * \var t
+ * \var ts
+ * \var name
+ */
 	int n,type,control,i,j,nt;
 	JBFLOAT x,y,angle,parameter,time,tolerance,tmax,pt;
 	JBFLOAT *t;

@@ -1,6 +1,7 @@
 /*
 SWIGS (Shallow Water in Irregular Geometries Simulator): a software to simulate
-transient or steady flows with solute transport in channels, channel networks and rivers
+transient or steady flows with solute transport in channels, channel networks
+and rivers.
 
 Copyright 2005-2014 Javier Burguete Tolosa.
 
@@ -196,9 +197,7 @@ int main(int argn,char **argc)
 	#endif
 	mutex=g_mutex_new();
 	xmlKeepBlanksDefault(0);
-	#if JB_INTERFACE!=JB_INTERFACE_DEMO
-		xmlSetCompressMode(9);
-	#endif
+	xmlSetCompressMode(9);
 	setlocale(LC_ALL,"");
 	setlocale(LC_NUMERIC,"C");
 	bindtextdomain("swigs","po");

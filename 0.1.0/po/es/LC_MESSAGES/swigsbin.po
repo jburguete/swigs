@@ -6,13 +6,13 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: swigs 4.3.7\n"
+"Project-Id-Version: swigs 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-04 04:27+0200\n"
+"POT-Creation-Date: 2014-09-06 02:12+0200\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
-"Language: \n"
+"Language: spanish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,8 +26,8 @@ msgstr "Sección transitoria"
 
 #: transient_section.h:204 transient_section.h:299 transient_section.h:338
 #: transient_section.h:369 transient_section.h:415 transient_section.h:441
-#: cross_section.h:148 cross_section.h:264 cross_section.h:373
-#: channel_geometry.h:143 channel_geometry.h:240 channel_geometry.h:283
+#: cross_section.h:193 cross_section.h:309 cross_section.h:418
+#: channel_geometry.h:135 channel_geometry.h:220 channel_geometry.h:258
 #: initial_flow.h:148 initial_flow.h:239 initial_flow.h:252
 #: initial_transport.h:143 initial_transport.h:232 initial_transport.h:245
 #: boundary_flow.h:310 boundary_flow.h:380 boundary_flow.h:505
@@ -49,7 +49,7 @@ msgstr "Sección transitoria"
 msgid "Not enough memory"
 msgstr "Falta memoria"
 
-#: transient_section.h:288 cross_section.h:252 boundary_flow.h:349
+#: transient_section.h:288 cross_section.h:297 boundary_flow.h:349
 #: boundary_transport.h:187 transport.h:168 channel.h:586
 msgid "Not name"
 msgstr "Nombre no definido"
@@ -58,11 +58,11 @@ msgstr "Nombre no definido"
 msgid "Unknown type"
 msgstr "Tipo desconocido"
 
-#: transient_section.h:462 cross_section.h:271 cross_section.h:277
-#: cross_section.h:283 cross_section.h:289 cross_section.h:305
-#: cross_section.h:319 cross_section.h:333 cross_section.h:349
-#: cross_section.h:355 cross_section.h:362 cross_section.h:387
-#: channel_geometry.h:305 initial_flow.h:267 initial_transport.h:260
+#: transient_section.h:462 cross_section.h:316 cross_section.h:322
+#: cross_section.h:328 cross_section.h:334 cross_section.h:350
+#: cross_section.h:364 cross_section.h:378 cross_section.h:394
+#: cross_section.h:400 cross_section.h:407 cross_section.h:432
+#: channel_geometry.h:270 initial_flow.h:267 initial_transport.h:260
 #: junction_data.h:103 boundary_flow.h:499 boundary_flow.h:512
 #: boundary_flow.h:522 boundary_flow.h:528 boundary_flow.h:845
 #: boundary_flow.h:872 boundary_transport.h:245 boundary_transport.h:252
@@ -70,17 +70,17 @@ msgstr "Tipo desconocido"
 msgid "Bad defined"
 msgstr "Mal definido"
 
-#: cross_section.h:87 cross_section.h:147 cross_section.h:251
-#: cross_section.h:263 dialog_save_solution.c:87
+#: cross_section.h:132 cross_section.h:192 cross_section.h:296
+#: cross_section.h:308 dialog_save_solution.c:87
 msgid "Cross section"
 msgstr "Sección de cauce"
 
-#: cross_section.h:214 initial_flow.h:172 initial_transport.h:167
+#: cross_section.h:259 initial_flow.h:172 initial_transport.h:167
 #: boundary_flow.h:370 channel.h:387 channel.h:460 channel.h:497
 msgid "Bad order"
 msgstr "Orden incorrecto"
 
-#: cross_section.h:341 initial_flow.h:209 initial_flow.h:229
+#: cross_section.h:386 initial_flow.h:209 initial_flow.h:229
 #: initial_transport.h:205 initial_transport.h:222 boundary_flow.h:389
 #: boundary_flow.h:402 boundary_flow.h:413 boundary_flow.h:424
 #: boundary_flow.h:435 boundary_flow.h:447 boundary_flow.h:599
@@ -90,14 +90,9 @@ msgstr "Orden incorrecto"
 msgid "Unknow type"
 msgstr "Tipo desconocido"
 
-#: channel_geometry.h:67
+#: channel_geometry.h:62
 msgid "Geometry"
 msgstr "Geometría"
-
-#: channel_geometry.h:290
-#, c-format
-msgid "Demo version can open to %d channel sections"
-msgstr "La versión demo no admite más de %d secciones en el cauce"
 
 #: initial_flow.h:83
 msgid "Initial flow conditions"
@@ -352,11 +347,11 @@ msgstr "Evolución temporal"
 msgid "Solution"
 msgstr "Solución"
 
-#: system.c:104 mesh.c:213 init.c:592 init.c:631
+#: system.c:102 mesh.c:211 init.c:590 init.c:629
 msgid "Usage is"
 msgstr "El uso es"
 
-#: system.c:104 mesh.c:213
+#: system.c:102 mesh.c:211
 msgid "swigs simulation_file"
 msgstr "swigs fichero_de_simulación"
 
@@ -448,15 +443,15 @@ msgstr "No se pudo abrir el fichero"
 msgid "Bad simulation XML file"
 msgstr "Fichero XML de simulación incorrecto"
 
-#: init.c:581
+#: init.c:579
 msgid "Unable to open the external libraries"
 msgstr "No se pudo abrir las librerías externas"
 
-#: init.c:593
+#: init.c:591
 msgid "swigs [-np number_of_processors]"
 msgstr "swigs [-np número_de_procesadores]"
 
-#: init.c:632
+#: init.c:630
 msgid "swigs [-np number_of_processors] simulation_file"
 msgstr "swigs [-np número_de_procesadores] fichero_de_simulación"
 
@@ -605,23 +600,22 @@ msgid "About"
 msgstr "Acerca"
 
 #: dialog_simulator.c:121
-#, fuzzy
 msgid ""
-"SWIGS 4.3.7\n"
+"SWIGS 0.1.0\n"
 "Simulator of systems of open channels and rivers flow\n"
 "CSIC and University of Zaragoza (Spain)\n"
 "Author: Javier Burguete Tolosa\n"
 "E-Mail: jburguete@eead.csic.es\n"
 "Phone: (034+) 976 491 996\n"
-"Copyright (c) 2005-2013 Javier Burguete. All rights reserved"
+"Copyright (c) 2005-2014 Javier Burguete. All rights reserved"
 msgstr ""
-"GUAD1D 4.3.7\n"
+"SWIGS 0.1.0\n"
 "Simulador de flujo en sistemas de canales y ríos\n"
 "CSIC y Universidad de Zaragoza (España)\n"
 "Autor: Javier Burguete Tolosa\n"
 "E-Mail: jburguete@eead.csic.es\n"
 "Teléfono: (034+) 976 491 996\n"
-"Copyright (c) 2005-2013 Javier Burguete. Todos los derechos reservados"
+"Copyright (c) 2005-2014 Javier Burguete. Todos los derechos reservados"
 
 #: dialog_simulator.c:141 dialog_simulator.c:188
 msgid "Bed level"

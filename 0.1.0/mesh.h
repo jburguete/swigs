@@ -1,6 +1,7 @@
 /*
 SWIGS (Shallow Water in Irregular Geometries Simulator): a software to simulate
-transient or steady flows with solute transport in channels, channel networks and rivers
+transient or steady flows with solute transport in channels, channel networks
+and rivers.
 
 Copyright 2005-2014 Javier Burguete Tolosa.
 
@@ -32,7 +33,7 @@ mesh.h
 Header file to define the mesh
 
 Author: Javier Burguete Tolosa
-Copyright (c) 2005-2013. All right reserved
+Copyright (c) 2005-2014. All right reserved
 */
 
 #ifndef MESH__H

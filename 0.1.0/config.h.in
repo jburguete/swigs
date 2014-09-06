@@ -1,21 +1,30 @@
 /*
-SWIGS: a program to simulate 1D flow and transport in rivers and open channels.
+SWIGS (Shallow Water in Irregular Geometries Simulator): a software to simulate
+transient or steady flows with solute transport in channels, channel networks
+and rivers.
 
-Copyright 2005-2013 Javier Burguete Tolosa.
+Copyright 2005-2014 Javier Burguete Tolosa.
 
-This file is part of SWIGS.
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
 
-SWIGS is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
+	1. Redistributions of source code must retain the above copyright notice,
+		this list of conditions and the following disclaimer.
 
-SWIGS is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+	2. Redistributions in binary form must reproduce the above copyright notice,
+		this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
 
-You should have received a copy of the GNU General Public License along with
-SWIGS.  If not, see <http://www.gnu.org/licenses/>.
+THIS SOFTWARE IS PROVIDED BY Javier Burguete Tolosa ``AS IS'' AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+SHALL Javier Burguete Tolosa OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
@@ -23,33 +32,26 @@ SWIGS.  If not, see <http://www.gnu.org/licenses/>.
  * \brief Header file to define configuration macros. To analyze the options see
  *   the file "def.h".
  * \authors Javier Burguete Tolosa.
- * \copyright Copyright 2005-2013 Javier Burguete Tolosa.
+ * \copyright Copyright 2005-2014 Javier Burguete Tolosa.
  */
 #ifndef CONFIG__H
 #define CONFIG__H 1
 
+// Macros to define configuration options
+
 /**
  * \def INTERFACE
- * \brief Macro to select the user interface:
- */
-#define INTERFACE INTERFACE_MARKET
-
-/**
+ * \brief Macro to select the user interface.
  * \def GUAD2D
  * \brief Macro to select the user couplement with Guad2D (0: not, 1: yes)
- */
-#define GUAD2D 0
-
-/**
  * \def BLOCK_REALLOC
  * \brief Buffer size to optimize memory reallocations.
- */
-#define BLOCK_REALLOC 1024
-
-/**
  * \def DEBUG_TIME
  * \brief Macro selecting the simulation time to start the debug process.
  */
+#define INTERFACE INTERFACE_MARKET
+#define GUAD2D 0
+#define BLOCK_REALLOC 1024
 #define DEBUG_TIME 0.
 
 #define MAXIMUM_SOLUTION_ERROR 1e-11
@@ -96,6 +98,8 @@ SWIGS.  If not, see <http://www.gnu.org/licenses/>.
 
 #define FRICTION_EXPLICIT FRICTION_EXPLICIT_UPWIND
 #define FRICTION_LIMITATION 1
+
+// Macros to debug functions
 
 #define DEBUG_POINT2_COPY										0
 #define DEBUG_POINT2_OPEN										0
@@ -366,6 +370,8 @@ SWIGS.  If not, see <http://www.gnu.org/licenses/>.
 #define DEBUG_PARAMETERS_OPEN									0
 #define DEBUG_SIMULATION_OPEN									0
 #define DEBUG_MAIN												0
+
+// Macros to make inline functions
 
 #define INLINE_POINT2_PRINT										1
 #define INLINE_POINT2_COPY										1
@@ -653,6 +659,8 @@ SWIGS.  If not, see <http://www.gnu.org/licenses/>.
 #define INLINE_PARAMETERS_OPEN									1
 #define INLINE_SIMULATION_OPEN									1
 #define INLINE_MAIN												0
+
+// Macros to define XML labels
 
 #define XML_ANGLE				(const xmlChar*)"angle"
 #define XML_BOUNDARY_TRANSPORT	(const xmlChar*)"boundary"

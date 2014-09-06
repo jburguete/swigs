@@ -1,6 +1,7 @@
 /*
 SWIGS (Shallow Water in Irregular Geometries Simulator): a software to simulate
-transient or steady flows with solute transport in channels, channel networks and rivers
+transient or steady flows with solute transport in channels, channel networks
+and rivers.
 
 Copyright 2005-2014 Javier Burguete Tolosa.
 
@@ -30,7 +31,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file transient_section.h
  * \brief Header file to define transient section structures and methods.
  * \authors Javier Burguete Tolosa.
- * \copyright Copyright 2005-2013 Javier Burguete Tolosa.
+ * \copyright Copyright 2005-2014 Javier Burguete Tolosa.
  */
 #ifndef TRANSIENT_SECTION__H
 #define TRANSIENT_SECTION__H 1
@@ -52,7 +53,7 @@ enum TransientSectionType
 /**
  * \var TRANSIENT_SECTION_TYPE_RECT
  * \brief rect.
- * \var TRANSIENT_SECTION_TYPE_RECT
+ * \var TRANSIENT_SECTION_TYPE_POLILYNE
  * \brief polyline.
  */
 	TRANSIENT_SECTION_TYPE_RECT = 0,
@@ -103,7 +104,7 @@ typedef struct
  */
 #define TRANSIENT_SECTION_POINT2(ts) ((SectionPoint2*)ts->data)
 /**
- * \def TRANSIENT_SECTION_POINT2
+ * \def TRANSIENT_SECTION_POINT3
  * \brief Macro to access to 3D section point data of a transient section.
  */
 #define TRANSIENT_SECTION_POINT3(ts) ((SectionPoint3*)ts->data)
