@@ -130,8 +130,7 @@ static inline void _point2_copy(Point2 *p, Point2 *p_copy)
 	#if DEBUG_POINT2_COPY
 		fprintf(stderr, "point_2_copy: start\n");
 	#endif
-	p->x = p_copy->x;
-	p->y = p_copy->y;
+	memcpy(p, p_copy, sizeof(Point2));
 	#if DEBUG_POINT2_COPY
 		fprintf(stderr, "point2_copy: end\n");
 	#endif
@@ -176,9 +175,7 @@ static inline void _point3_copy(Point3 *p, Point3 *p_copy)
 	#if DEBUG_POINT3_COPY
 		fprintf(stderr, "point3_copy: start\n");
 	#endif
-	p->x = p_copy->x;
-	p->y = p_copy->y;
-	p->z = p_copy->z;
+	memcpy(p, p_copy, sizeof(Point3));
 	#if DEBUG_POINT3_COPY
 		fprintf(stderr, "point3_copy: end\n");
 	#endif

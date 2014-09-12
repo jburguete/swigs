@@ -2,8 +2,8 @@ SWIGS (0.1.0 version)
 ====================
 
 SWIGS (Shallow Water in Irregular Geometries Simulator): a software to simulate
-transient or steady flows with solute transport in channels, channel networks
-and rivers.
+transient or steady flows with (or without) solute transport in channels,
+channel networks and rivers.
 
 AUTHORS
 -------
@@ -32,7 +32,7 @@ FILES
 
 * configure.ac: configure generator.
 * Makefile.in: Makefile generator.
-* TODO: List of tasks TO DO (in spanish)
+* TODO: List of tasks TO DO.
 * config.h.in: config header generator.
 * *.h: Header files.
 * *.c: Source files.
@@ -57,7 +57,7 @@ Debian Hurd 7.6
 _______________
 FreeBSD 10.0
 ___________
-NetBSD 6.1.3 (with modular xorg)
+NetBSD 6.1.4 (with modular xorg)
 ____________
 
 * download the latest [JB library](https://github.com/jburguete/jb)

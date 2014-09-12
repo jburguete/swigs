@@ -45,7 +45,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \var Macro to select a scientific interface (more accurate and more advanced
  *   options).
  * \def INTERFACE_MARKET
- * \brief Macro to select a market interface (simpler).
+ * \brief Macro to select a market interface (simpler and faster).
  * \def MESH_BOUNDARY_UNIFORM
  * \brief Macro to select uniform cell sizes at boundaries.
  * \def MESH_BOUNDARY_REDUCED
@@ -73,17 +73,31 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \def MODEL_PRESSURE_HIGH_ORDER
  * \brief Macro to select high order pressure model.
  * \def MODEL_DIFFUSION_CONSTANT
+ * \brief Macro to select constant solute diffusion model.
  * \def MODEL_DIFFUSION_B
+ * \brief Macro to select width-based Rutherford solute diffusion model.
  * \def MODEL_DIFFUSION_H
+ * \brief Macro to select depth-based Rutherford solute diffusion model.
  * \def MODEL_DIFFUSION_NULL
+ * \brief Macro to select null solute diffusion model.
  * \def MODEL_VISCOSITY_NULL
+ * \brief Macro to select null flow viscosity model.
  * \def MODEL_VISCOSITY_TURBULENT
+ * \brief Macro to select turbulent flow viscosity model.
  * \def TMAX_POINT
+ * \brief Macro to select maximum time step size by nodes.
  * \def TMAX_CELL
+ * \brief Macro to select maximum time step size by intercells.
  * \def BOUNDARY_FLOW_EXTRAPOLATE
+ * \brief Macro to select characteristic variables extrapolation method at flow
+ *   boundaries.
  * \def BOUNDARY_FLOW_WAVE
+ * \brief Macro to select null characteristic variables method at flow
+ *   boundaries.
  * \def BOUNDARY_FLOW_LOCAL
+ * \brief Macro to select local mass conservation method at flow boundaries.
  * \def BOUNDARY_FLOW_GLOBAL
+ * \brief Macro to select global mass conservation method at flow boundaries.
  * \def FLOW_LINEARIZATION_ROE
  * \def FLOW_LINEARIZATION_SIMPLE
  * \def FLOW_ENTROPY_CORRECTION_HARTEN

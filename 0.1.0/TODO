@@ -1,17 +1,15 @@
-Prioridad alta:
-	- Comentar el código usando Doxygen
-	- Actualizar a GTK+ 3
-	- Activar el editor de cauces
+High priority:
+	- Commenting the code using Doxygen
+	- Adding mass outputs/inputs registration file
+	- Updating widgets to GTK+ 3
+	- Activating editor
 
-Prioridad media:
-	- Programar un método iterativo para la corrección de aforos
-	- Introducir fechas en condiciones de contorno de soluto y en secciones
-		variables en tiempo
-	- Crear fichero (y un subdirectorio) de resultados en el directorio del
-		fichero de entrada
+Medium priority:
+	- Iterative algorithm to correct gauges
+	- Dates in solute boundary conditions and in transient sections.
+	- Result file (and subdirectory) in the same directory that the input file.
 
-Prioridad baja:
-	- Introducir tiempo de duración de la animación
-	- Introducir en confluencias y condiciones de contorno internas la etiqueta
-		de la sección en lugar de su ordinal
-	- Estabilizar el cálculo con tamaños de celda grandes
+Low priority:
+	- Animation controlled by a dial
+	- Label of the section in junctions and inner boundary conditions
+	- Stable numerical method with high sized cells
