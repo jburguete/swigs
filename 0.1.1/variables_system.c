@@ -61,7 +61,7 @@ System sys[1]: the system of channels to simulate
 */
 
 char *message=NULL;
-GMutex *mutex;
+GMutex mutex[1];
 int simulating=0;
 JBFLOAT friction_dz=FRICTION_DZ;
 SectionPoint2 spnew[2]={{0.,0.,0.03,0},{1.,1.,0.,0}};

@@ -49,7 +49,7 @@ typedef struct
 	JBWGraphic *graphic;
 	GtkHBox *hbox,*hbox2;
 	GtkVBox *vbox,*vbox2;
-	GtkTable *table,*table2;
+	GtkGrid *table,*table2;
 	GtkVPaned *paned;
 } EditorBF;
 
@@ -112,7 +112,7 @@ typedef struct
 	GtkVBox *vbox_transient,*vbox_section,*vbox_section_type,*vbox_geometry,
 		*vbox_if,*vbox_if2,*vbox_inner3,*vbox_transport,*vbox_it,*vbox_it2,
 		*vbox_bt,*vbox_bt2;
-	GtkTable *table_transient,*table_section,*table_section_type,*table_geometry,
+	GtkGrid *table_transient,*table_section,*table_section_type,*table_geometry,
 		*table_if,*table_it,*table_bt,*table_bt2;
 	GtkVPaned *paned_transient,*paned_section,*paned_geometry,*paned_if,
 		*paned_it,*paned_bt;
@@ -139,18 +139,13 @@ enum EditorChannelPageTransport
 
 extern EditorChannel editor[1];
 
-void editor_paned(GtkVPaned **paned,GtkTable *table,JBWGraphic *graphic);
+void editor_paned(GtkVPaned **paned,GtkGrid *table,JBWGraphic *graphic);
 
 void editor_bf_get(EditorBF *editor,BoundaryFlow *bf,EditorBFType type);
 void editor_bf_update(EditorBF *editor,BoundaryFlow *bf,EditorBFType type);
 void editor_bf_open(EditorBF *editor,BoundaryFlow *bf,EditorBFType type);
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-void editor_bf_create(EditorBF *editor,EditorBFType type,GdkGLConfig *glconfig,
-	void (*editor_update),void (*editor_draw),void *dlg);
-#else
 void editor_bf_create(EditorBF *editor,EditorBFType type,
 	void (*editor_update),void (*editor_draw),void *dlg);
-#endif
 
 void editor_channel_insert_point(JBWArrayEditor *dlg);
 void editor_channel_delete_point(JBWArrayEditor *dlg);
@@ -262,9 +257,5 @@ void editor_channel_hbox(GtkHBox **box,GtkLabel **label,GtkComboBoxText **combo,
 	GtkButton **button_up,GtkButton **button_down,char *string);
 void editor_channel_vbox
 	(GtkVBox **box,GtkButton *button1,GtkButton *button2,GtkButton *button3);
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-void editor_channel_new(EditorChannel *dlg,Channel *c,GdkGLConfig *glconfig);
-#else
 void editor_channel_new(EditorChannel *dlg,Channel *c);
-#endif
 #endif

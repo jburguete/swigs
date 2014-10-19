@@ -49,11 +49,7 @@ void dialog_simulator_new_system()
 void dialog_simulator_edit()
 {
 /*
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-	editor_channel_new(editor,channel,glconfig);
-#else
 	editor_channel_new(editor,channel);
-#endif
 */
 }
 
@@ -196,9 +192,7 @@ void dialog_simulator_actualize(DialogSimulator *dlg)
 		dlg->graphic->zmin = dlg->graphic->zmax = 0.;
 	}
 	dlg->graphic->resize = !draw_adjust;
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-	gtk_widget_queue_draw((GtkWidget*)dlg->graphic->drawing_area);
-#elif JBW_GRAPHIC==JBW_GRAPHIC_GLUT
+#if JBW_GRAPHIC==JBW_GRAPHIC_GLUT
 	glutPostRedisplay();
 #endif
 }
@@ -351,11 +345,7 @@ DialogSimulator* dialog_simulator_new()
 	}
 	gtk_container_add(GTK_CONTAINER(dlg->box_buttons),gtk_label_new(NULL));
 
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-	dlg->graphic=jbw_graphic_new(glconfig,0,6,6,6,draw_graphic);
-#else
 	dlg->graphic=jbw_graphic_new(0,6,6,6,draw_graphic);
-#endif
 	jbw_graphic_set_logo(dlg->graphic,"swigs.png");
 	dlg->label_simulation=(GtkLabel*)gtk_label_new(gettext("Simulation time"));
 	gtk_misc_set_alignment((GtkMisc*)dlg->label_simulation,0.9,0.5);
@@ -397,10 +387,6 @@ DialogSimulator* dialog_simulator_new()
 	dlg->box = (GtkVBox*)gtk_vbox_new(0,0);
 	gtk_box_pack_start((GtkBox*)dlg->box,(GtkWidget*)dlg->menu,0,1,0);
 	gtk_box_pack_start((GtkBox*)dlg->box,(GtkWidget*)dlg->frame_buttons,0,1,0);
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-	gtk_container_add
-		(GTK_CONTAINER(dlg->box),GTK_WIDGET(dlg->graphic->drawing_area));
-#endif
 	gtk_box_pack_start((GtkBox*)dlg->box,(GtkWidget*)dlg->button_bar,0,1,0);
 
 	dlg->pixbuf = gtk_image_get_pixbuf

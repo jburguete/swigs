@@ -52,9 +52,6 @@ static inline void _draw()
 #include "simulate.h"
 
 extern int animating,opening;
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-extern GdkGLConfig *glconfig;
-#endif
 
 static inline void _draw_graphic()
 {
@@ -259,9 +256,7 @@ static inline void _draw()
 	#if DEBUG_DRAW
 		if (t>=DEBUG_TIME) fprintf(stderr,"draw: start\n");
 	#endif
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-	gtk_widget_queue_draw((GtkWidget*)dialog_simulator->graphic->drawing_area);
-#elif JBW_GRAPHIC==JBW_GRAPHIC_GLUT
+#if JBW_GRAPHIC==JBW_GRAPHIC_GLUT
 	glutPostRedisplay();
 #endif
 	if (simulating||animating||t==0.)

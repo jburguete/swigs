@@ -55,7 +55,7 @@ src = $(srcbin) dialog_position.h dialog_system.h dialog_graphical_options.h \
 
 configs = jb/jb_config.h config.h def.h Makefile
 
-CPPFLAGS = @CPPFLAGS@ -DJBW=2 -DJBW_DRAW=2 -DJBW_GRAPHIC=3
+CPPFLAGS = @CPPFLAGS@ -DJBW=2 -DJBW_DRAW=2 -DJBW_GRAPHIC=2
 CFLAGS = -c -Wall $(CPPFLAGS) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
 	@PNG_CFLAGS@ @GTK_CFLAGS@
 LDFLAGS = @LDFLAGS@ @LIBS@ @XML_LIBS@ @GTHREAD_LIBS@ @GLIB_LIBS@ @PNG_LIBS@ \

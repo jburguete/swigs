@@ -131,18 +131,15 @@ void dialog_graphical_options_new(GtkWindow *parent)
 	dlg.label_profile_xmin=(GtkLabel*)gtk_label_new(gettext("Minimum"));
 	dlg.entry_profile_xmin=(JBWFloatEntry*)jbw_float_entry_new();
 
-	dlg.table_profile_x=(GtkTable*)gtk_table_new(2,2,1);
-	gtk_table_attach_defaults
-		(dlg.table_profile_x,(GtkWidget*)dlg.label_profile_xmax,0,1,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_profile_x,(GtkWidget*)dlg.entry_profile_xmax,1,2,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_profile_x,(GtkWidget*)dlg.label_profile_xmin,0,1,1,2);
-	gtk_table_attach_defaults
-		(dlg.table_profile_x,(GtkWidget*)dlg.entry_profile_xmin,1,2,1,2);
-	gtk_table_set_row_spacings(dlg.table_profile_x,5);
-	gtk_table_set_col_spacings(dlg.table_profile_x,5);
-	gtk_container_set_border_width((GtkContainer*)dlg.table_profile_x,5);
+	dlg.table_profile_x=(GtkGrid*)gtk_grid_new();
+	gtk_grid_attach
+		(dlg.table_profile_x,(GtkWidget*)dlg.label_profile_xmax,0,0,1,1);
+	gtk_grid_attach
+		(dlg.table_profile_x,(GtkWidget*)dlg.entry_profile_xmax,1,0,1,1);
+	gtk_grid_attach
+		(dlg.table_profile_x,(GtkWidget*)dlg.label_profile_xmin,0,1,1,1);
+	gtk_grid_attach
+		(dlg.table_profile_x,(GtkWidget*)dlg.entry_profile_xmin,1,1,1,1);
 
 	dlg.frame_profile_x=(GtkFrame*)gtk_frame_new(gettext("Position"));
 	gtk_container_add
@@ -157,20 +154,17 @@ void dialog_graphical_options_new(GtkWindow *parent)
 	dlg.label_profile_ymin=(GtkLabel*)gtk_label_new(gettext("Minimum"));
 	dlg.entry_profile_ymin=(JBWFloatEntry*)jbw_float_entry_new();
 
-	dlg.table_profile_y=(GtkTable*)gtk_table_new(0,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_profile_y,(GtkWidget*)dlg.combo_profile_y,0,2,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_profile_y,(GtkWidget*)dlg.label_profile_ymax,0,1,1,2);
-	gtk_table_attach_defaults
-		(dlg.table_profile_y,(GtkWidget*)dlg.entry_profile_ymax,1,2,1,2);
-	gtk_table_attach_defaults
-		(dlg.table_profile_y,(GtkWidget*)dlg.label_profile_ymin,0,1,2,3);
-	gtk_table_attach_defaults
-		(dlg.table_profile_y,(GtkWidget*)dlg.entry_profile_ymin,1,2,2,3);
-	gtk_table_set_row_spacings(dlg.table_profile_y,5);
-	gtk_table_set_col_spacings(dlg.table_profile_y,5);
-	gtk_container_set_border_width((GtkContainer*)dlg.table_profile_y,5);
+	dlg.table_profile_y=(GtkGrid*)gtk_grid_new();
+	gtk_grid_attach
+		(dlg.table_profile_y,(GtkWidget*)dlg.combo_profile_y,0,0,2,1);
+	gtk_grid_attach
+		(dlg.table_profile_y,(GtkWidget*)dlg.label_profile_ymax,0,1,1,1);
+	gtk_grid_attach
+		(dlg.table_profile_y,(GtkWidget*)dlg.entry_profile_ymax,1,1,1,1);
+	gtk_grid_attach
+		(dlg.table_profile_y,(GtkWidget*)dlg.label_profile_ymin,0,2,1,1);
+	gtk_grid_attach
+		(dlg.table_profile_y,(GtkWidget*)dlg.entry_profile_ymin,1,2,1,1);
 
 	dlg.frame_profile_y=(GtkFrame*)gtk_frame_new(gettext("Parameter 1"));
 	gtk_container_add
@@ -185,35 +179,29 @@ void dialog_graphical_options_new(GtkWindow *parent)
 	dlg.label_profile_zmin=(GtkLabel*)gtk_label_new(gettext("Minimum"));
 	dlg.entry_profile_zmin=(JBWFloatEntry*)jbw_float_entry_new();
 
-	dlg.table_profile_z=(GtkTable*)gtk_table_new(0,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_profile_z,(GtkWidget*)dlg.combo_profile_z,0,2,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_profile_z,(GtkWidget*)dlg.label_profile_zmax,0,1,1,2);
-	gtk_table_attach_defaults
-		(dlg.table_profile_z,(GtkWidget*)dlg.entry_profile_zmax,1,2,1,2);
-	gtk_table_attach_defaults
-		(dlg.table_profile_z,(GtkWidget*)dlg.label_profile_zmin,0,1,2,3);
-	gtk_table_attach_defaults
-		(dlg.table_profile_z,(GtkWidget*)dlg.entry_profile_zmin,1,2,2,3);
-	gtk_table_set_row_spacings(dlg.table_profile_z,5);
-	gtk_table_set_col_spacings(dlg.table_profile_z,5);
-	gtk_container_set_border_width((GtkContainer*)dlg.table_profile_z,5);
+	dlg.table_profile_z=(GtkGrid*)gtk_grid_new();
+	gtk_grid_attach
+		(dlg.table_profile_z,(GtkWidget*)dlg.combo_profile_z,0,0,2,1);
+	gtk_grid_attach
+		(dlg.table_profile_z,(GtkWidget*)dlg.label_profile_zmax,0,1,1,1);
+	gtk_grid_attach
+		(dlg.table_profile_z,(GtkWidget*)dlg.entry_profile_zmax,1,1,1,1);
+	gtk_grid_attach
+		(dlg.table_profile_z,(GtkWidget*)dlg.label_profile_zmin,0,2,1,1);
+	gtk_grid_attach
+		(dlg.table_profile_z,(GtkWidget*)dlg.entry_profile_zmin,1,2,1,1);
 
 	dlg.frame_profile_z=(GtkFrame*)gtk_frame_new(gettext("Parameter 2"));
 	gtk_container_add
 		(GTK_CONTAINER(dlg.frame_profile_z),GTK_WIDGET(dlg.table_profile_z));
 
-	dlg.table_profile=(GtkTable*)gtk_table_new(0,0,0);
-	gtk_table_attach_defaults
-		(dlg.table_profile,(GtkWidget*)dlg.frame_profile_x,0,1,1,2);
-	gtk_table_attach_defaults
-		(dlg.table_profile,(GtkWidget*)dlg.frame_profile_y,0,1,2,3);
-	gtk_table_attach_defaults
-		(dlg.table_profile,(GtkWidget*)dlg.frame_profile_z,0,1,3,4);
-	gtk_table_set_row_spacings((GtkTable*)dlg.table_profile,10);
-	gtk_table_set_col_spacings((GtkTable*)dlg.table_profile,10);
-	gtk_container_set_border_width((GtkContainer*)dlg.table_profile,10);
+	dlg.table_profile=(GtkGrid*)gtk_grid_new();
+	gtk_grid_attach
+		(dlg.table_profile,(GtkWidget*)dlg.frame_profile_x,0,1,1,1);
+	gtk_grid_attach
+		(dlg.table_profile,(GtkWidget*)dlg.frame_profile_y,0,2,1,1);
+	gtk_grid_attach
+		(dlg.table_profile,(GtkWidget*)dlg.frame_profile_z,0,3,1,1);
 
 	if (simulated)
 	{
@@ -230,8 +218,8 @@ void dialog_graphical_options_new(GtkWindow *parent)
 			(GtkWidget*)dlg.label_profile_time,0,0,0);
 		gtk_container_add
 			(GTK_CONTAINER(dlg.box_profile), GTK_WIDGET(dlg.combo_profile));
-		gtk_table_attach(dlg.table_profile,(GtkWidget*)dlg.box_profile,
-			0,1,0,1,GTK_FILL|GTK_EXPAND,GTK_FILL,0,0);
+		gtk_grid_attach(dlg.table_profile,(GtkWidget*)dlg.box_profile,
+			0,0,1,1);
 	}
 
 	dlg.label_evolution_xmax=(GtkLabel*)gtk_label_new(gettext("Maximum"));
@@ -240,18 +228,15 @@ void dialog_graphical_options_new(GtkWindow *parent)
 	dlg.label_evolution_xmin=(GtkLabel*)gtk_label_new(gettext("Minimum"));
 	dlg.entry_evolution_xmin=(JBWFloatEntry*)jbw_float_entry_new();
 
-	dlg.table_evolution_x=(GtkTable*)gtk_table_new(2,2,1);
-	gtk_table_attach_defaults
-		(dlg.table_evolution_x,(GtkWidget*)dlg.label_evolution_xmax,0,1,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_evolution_x,(GtkWidget*)dlg.entry_evolution_xmax,1,2,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_evolution_x,(GtkWidget*)dlg.label_evolution_xmin,0,1,1,2);
-	gtk_table_attach_defaults
-		(dlg.table_evolution_x,(GtkWidget*)dlg.entry_evolution_xmin,1,2,1,2);
-	gtk_table_set_row_spacings(dlg.table_evolution_x,5);
-	gtk_table_set_col_spacings(dlg.table_evolution_x,5);
-	gtk_container_set_border_width((GtkContainer*)dlg.table_evolution_x,5);
+	dlg.table_evolution_x=(GtkGrid*)gtk_grid_new();
+	gtk_grid_attach
+		(dlg.table_evolution_x,(GtkWidget*)dlg.label_evolution_xmax,0,0,1,1);
+	gtk_grid_attach
+		(dlg.table_evolution_x,(GtkWidget*)dlg.entry_evolution_xmax,1,0,2,1);
+	gtk_grid_attach
+		(dlg.table_evolution_x,(GtkWidget*)dlg.label_evolution_xmin,0,1,1,1);
+	gtk_grid_attach
+		(dlg.table_evolution_x,(GtkWidget*)dlg.entry_evolution_xmin,1,1,1,1);
 
 	dlg.frame_evolution_x=(GtkFrame*)gtk_frame_new(gettext("Time"));
 	gtk_container_add(GTK_CONTAINER(dlg.frame_evolution_x),
@@ -266,20 +251,17 @@ void dialog_graphical_options_new(GtkWindow *parent)
 	dlg.label_evolution_ymin=(GtkLabel*)gtk_label_new(gettext("Minimum"));
 	dlg.entry_evolution_ymin=(JBWFloatEntry*)jbw_float_entry_new();
 
-	dlg.table_evolution_y=(GtkTable*)gtk_table_new(0,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_evolution_y,(GtkWidget*)dlg.combo_evolution_y,0,2,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_evolution_y,(GtkWidget*)dlg.label_evolution_ymax,0,1,1,2);
-	gtk_table_attach_defaults
-		(dlg.table_evolution_y,(GtkWidget*)dlg.entry_evolution_ymax,1,2,1,2);
-	gtk_table_attach_defaults
-		(dlg.table_evolution_y,(GtkWidget*)dlg.label_evolution_ymin,0,1,2,3);
-	gtk_table_attach_defaults
-		(dlg.table_evolution_y,(GtkWidget*)dlg.entry_evolution_ymin,1,2,2,3);
-	gtk_table_set_row_spacings(dlg.table_evolution_y,5);
-	gtk_table_set_col_spacings(dlg.table_evolution_y,5);
-	gtk_container_set_border_width((GtkContainer*)dlg.table_evolution_y,5);
+	dlg.table_evolution_y=(GtkGrid*)gtk_grid_new();
+	gtk_grid_attach
+		(dlg.table_evolution_y,(GtkWidget*)dlg.combo_evolution_y,0,0,2,1);
+	gtk_grid_attach
+		(dlg.table_evolution_y,(GtkWidget*)dlg.label_evolution_ymax,0,1,1,1);
+	gtk_grid_attach
+		(dlg.table_evolution_y,(GtkWidget*)dlg.entry_evolution_ymax,1,1,1,1);
+	gtk_grid_attach
+		(dlg.table_evolution_y,(GtkWidget*)dlg.label_evolution_ymin,0,2,1,1);
+	gtk_grid_attach
+		(dlg.table_evolution_y,(GtkWidget*)dlg.entry_evolution_ymin,1,2,1,1);
 
 	dlg.frame_evolution_y=(GtkFrame*)gtk_frame_new(gettext("Parameter 1"));
 	gtk_container_add(GTK_CONTAINER(dlg.frame_evolution_y),
@@ -294,20 +276,17 @@ void dialog_graphical_options_new(GtkWindow *parent)
 	dlg.label_evolution_zmin=(GtkLabel*)gtk_label_new(gettext("Minimum"));
 	dlg.entry_evolution_zmin=(JBWFloatEntry*)jbw_float_entry_new();
 
-	dlg.table_evolution_z=(GtkTable*)gtk_table_new(0,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_evolution_z,(GtkWidget*)dlg.combo_evolution_z,0,2,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_evolution_z,(GtkWidget*)dlg.label_evolution_zmax,0,1,1,2);
-	gtk_table_attach_defaults
-		(dlg.table_evolution_z,(GtkWidget*)dlg.entry_evolution_zmax,1,2,1,2);
-	gtk_table_attach_defaults
-		(dlg.table_evolution_z,(GtkWidget*)dlg.label_evolution_zmin,0,1,2,3);
-	gtk_table_attach_defaults
-		(dlg.table_evolution_z,(GtkWidget*)dlg.entry_evolution_zmin,1,2,2,3);
-	gtk_table_set_row_spacings(dlg.table_evolution_z,5);
-	gtk_table_set_col_spacings(dlg.table_evolution_z,5);
-	gtk_container_set_border_width((GtkContainer*)dlg.table_evolution_z,5);
+	dlg.table_evolution_z=(GtkGrid*)gtk_grid_new();
+	gtk_grid_attach
+		(dlg.table_evolution_z,(GtkWidget*)dlg.combo_evolution_z,0,0,2,1);
+	gtk_grid_attach
+		(dlg.table_evolution_z,(GtkWidget*)dlg.label_evolution_zmax,0,1,1,1);
+	gtk_grid_attach
+		(dlg.table_evolution_z,(GtkWidget*)dlg.entry_evolution_zmax,1,1,1,1);
+	gtk_grid_attach
+		(dlg.table_evolution_z,(GtkWidget*)dlg.label_evolution_zmin,0,2,1,1);
+	gtk_grid_attach
+		(dlg.table_evolution_z,(GtkWidget*)dlg.entry_evolution_zmin,1,2,1,1);
 
 	dlg.frame_evolution_z=(GtkFrame*)gtk_frame_new(gettext("Parameter 2"));
 	gtk_container_add(GTK_CONTAINER(dlg.frame_evolution_z),
@@ -320,20 +299,17 @@ void dialog_graphical_options_new(GtkWindow *parent)
 	dlg.combo_section=(GtkComboBox*)gtk_combo_box_text_new();
 	dialog_graphical_options_sections(&dlg);
 
-	dlg.table_evolution=(GtkTable*)gtk_table_new(0,0,0);
-	gtk_table_attach_defaults
-		(dlg.table_evolution,(GtkWidget*)dlg.label_evolution_section,0,1,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_evolution,(GtkWidget*)dlg.combo_evolution_section,0,1,1,2);
-	gtk_table_attach_defaults
-		(dlg.table_evolution,(GtkWidget*)dlg.frame_evolution_x,0,1,2,3);
-	gtk_table_attach_defaults
-		(dlg.table_evolution,(GtkWidget*)dlg.frame_evolution_y,0,1,3,4);
-	gtk_table_attach_defaults
-		(dlg.table_evolution,(GtkWidget*)dlg.frame_evolution_z,0,1,4,5);
-	gtk_table_set_row_spacings((GtkTable*)dlg.table_evolution,10);
-	gtk_table_set_col_spacings((GtkTable*)dlg.table_evolution,10);
-	gtk_container_set_border_width((GtkContainer*)dlg.table_evolution,10);
+	dlg.table_evolution=(GtkGrid*)gtk_grid_new();
+	gtk_grid_attach
+		(dlg.table_evolution,(GtkWidget*)dlg.label_evolution_section,0,0,1,1);
+	gtk_grid_attach
+		(dlg.table_evolution,(GtkWidget*)dlg.combo_evolution_section,0,1,1,1);
+	gtk_grid_attach
+		(dlg.table_evolution,(GtkWidget*)dlg.frame_evolution_x,0,2,1,1);
+	gtk_grid_attach
+		(dlg.table_evolution,(GtkWidget*)dlg.frame_evolution_y,0,3,1,1);
+	gtk_grid_attach
+		(dlg.table_evolution,(GtkWidget*)dlg.frame_evolution_z,0,4,1,1);
 
 	dlg.label_section_xmax=(GtkLabel*)gtk_label_new(gettext("Maximum"));
 	dlg.entry_section_xmax=(JBWFloatEntry*)jbw_float_entry_new();
@@ -341,18 +317,15 @@ void dialog_graphical_options_new(GtkWindow *parent)
 	dlg.label_section_xmin=(GtkLabel*)gtk_label_new(gettext("Minimum"));
 	dlg.entry_section_xmin=(JBWFloatEntry*)jbw_float_entry_new();
 
-	dlg.table_section_x=(GtkTable*)gtk_table_new(2,2,1);
-	gtk_table_attach_defaults
-		(dlg.table_section_x,(GtkWidget*)dlg.label_section_xmax,0,1,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_section_x,(GtkWidget*)dlg.entry_section_xmax,1,2,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_section_x,(GtkWidget*)dlg.label_section_xmin,0,1,1,2);
-	gtk_table_attach_defaults
-		(dlg.table_section_x,(GtkWidget*)dlg.entry_section_xmin,1,2,1,2);
-	gtk_table_set_row_spacings(dlg.table_section_x,5);
-	gtk_table_set_col_spacings(dlg.table_section_x,5);
-	gtk_container_set_border_width((GtkContainer*)dlg.table_section_x,5);
+	dlg.table_section_x=(GtkGrid*)gtk_grid_new();
+	gtk_grid_attach
+		(dlg.table_section_x,(GtkWidget*)dlg.label_section_xmax,0,0,1,1);
+	gtk_grid_attach
+		(dlg.table_section_x,(GtkWidget*)dlg.entry_section_xmax,1,0,1,1);
+	gtk_grid_attach
+		(dlg.table_section_x,(GtkWidget*)dlg.label_section_xmin,0,1,1,1);
+	gtk_grid_attach
+		(dlg.table_section_x,(GtkWidget*)dlg.entry_section_xmin,1,1,1,1);
 
 	dlg.frame_section_x=(GtkFrame*)gtk_frame_new(gettext("Position"));
 	gtk_container_add(GTK_CONTAINER(dlg.frame_section_x),
@@ -364,18 +337,15 @@ void dialog_graphical_options_new(GtkWindow *parent)
 	dlg.label_section_ymin=(GtkLabel*)gtk_label_new(gettext("Minimum"));
 	dlg.entry_section_ymin=(JBWFloatEntry*)jbw_float_entry_new();
 
-	dlg.table_section_y=(GtkTable*)gtk_table_new(0,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_section_y,(GtkWidget*)dlg.label_section_ymax,0,1,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_section_y,(GtkWidget*)dlg.entry_section_ymax,1,2,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_section_y,(GtkWidget*)dlg.label_section_ymin,0,1,1,2);
-	gtk_table_attach_defaults
-		(dlg.table_section_y,(GtkWidget*)dlg.entry_section_ymin,1,2,1,2);
-	gtk_table_set_row_spacings(dlg.table_section_y,5);
-	gtk_table_set_col_spacings(dlg.table_section_y,5);
-	gtk_container_set_border_width((GtkContainer*)dlg.table_section_y,5);
+	dlg.table_section_y=(GtkGrid*)gtk_grid_new();
+	gtk_grid_attach
+		(dlg.table_section_y,(GtkWidget*)dlg.label_section_ymax,0,0,1,1);
+	gtk_grid_attach
+		(dlg.table_section_y,(GtkWidget*)dlg.entry_section_ymax,1,0,1,1);
+	gtk_grid_attach
+		(dlg.table_section_y,(GtkWidget*)dlg.label_section_ymin,0,1,1,1);
+	gtk_grid_attach
+		(dlg.table_section_y,(GtkWidget*)dlg.entry_section_ymin,1,1,1,1);
 
 	dlg.frame_section_y=(GtkFrame*)gtk_frame_new(gettext("Level"));
 	gtk_container_add
@@ -385,18 +355,15 @@ void dialog_graphical_options_new(GtkWindow *parent)
 	dlg.label_section_section=
 		(GtkLabel*)gtk_label_new(gettext("Transient section"));
 
-	dlg.table_section=(GtkTable*)gtk_table_new(0,0,0);
-	gtk_table_attach_defaults
-		(dlg.table_section,(GtkWidget*)dlg.label_section_section,0,1,0,1);
-	gtk_table_attach_defaults
-		(dlg.table_section,(GtkWidget*)dlg.combo_section,0,1,1,2);
-	gtk_table_attach_defaults
-		(dlg.table_section,(GtkWidget*)dlg.frame_section_x,0,1,2,3);
-	gtk_table_attach_defaults
-		(dlg.table_section,(GtkWidget*)dlg.frame_section_y,0,1,3,4);
-	gtk_table_set_row_spacings((GtkTable*)dlg.table_section,10);
-	gtk_table_set_col_spacings((GtkTable*)dlg.table_section,10);
-	gtk_container_set_border_width((GtkContainer*)dlg.table_section,10);
+	dlg.table_section=(GtkGrid*)gtk_grid_new();
+	gtk_grid_attach
+		(dlg.table_section,(GtkWidget*)dlg.label_section_section,0,0,1,1);
+	gtk_grid_attach
+		(dlg.table_section,(GtkWidget*)dlg.combo_section,0,1,1,1);
+	gtk_grid_attach
+		(dlg.table_section,(GtkWidget*)dlg.frame_section_x,0,2,1,1);
+	gtk_grid_attach
+		(dlg.table_section,(GtkWidget*)dlg.frame_section_y,0,3,1,1);
 
 	dlg.label_profile=(GtkLabel*)gtk_label_new(gettext("Longitudinal profile"));
 	dlg.label_evolution=(GtkLabel*)gtk_label_new(gettext("Time evolution"));

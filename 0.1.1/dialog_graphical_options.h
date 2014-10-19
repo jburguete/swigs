@@ -50,30 +50,30 @@ typedef struct
 		*label_profile,*label_profile_time;
 	JBWFloatEntry *entry_profile_xmax,*entry_profile_xmin,*entry_profile_ymax,
 		*entry_profile_ymin,*entry_profile_zmax,*entry_profile_zmin;
-	GtkTable *table_profile_x,*table_profile_y,*table_profile_z;
+	GtkGrid *table_profile_x,*table_profile_y,*table_profile_z;
 	GtkFrame *frame_profile_x,*frame_profile_y,*frame_profile_z;
 	GtkComboBoxText *combo_profile,*combo_profile_y,*combo_profile_z;
 	GtkHBox *box_profile;
-	GtkTable *table_profile;
+	GtkGrid *table_profile;
 	GtkLabel *label_evolution_xmax,*label_evolution_xmin,*label_evolution_ymax,
 		*label_evolution_ymin,*label_evolution_zmax,*label_evolution_zmin,
 		*label_evolution,*label_evolution_section;
 	JBWFloatEntry *entry_evolution_xmax,*entry_evolution_xmin,
 		*entry_evolution_ymax,*entry_evolution_ymin,
 		*entry_evolution_zmax,*entry_evolution_zmin;
-	GtkTable *table_evolution_x,*table_evolution_y,*table_evolution_z;
+	GtkGrid *table_evolution_x,*table_evolution_y,*table_evolution_z;
 	GtkFrame *frame_evolution_x,*frame_evolution_y,*frame_evolution_z;
 	GtkComboBoxText
 		*combo_evolution_section,*combo_evolution_y,*combo_evolution_z;
-	GtkTable *table_evolution;
+	GtkGrid *table_evolution;
 	GtkLabel *label_section_xmax,*label_section_xmin,*label_section_ymax,
 		*label_section_ymin,*label_section_section,*label_section;
 	JBWFloatEntry *entry_section_xmax,*entry_section_xmin,
 		*entry_section_ymax,*entry_section_ymin;
-	GtkTable *table_section_x,*table_section_y;
+	GtkGrid *table_section_x,*table_section_y;
 	GtkFrame *frame_section_x,*frame_section_y;
 	GtkComboBoxText *combo_section;
-	GtkTable *table_section;
+	GtkGrid *table_section;
 	GtkComboBoxText *combo_channel;
 	GtkNotebook *notebook;
 	GtkRadioButton *array_animation[3];

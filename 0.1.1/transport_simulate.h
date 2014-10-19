@@ -96,7 +96,8 @@ static inline void _transport_step_implicit
 			fprintf(stderr,"TSI solving tridiagonal array\n");
 		}
 	#endif
-	jbm_solve_tridiagonal_varray_zero(&(p->CC), sizeof(Parameters), n);
+	jbm_varray_solve_tridiagonal_zero
+		(&p[1].CC, &p[0].DD, &p[0].EE, &p[0].HH, sizeof(Parameters), n);
 	for (i=0, tpv=tp, pv=p; i<=n; ++i, ++tpv, ++pv) tpv->c = pv->HH;
 	#if DEBUG_TRANSPORT_STEP_IMPLICIT
 		if (t>=DEBUG_TIME)

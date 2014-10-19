@@ -61,33 +61,31 @@ void table_mass_create(TableMass *table,Mass *m,JBDOUBLE e)
 	gtk_widget_set_sensitive((GtkWidget*)table->entry_error, 0);
 	snprintf(buffer,JB_BUFFER_SIZE,FGL"%%",e);
 	gtk_entry_set_text(table->entry_error, buffer);
-	table->table = (GtkTable*)gtk_table_new(0,0,1);
-	gtk_table_attach_defaults(table->table,(GtkWidget*)table->label_initial,
-		0,1,0,1);
-	gtk_table_attach_defaults(table->table,(GtkWidget*)table->entry_initial,
-		1,2,0,1);
-	gtk_table_attach_defaults(table->table,(GtkWidget*)table->label_final,
-		0,1,1,2);
-	gtk_table_attach_defaults(table->table,(GtkWidget*)table->entry_final,
-		1,2,1,2);
-	gtk_table_attach_defaults(table->table,(GtkWidget*)table->label_inlet,
-		0,1,2,3);
-	gtk_table_attach_defaults(table->table,(GtkWidget*)table->entry_inlet,
-		1,2,2,3);
-	gtk_table_attach_defaults(table->table,(GtkWidget*)table->label_inner,
-		0,1,3,4);
-	gtk_table_attach_defaults(table->table,(GtkWidget*)table->entry_inner,
-		1,2,3,4);
-	gtk_table_attach_defaults(table->table,(GtkWidget*)table->label_outlet,
-		0,1,4,5);
-	gtk_table_attach_defaults(table->table,(GtkWidget*)table->entry_outlet,
-		1,2,4,5);
-	gtk_table_attach_defaults(table->table,(GtkWidget*)table->label_error,
-		0,1,5,6);
-	gtk_table_attach_defaults(table->table,(GtkWidget*)table->entry_error,
-		1,2,5,6);
-	gtk_table_set_row_spacings(table->table,5);
-	gtk_table_set_col_spacings(table->table,5);
+	table->table = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(table->table,(GtkWidget*)table->label_initial,
+		0,0,1,1);
+	gtk_grid_attach(table->table,(GtkWidget*)table->entry_initial,
+		1,0,1,1);
+	gtk_grid_attach(table->table,(GtkWidget*)table->label_final,
+		0,1,1,1);
+	gtk_grid_attach(table->table,(GtkWidget*)table->entry_final,
+		1,1,1,1);
+	gtk_grid_attach(table->table,(GtkWidget*)table->label_inlet,
+		0,2,1,1);
+	gtk_grid_attach(table->table,(GtkWidget*)table->entry_inlet,
+		1,2,1,1);
+	gtk_grid_attach(table->table,(GtkWidget*)table->label_inner,
+		0,3,1,1);
+	gtk_grid_attach(table->table,(GtkWidget*)table->entry_inner,
+		1,3,1,1);
+	gtk_grid_attach(table->table,(GtkWidget*)table->label_outlet,
+		0,4,1,1);
+	gtk_grid_attach(table->table,(GtkWidget*)table->entry_outlet,
+		1,4,1,1);
+	gtk_grid_attach(table->table,(GtkWidget*)table->label_error,
+		0,5,1,1);
+	gtk_grid_attach(table->table,(GtkWidget*)table->entry_error,
+		1,5,1,1);
 }
 
 void dialog_mass_show(Mass *m,Parameters *p,TransportParameters *tp,int n,

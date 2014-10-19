@@ -38,7 +38,7 @@ typedef struct
 		*label_error;
 	GtkEntry *entry_initial,*entry_final,*entry_inlet,*entry_outlet,*entry_inner,
 		*entry_error;
-	GtkTable *table;
+	GtkGrid *table;
 } TableMass;
 
 typedef struct

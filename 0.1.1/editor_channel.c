@@ -33,15 +33,12 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "simulate.h"
 #include "draw.h"
 
-void editor_paned(GtkVPaned **paned,GtkTable *table,JBWGraphic *graphic)
+void editor_paned(GtkVPaned **paned,GtkGrid *table,JBWGraphic *graphic)
 {
 	GtkFrame *frame;
 #if DEBUG_EDITOR_PANED
 	fprintf(stderr,"Editor paned: start\n");
 #endif
-	gtk_table_set_row_spacings(table,5);
-	gtk_table_set_col_spacings(table,5);
-	gtk_container_set_border_width((GtkContainer*)table,5);
 	graphic->zmax = graphic->zmin = 0.;
 	*paned = (GtkVPaned*)gtk_vpaned_new();
 	frame=(GtkFrame*)gtk_frame_new(0);
@@ -50,9 +47,6 @@ void editor_paned(GtkVPaned **paned,GtkTable *table,JBWGraphic *graphic)
 	gtk_paned_pack1((GtkPaned*)*paned,(GtkWidget*)frame,1,0);
 	frame=(GtkFrame*)gtk_frame_new(0);
 	gtk_frame_set_shadow_type(frame,GTK_SHADOW_IN);
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-	gtk_container_add((GtkContainer*)frame,(GtkWidget*)graphic->drawing_area);
-#endif
 	gtk_paned_pack2((GtkPaned*)*paned,(GtkWidget*)frame,1,0);
 #if DEBUG_EDITOR_PANED
 	fprintf(stderr,"Editor paned: end\n");
@@ -320,9 +314,7 @@ void editor_bf_update(EditorBF *editor,BoundaryFlow *bf,EditorBFType type)
 exit1:
 	gtk_widget_set_sensitive((GtkWidget*)editor->button_delete, bf->n > 0);
 	gtk_widget_show((GtkWidget*)editor->paned);
-#if JBW_GRAPHIC == JBW_GRAPHIC_GTKGLEXT
-	gtk_widget_queue_draw((GtkWidget*)editor->graphic->drawing_area);
-#elif JBW_GRAPHIC == JBW_GRAPHIC_GLUT
+#if JBW_GRAPHIC == JBW_GRAPHIC_GLUT
 	jbw_graphic_draw = editor->graphic->draw;
 	jbw_graphic_expose_event();
 #endif
@@ -405,13 +397,8 @@ void editor_bf_open(EditorBF *editor,BoundaryFlow *bf,EditorBFType type)
 	#endif
 }
 
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-void editor_bf_create(EditorBF *editor,EditorBFType type,GdkGLConfig *glconfig,
-	void (*editor_update),void (*editor_draw),void *dlg)
-#else
 void editor_bf_create(EditorBF *editor,EditorBFType type,
 	void (*editor_update),void (*editor_draw),void *dlg)
-#endif
 {
 	int i,n;
 	char **str;
@@ -484,45 +471,39 @@ void editor_bf_create(EditorBF *editor,EditorBFType type,
 	editor_channel_vbox(&editor->vbox2,editor->button_insert,
 		editor->button_delete,editor->button_update);
 	editor->editor = jbw_array_editor_new(3,3,1,label_bf2);
-	editor->table2 = (GtkTable*)gtk_table_new(0,0,0);
-	gtk_table_attach_defaults(editor->table2,
-		(GtkWidget*)editor->editor->scrolled,0,1,0,1);
-	gtk_table_attach(editor->table2,(GtkWidget*)editor->vbox2,
-		1,2,0,1,GTK_FILL,GTK_FILL,0,0);
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-	editor->graphic =
-		(JBWGraphic*)jbw_graphic_new(glconfig,0,5,5,5,editor_draw);
-#else
+	editor->table2 = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(editor->table2,
+		(GtkWidget*)editor->editor->scrolled,0,0,1,1);
+	gtk_grid_attach(editor->table2,(GtkWidget*)editor->vbox2,1,0,1,1);
 	editor->graphic = (JBWGraphic*)jbw_graphic_new(0,5,5,5,editor_draw);
-#endif
 	jbw_graphic_set_logo(editor->graphic, "swigs.png");
 	editor_paned(&editor->paned,editor->table2,editor->graphic);
-	editor->table = (GtkTable*)gtk_table_new(0,0,0);
-	gtk_table_attach(editor->table,(GtkWidget*)editor->hbox2,
-		0,3,0,1,GTK_FILL,0,0,0);
-	gtk_table_attach(editor->table,(GtkWidget*)editor->frame,
-		0,1,1,8,0,GTK_EXPAND|GTK_FILL,0,0);
-	gtk_table_attach(editor->table,(GtkWidget*)editor->label_data1,
-		1,2,1,2,0,0,0,0);
-	gtk_table_attach(editor->table,(GtkWidget*)editor->entry_data1,
-		2,3,1,2,GTK_EXPAND|GTK_FILL,0,0,0);
-	gtk_table_attach(editor->table,(GtkWidget*)editor->label_data2,
-		1,2,2,3,0,0,0,0);
-	gtk_table_attach(editor->table,(GtkWidget*)editor->entry_data2,
-		2,3,2,3,GTK_EXPAND|GTK_FILL,0,0,0);
-	gtk_table_attach(editor->table,(GtkWidget*)editor->label_discharge,
-		1,2,4,5,0,0,0,0);
-	gtk_table_attach(editor->table,(GtkWidget*)editor->entry_discharge,
-		2,3,4,5,GTK_EXPAND|GTK_FILL,0,0,0);
-	gtk_table_attach(editor->table,(GtkWidget*)editor->label_depth,
-		1,2,5,6,0,0,0,0);
-	gtk_table_attach(editor->table,(GtkWidget*)editor->entry_depth,
-		2,3,5,6,GTK_EXPAND|GTK_FILL,0,0,0);
-	gtk_table_attach(editor->table,(GtkWidget*)editor->label_level,
-		1,2,6,7,0,0,0,0);
-	gtk_table_attach(editor->table,(GtkWidget*)editor->entry_level,
-		2,3,6,7,GTK_EXPAND|GTK_FILL,0,0,0);
-	gtk_table_attach_defaults(editor->table,(GtkWidget*)editor->paned,1,3,7,8);
+	editor->table = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(editor->table,(GtkWidget*)editor->hbox2,
+		0,0,3,1);
+	gtk_grid_attach(editor->table,(GtkWidget*)editor->frame,
+		0,1,1,7);
+	gtk_grid_attach(editor->table,(GtkWidget*)editor->label_data1,
+		1,1,1,1);
+	gtk_grid_attach(editor->table,(GtkWidget*)editor->entry_data1,
+		2,1,1,1);
+	gtk_grid_attach(editor->table,(GtkWidget*)editor->label_data2,
+		1,2,1,1);
+	gtk_grid_attach(editor->table,(GtkWidget*)editor->entry_data2,
+		2,2,1,1);
+	gtk_grid_attach(editor->table,(GtkWidget*)editor->label_discharge,
+		1,4,1,1);
+	gtk_grid_attach(editor->table,(GtkWidget*)editor->entry_discharge,
+		2,4,1,1);
+	gtk_grid_attach(editor->table,(GtkWidget*)editor->label_depth,
+		1,5,1,1);
+	gtk_grid_attach(editor->table,(GtkWidget*)editor->entry_depth,
+		2,5,1,1);
+	gtk_grid_attach(editor->table,(GtkWidget*)editor->label_level,
+		1,6,1,1);
+	gtk_grid_attach(editor->table,(GtkWidget*)editor->entry_level,
+		2,6,1,1);
+	gtk_grid_attach(editor->table,(GtkWidget*)editor->paned,1,7,2,1);
 	#if DEBUG_EDITOR_BF_CREATE
 		fprintf(stderr,"Editor bf create: end\n");
 	#endif
@@ -611,9 +592,7 @@ void editor_channel_update_transient(EditorChannel *dlg)
 		dlg->ics || dlg->its);
 	gtk_widget_set_sensitive((GtkWidget*)dlg->button_delete_transient,
 		dlg->c->cg->cs[dlg->ics].ts[dlg->its].n > 1);
-#if JBW_GRAPHIC == JBW_GRAPHIC_GTKGLEXT
-	gtk_widget_queue_draw((GtkWidget*)dlg->graphic_transient->drawing_area);
-#elif JBW_GRAPHIC == JBW_GRAPHIC_GLUT
+#if JBW_GRAPHIC == JBW_GRAPHIC_GLUT
 	jbw_graphic_draw = editor_channel_draw_transient;
 	jbw_graphic_expose_event();
 #endif
@@ -856,9 +835,7 @@ void editor_channel_update_section(EditorChannel *dlg)
 	gtk_widget_show((GtkWidget*)dlg->table_section_type);
 	jbw_array_editor_hide_column(dlg->editor_section,0);
 type_normal:
-#if JBW_GRAPHIC == JBW_GRAPHIC_GTKGLEXT
-	gtk_widget_queue_draw((GtkWidget*)dlg->graphic_section->drawing_area);
-#elif JBW_GRAPHIC == JBW_GRAPHIC_GLUT
+#if JBW_GRAPHIC == JBW_GRAPHIC_GLUT
 	jbw_graphic_draw = editor_channel_draw_section;
 	jbw_graphic_expose_event();
 #endif
@@ -1059,23 +1036,11 @@ void editor_channel_draw_section()
 	jbw_graphic_labels(graphic);
 	y=(JBFLOAT*)g_malloc((++nmax)*2*sizeof(JBFLOAT));
 	z=y+nmax;
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-	glLoadIdentity();
-	glOrtho(graphic->xmin,graphic->xmax,graphic->ymin,graphic->ymax,-1.,1.);
-#endif
 	for (i=0, ts=cs->ts; i<=cs->n; ++i, ++ts)
 	{
 		for (j=n=ts->n+1; --j>=0;) y[j]=ts->sp[j].y, z[j]=ts->sp[j].z;
 		k1 = ((float)i) / (cs->n + 1);
-		#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-			#if PRECISION==1
-				jbw_draw_linesf(0.,k1,1.-k1,y,z,n);
-			#else
-				jbw_draw_linesd(0.,k1,1.-k1,y,z,n);
-			#endif
-		#else
-			jbw_graphic_draw_line(graphic,0.,k1,1.-k1,y,z,n);
-		#endif
+		jbw_graphic_draw_line(graphic,0.,k1,1.-k1,y,z,n);
 	}
 	g_free(y);
 	jbw_graphic_draw_logo(graphic);
@@ -1123,9 +1088,7 @@ void editor_channel_update_geometry(EditorChannel *dlg)
 	gtk_widget_set_sensitive((GtkWidget*)dlg->button_delete_geometry,
 		dlg->c->cg->n > 1);
 	jbw_array_editor_set_column_sensitive(dlg->editor_geometry,0,0);
-#if JBW_GRAPHIC == JBW_GRAPHIC_GTKGLEXT
-	gtk_widget_queue_draw((GtkWidget*)dlg->graphic_geometry->drawing_area);
-#elif JBW_GRAPHIC == JBW_GRAPHIC_GLUT
+#if JBW_GRAPHIC == JBW_GRAPHIC_GLUT
 	#if DEBUG_EDITOR_CHANNEL_UPDATE_GEOMETRY
 		fprintf(stderr,"ECUG: drawing\n");
 	#endif
@@ -1266,7 +1229,7 @@ void editor_channel_draw_geometry()
 	jbm_farray_maxmin(y,n+n+1,&graphic->ymax,&graphic->ymin);
 	jbw_graphic_map_resize(graphic);
 	jbw_graphic_labels(graphic);
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT || JBW_GRAPHIC==JBW_GRAPHIC_GLUT
+#if JBW_GRAPHIC==JBW_GRAPHIC_GLUT
 	glLoadIdentity();
 	glOrtho(graphic->xmin,graphic->xmax,graphic->ymin,graphic->ymax,-1.,1.);
 	#if PRECISION==1
@@ -1360,9 +1323,7 @@ void editor_channel_update_if(EditorChannel *dlg)
 	gtk_widget_show((GtkWidget*)dlg->paned_if);
 	gtk_widget_set_sensitive((GtkWidget*)dlg->button_delete_if,
 		dlg->c->fic->n > 0);
-#if JBW_GRAPHIC == JBW_GRAPHIC_GTKGLEXT
-	gtk_widget_queue_draw((GtkWidget*)dlg->graphic_if->drawing_area);
-#elif JBW_GRAPHIC == JBW_GRAPHIC_GLUT
+#if JBW_GRAPHIC == JBW_GRAPHIC_GLUT
 	jbw_graphic_draw = editor_channel_draw_if;
 	jbw_graphic_expose_event();
 #endif
@@ -1924,9 +1885,7 @@ void editor_channel_update_it(EditorChannel *dlg)
 	gtk_widget_show((GtkWidget*)dlg->paned_it);
 	gtk_widget_set_sensitive((GtkWidget*)dlg->button_delete_it,
 		it->n > 0);
-#if JBW_GRAPHIC == JBW_GRAPHIC_GTKGLEXT
-	gtk_widget_queue_draw((GtkWidget*)dlg->graphic_it->drawing_area);
-#elif JBW_GRAPHIC == JBW_GRAPHIC_GLUT
+#if JBW_GRAPHIC == JBW_GRAPHIC_GLUT
 	jbw_graphic_draw = dlg->graphic_it->draw;
 	jbw_graphic_expose_event();
 #endif
@@ -2099,9 +2058,7 @@ void editor_channel_update_bt(EditorChannel *dlg)
 		gtk_widget_set_sensitive((GtkWidget*)dlg->button_delete_bt,
 			bt->n > 0);
 		gtk_widget_show((GtkWidget*)dlg->paned_bt);
-#if JBW_GRAPHIC == JBW_GRAPHIC_GTKGLEXT
-		gtk_widget_queue_draw((GtkWidget*)dlg->graphic_bt->drawing_area);
-#elif JBW_GRAPHIC == JBW_GRAPHIC_GLUT
+#if JBW_GRAPHIC == JBW_GRAPHIC_GLUT
 		jbw_graphic_draw = dlg->graphic_bt->draw;
 		jbw_graphic_expose_event();
 #endif
@@ -2816,11 +2773,7 @@ void editor_channel_vbox
 	if (button3) gtk_box_pack_start((GtkBox*)*box,(GtkWidget*)button3,0,1,5);
 }
 
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-void editor_channel_new(EditorChannel *dlg,Channel *c,GdkGLConfig *glconfig)
-#else
 void editor_channel_new(EditorChannel *dlg,Channel *c)
-#endif
 {
 	int i;
 	char buffer[JB_BUFFER_SIZE];
@@ -2865,21 +2818,16 @@ void editor_channel_new(EditorChannel *dlg,Channel *c)
 	editor_channel_vbox(&dlg->vbox_geometry,dlg->button_insert_geometry,
 		dlg->button_delete_geometry,0);
 	dlg->editor_geometry = jbw_array_editor_new(2,2,1,label_geometry);
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-	dlg->graphic_geometry =	(JBWGraphic*)jbw_graphic_new
-		(glconfig,0,5,5,5,editor_channel_draw_geometry);
-#else
 	dlg->graphic_geometry =
 		(JBWGraphic*)jbw_graphic_new(0,5,5,5,editor_channel_draw_geometry);
-#endif
 	jbw_graphic_set_xlabel(dlg->graphic_geometry,gettext("x"));
 	jbw_graphic_set_ylabel(dlg->graphic_geometry,gettext("y"));
 	jbw_graphic_set_logo(dlg->graphic_geometry, "swigs.png");
-	dlg->table_geometry = (GtkTable*)gtk_table_new(0,0,0);
-	gtk_table_attach_defaults(dlg->table_geometry,
-		(GtkWidget*)dlg->editor_geometry->scrolled,0,1,0,1);
-	gtk_table_attach(dlg->table_geometry,(GtkWidget*)dlg->vbox_geometry,
-		1,2,0,1,GTK_FILL,GTK_FILL,0,0);
+	dlg->table_geometry = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(dlg->table_geometry,
+		(GtkWidget*)dlg->editor_geometry->scrolled,0,0,1,1);
+	gtk_grid_attach(dlg->table_geometry,(GtkWidget*)dlg->vbox_geometry,
+		1,0,1,1);
 	editor_paned
 		(&dlg->paned_geometry,dlg->table_geometry,dlg->graphic_geometry);
 
@@ -2924,64 +2872,60 @@ void editor_channel_new(EditorChannel *dlg,Channel *c)
 	dlg->entry_time = (JBWFloatEntry*)gtk_entry_new();
 	dlg->label_parameter = (GtkLabel*)gtk_label_new(0);
 	dlg->entry_parameter = (JBWFloatEntry*)gtk_entry_new();
-	dlg->table_section_type = (GtkTable*)gtk_table_new(0,0,0);
-	gtk_table_attach(dlg->table_section_type,(GtkWidget*)dlg->label_control,
-		0,1,0,1,GTK_FILL,GTK_FILL,0,0);
-	gtk_table_attach_defaults(dlg->table_section_type,
-		(GtkWidget*)dlg->entry_control,1,2,0,1);
-	gtk_table_attach(dlg->table_section_type,(GtkWidget*)dlg->label_tolerance,
-		2,3,0,1,GTK_FILL,GTK_FILL,0,0);
-	gtk_table_attach_defaults(dlg->table_section_type,
-		(GtkWidget*)dlg->entry_tolerance,3,4,0,1);
-	gtk_table_attach(dlg->table_section_type,(GtkWidget*)dlg->label_time,
-		0,1,1,2,GTK_FILL,GTK_FILL,0,0);
-	gtk_table_attach_defaults(dlg->table_section_type,
-		(GtkWidget*)dlg->entry_time,1,2,1,2);
-	gtk_table_attach(dlg->table_section_type,(GtkWidget*)dlg->label_parameter,
-		2,3,1,2,GTK_FILL,GTK_FILL,0,0);
-	gtk_table_attach_defaults(dlg->table_section_type,
-		(GtkWidget*)dlg->entry_parameter,3,4,1,2);
+	dlg->table_section_type = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(dlg->table_section_type,(GtkWidget*)dlg->label_control,
+		0,0,1,1);
+	gtk_grid_attach(dlg->table_section_type,(GtkWidget*)dlg->entry_control,
+		1,0,1,1);
+	gtk_grid_attach(dlg->table_section_type,(GtkWidget*)dlg->label_tolerance,
+		2,0,1,1);
+	gtk_grid_attach(dlg->table_section_type,(GtkWidget*)dlg->entry_tolerance,
+		3,0,1,1);
+	gtk_grid_attach(dlg->table_section_type,(GtkWidget*)dlg->label_time,
+		0,1,1,1);
+	gtk_grid_attach(dlg->table_section_type,(GtkWidget*)dlg->entry_time,
+		1,1,1,1);
+	gtk_grid_attach(dlg->table_section_type,(GtkWidget*)dlg->label_parameter,
+		2,1,1,1);
+	gtk_grid_attach(dlg->table_section_type,(GtkWidget*)dlg->entry_parameter,
+		3,1,1,1);
 	dlg->label_variations =
 		(GtkLabel*)gtk_label_new(gettext("Cross section variations"));
 	dlg->label_variations =
 		(GtkLabel*)gtk_label_new(gettext("Cross section variations"));
 	dlg->editor_section = jbw_array_editor_new(3,3,1,label_section);
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-	dlg->graphic_section = (JBWGraphic*)jbw_graphic_new
-		(glconfig,0,5,5,5,editor_channel_draw_section);
-#else
 	dlg->graphic_section =
 		(JBWGraphic*)jbw_graphic_new(0,5,5,5,editor_channel_draw_section);
-#endif
 	jbw_graphic_set_xlabel(dlg->graphic_section,gettext("y"));
 	jbw_graphic_set_ylabel(dlg->graphic_section,gettext("z initial"));
 	jbw_graphic_set_yylabel(dlg->graphic_section,gettext("z final"));
 	jbw_graphic_set_logo(dlg->graphic_section, "swigs.png");
-	dlg->table_section = (GtkTable*)gtk_table_new(0,0,0);
-	gtk_table_attach(dlg->table_section,(GtkWidget*)dlg->hbox_section,
-		1,8,0,1,GTK_FILL,0,0,0);
-	gtk_table_attach(dlg->table_section,(GtkWidget*)dlg->label_x,
-		1,2,1,2,0,0,0,0);
-	gtk_table_attach(dlg->table_section,(GtkWidget*)dlg->entry_x,
-		2,3,1,2,GTK_EXPAND|GTK_FILL,GTK_FILL,0,0);
-	gtk_table_attach(dlg->table_section,(GtkWidget*)dlg->label_y,
-		3,4,1,2,0,0,0,0);
-	gtk_table_attach(dlg->table_section,(GtkWidget*)dlg->entry_y,
-		4,5,1,2,GTK_EXPAND|GTK_FILL,GTK_FILL,0,0);
-	gtk_table_attach(dlg->table_section,(GtkWidget*)dlg->label_angle,
-		5,6,1,2,0,0,0,0);
-	gtk_table_attach(dlg->table_section,(GtkWidget*)dlg->entry_angle,
-		7,8,1,2,GTK_EXPAND|GTK_FILL,GTK_FILL,0,0);
-	gtk_table_attach(dlg->table_section,(GtkWidget*)dlg->frame_section,
-		0,1,0,3,GTK_FILL,GTK_FILL,0,0);
-	gtk_table_attach(dlg->table_section,(GtkWidget*)dlg->table_section_type,
-		1,8,2,3,GTK_FILL,GTK_FILL,0,0);
-	gtk_table_attach(dlg->table_section,
-		(GtkWidget*)dlg->label_variations,0,7,3,4,0,0,0,0);
-	gtk_table_attach_defaults(dlg->table_section,
-		(GtkWidget*)dlg->editor_section->scrolled,0,7,4,5);
-	gtk_table_attach(dlg->table_section,(GtkWidget*)dlg->vbox_section,
-		7,8,4,5,GTK_FILL,GTK_FILL,0,0);
+	dlg->table_section = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(dlg->table_section,(GtkWidget*)dlg->hbox_section,
+		1,0,7,1);
+	gtk_grid_attach(dlg->table_section,(GtkWidget*)dlg->label_x,
+		1,1,1,1);
+	gtk_grid_attach(dlg->table_section,(GtkWidget*)dlg->entry_x,
+		2,1,1,1);
+	gtk_grid_attach(dlg->table_section,(GtkWidget*)dlg->label_y,
+		3,1,1,1);
+	gtk_grid_attach(dlg->table_section,(GtkWidget*)dlg->entry_y,
+		4,1,1,1);
+	gtk_grid_attach(dlg->table_section,(GtkWidget*)dlg->label_angle,
+		5,1,1,1);
+	gtk_grid_attach(dlg->table_section,(GtkWidget*)dlg->entry_angle,
+		7,1,1,1);
+	gtk_grid_attach(dlg->table_section,(GtkWidget*)dlg->frame_section,
+		0,0,1,3);
+	gtk_grid_attach(dlg->table_section,(GtkWidget*)dlg->table_section_type,
+		1,2,7,1);
+	gtk_grid_attach(dlg->table_section,(GtkWidget*)dlg->label_variations,
+		0,3,7,1);
+	gtk_grid_attach_defaults(dlg->table_section,
+		(GtkWidget*)dlg->editor_section->scrolled,
+		0,4,7,1);
+	gtk_grid_attach(dlg->table_section,(GtkWidget*)dlg->vbox_section,
+		7,4,1,1);
 	editor_paned
 		(&dlg->paned_section,dlg->table_section,dlg->graphic_section);
 
@@ -3006,23 +2950,19 @@ void editor_channel_new(EditorChannel *dlg,Channel *c)
 		dlg->editor_transient=(JBWArrayEditor*)jbw_array_editor_new
 			(3,2,1,label_transient);
 	#endif
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-	dlg->graphic_transient = (JBWGraphic*)jbw_graphic_new
-		(glconfig,0,5,5,5,editor_channel_draw_transient);
-#else
 	dlg->graphic_transient =
 		(JBWGraphic*)jbw_graphic_new(0,5,5,5,editor_channel_draw_transient);
-#endif
 	jbw_graphic_set_xlabel(dlg->graphic_transient,gettext("y"));
 	jbw_graphic_set_ylabel(dlg->graphic_transient,gettext("z"));
 	jbw_graphic_set_logo(dlg->graphic_transient, "swigs.png");
-	dlg->table_transient = (GtkTable*)gtk_table_new(0,0,0);
-	gtk_table_attach(dlg->table_transient,(GtkWidget*)dlg->hbox_transient,
-		0,2,0,1,GTK_FILL,0,0,0);
-	gtk_table_attach_defaults(dlg->table_transient,
-		(GtkWidget*)dlg->editor_transient->scrolled,0,1,1,2);
-	gtk_table_attach(dlg->table_transient,(GtkWidget*)dlg->vbox_transient,
-		1,2,1,2,GTK_FILL,GTK_FILL,0,0);
+	dlg->table_transient = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(dlg->table_transient,(GtkWidget*)dlg->hbox_transient,
+		0,0,2,1);
+	gtk_grid_attach(dlg->table_transient,
+		(GtkWidget*)dlg->editor_transient->scrolled,
+		0,1,1,1);
+	gtk_grid_attach(dlg->table_transient,(GtkWidget*)dlg->vbox_transient,
+		1,1,1,1);
 	editor_paned(&dlg->paned_transient,dlg->table_transient,
 		dlg->graphic_transient);
 
@@ -3052,18 +2992,14 @@ void editor_channel_new(EditorChannel *dlg,Channel *c)
 	editor_channel_vbox(&dlg->vbox_if,dlg->button_insert_if,
 		dlg->button_delete_if,dlg->button_update_if);
 	dlg->editor_if = jbw_array_editor_new(3,3,1,label_if);
-	dlg->table_if = (GtkTable*)gtk_table_new(0,0,0);
-	gtk_table_attach_defaults(dlg->table_if,
-		(GtkWidget*)dlg->editor_if->scrolled,0,1,0,1);
-	gtk_table_attach(dlg->table_if,(GtkWidget*)dlg->vbox_if,
-		1,2,0,1,GTK_FILL,GTK_FILL,0,0);
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-	dlg->graphic_if = (JBWGraphic*)jbw_graphic_new
-		(glconfig,0,5,5,5,editor_channel_draw_if);
-#else
+	dlg->table_if = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(dlg->table_if,
+		(GtkWidget*)dlg->editor_if->scrolled,
+		0,0,1,1);
+	gtk_grid_attach(dlg->table_if,(GtkWidget*)dlg->vbox_if,
+		1,0,1,1);
 	dlg->graphic_if =
 		(JBWGraphic*)jbw_graphic_new(0,5,5,5,editor_channel_draw_if);
-#endif
 	jbw_graphic_set_xlabel(dlg->graphic_if,gettext("x"));
 	jbw_graphic_set_ylabel(dlg->graphic_if,gettext("Discharge"));
 	jbw_graphic_set_logo(dlg->graphic_if, "swigs.png");
@@ -3077,21 +3013,12 @@ void editor_channel_new(EditorChannel *dlg,Channel *c)
 		fprintf(stderr,"ECN: flow boundary conditions\n");
 	#endif
 #if EDITOR_BF
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-	editor_bf_create(dlg->editor_bf_inlet,EDITOR_BF_TYPE_IO,glconfig,
-		(void(*)())editor_channel_update_inlet,editor_channel_draw_inlet,
-		(void*)dlg);
-	editor_bf_create(dlg->editor_bf_outlet,EDITOR_BF_TYPE_IO,glconfig,
-		(void(*)())editor_channel_update_outlet,editor_channel_draw_outlet,
-		(void*)dlg);
-#else
 	editor_bf_create(dlg->editor_bf_inlet,EDITOR_BF_TYPE_IO,
 		(void(*)())editor_channel_update_inlet,editor_channel_draw_inlet,
 		(void*)dlg);
 	editor_bf_create(dlg->editor_bf_outlet,EDITOR_BF_TYPE_IO,
 		(void(*)())editor_channel_update_outlet,editor_channel_draw_outlet,
 		(void*)dlg);
-#endif
 	editor_channel_hbox(&dlg->hbox_bf,&dlg->label_bf,
 		&dlg->combo_bf,&dlg->button_bf_up,&dlg->button_bf_down,0);
 	dlg->button_insert_bf =
@@ -3102,15 +3029,9 @@ void editor_channel_new(EditorChannel *dlg,Channel *c)
 		(GtkWidget*)dlg->button_insert_bf,0,1,0);
 	gtk_box_pack_start((GtkBox*)dlg->hbox_bf,
 		(GtkWidget*)dlg->button_delete_bf,0,1,0);
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-	editor_bf_create(dlg->editor_bf_inner,EDITOR_BF_TYPE_INNER,glconfig,
-		(void(*)())editor_channel_update_inner,editor_channel_draw_inner,
-		(void*)dlg);
-#else
 	editor_bf_create(dlg->editor_bf_inner,EDITOR_BF_TYPE_INNER,
 		(void(*)())editor_channel_update_inner,editor_channel_draw_inner,
 		(void*)dlg);
-#endif
 	dlg->label_inner_initial =
 		(GtkLabel*)gtk_label_new(gettext("Initial section"));
 	dlg->entry_inner_initial = jbw_int_entry_new();
@@ -3167,18 +3088,14 @@ void editor_channel_new(EditorChannel *dlg,Channel *c)
 	editor_channel_vbox(&dlg->vbox_it,dlg->button_insert_it,
 		dlg->button_delete_it,dlg->button_update_it);
 	dlg->editor_it = jbw_array_editor_new(2,2,1,label_it);
-	dlg->table_it = (GtkTable*)gtk_table_new(0,0,0);
-	gtk_table_attach_defaults(dlg->table_it,
-		(GtkWidget*)dlg->editor_it->scrolled,0,1,0,1);
-	gtk_table_attach(dlg->table_it,(GtkWidget*)dlg->vbox_it,
-		1,2,0,1,GTK_FILL,GTK_FILL,0,0);
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-	dlg->graphic_it = (JBWGraphic*)jbw_graphic_new
-		(glconfig,0,5,5,5,editor_channel_draw_it);
-#else
+	dlg->table_it = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(dlg->table_it,
+		(GtkWidget*)dlg->editor_it->scrolled,
+		0,0,1,1);
+	gtk_grid_attach(dlg->table_it,(GtkWidget*)dlg->vbox_it,
+		1,0,1,1);
 	dlg->graphic_it =
 		(JBWGraphic*)jbw_graphic_new(0,5,5,5,editor_channel_draw_it);
-#endif
 	jbw_graphic_set_xlabel(dlg->graphic_it,gettext("x"));
 	jbw_graphic_set_ylabel(dlg->graphic_it,gettext("Concentration"));
 	jbw_graphic_set_logo(dlg->graphic_it, "swigs.png");
@@ -3238,34 +3155,31 @@ void editor_channel_new(EditorChannel *dlg,Channel *c)
 	editor_channel_vbox(&dlg->vbox_bt2,dlg->button_insert_bt,
 		dlg->button_delete_bt,dlg->button_update_bt);
 	dlg->editor_bt = jbw_array_editor_new(2,2,1,label_bt2);
-	dlg->table_bt2 = (GtkTable*)gtk_table_new(0,0,0);
-	gtk_table_attach_defaults(dlg->table_bt2,
-		(GtkWidget*)dlg->editor_bt->scrolled,0,1,0,1);
-	gtk_table_attach(dlg->table_bt2,(GtkWidget*)dlg->vbox_bt2,
-		1,2,0,1,GTK_FILL,GTK_FILL,0,0);
-#if JBW_GRAPHIC==JBW_GRAPHIC_GTKGLEXT
-	dlg->graphic_bt = (JBWGraphic*)jbw_graphic_new
-		(glconfig,0,5,5,5,editor_channel_draw_bt);
-#else
+	dlg->table_bt2 = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(dlg->table_bt2,
+		(GtkWidget*)dlg->editor_bt->scrolled,
+		0,0,1,1);
+	gtk_grid_attach(dlg->table_bt2,(GtkWidget*)dlg->vbox_bt2,
+		1,0,1,1);
 	dlg->graphic_bt =
 		(JBWGraphic*)jbw_graphic_new(0,5,5,5,editor_channel_draw_bt);
-#endif
 	jbw_graphic_set_logo(dlg->graphic_bt, "swigs.png");
 	editor_paned(&dlg->paned_bt,dlg->table_bt2,dlg->graphic_bt);
-	dlg->table_bt = (GtkTable*)gtk_table_new(0,0,0);
-	gtk_table_attach(dlg->table_bt,(GtkWidget*)dlg->hbox_bt2,
-		0,3,0,1,GTK_FILL,0,0,0);
-	gtk_table_attach(dlg->table_bt,(GtkWidget*)dlg->frame_bt,
-		0,1,1,8,0,GTK_EXPAND|GTK_FILL,0,0);
-	gtk_table_attach(dlg->table_bt,(GtkWidget*)dlg->label_bt_time,
-		1,2,1,2,0,0,0,0);
-	gtk_table_attach(dlg->table_bt,(GtkWidget*)dlg->entry_bt_time,
-		2,3,1,2,GTK_EXPAND|GTK_FILL,0,0,0);
-	gtk_table_attach(dlg->table_bt,(GtkWidget*)dlg->label_bt_mass,
-		1,2,2,3,0,0,0,0);
-	gtk_table_attach(dlg->table_bt,(GtkWidget*)dlg->entry_bt_mass,
-		2,3,2,3,GTK_EXPAND|GTK_FILL,0,0,0);
-	gtk_table_attach_defaults(dlg->table_bt,(GtkWidget*)dlg->paned_bt,1,3,3,4);
+	dlg->table_bt = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(dlg->table_bt,(GtkWidget*)dlg->hbox_bt2,
+		0,0,3,1);
+	gtk_grid_attach(dlg->table_bt,(GtkWidget*)dlg->frame_bt,
+		0,1,1,7);
+	gtk_grid_attach(dlg->table_bt,(GtkWidget*)dlg->label_bt_time,
+		1,1,1,1);
+	gtk_grid_attach(dlg->table_bt,(GtkWidget*)dlg->entry_bt_time,
+		2,1,1,1);
+	gtk_grid_attach(dlg->table_bt,(GtkWidget*)dlg->label_bt_mass,
+		1,2,1,1);
+	gtk_grid_attach(dlg->table_bt,(GtkWidget*)dlg->entry_bt_mass,
+		2,2,1,1);
+	gtk_grid_attach(dlg->table_bt,(GtkWidget*)dlg->paned_bt,
+		1,3,2,1);
 	dlg->label_bt_initial =
 		(GtkLabel*)gtk_label_new(gettext("Initial section"));
 	dlg->entry_bt_initial = jbw_int_entry_new();

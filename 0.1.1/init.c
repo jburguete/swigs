@@ -335,16 +335,16 @@ solution:
 	i=vsize/sizeof(JBFLOAT);
 	if (xmlHasProp(node,XML_SOLUTION))
 	{
-		qerror=jbm_file_mean_square_error
+		qerror=jbm_file_root_mean_square_error
 			((char*)xmlGetProp(node,XML_NAME),1,2,i,
 			(char*)xmlGetProp(node,XML_SOLUTION),1,2,i);
-		herror=jbm_file_mean_square_error
+		herror=jbm_file_root_mean_square_error
 			((char*)xmlGetProp(node,XML_NAME),1,5,i,
 			(char*)xmlGetProp(node,XML_SOLUTION),1,5,i);
 		printf("qerror="FWL" herror="FWL,qerror,herror);
 		if (i>N_OF_VARIABLES)
 		{
-			serror=jbm_file_mean_square_error
+			serror=jbm_file_root_mean_square_error
 				((char*)xmlGetProp(node,XML_NAME),1,9,i,
 				(char*)xmlGetProp(node,XML_SOLUTION),1,9,i);
 			printf(" serror="FWL,serror);
@@ -547,7 +547,6 @@ int main(int argn,char **argc)
 	#if DEBUG_MAIN
 		fprintf(stderr,"Main\n");
 	#endif
-	g_thread_init(NULL);
 /*
 	#ifdef G_OS_WIN32
 		nthreads=8;
@@ -556,7 +555,6 @@ int main(int argn,char **argc)
 	#endif
 */
 	nthreads=1;
-	mutex=g_mutex_new();
 	v->x = NULL;
 	xmlKeepBlanksDefault(0);
 	xmlSetCompressMode(9);

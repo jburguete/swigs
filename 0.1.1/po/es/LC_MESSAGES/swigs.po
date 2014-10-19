@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: swigs 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-10 16:47+0200\n"
+"POT-Creation-Date: 2014-10-19 05:28+0200\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -19,8 +19,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: transient_section.h:166 transient_section.h:204 transient_section.h:288
-#: transient_section.h:299 dialog_graphical_options.c:317
-#: dialog_graphical_options.c:386 dialog_graphical_options.c:403
+#: transient_section.h:299 dialog_graphical_options.c:296
+#: dialog_graphical_options.c:356 dialog_graphical_options.c:370
 msgid "Transient section"
 msgstr "Sección transitoria"
 
@@ -211,7 +211,7 @@ msgstr "Número de sección incorrecto"
 msgid "Mixing frontal and lateral junctions"
 msgstr "Mezcla de confluencias frontales y laterales"
 
-#: system.h:382 write.h:360 draw.h:93 init.c:433 dialog_system.c:78
+#: system.h:382 write.h:360 draw.h:90 init.c:433 dialog_system.c:78
 #: dialog_save_solution.c:45 dialog_save_solution.c:157
 msgid "Unable to open the file"
 msgstr "No se pudo abrir el fichero"
@@ -333,21 +333,21 @@ msgid "Mesh"
 msgstr "Malla"
 
 #: write.h:239 dialog_save_solution.c:110 dialog_save_solution.c:157
-#: dialog_simulator.c:264
+#: dialog_simulator.c:258
 msgid "Save solution"
 msgstr "Guardar solución"
 
-#: write.h:295 write.h:381 dialog_graphical_options.c:402
+#: write.h:295 write.h:381 dialog_graphical_options.c:369
 #: dialog_save_solution.c:97
 msgid "Time evolution"
 msgstr "Evolución temporal"
 
-#: write.h:360 draw.h:93 init.c:264 init.c:270 init.c:279 init.c:287
+#: write.h:360 draw.h:90 init.c:264 init.c:270 init.c:279 init.c:287
 #: init.c:315 init.c:320 init.c:433 dialog_save_solution.c:45
 msgid "Solution"
 msgstr "Solución"
 
-#: system.c:103 mesh.c:212 init.c:591 init.c:630
+#: system.c:103 mesh.c:212 init.c:589 init.c:628
 msgid "Usage is"
 msgstr "El uso es"
 
@@ -443,15 +443,15 @@ msgstr "No se pudo abrir el fichero"
 msgid "Bad simulation XML file"
 msgstr "Fichero XML de simulación incorrecto"
 
-#: init.c:580
+#: init.c:578
 msgid "Unable to open the external libraries"
 msgstr "No se pudieron abrir las librerías externas"
 
-#: init.c:592
+#: init.c:590
 msgid "swigs [-np number_of_processors]"
 msgstr "swigs [-np número_de_procesadores]"
 
-#: init.c:631
+#: init.c:629
 msgid "swigs [-np number_of_processors] simulation_file"
 msgstr "swigs [-np número_de_procesadores] fichero_de_simulación"
 
@@ -465,7 +465,7 @@ msgid "XML system file (*.xml, *.XML)"
 msgstr "Fichero de sistema XML (*.xml, *.XML)"
 
 #: dialog_system.c:47 dialog_system.c:52 dialog_system.c:77
-#: dialog_simulator.c:261
+#: dialog_simulator.c:255
 msgid "Open system"
 msgstr "Abrir sistema"
 
@@ -477,8 +477,8 @@ msgstr "Caudal"
 msgid "Depth"
 msgstr "Calado"
 
-#: dialog_graphical_options.c:39 dialog_graphical_options.c:380
-#: dialog_simulator.c:188
+#: dialog_graphical_options.c:39 dialog_graphical_options.c:350
+#: dialog_simulator.c:184
 msgid "Level"
 msgstr "Cota"
 
@@ -518,47 +518,47 @@ msgstr "A_juste manual"
 msgid "_Show grid"
 msgstr "_Mostrar rejilla"
 
-#: dialog_graphical_options.c:128 dialog_graphical_options.c:154
-#: dialog_graphical_options.c:182 dialog_graphical_options.c:237
-#: dialog_graphical_options.c:263 dialog_graphical_options.c:291
-#: dialog_graphical_options.c:338 dialog_graphical_options.c:361
+#: dialog_graphical_options.c:128 dialog_graphical_options.c:151
+#: dialog_graphical_options.c:176 dialog_graphical_options.c:225
+#: dialog_graphical_options.c:248 dialog_graphical_options.c:273
+#: dialog_graphical_options.c:314 dialog_graphical_options.c:334
 msgid "Maximum"
 msgstr "Máximo"
 
-#: dialog_graphical_options.c:131 dialog_graphical_options.c:157
-#: dialog_graphical_options.c:185 dialog_graphical_options.c:240
-#: dialog_graphical_options.c:266 dialog_graphical_options.c:294
-#: dialog_graphical_options.c:341 dialog_graphical_options.c:364
+#: dialog_graphical_options.c:131 dialog_graphical_options.c:154
+#: dialog_graphical_options.c:179 dialog_graphical_options.c:228
+#: dialog_graphical_options.c:251 dialog_graphical_options.c:276
+#: dialog_graphical_options.c:317 dialog_graphical_options.c:337
 msgid "Minimum"
 msgstr "Mínimo"
 
-#: dialog_graphical_options.c:147 dialog_graphical_options.c:357
-#: dialog_simulator.c:155
+#: dialog_graphical_options.c:144 dialog_graphical_options.c:330
+#: dialog_simulator.c:151
 msgid "Position"
 msgstr "Posición"
 
-#: dialog_graphical_options.c:175 dialog_graphical_options.c:284
+#: dialog_graphical_options.c:169 dialog_graphical_options.c:266
 msgid "Parameter 1"
 msgstr "Parámetro 1"
 
-#: dialog_graphical_options.c:203 dialog_graphical_options.c:312
+#: dialog_graphical_options.c:194 dialog_graphical_options.c:291
 msgid "Parameter 2"
 msgstr "Parámetro 2"
 
-#: dialog_graphical_options.c:227 dialog_graphical_options.c:256
-#: dialog_save_solution.c:80 dialog_simulator.c:173
+#: dialog_graphical_options.c:215 dialog_graphical_options.c:241
+#: dialog_save_solution.c:80 dialog_simulator.c:169
 msgid "Time"
 msgstr "Tiempo"
 
-#: dialog_graphical_options.c:401 dialog_save_solution.c:96
+#: dialog_graphical_options.c:368 dialog_save_solution.c:96
 msgid "Longitudinal profile"
 msgstr "Perfil longitudinal"
 
-#: dialog_graphical_options.c:424
+#: dialog_graphical_options.c:391
 msgid "Animation"
 msgstr "Animación"
 
-#: dialog_graphical_options.c:444 dialog_simulator.c:266
+#: dialog_graphical_options.c:411 dialog_simulator.c:260
 msgid "Graphical options"
 msgstr "Opciones gráficas"
 
@@ -582,24 +582,24 @@ msgstr "Contribuciones internas"
 msgid "Oulet contributions"
 msgstr "Contribuciones de la salida"
 
-#: dialog_mass.c:44 dialog_mass.c:112 dialog_simulator.c:264
-#: dialog_simulator.c:369
+#: dialog_mass.c:44 dialog_mass.c:110 dialog_simulator.c:258
+#: dialog_simulator.c:359
 msgid "Conservation error"
 msgstr "Error de conservación"
 
-#: dialog_mass.c:102
+#: dialog_mass.c:100
 msgid "Flow"
 msgstr "Flujo"
 
-#: dialog_simulator.c:67 dialog_simulator.c:262
+#: dialog_simulator.c:63 dialog_simulator.c:256
 msgid "Save system as"
 msgstr "Guardar sistema _como"
 
-#: dialog_simulator.c:121
+#: dialog_simulator.c:117
 msgid "About"
 msgstr "Acerca"
 
-#: dialog_simulator.c:122
+#: dialog_simulator.c:118
 msgid ""
 "SWIGS 0.1.0\n"
 "Simulator of systems of open channels and rivers flow\n"
@@ -617,135 +617,135 @@ msgstr ""
 "Teléfono: (034+) 976 491 996\n"
 "Copyright (c) 2005-2014 Javier Burguete. Todos los derechos reservados"
 
-#: dialog_simulator.c:142 dialog_simulator.c:189
+#: dialog_simulator.c:138 dialog_simulator.c:185
 msgid "Bed level"
 msgstr "Fondo"
 
-#: dialog_simulator.c:143
+#: dialog_simulator.c:139
 msgid "Critical velocity"
 msgstr "Velocidad crítica"
 
-#: dialog_simulator.c:248
+#: dialog_simulator.c:242
 msgid "_Channel"
 msgstr "_Cauce"
 
-#: dialog_simulator.c:249
+#: dialog_simulator.c:243
 msgid "_Simulate"
 msgstr "_Simular"
 
-#: dialog_simulator.c:249
+#: dialog_simulator.c:243
 msgid "_Graphical"
 msgstr "_Gráficas"
 
-#: dialog_simulator.c:249
+#: dialog_simulator.c:243
 msgid "_Help"
 msgstr "A_yuda"
 
-#: dialog_simulator.c:250
+#: dialog_simulator.c:244
 msgid "_New"
 msgstr "_Nuevo"
 
-#: dialog_simulator.c:251
+#: dialog_simulator.c:245
 msgid "_Open"
 msgstr "_Abrir"
 
-#: dialog_simulator.c:251
+#: dialog_simulator.c:245
 msgid "_Edit"
 msgstr "_Editar"
 
-#: dialog_simulator.c:251
+#: dialog_simulator.c:245
 msgid "_Save"
 msgstr "_Guardar"
 
-#: dialog_simulator.c:251
+#: dialog_simulator.c:245
 msgid "S_ave as"
 msgstr "Guardar _como"
 
-#: dialog_simulator.c:252
+#: dialog_simulator.c:246
 msgid "E_xit"
 msgstr "_Salir"
 
-#: dialog_simulator.c:254
+#: dialog_simulator.c:248
 msgid "_Start"
 msgstr "_Iniciar"
 
-#: dialog_simulator.c:254
+#: dialog_simulator.c:248
 msgid "Sto_p"
 msgstr "_Parar"
 
-#: dialog_simulator.c:255
+#: dialog_simulator.c:249
 msgid "Conse_rvation error"
 msgstr "E_rror de conservación"
 
-#: dialog_simulator.c:256
+#: dialog_simulator.c:250
 msgid "Sa_ve solution"
 msgstr "_Guardar solución"
 
-#: dialog_simulator.c:256
+#: dialog_simulator.c:250
 msgid "Save _graphical"
 msgstr "Guardar grá_fica"
 
-#: dialog_simulator.c:257
+#: dialog_simulator.c:251
 msgid "_Options"
 msgstr "_Opciones"
 
-#: dialog_simulator.c:258
+#: dialog_simulator.c:252
 msgid "_View animation"
 msgstr "_Ver animación"
 
-#: dialog_simulator.c:258
+#: dialog_simulator.c:252
 msgid "_Stop animation"
 msgstr "_Parar animación"
 
-#: dialog_simulator.c:259
+#: dialog_simulator.c:253
 msgid "_About"
 msgstr "_Acerca"
 
-#: dialog_simulator.c:260
+#: dialog_simulator.c:254
 msgid "Exit"
 msgstr "Salir"
 
-#: dialog_simulator.c:261
+#: dialog_simulator.c:255
 msgid "New system"
 msgstr "Nuevo sistema"
 
-#: dialog_simulator.c:261
+#: dialog_simulator.c:255
 msgid "Edit system"
 msgstr "Editar sistema"
 
-#: dialog_simulator.c:262
+#: dialog_simulator.c:256
 msgid "Save system"
 msgstr "Guardar sistema"
 
-#: dialog_simulator.c:263
+#: dialog_simulator.c:257
 msgid "Start simulation"
 msgstr "Iniciar simulación"
 
-#: dialog_simulator.c:263
+#: dialog_simulator.c:257
 msgid "Stop simulation"
 msgstr "Parar simulación"
 
-#: dialog_simulator.c:265
+#: dialog_simulator.c:259
 msgid "Save graphical"
 msgstr "Guardar gráfica"
 
-#: dialog_simulator.c:266
+#: dialog_simulator.c:260
 msgid "View animation"
 msgstr "Ver animación"
 
-#: dialog_simulator.c:267
+#: dialog_simulator.c:261
 msgid "Stop animation"
 msgstr "Parar animación"
 
-#: dialog_simulator.c:267
+#: dialog_simulator.c:261
 msgid "Help"
 msgstr "Ayuda"
 
-#: dialog_simulator.c:360
+#: dialog_simulator.c:350
 msgid "Simulation time"
 msgstr "Tiempo de simulación"
 
-#: dialog_simulator.c:364
+#: dialog_simulator.c:354
 msgid "Computational time"
 msgstr "Tiempo de cálculo"
 

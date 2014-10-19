@@ -32,7 +32,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "channel_geometry.h"
 
-extern GMutex *mutex;
+extern GMutex mutex[1];
 
 extern JBDOUBLE t,tmax;
 
