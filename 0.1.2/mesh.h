@@ -33,7 +33,7 @@ mesh.h
 Header file to define the mesh
 
 Author: Javier Burguete Tolosa
-Copyright (c) 2005-2014. All right reserved
+Copyright 2005-2014 Javier Burguete Tolosa. All right reserved
 */
 
 #ifndef MESH__H
@@ -1603,7 +1603,6 @@ static inline int _mesh_open
 	char *me;
 	JBFLOAT *x,*li;
 	GThread *thread[nth];
-	GError *error;
 	CrossSection *cs;
 	ChannelGeometry *cg;
 	ChannelTransport *ct;
@@ -1907,8 +1906,8 @@ static inline int _mesh_open
   	else
 	{
 		for (i=nth; --i>=0;)
-			thread[i]=g_thread_create
-				((void(*))part_open_exit,(void*)(size_t)i,TRUE,&error);
+			thread[i] = g_thread_new
+				(NULL, (void(*))part_open_exit, (void*)(size_t)i);
 		for (i=nth, j=1; --i>=0;) j*=(size_t)g_thread_join(thread[i]);
 		if (!j) goto error2;
 		for (i=0; ++i<=nth;)

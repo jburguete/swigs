@@ -1,4 +1,4 @@
-SWIGS (0.1.0 version)
+SWIGS (0.1.2 version)
 ====================
 
 SWIGS (Shallow Water in Irregular Geometries Simulator): a software to simulate
@@ -56,7 +56,7 @@ ___________________
 Debian Hurd 7.6
 _______________
 FreeBSD 10.0
-___________
+____________
 NetBSD 6.1.4 (with modular xorg)
 ____________
 

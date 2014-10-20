@@ -33,7 +33,7 @@ simulate.h
 Header file defining the main functions of the simulation
 
 Author: Javier Burguete Tolosa
-Copyright (c) 2005-2014. All rights reserved
+Copyright 2005-2014 Javier Burguete Tolosa. All rights reserved
 */
 
 #ifndef SIMULATE_H

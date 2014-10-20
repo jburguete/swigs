@@ -33,7 +33,7 @@ write.h
 Header file to define file inputs and outputs
 
 Author: Javier Burguete Tolosa
-Copyright (c) 2005-2014. All rights reserved
+Copyright 2005-2014 Javier Burguete Tolosa. All rights reserved
 */
 
 

@@ -33,7 +33,7 @@ simulate.c
 Source file defining the main functions of the simulation
 
 Author: Javier Burguete Tolosa
-Copyright (c) 2005-2011. All rights reserved
+Copyright 2005-2014 Javier Burguete Tolosa. All rights reserved
 */
 
 #define _GNU_SOURCE
@@ -352,7 +352,7 @@ int simulate_start()
 		fprintf(stderr,"SS tf="FWL"\n",tf);
 	#endif
 	ti = sys->measured_interval;
-	if (ti<=0.) ti=tf;
+	if (ti<=0.) ti=tf-t0;
 	fcfl = sys->cfl;
 
 	fo=flow_implicit;

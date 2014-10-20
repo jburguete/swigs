@@ -34,7 +34,7 @@ Header file defining the main functions of the numerical methods of solute
 transport
 
 Author: Javier Burguete Tolosa
-Copyright (c) 2005-2011. All rights reserved
+Copyright 2005-2014 Javier Burguete Tolosa. All rights reserved
 */
 
 #ifndef TRANSPORT_SIMULATE__H
@@ -243,14 +243,13 @@ static inline void _system_transport_step_parallel()
 {
 	int i;
 	GThread *thread[nth];
-	GError *error;
 	#if DEBUG_SYSTEM_TRANSPORT_STEP_PARALLEL
 		if (t>=DEBUG_TIME)
 			fprintf(stderr,"system_transport_step_parallel: start\n");
 	#endif
 	for (i=0; i<nth; ++i)
-		thread[i]=g_thread_create
-			((void(*))part_transport_step,(void*)(size_t)i,TRUE,&error);
+		thread[i] = g_thread_new
+			(NULL, (void(*))part_transport_step, (void*)(size_t)i);
 	for (i=0; i<nth; ++i) g_thread_join(thread[i]);
 	for (i=0; i<=njunctions; ++i) junction_transport_scheme(junction+i);
 	#if DEBUG_SYSTEM_TRANSPORT_STEP_PARALLEL

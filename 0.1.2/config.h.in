@@ -48,12 +48,19 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \brief Buffer size to optimize memory reallocations.
  * \def DEBUG_TIME
  * \brief Macro selecting the simulation time to start the debug process.
+ * \def MAXIMUM_SOLUTION_ERROR
+ * \brief Maximum allowed error in discharge in steady initial conditions.
+ * \def CFL_DEFAULT
+ * \brief Default CFL number.
+ * \def flow_implicit
+ * \brief Implicit coefficient for source terms.
+ * \def FRICTION_CFL
+ * \brief Number controlling the maximum time step size allowed by friction.
  */
 #define INTERFACE INTERFACE_MARKET
 #define GUAD2D 0
 #define BLOCK_REALLOC 1024
 #define DEBUG_TIME 0.
-
 #define MAXIMUM_SOLUTION_ERROR 1e-11
 #define CFL_DEFAULT 0.9
 #define flow_implicit 0.5
@@ -87,8 +94,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define TRANSPORT_DISCRETIZATION TRANSPORT_DISCRETIZATION_COUPLED
 
 #define FLUX_LIMITER_DISCRETIZATION FLUX_LIMITER_DISCRETIZATION_CHARACTERISTIC
-#define FLOW_FLUX_LIMITER FLOW_FLUX_LIMITER_BURGUETE
-#define TRANSPORT_FLUX_LIMITER TRANSPORT_FLUX_LIMITER_BURGUETE
+#define FLOW_FLUX_LIMITER FLOW_FLUX_LIMITER_MONOTONIZED_CENTRAL
+#define TRANSPORT_FLUX_LIMITER TRANSPORT_FLUX_LIMITER_MONOTONIZED_CENTRAL
 
 #define FLOW_WAVE_DECOMPOSITION FLOW_WAVE_DECOMPOSITION_TVD2
 #define DIFFUSION_SCHEME DIFFUSION_SCHEME_EXPLICIT

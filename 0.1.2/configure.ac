@@ -1,6 +1,15 @@
-# To work in Debian (Linux, kFreeBSD or Hurd) or in FreeBSD:
+# To work in:
+#   - Debian Linux 7.6
+#   - Debian kFreeBSD 7.6
+#   - Debian Hurd 7.6
+#   - FreeBSD 10.0
+#   - NetBSD 6.1.5 (with modular xorg)
+#   - Windows XP 32 bits with MinGW/MSYS
+#   - Windows 7 32 bits with MinGW/MSYS
+#
 # aclocal
 # autoconf
+# automake --add-missing
 # ./configure
 # make
 
@@ -8,20 +17,6 @@
 # aclocal -I /mingw/share/aclocal
 # autoconf
 # CPPFLAGS='-I/mingw/include -I/mingw/x86_64-w64-mingw32/include' configure --host=x86_64-w64-mingw32
-# make
-
-# To work in Microsoft Windows (32 bits) with MinGW/MSYS:
-# aclocal
-# autoconf
-# LDFLAGS='-lglut -lopengl32' configure --host=mingw32
-# make
-
-# To work in NetBSD:
-# ln -s /usr/X11R7/include/GL/glu.h /usr/pkg/include/GL
-# ln -s /usr/X11R7/lib/libGL.so.2 /usr/pkg/lib
-# aclocal
-# autoconf
-# CPPFLAGS=-I/usr/pkg/include LDFLAGS=-L/usr/pkg/lib ./configure --host=x86_64--netbsd
 # make
 
 # To work in OpenBSD:
@@ -40,32 +35,33 @@
 # ./configure --host=x86_64-pc-dragonfly
 # make
 
-AC_PREREQ([2.68])
-AC_INIT([SWIGS], [4.3.7])
+AC_PREREQ([2.67])
+AC_INIT([SWIGS], [0.1.2])
 
 # Checks for operative systems
-#AC_CANONICAL_HOST: Requires automake
+AC_CANONICAL_HOST
+AM_INIT_AUTOMAKE
 AC_MSG_NOTICE([System: $host])
 if test $host = "x86_64-w64-mingw32"; then
 	AC_MSG_NOTICE([Microsoft Windows 64 bits])
-	AC_SUBST(bindir, [../4.2.1/win64/bin/])
-	AC_SUBST(etcdir, [../4.2.1/win64/etc/])
-	AC_SUBST(libdir, [../4.2.1/win64/lib/])
-	AC_SUBST(localdir, [../4.2.1/win64/share/locale/])
+	AC_SUBST(bindir, [../0.0.0/win64/bin/])
+	AC_SUBST(etcdir, [../0.0.0/win64/etc/])
+	AC_SUBST(libdir, [../0.0.0/win64/lib/])
+	AC_SUBST(localdir, [../0.0.0/win64/share/locale/])
 	AC_SUBST(sysdir, [/mingw/])
-	AC_SUBST(basedir, [../4.2.1/win64/])
+	AC_SUBST(basedir, [../0.0.0/win64/])
 	AC_SUBST(icon, [logo.o])
 	AC_SUBST(ccflags, "-march=corei7 -mfpmath=sse -msse3")
 	AC_SUBST(libgcc, "libgcc_s_seh-1")
 	win=1
-elif test $host = "mingw32"; then
+elif test $host = "i686-pc-win32"; then
 	AC_MSG_NOTICE([Microsoft Windows 32 bits])
-	AC_SUBST(bindir, [../4.2.1/win32/bin/])
-	AC_SUBST(etcdir, [../4.2.1/win32/etc/])
-	AC_SUBST(libdir, [../4.2.1/win32/lib/])
-	AC_SUBST(localdir, [../4.2.1/win32/share/locale/])
+	AC_SUBST(bindir, [../0.0.0/win32/bin/])
+	AC_SUBST(etcdir, [../0.0.0/win32/etc/])
+	AC_SUBST(libdir, [../0.0.0/win32/lib/])
+	AC_SUBST(localdir, [../0.0.0/win32/share/locale/])
 	AC_SUBST(sysdir, [/mingw/])
-	AC_SUBST(basedir, [../4.2.1/win32/])
+	AC_SUBST(basedir, [../0.0.0/win32/])
 	AC_SUBST(icon, [logo.o])
 	AC_SUBST(ccflags, "-march=pentium4 -mfpmath=sse -msse2")
 	AC_SUBST(libgcc, "libgcc_s_dw2-1")
@@ -80,26 +76,23 @@ else
 fi
 
 # Checks for programs
-AC_PROG_CC([gcc47 gcc46 egcc gcc clang])
+AC_PROG_CC([gcc49 gcc48 gcc47 gcc46 egcc gcc clang])
 AC_PROG_MAKE_SET
 AC_LANG([C])
 PKG_PROG_PKG_CONFIG
 
 # Checks for libraries.
+AC_MSG_NOTICE([GTK+ version 3])
+PKG_CHECK_MODULES([GTK], [gtk+-3.0], gtk3=1, gtk3=0)
+if test $gtk3 == 0; then
+	AC_MSG_NOTICE([GTK+ version 2])
+	PKG_CHECK_MODULES([GTK], [gtk+-2.0])
+fi
 if test $win = 0; then
 	AC_SUBST(latex, "pdflatex -shell-escape")
-	AC_MSG_NOTICE([GTK+ version 3])
-	PKG_CHECK_MODULES([GTK], [gtk+-3.0], gtk3=1, gtk3=0)
-	if test $gtk3 == 0; then
-		AC_MSG_NOTICE([GTK+ version 2])
-		PKG_CHECK_MODULES([GTK], [gtk+-2.0])
-	fi
 else
 	AC_CHECK_TOOL(WINDRES, windres)
 	AC_SUBST(latex, "pdflatex -enable-write18")
-	# On Microsof Windows GTK+2 works better than GTK+3
-	AC_MSG_NOTICE([GTK+ version 2])
-	PKG_CHECK_MODULES([GTK], [gtk+-2.0])
 fi
 AC_SEARCH_LIBS([glutInit], [freeglut glut])
 AC_SEARCH_LIBS([glEnd], [GL opengl32])

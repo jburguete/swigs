@@ -33,7 +33,7 @@ init.c
 Main source file of the swigs
 
 Author: Javier Burguete Tolosa
-Copyright (c) 2005-2014. All rights reserved
+Copyright 2005-2014 Javier Burguete Tolosa. All rights reserved
 */
 
 /*

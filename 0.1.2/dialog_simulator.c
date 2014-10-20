@@ -115,13 +115,13 @@ void dialog_simulator_animate(DialogSimulator *dlg)
 void dialog_simulator_about()
 {
 	jbw_show_message(gettext("About"),
-		gettext("SWIGS 0.1.0\n"
+		gettext("SWIGS 0.1.2\n"
 		"Simulator of systems of open channels and rivers flow\n"
 		"CSIC and University of Zaragoza (Spain)\n"
 		"Author: Javier Burguete Tolosa\n"
 		"E-Mail: jburguete@eead.csic.es\n"
 		"Phone: (034+) 976 491 996\n"
-		"Copyright (c) 2005-2014 Javier Burguete. All rights reserved"),
+		"Copyright 2005-2014 Javier Burguete Tolosa Javier Burguete. All rights reserved"),
 		GTK_MESSAGE_INFO);
 }
 

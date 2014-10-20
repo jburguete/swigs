@@ -65,7 +65,7 @@ void dialog_save_solution_new()
 	dlg.combo_profile=(GtkComboBoxText*)gtk_combo_box_text_new();
 	for (i=0; i<j; ++i)
 	{
-		t=fmin(i*ti,tf);
+		t=fmin(i*ti,tf-t0);
 		snprintf(string_profiles+32*i,32,FGF,t);
 		gtk_combo_box_text_append_text(dlg.combo_profile,string_profiles+32*i);
 	}

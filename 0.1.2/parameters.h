@@ -546,7 +546,6 @@ static inline void _system_dry_correction_parallel()
 {
 	int i;
 	GThread *thread[sys->n];
-	GError *error;
 	Channel *channel;
 	#if DEBUG_SYSTEM_DRY_CORRECTION_PARALLEL
 		if (t>=DEBUG_TIME)
@@ -556,8 +555,8 @@ static inline void _system_dry_correction_parallel()
 		}
 	#endif
 	for (i=sys->n, channel=sys->channel; i>=0; --i, ++channel) if (channel->dry)
-		thread[i]=g_thread_create
-			((void(*))channel_dry_correction_exit,(void*)channel,TRUE,&error);
+		thread[i] = g_thread_new
+			(NULL, (void(*))channel_dry_correction_exit, (void*)channel);
 	for (i=sys->n, channel=sys->channel; i>=0; --i, ++channel) if (channel->dry)
 		g_thread_join(thread[i]);
 	#if DEBUG_SYSTEM_DRY_CORRECTION_PARALLEL

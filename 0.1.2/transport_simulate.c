@@ -28,45 +28,41 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /*
-variables_mesh.c
+transport_simulate.c
 
-Source file to define the necessary variables to define a mesh
+Source file defining the main functions of the numerical methods of solute
+transport
 
 Author: Javier Burguete Tolosa
-Copyright (c) 2005-2014. All rights reserved
+Copyright 2005-2014 Javier Burguete Tolosa. All rights reserved
 */
 
-/*
-Global variables of swigs defined in variables_mesh.c
+#include "transport_simulate.h"
 
-int nth: number of threads compatible with the mesh
-int nthreads: number of threads
-JBDOUBLE t: simulation time
-JBDOUBLE dt: size of a time step
-JBDOUBLE tmax: time of the next time step
-int n: number of mesh cells
-int njunctions: number of junctions
-int vsize: size in bytes of the variables
-int *cell_thread: array of index of mesh cells corresponding to every thread
-Parameters *p: array of flow parameters
-TransportParameters *tp: array of transport parameters
-Variables v[1]: struct with the variables
-Junction *junction: array of junctions
-Mass *mass: array of masses
-GSList **list_channels: array of channels lists
-*/
+#if !INLINE_TRANSPORT_STEP_IMPLICIT
+void transport_step_implicit(TransportParameters *tp,Parameters *p,int n)
+{_transport_step_implicit(tp,p,n);}
+#endif
 
-int nth,nthreads;
+#if !INLINE_TRANSPORT_SIMULATE_STEP
+void transport_simulate_step
+	(TransportParameters *tp,Parameters *p,int n,Mass *m)
+{_transport_simulate_step(tp,p,n,m);}
+#endif
 
-JBDOUBLE t,dt,tmax;
-int n,njunctions,vsize;
+#if !INLINE_JUNCTION_TRANSPORT_SCHEME
+void junction_transport_scheme(Junction *junction)
+{_junction_transport_scheme(junction);}
+#endif
 
-int *cell_thread=NULL;
+#if !INLINE_PART_TRANSPORT_STEP
+void part_transport_step(int thread) {_part_transport_step(thread);}
+#endif
 
-Parameters *p=NULL;
-TransportParameters *tp=NULL;
-Variables v[1];
-Junction *junction=NULL;
-Mass *m=NULL;
+#if !INLINE_SYSTEM_TRANSPORT_STEP_PARALLEL
+void system_transport_step_parallel() {_system_transport_step_parallel();}
+#endif
 
-GSList **list_channels=NULL;
+#if !INLINE_SYSTEM_TRANSPORT_STEP_SIMPLE
+void system_transport_step_simple() {_system_transport_step_simple();}
+#endif

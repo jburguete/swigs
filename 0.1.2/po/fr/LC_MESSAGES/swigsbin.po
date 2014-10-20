@@ -5,9 +5,9 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: swigs 0.1.0\n"
+"Project-Id-Version: swigs 0.1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-19 05:28+0200\n"
+"POT-Creation-Date: 2014-10-20 06:21+0200\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -44,7 +44,7 @@ msgstr "Section transitoire"
 #: channel_segment.h:213 section_changes.h:157 section_changes.h:268
 #: section_changes.h:309 mesh.h:386 mesh.h:630 mesh.h:1007 mesh.h:1047
 #: mesh.h:1096 mesh.h:1137 mesh.h:1242 mesh.h:1335 mesh.h:1426 mesh.h:1490
-#: mesh.h:1627 write.h:239 write.h:295 write.h:381
+#: mesh.h:1626 write.h:239 write.h:295 write.h:381
 msgid "Not enough memory"
 msgstr "Mémoire insuffisante"
 
@@ -327,7 +327,7 @@ msgstr "Confluences parallèles"
 msgid "Not yet implemented"
 msgstr "Pas établi encore"
 
-#: mesh.h:1963
+#: mesh.h:1962
 msgid "Mesh"
 msgstr "Maille"
 
@@ -600,15 +600,16 @@ msgstr "Apropos"
 
 #: dialog_simulator.c:118
 msgid ""
-"SWIGS 0.1.0\n"
+"SWIGS 0.1.2\n"
 "Simulator of systems of open channels and rivers flow\n"
 "CSIC and University of Zaragoza (Spain)\n"
 "Author: Javier Burguete Tolosa\n"
 "E-Mail: jburguete@eead.csic.es\n"
 "Phone: (034+) 976 491 996\n"
-"Copyright (c) 2005-2014 Javier Burguete. All rights reserved"
+"Copyright 2005-2014 Javier Burguete Tolosa Javier Burguete. All rights "
+"reserved"
 msgstr ""
-"SWIGS 0.1.0\n"
+"SWIGS 0.1.2\n"
 "Simulateur d'écoulement en sistèmes de canaux irregulières et en rivières\n"
 "CSIC et Université de Saragosse (Espagne)\n"
 "Auteur: Javier Burguete Tolosa\n"

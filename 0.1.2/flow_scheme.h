@@ -34,7 +34,7 @@ Header file defining the main functions of the numerical methods to solve the
 flow
 
 Author: Javier Burguete Tolosa
-Copyright (c) 2005-2011. All rights reserved
+Copyright 2005-2014 Javier Burguete Tolosa. All rights reserved
 */
 
 #ifndef FLOW_SCHEME__H
@@ -185,7 +185,6 @@ static inline void _system_parameters_parallel()
 {
 	int i,j;
 	GThread *thread[nth];
-	GError *error;
 	Channel *channel;
 	Parameters *pv;
 	#if DEBUG_SYSTEM_PARAMETERS_PARALLEL
@@ -193,8 +192,8 @@ static inline void _system_parameters_parallel()
 			fprintf(stderr,"system_parameters_parallel: start\n");
 	#endif
 	for (i=0; i<nth; ++i)
-		thread[i]=g_thread_create
-			((void(*))part_parameters_exit,(void*)(size_t)i,TRUE,&error);
+		thread[i] = g_thread_new
+			(NULL, (void(*))part_parameters_exit, (void*)(size_t)i);
 	for (i=0; i<nth; ++i) g_thread_join(thread[i]);
 	#if DEBUG_SYSTEM_PARAMETERS_PARALLEL
 		if (t>=DEBUG_TIME)
@@ -563,7 +562,6 @@ static inline void _system_parameters2_parallel()
 {
 	int i,j;
 	GThread *thread[nth];
-	GError *error;
 	Channel *channel;
 	BoundaryFlow *bf;
 	#if TMAX == TMAX_CELL
@@ -576,8 +574,8 @@ static inline void _system_parameters2_parallel()
 	dtmax=0.;
 	fdtmax=INFINITY;
 	for (i=0; i<nth; ++i)
-		thread[i]=g_thread_create
-			((void(*))part_parameters2_exit,(void*)(size_t)i,TRUE,&error);
+		thread[i] = g_thread_new
+			(NULL, (void(*))part_parameters2_exit, (void*)(size_t)i);
 	for (i=0; i<nth; ++i) g_thread_join(thread[i]);
 	#if TMAX == TMAX_CELL
 		for (i=0; ++i<nth;)
@@ -2122,7 +2120,6 @@ static inline void _system_decomposition_parallel()
 {
 	int i,j,k;
 	GThread *thread[nth];
-	GError *error;
 	Parameters *pv;
 	TransportParameters *tpv;
 	#if DEBUG_SYSTEM_DECOMPOSITION_PARALLEL
@@ -2130,8 +2127,8 @@ static inline void _system_decomposition_parallel()
 			fprintf(stderr,"system_decomposition_parallel: start\n");
 	#endif
 	for (i=0; i<nth; ++i)
-		thread[i]=g_thread_create
-			((void(*))part_decomposition_exit,(void*)(size_t)i,TRUE,&error);
+		thread[i] = g_thread_new
+			(NULL, (void(*))part_decomposition_exit, (void*)(size_t)i);
 	for (i=0; i<nth; ++i) g_thread_join(thread[i]);
 	for (i=0; ++i<nth;)
 	{
@@ -2498,15 +2495,14 @@ static inline void _system_simulate_step_parallel()
 {
 	int i;
 	GThread *thread[nth];
-	GError *error;
 	#if DEBUG_SYSTEM_SIMULATE_STEP_PARALLEL
 		if (t>=DEBUG_TIME)
 			fprintf(stderr,"system_simulate_step_parallel: start\n");
 	#endif
 	for (i=0; i<=sys->n; ++i) sys->channel[i].dry = 0;
 	for (i=0; i<nth; ++i)
-		thread[i]=g_thread_create
-			((void(*))part_simulate_step_exit,(void*)(size_t)i,TRUE,&error);
+		thread[i] = g_thread_new
+			(NULL, (void(*))part_simulate_step_exit, (void*)(size_t)i);
 	for (i=0; i<nth; ++i) g_thread_join(thread[i]);
 	#if DEBUG_SYSTEM_SIMULATE_STEP_PARALLEL
 		if (t>=DEBUG_TIME)
@@ -2684,7 +2680,6 @@ static inline void _system_simulate_step2_parallel()
 {
 	int i,j;
 	GThread *thread[nth];
-	GError *error;
 	Parameters *pv;
 	Channel *channel;
 	#if DEBUG_SYSTEM_SIMULATE_STEP2_PARALLEL
@@ -2693,8 +2688,8 @@ static inline void _system_simulate_step2_parallel()
 	#endif
 	system_dry_correction_parallel();
 	for (i=0; i<nth; ++i)
-		thread[i]=g_thread_create
-			((void(*))part_simulate_step2_exit,(void*)(size_t)i,TRUE,&error);
+		thread[i] = g_thread_new
+			(NULL, (void(*))part_simulate_step2_exit, (void*)(size_t)i);
 	for (i=0; i<nth; ++i) g_thread_join(thread[i]);
 	for (i=0; ++i<=nth;)
 	{
