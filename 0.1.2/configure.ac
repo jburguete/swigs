@@ -41,7 +41,8 @@ AC_INIT([SWIGS], [0.1.2])
 # Checks for operative systems
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE
-AC_MSG_NOTICE([System: $host])
+AC_MSG_NOTICE([Build: $build])
+AC_MSG_NOTICE([Host: $host])
 if test $host = "x86_64-w64-mingw32"; then
 	AC_MSG_NOTICE([Microsoft Windows 64 bits])
 	AC_SUBST(bindir, [../0.0.0/win64/bin/])
