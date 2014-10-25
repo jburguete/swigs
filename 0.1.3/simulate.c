@@ -99,17 +99,17 @@ Function to open an open parameters dialog
 
 void dialog_open_parameters_new()
 {
-	DialogOpenParameters *dlg=dialog_open_parameters;
+	DialogOpenParameters *dlg = dialog_open_parameters;
 	dlg->label = (GtkLabel*)gtk_label_new
 		(gettext("Calculating geometrical parameters"));
 	gtk_widget_set_sensitive((GtkWidget*)dlg->label, 0);
 	dlg->progress = (GtkProgressBar*)gtk_progress_bar_new();
-	dlg->box = (GtkVBox*)gtk_vbox_new(1, 0);
-	gtk_container_add(GTK_CONTAINER(dlg->box), GTK_WIDGET(dlg->label));
-	gtk_container_add(GTK_CONTAINER(dlg->box), GTK_WIDGET(dlg->progress));
+	dlg->box = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(dlg->box, GTK_WIDGET(dlg->label), 0, 0, 1, 1);
+	gtk_grid_attach(dlg->box, GTK_WIDGET(dlg->progress), 0, 1, 1, 1);
 	dlg->window = (GtkDialog*)gtk_dialog_new_with_buttons(
-		gettext("Opening mesh"),window_parent,
-		GTK_DIALOG_MODAL,GTK_STOCK_STOP,GTK_RESPONSE_OK,0);
+		gettext("Opening mesh"), window_parent,
+		GTK_DIALOG_MODAL, gettext("_Stop"), GTK_RESPONSE_OK, NULL);
 	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg->window)),
 		GTK_WIDGET(dlg->box));
 	gtk_widget_show_all(GTK_WIDGET(dlg->window));
@@ -157,24 +157,24 @@ Inputs:
 
 void dialog_simulate_steady_new(DialogSimulateSteady *dlg)
 {
-	dlg->label=(GtkLabel*)gtk_label_new
+	dlg->label = (GtkLabel*)gtk_label_new
 		(gettext("Calculating steady initial conditions ..."));
-	dlg->label_error=(GtkLabel*)gtk_label_new
+	dlg->label_error = (GtkLabel*)gtk_label_new
 		(gettext("Maximum steady initial discharge error"));
-	dlg->entry=jbw_float_entry_new();
-	gtk_widget_set_sensitive((GtkWidget*)dlg->entry,0);
-	dlg->box=(GtkVBox*)gtk_vbox_new(0,5);
-	gtk_container_add(GTK_CONTAINER(dlg->box),GTK_WIDGET(dlg->label));
-	gtk_box_pack_start((GtkBox*)dlg->box,(GtkWidget*)dlg->label_error,0,0,0);
-	gtk_box_pack_start((GtkBox*)dlg->box,(GtkWidget*)dlg->entry,0,0,5);
-	dlg->window=(GtkDialog*)gtk_dialog_new_with_buttons(
-		gettext("Flow initial conditions"),window_parent,
-		GTK_DIALOG_MODAL,GTK_STOCK_STOP,GTK_RESPONSE_OK,0);
+	dlg->entry = jbw_float_entry_new();
+	gtk_widget_set_sensitive(GTK_WIDGET(dlg->entry), 0);
+	dlg->box = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(dlg->box, GTK_WIDGET(dlg->label), 0, 0, 1, 1);
+	gtk_grid_attach(dlg->box, GTK_WIDGET(dlg->label_error), 1, 0, 1, 1);
+	gtk_grid_attach(dlg->box, GTK_WIDGET(dlg->entry), 2, 0, 1, 1);
+	dlg->window = (GtkDialog*)gtk_dialog_new_with_buttons(
+		gettext("Flow initial conditions"), window_parent,
+		GTK_DIALOG_MODAL, gettext("_Stop"), GTK_RESPONSE_OK, NULL);
 	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg->window)),
 		GTK_WIDGET(dlg->box));
-	gtk_container_set_border_width((GtkContainer*)dlg->window,10);
-  	g_signal_connect(dlg->window,"response",dialog_simulate_steady_response,0);
-	gtk_widget_show_all((GtkWidget*)dlg->window);
+  	g_signal_connect
+		(dlg->window, "response", dialog_simulate_steady_response, NULL);
+	gtk_widget_show_all(GTK_WIDGET(dlg->window));
 }
 
 #endif

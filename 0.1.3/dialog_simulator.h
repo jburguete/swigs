@@ -27,23 +27,50 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef DIALOG_SAVE_SOLUTION__H
-#define DIALOG_SAVE_SOLUTION__H 1
+#ifndef DIALOG_SIMULATOR__H
+#define DIALOG_SIMULATOR__H 1
 
 #include "jb/jb_win.h"
 
+#define N_DIALOG_SIMULATOR_BUTTONS			19
+#define N_DIALOG_SIMULATOR_ITEM_BAR			4
+#define N_DIALOG_SIMULATOR_ITEM_SYSTEM		7
+#define N_DIALOG_SIMULATOR_ITEM_SIMULATE	7
+#define N_DIALOG_SIMULATOR_ITEM_GRAPHIC		4
+#define N_DIALOG_SIMULATOR_ITEM_HELP		1
+
 typedef struct
 {
-	GtkFileChooserWidget *widget_file;
-	GtkLabel *label_profile,*label_evolution,*label_time,*label_section;
-	GtkComboBoxText *combo_profile,*combo_evolution,*combo_channel;
-	GtkVBox *box,*box_profile,*box_evolution;
-	GtkNotebook *notebook;
-	GtkDialog *window;
-} DialogSaveSolution;
+	long int time0;
+	char string_progress[32];
+	GtkLabel *label_simulation, *label_cpu, *label_error;
+	GtkToolItem *button[N_DIALOG_SIMULATOR_BUTTONS];
+	GtkButton *button_bar;
+	JBWFloatEntry *entry_cpu, *entry_error;
+	GtkProgressBar *progress_simulation;
+	GtkMenuItem *item_bar[N_DIALOG_SIMULATOR_ITEM_BAR],
+		*item_system[N_DIALOG_SIMULATOR_ITEM_SYSTEM],
+		*item_simulate[N_DIALOG_SIMULATOR_ITEM_SIMULATE],
+		*item_graphic[N_DIALOG_SIMULATOR_ITEM_GRAPHIC],
+		*item_help[N_DIALOG_SIMULATOR_ITEM_HELP];
+	GtkMenu *menu_system, *menu_simulate, *menu_graphic, *menu_help;
+	GtkMenuBar *menu;
+	JBWGraphic *graphic;
+	GtkToolbar *toolbar;
+	GtkGrid *box_bar;
+	GtkGrid *box;
+	GdkPixbuf *pixbuf;
+	GtkWindow *window;
+} DialogSimulator;
 
-extern int channel_write;
+extern DialogSimulator *dialog_simulator;
 
-void dialog_save_solution_new();
+void dialog_simulator_new_system();
+void dialog_simulator_edit();
+void dialog_simulator_about();
+void dialog_simulator_actualize(DialogSimulator *dlg);
+void dialog_simulator_actualize_bar(DialogSimulator *dlg);
+void dialog_simulator_actualize_menu(DialogSimulator *dlg, int active);
+DialogSimulator* dialog_simulator_new();
 
 #endif

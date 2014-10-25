@@ -67,7 +67,7 @@ typedef struct
 {
 	GtkLabel *label;
 	GtkProgressBar *progress;
-	GtkVBox *box;
+	GtkGrid *box;
 	GtkDialog *window;
 } DialogOpenParameters;
 
@@ -77,7 +77,7 @@ typedef struct
 {
 	GtkLabel *label,*label_error;
 	JBWFloatEntry *entry;
-	GtkVBox *box;
+	GtkGrid *box;
 	GtkDialog *window;
 } DialogSimulateSteady;
 

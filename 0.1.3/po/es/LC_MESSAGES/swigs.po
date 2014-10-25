@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: swigs 0.1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-20 06:21+0200\n"
+"POT-Creation-Date: 2014-10-25 21:44+0200\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: transient_section.h:166 transient_section.h:204 transient_section.h:288
 #: transient_section.h:299 dialog_graphical_options.c:296
-#: dialog_graphical_options.c:356 dialog_graphical_options.c:370
+#: dialog_graphical_options.c:356 dialog_graphical_options.c:371
 msgid "Transient section"
 msgstr "Sección transitoria"
 
@@ -134,7 +134,7 @@ msgstr "Tolerancia incorrecta"
 
 #: boundary_flow.h:595
 msgid "Not hydrogram"
-msgstr ""
+msgstr "Falta el hidrograma"
 
 #: boundary_flow.h:627 boundary_flow.h:746
 msgid "Bad time"
@@ -185,7 +185,7 @@ msgstr "No definido"
 
 #: channel.h:623
 msgid "Bad number of solutes"
-msgstr ""
+msgstr "Número de solutos incorrecto"
 
 #: system.h:92 system.h:337 system.h:382
 msgid "System"
@@ -193,7 +193,7 @@ msgstr "Sistema"
 
 #: system.h:261 system.h:272
 msgid "Boundary flow"
-msgstr ""
+msgstr "Contorno de flujo"
 
 #: system.h:262 system.h:273 mesh.h:1007
 msgid "Junction"
@@ -211,14 +211,14 @@ msgstr "Número de sección incorrecto"
 msgid "Mixing frontal and lateral junctions"
 msgstr "Mezcla de confluencias frontales y laterales"
 
-#: system.h:382 write.h:360 draw.h:90 init.c:433 dialog_system.c:78
-#: dialog_save_solution.c:45 dialog_save_solution.c:157
+#: system.h:382 write.h:360 draw.h:90 init.c:433 dialog_system.c:80
+#: dialog_save_solution.c:46 dialog_save_solution.c:159
 msgid "Unable to open the file"
 msgstr "No se pudo abrir el fichero"
 
 #: system.h:395
 msgid "Bad XML system"
-msgstr ""
+msgstr "Sistema XML incorrecto"
 
 #: system.h:402
 msgid "Bad measured time"
@@ -246,7 +246,7 @@ msgstr "Tiempo final de simulación incorrecto"
 
 #: system.h:447
 msgid "Final time lower than initial time"
-msgstr ""
+msgstr "Tiempo final menor que el tiempo inicial"
 
 #: system.h:453
 msgid "Bad CFL"
@@ -266,7 +266,7 @@ msgstr "Tiempo máximo estacionario incorrecto"
 
 #: system.h:481
 msgid "Bad minimum cross section width"
-msgstr ""
+msgstr "Mínima anchura de sección transversal incorrecta"
 
 #: system.h:488
 msgid "Bad minimum depth"
@@ -332,18 +332,18 @@ msgstr "Todavía no implementado"
 msgid "Mesh"
 msgstr "Malla"
 
-#: write.h:239 dialog_save_solution.c:110 dialog_save_solution.c:157
-#: dialog_simulator.c:258
+#: write.h:239 dialog_save_solution.c:111 dialog_save_solution.c:159
+#: dialog_simulator.c:278
 msgid "Save solution"
 msgstr "Guardar solución"
 
-#: write.h:295 write.h:381 dialog_graphical_options.c:369
-#: dialog_save_solution.c:97
+#: write.h:295 write.h:381 dialog_graphical_options.c:370
+#: dialog_save_solution.c:98
 msgid "Time evolution"
 msgstr "Evolución temporal"
 
 #: write.h:360 draw.h:90 init.c:264 init.c:270 init.c:279 init.c:287
-#: init.c:315 init.c:320 init.c:433 dialog_save_solution.c:45
+#: init.c:315 init.c:320 init.c:433 dialog_save_solution.c:46
 msgid "Solution"
 msgstr "Solución"
 
@@ -370,6 +370,10 @@ msgstr "Calculando parámetros geométricos"
 #: simulate.c:111
 msgid "Opening mesh"
 msgstr "Abriendo malla"
+
+#: simulate.c:112 simulate.c:172
+msgid "_Stop"
+msgstr "_Parar"
 
 #: simulate.c:161
 msgid "Calculating steady initial conditions ..."
@@ -445,7 +449,7 @@ msgstr "Fichero XML de simulación incorrecto"
 
 #: init.c:578
 msgid "Unable to open the external libraries"
-msgstr "No se pudo abrir las librerías externas"
+msgstr "No se pudieron abrir las librerías externas"
 
 #: init.c:590
 msgid "swigs [-np number_of_processors]"
@@ -460,14 +464,24 @@ msgstr "swigs [-np número_de_procesadores] fichero_de_simulación"
 msgid "Position (1-%d)"
 msgstr "Posición (1-%d)"
 
+#: dialog_position.h:55 dialog_system.c:54 dialog_graphical_options.c:411
+#: dialog_save_solution.c:113 dialog_mass.c:111 dialog_simulator.c:66
+msgid "_OK"
+msgstr "_Aceptar"
+
 #: dialog_system.c:45
 msgid "XML system file (*.xml, *.XML)"
 msgstr "Fichero de sistema XML (*.xml, *.XML)"
 
-#: dialog_system.c:47 dialog_system.c:52 dialog_system.c:77
-#: dialog_simulator.c:255
+#: dialog_system.c:47 dialog_system.c:52 dialog_system.c:79
+#: dialog_simulator.c:275
 msgid "Open system"
 msgstr "Abrir sistema"
+
+#: dialog_system.c:55 dialog_graphical_options.c:412
+#: dialog_save_solution.c:114 dialog_simulator.c:65
+msgid "_Cancel"
+msgstr "_Cancelar"
 
 #: dialog_graphical_options.c:37
 msgid "Discharge"
@@ -478,7 +492,7 @@ msgid "Depth"
 msgstr "Calado"
 
 #: dialog_graphical_options.c:39 dialog_graphical_options.c:350
-#: dialog_simulator.c:184
+#: dialog_simulator.c:204
 msgid "Level"
 msgstr "Cota"
 
@@ -533,7 +547,7 @@ msgid "Minimum"
 msgstr "Mínimo"
 
 #: dialog_graphical_options.c:144 dialog_graphical_options.c:330
-#: dialog_simulator.c:151
+#: dialog_simulator.c:169
 msgid "Position"
 msgstr "Posición"
 
@@ -546,19 +560,19 @@ msgid "Parameter 2"
 msgstr "Parámetro 2"
 
 #: dialog_graphical_options.c:215 dialog_graphical_options.c:241
-#: dialog_save_solution.c:80 dialog_simulator.c:169
+#: dialog_save_solution.c:82 dialog_simulator.c:189
 msgid "Time"
 msgstr "Tiempo"
 
-#: dialog_graphical_options.c:368 dialog_save_solution.c:96
+#: dialog_graphical_options.c:369 dialog_save_solution.c:97
 msgid "Longitudinal profile"
 msgstr "Perfil longitudinal"
 
-#: dialog_graphical_options.c:391
+#: dialog_graphical_options.c:392
 msgid "Animation"
 msgstr "Animación"
 
-#: dialog_graphical_options.c:411 dialog_simulator.c:260
+#: dialog_graphical_options.c:410 dialog_simulator.c:280
 msgid "Graphical options"
 msgstr "Opciones gráficas"
 
@@ -582,8 +596,8 @@ msgstr "Contribuciones internas"
 msgid "Oulet contributions"
 msgstr "Contribuciones de la salida"
 
-#: dialog_mass.c:44 dialog_mass.c:110 dialog_simulator.c:258
-#: dialog_simulator.c:359
+#: dialog_mass.c:44 dialog_mass.c:110 dialog_simulator.c:278
+#: dialog_simulator.c:382
 msgid "Conservation error"
 msgstr "Error de conservación"
 
@@ -591,164 +605,154 @@ msgstr "Error de conservación"
 msgid "Flow"
 msgstr "Flujo"
 
-#: dialog_simulator.c:63 dialog_simulator.c:256
+#: dialog_simulator.c:63 dialog_simulator.c:276
 msgid "Save system as"
 msgstr "Guardar sistema _como"
 
-#: dialog_simulator.c:117
-msgid "About"
-msgstr "Acerca"
-
-#: dialog_simulator.c:118
+#: dialog_simulator.c:128
 msgid ""
-"SWIGS 0.1.2\n"
-"Simulator of systems of open channels and rivers flow\n"
-"CSIC and University of Zaragoza (Spain)\n"
-"Author: Javier Burguete Tolosa\n"
-"E-Mail: jburguete@eead.csic.es\n"
-"Phone: (034+) 976 491 996\n"
-"Copyright 2005-2014 Javier Burguete Tolosa Javier Burguete. All rights "
-"reserved"
+"SWIGS (Shallow Water in Irregular Geometries Simulator): a software to "
+"simulate transient or steady flows with solute transport in channels, "
+"channel networks and rivers"
 msgstr ""
-"SWIGS 0.1.2\n"
-"Simulador de flujo en sistemas de canales y ríos\n"
-"CSIC y Universidad de Zaragoza (España)\n"
-"Autor: Javier Burguete Tolosa\n"
-"E-Mail: jburguete@eead.csic.es\n"
-"Teléfono: (034+) 976 491 996\n"
-"Copyright (c) 2005-2014 Javier Burguete. Todos los derechos reservados"
+"SWIGS (Shallow Water in Irregular Geometries Simulator): un programa para "
+"simular flujos transitorios o estacionarios con tranporte de solute en "
+"canales, redes de canales y ríos"
 
-#: dialog_simulator.c:138 dialog_simulator.c:185
+#: dialog_simulator.c:156 dialog_simulator.c:205
 msgid "Bed level"
 msgstr "Fondo"
 
-#: dialog_simulator.c:139
+#: dialog_simulator.c:157
 msgid "Critical velocity"
 msgstr "Velocidad crítica"
 
-#: dialog_simulator.c:242
+#: dialog_simulator.c:262
 msgid "_Channel"
 msgstr "_Cauce"
 
-#: dialog_simulator.c:243
+#: dialog_simulator.c:263
 msgid "_Simulate"
 msgstr "_Simular"
 
-#: dialog_simulator.c:243
+#: dialog_simulator.c:263
 msgid "_Graphical"
 msgstr "_Gráficas"
 
-#: dialog_simulator.c:243
+#: dialog_simulator.c:263
 msgid "_Help"
 msgstr "A_yuda"
 
-#: dialog_simulator.c:244
+#: dialog_simulator.c:264
 msgid "_New"
 msgstr "_Nuevo"
 
-#: dialog_simulator.c:245
+#: dialog_simulator.c:265
 msgid "_Open"
 msgstr "_Abrir"
 
-#: dialog_simulator.c:245
+#: dialog_simulator.c:265
 msgid "_Edit"
 msgstr "_Editar"
 
-#: dialog_simulator.c:245
+#: dialog_simulator.c:265
 msgid "_Save"
 msgstr "_Guardar"
 
-#: dialog_simulator.c:245
+#: dialog_simulator.c:266
 msgid "S_ave as"
 msgstr "Guardar _como"
 
-#: dialog_simulator.c:246
+#: dialog_simulator.c:266
 msgid "E_xit"
 msgstr "_Salir"
 
-#: dialog_simulator.c:248
+#: dialog_simulator.c:268
 msgid "_Start"
 msgstr "_Iniciar"
 
-#: dialog_simulator.c:248
+#: dialog_simulator.c:268
 msgid "Sto_p"
 msgstr "_Parar"
 
-#: dialog_simulator.c:249
+#: dialog_simulator.c:269
 msgid "Conse_rvation error"
 msgstr "E_rror de conservación"
 
-#: dialog_simulator.c:250
+#: dialog_simulator.c:270
 msgid "Sa_ve solution"
 msgstr "_Guardar solución"
 
-#: dialog_simulator.c:250
+#: dialog_simulator.c:270
 msgid "Save _graphical"
 msgstr "Guardar grá_fica"
 
-#: dialog_simulator.c:251
+#: dialog_simulator.c:271
 msgid "_Options"
 msgstr "_Opciones"
 
-#: dialog_simulator.c:252
+#: dialog_simulator.c:272
 msgid "_View animation"
 msgstr "_Ver animación"
 
-#: dialog_simulator.c:252
+#: dialog_simulator.c:272
 msgid "_Stop animation"
 msgstr "_Parar animación"
 
-#: dialog_simulator.c:253
+#: dialog_simulator.c:273
 msgid "_About"
 msgstr "_Acerca"
 
-#: dialog_simulator.c:254
+#: dialog_simulator.c:274
 msgid "Exit"
 msgstr "Salir"
 
-#: dialog_simulator.c:255
+#: dialog_simulator.c:275
 msgid "New system"
-msgstr "Nuevo istema"
+msgstr "Nuevo sistema"
 
-#: dialog_simulator.c:255
+#: dialog_simulator.c:275
 msgid "Edit system"
 msgstr "Editar sistema"
 
-#: dialog_simulator.c:256
+#: dialog_simulator.c:276
 msgid "Save system"
 msgstr "Guardar sistema"
 
-#: dialog_simulator.c:257
+#: dialog_simulator.c:277
 msgid "Start simulation"
 msgstr "Iniciar simulación"
 
-#: dialog_simulator.c:257
+#: dialog_simulator.c:277
 msgid "Stop simulation"
 msgstr "Parar simulación"
 
-#: dialog_simulator.c:259
+#: dialog_simulator.c:279
 msgid "Save graphical"
 msgstr "Guardar gráfica"
 
-#: dialog_simulator.c:260
+#: dialog_simulator.c:280
 msgid "View animation"
 msgstr "Ver animación"
 
-#: dialog_simulator.c:261
+#: dialog_simulator.c:281
 msgid "Stop animation"
 msgstr "Parar animación"
 
-#: dialog_simulator.c:261
+#: dialog_simulator.c:281
 msgid "Help"
 msgstr "Ayuda"
 
-#: dialog_simulator.c:350
+#: dialog_simulator.c:375
 msgid "Simulation time"
 msgstr "Tiempo de simulación"
 
-#: dialog_simulator.c:354
+#: dialog_simulator.c:378
 msgid "Computational time"
 msgstr "Tiempo de cálculo"
+
+#~ msgid "About"
+#~ msgstr "Acerca"
 
 #~ msgid "Unable to open the graphical librery (OpenGL)"
 #~ msgstr "No se pudo abrir la librería gráfica (OpenGL)"
@@ -771,19 +775,11 @@ msgstr "Tiempo de cálculo"
 #~ msgid "Error!"
 #~ msgstr "¡Error!"
 
-#, fuzzy
-#~ msgid "Not enough memory to open the content"
-#~ msgstr "Falta memoria"
-
 #~ msgid "Bad parameters XML file"
 #~ msgstr "Fichero XML de parámetros incorrecto"
 
 #~ msgid "Bad mesh cell size"
 #~ msgstr "Máximo tamaño de celda"
-
-#, fuzzy
-#~ msgid "Bad channel transport"
-#~ msgstr "Cauce de transporte"
 
 #~ msgid "Friction coefficient"
 #~ msgstr "Coeficiente de fricción"

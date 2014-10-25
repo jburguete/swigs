@@ -39,19 +39,21 @@ void dialog_open_system_new(DialogOpenSystem *dlg)
 	System s[1];
 
 	filter = gtk_file_filter_new();
-	gtk_file_filter_add_pattern(filter,"*.xml");
-	gtk_file_filter_add_pattern(filter,"*.XML");
+	gtk_file_filter_add_pattern(filter, "*.xml");
+	gtk_file_filter_add_pattern(filter, "*.XML");
 	gtk_file_filter_set_name
-		(filter,gettext("XML system file (*.xml, *.XML)"));
-	dlg->button_open=(GtkFileChooserButton*)gtk_file_chooser_button_new
-		(gettext("Open system"),GTK_FILE_CHOOSER_ACTION_OPEN);
-	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dlg->button_open),filter);
+		(filter, gettext("XML system file (*.xml, *.XML)"));
+	dlg->button_open = (GtkFileChooserButton*)gtk_file_chooser_button_new
+		(gettext("Open system"), GTK_FILE_CHOOSER_ACTION_OPEN);
+	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dlg->button_open), filter);
 	gtk_file_chooser_set_filename
-		(GTK_FILE_CHOOSER(dlg->button_open),string_system);
+		(GTK_FILE_CHOOSER(dlg->button_open), string_system);
 
 	dlg->window=(GtkDialog*)gtk_dialog_new_with_buttons(gettext("Open system"),
-		dialog_simulator->window,GTK_DIALOG_MODAL,
-		GTK_STOCK_OK,GTK_RESPONSE_OK,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,NULL);
+		dialog_simulator->window, GTK_DIALOG_MODAL,
+		gettext("_OK"), GTK_RESPONSE_OK,
+		gettext("_Cancel"), GTK_RESPONSE_CANCEL,
+		NULL);
 	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg->window)),
 		GTK_WIDGET(dlg->button_open));
 	gtk_widget_show(GTK_WIDGET(dlg->button_open));
@@ -60,30 +62,30 @@ void dialog_open_system_new(DialogOpenSystem *dlg)
 
 	do
 	{
-		i=gtk_dialog_run(dlg->window);
-		if (i==GTK_RESPONSE_OK)
+		i = gtk_dialog_run(dlg->window);
+		if (i == GTK_RESPONSE_OK)
 		{
-			name=gtk_file_chooser_get_filename
+			name = gtk_file_chooser_get_filename
 				(GTK_FILE_CHOOSER(dlg->button_open));
 			if (name)
 			{
 				system_init(s);
-				i=system_open_xml(s,g_path_get_basename(name),
+				i = system_open_xml(s, g_path_get_basename(name),
 					g_path_get_dirname(name));
 			}
 			else
 			{
-				i=0;
+				i = 0;
 				jbw_show_error2(gettext("Open system"),
 					gettext("Unable to open the file"));
 			}
 			if (i)
 			{
 				g_free(string_system);
-				string_system=jb_strdup(name);
+				string_system = jb_strdup(name);
 				g_free(name);
 				system_delete(sys);
-				if (!system_copy(sys,s))
+				if (!system_copy(sys, s))
 				{
 					jbw_show_error(message);
 					exit(0);
@@ -99,7 +101,7 @@ void dialog_open_system_new(DialogOpenSystem *dlg)
 		else break;
 	}
 	while (1);
-	gtk_widget_destroy((GtkWidget*)dlg->window);
+	gtk_widget_destroy(GTK_WIDGET(dlg->window));
 
 	window_parent = dialog_simulator->window;
 }
