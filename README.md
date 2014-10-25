@@ -1,4 +1,4 @@
-SWIGS (0.1.2 version)
+SWIGS (0.1.3 version)
 ====================
 
 SWIGS (Shallow Water in Irregular Geometries Simulator): a software to simulate
@@ -62,7 +62,7 @@ ____________
 
 * download the latest [JB library](https://github.com/jburguete/jb)
 * cd 0.1.0
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.4.2 jb)
+* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.2 jb)
 * aclocal
 * autoconf
 * automake --add-missing
@@ -80,7 +80,7 @@ utilities. You can follow detailed instructions in
 [MinGW-64-Make](https://github.com/jburguete/MinGW-64-Make)
 * download the latest [JB library](https://github.com/jburguete/jb)
 * cd 0.1.0
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.4.2 jb)
+* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.2 jb)
 * aclocal
 * autoconf
 * automake --add-missing
@@ -97,7 +97,7 @@ utilities. You can follow detailed instructions in
 [MinGW-64-Make](https://github.com/jburguete/MinGW-64-Make)
 * download the latest [JB library](https://github.com/jburguete/jb)
 * cd 0.1.0
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.4.2 jb)
+* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.2 jb)
 * aclocal
 * autoconf
 * automake --add-missing
@@ -110,7 +110,7 @@ __________
 
 * download the latest [JB library](https://github.com/jburguete/jb)
 * cd 0.1.0
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.4.2 jb)
+* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.2 jb)
 * export AUTOMAKE_VERSION=1.13 AUTOCONF_VERSION=2.69
 * aclocal
 * autoconf
