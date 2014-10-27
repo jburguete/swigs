@@ -108,7 +108,7 @@ utilities. You can follow detailed instructions in
 * strip win64/bin/*.exe (optional: to make a final version)
 
 OpenBSD 5.5
-__________
+___________
 
 * download the latest [JB library](https://github.com/jburguete/jb)
 * cd 0.1.3

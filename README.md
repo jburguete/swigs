@@ -55,14 +55,16 @@ Debian kFreeBSD 7.6
 ___________________
 Debian Hurd 7.6
 _______________
+DragonFly BSD 3.8.2
+___________________
 FreeBSD 10.0
 ____________
-NetBSD 6.1.4 (with modular xorg)
-____________
+NetBSD 6.1.5 (with modular xorg)
+________________________________
 
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 0.1.0
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.2 jb)
+* cd 0.1.3
+* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.3 jb)
 * aclocal
 * autoconf
 * automake --add-missing
@@ -79,8 +81,8 @@ ____________________________
 utilities. You can follow detailed instructions in
 [MinGW-64-Make](https://github.com/jburguete/MinGW-64-Make)
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 0.1.0
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.2 jb)
+* cd 0.1.3
+* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.3 jb)
 * aclocal
 * autoconf
 * automake --add-missing
@@ -96,8 +98,8 @@ ____________________________
 utilities. You can follow detailed instructions in
 [MinGW-64-Make](https://github.com/jburguete/MinGW-64-Make)
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 0.1.0
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.2 jb)
+* cd 0.1.3
+* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.3 jb)
 * aclocal
 * autoconf
 * automake --add-missing
@@ -105,17 +107,16 @@ utilities. You can follow detailed instructions in
 * make
 * strip win64/bin/*.exe (optional: to make a final version)
 
-OpenBSD 5.4
-__________
+OpenBSD 5.5
+___________
 
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 0.1.0
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.2 jb)
-* export AUTOMAKE_VERSION=1.13 AUTOCONF_VERSION=2.69
+* cd 0.1.3
+* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.3 jb)
+* export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
 * aclocal
 * autoconf
 * automake --add-missing
 * ./configure
 * make
 * strip swigs swigsbin (optional: to make a final version)
-
