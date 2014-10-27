@@ -2,10 +2,11 @@
 #   - Debian Linux 7.6
 #   - Debian kFreeBSD 7.6
 #   - Debian Hurd 7.6
+#	- DragonFly BSD 3.8.2
 #   - FreeBSD 10.0
+#   - Microsoft Windows XP 32 bits
+#   - Microsoft Windows 7 32 bits
 #   - NetBSD 6.1.5 (with modular xorg)
-#   - Windows XP 32 bits with MinGW/MSYS
-#   - Windows 7 32 bits with MinGW/MSYS
 #
 # aclocal
 # autoconf
@@ -13,29 +14,26 @@
 # ./configure
 # make
 
-# To work in Microsoft Windows (64 bits) with MinGW/MSYS:
-# aclocal -I /mingw/share/aclocal
-# autoconf
-# CPPFLAGS='-I/mingw/include -I/mingw/x86_64-w64-mingw32/include' configure --host=x86_64-w64-mingw32
-# make
-
-# To work in OpenBSD:
-# AUTOCONF_VERSION=2.69 aclocal-1.11
-# autoconf-2.69
-# CPPFLAGS='-I/usr/local/include -I/usr/X11R6/include' LDFLAGS='-L/usr/local/lib -L/usr/X11R6/lib' ./configure
-# make
-
-# To work in DragonFly BSD:
-# setenv PATH ${PATH}:/usr/pkg/gcc47/bin
-# setenv CPPFLAGS '-I/usr/pkg/include -I/usr/pkg/gcc47/include -I/usr/pkg/include/gettext'
-# setenv CFLAGS '-I/usr/pkg/include -I/usr/pkg/gcc47/include -I/usr/pkg/include/gettext'
-# setenv LDFLAGS '-L/usr/pkg/lib -L/usr/pkg/gcc47/lib'
+# To work in:
+#   - Microsoft Windows XP 64 bits
+#   - Microsoft Windows 7 64 bits
+#
 # aclocal
 # autoconf
-# ./configure --host=x86_64-pc-dragonfly
+# automake --add-missing
+# ./configure --host=x86_64-w64-mingw32
 # make
 
-AC_PREREQ([2.67])
+# To work in OpenBSD 5.5:
+#
+# export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
+# aclocal
+# autoconf
+# automake --add-missing
+# ./configure
+# make
+
+AC_PREREQ([2.69])
 AC_INIT([SWIGS], [0.1.3])
 
 # Checks for operative systems
@@ -66,45 +64,55 @@ elif test $host = "i686-pc-win32"; then
 	AC_SUBST(icon, [logo.o])
 	AC_SUBST(ccflags, "-march=pentium4 -mfpmath=sse -msse2")
 	AC_SUBST(libgcc, "libgcc_s_dw2-1")
-
 	win=1
+elif test `uname -s` = "NetBSD"; then
+	AC_MSG_NOTICE([NetBSD])
+	LDFLAGS="$LDFLAGS -L/usr/pkg/lib"
+	CPPFLAGS="$CPPFLAGS -I/usr/pkg/include"
+	PATH="/usr/pkg/gcc48/bin:$PATH"
+	win=0
+elif test `uname -s` = "OpenBSD"; then
+	AC_MSG_NOTICE([OpenBSD])
+	LDFLAGS="$LDFLAGS -L/usr/X11R6/lib"
+	CPPFLAGS="$CPPFLAGS -I/usr/X11R6/include"
+	win=0
+elif test `uname -s` = "DragonFly"; then
+	AC_MSG_NOTICE([DragonFly BSD])
+	LDFLAGS="$LDFLAGS -L/usr/local/lib"
+	CPPFLAGS="$CPPFLAGS -I/usr/local/include"
+	win=0
 else
 	AC_MSG_NOTICE([Unix type system])
-	AC_SUBST(bindir, [./])
-	AC_SUBST(localdir, [po/])
-	AC_SUBST(ccflags, [-march=native])
 	win=0
 fi
 
 # Checks for programs
-AC_PROG_CC([gcc49 gcc48 gcc47 gcc46 egcc gcc clang])
+AC_PROG_CC([gcc49 gcc48 egcc gcc clang])
 AC_PROG_MAKE_SET
 AC_LANG([C])
 PKG_PROG_PKG_CONFIG
 
 # Checks for libraries.
-AC_MSG_NOTICE([GTK+ version 3])
-PKG_CHECK_MODULES([GTK], [gtk+-3.0], gtk3=1, gtk3=0)
-if test $gtk3 == 0; then
-	AC_MSG_NOTICE([GTK+ version 2])
-	PKG_CHECK_MODULES([GTK], [gtk+-2.0])
-fi
 if test $win = 0; then
+	AC_SUBST(bindir, [./])
+	AC_SUBST(localdir, [po/])
+	AC_SUBST(ccflags, [-march=native])
 	AC_SUBST(latex, "pdflatex -shell-escape")
 else
 	AC_CHECK_TOOL(WINDRES, windres)
 	AC_SUBST(latex, "pdflatex -enable-write18")
 fi
-AC_SEARCH_LIBS([glutInit], [freeglut glut])
-AC_SEARCH_LIBS([glEnd], [GL opengl32])
-PKG_CHECK_MODULES([PNG], [libpng])
-PKG_CHECK_MODULES([GLIB], [glib-2.0])
-PKG_CHECK_MODULES([GTHREAD], [gthread-2.0])
-PKG_CHECK_MODULES([XML], [libxml-2.0])
-AC_SEARCH_LIBS([textdomain], [intl])
 AC_SEARCH_LIBS([sqrt], [m])
 AC_SEARCH_LIBS([pow], [m])
 AC_SEARCH_LIBS([rint], [m])
+AC_SEARCH_LIBS([textdomain], [intl])
+PKG_CHECK_MODULES([GLIB], [glib-2.0])
+PKG_CHECK_MODULES([GTHREAD], [gthread-2.0])
+PKG_CHECK_MODULES([XML], [libxml-2.0])
+PKG_CHECK_MODULES([GTK], [gtk+-3.0])
+AC_SEARCH_LIBS([glutInit], [freeglut glut])
+AC_SEARCH_LIBS([glEnd], [GL opengl32])
+PKG_CHECK_MODULES([PNG], [libpng])
 
 # Checks for header files.
 AC_CHECK_HEADERS([locale.h unistd.h libintl.h GL/freeglut.h])
