@@ -5,9 +5,9 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: swigs 0.1.2\n"
+"Project-Id-Version: swigs 0.1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-25 21:30+0200\n"
+"POT-Creation-Date: 2014-10-27 07:26+0100\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: transient_section.h:166 transient_section.h:204 transient_section.h:288
-#: transient_section.h:299 dialog_graphical_options.c:296
+#: transient_section.h:164 transient_section.h:202 transient_section.h:286
+#: transient_section.h:297 dialog_graphical_options.c:296
 #: dialog_graphical_options.c:356 dialog_graphical_options.c:371
 msgid "Transient section"
 msgstr "Section transitoire"
 
-#: transient_section.h:205 transient_section.h:300 transient_section.h:339
-#: transient_section.h:370 transient_section.h:416 transient_section.h:442
-#: cross_section.h:194 cross_section.h:310 cross_section.h:419
+#: transient_section.h:203 transient_section.h:298 transient_section.h:337
+#: transient_section.h:368 transient_section.h:414 transient_section.h:440
+#: cross_section.h:203 cross_section.h:319 cross_section.h:428
 #: channel_geometry.h:136 channel_geometry.h:221 channel_geometry.h:259
 #: initial_flow.h:149 initial_flow.h:240 initial_flow.h:253
 #: initial_transport.h:144 initial_transport.h:233 initial_transport.h:246
@@ -38,7 +38,7 @@ msgstr "Section transitoire"
 #: boundary_transport.h:287 boundary_transport.h:298 transport.h:101
 #: transport.h:142 channel_transport.h:114 channel_transport.h:204
 #: channel_transport.h:248 channel.h:129 channel.h:187 channel.h:251
-#: channel.h:345 channel.h:445 channel.h:472 channel.h:508 channel.h:528
+#: channel.h:343 channel.h:443 channel.h:470 channel.h:506 channel.h:526
 #: system.h:223 system.h:337 system.h:512 system.h:537 section.h:446
 #: section.h:480 section.h:1303 section.h:1313 section.h:1507
 #: channel_segment.h:213 section_changes.h:157 section_changes.h:268
@@ -48,38 +48,38 @@ msgstr "Section transitoire"
 msgid "Not enough memory"
 msgstr "Mémoire insuffisante"
 
-#: transient_section.h:289 cross_section.h:298 boundary_flow.h:350
-#: boundary_transport.h:188 transport.h:169 channel.h:587
+#: transient_section.h:287 cross_section.h:307 boundary_flow.h:350
+#: boundary_transport.h:188 transport.h:169 channel.h:585
 msgid "Not name"
 msgstr "Nom indéfini"
 
-#: transient_section.h:317
+#: transient_section.h:315
 msgid "Unknown type"
 msgstr "Type inconnu"
 
-#: transient_section.h:463 cross_section.h:317 cross_section.h:323
-#: cross_section.h:329 cross_section.h:335 cross_section.h:351
-#: cross_section.h:365 cross_section.h:379 cross_section.h:395
-#: cross_section.h:401 cross_section.h:408 cross_section.h:433
+#: transient_section.h:461 cross_section.h:326 cross_section.h:332
+#: cross_section.h:338 cross_section.h:344 cross_section.h:360
+#: cross_section.h:374 cross_section.h:388 cross_section.h:404
+#: cross_section.h:410 cross_section.h:417 cross_section.h:443
 #: channel_geometry.h:271 initial_flow.h:268 initial_transport.h:261
 #: junction_data.h:104 boundary_flow.h:500 boundary_flow.h:513
 #: boundary_flow.h:523 boundary_flow.h:529 boundary_flow.h:846
 #: boundary_flow.h:873 boundary_transport.h:246 boundary_transport.h:253
-#: channel_transport.h:255 channel.h:539 system.h:551
+#: channel_transport.h:255 channel.h:537 system.h:551
 msgid "Bad defined"
 msgstr "Erroné"
 
-#: cross_section.h:133 cross_section.h:193 cross_section.h:297
-#: cross_section.h:309 dialog_save_solution.c:88
+#: cross_section.h:142 cross_section.h:202 cross_section.h:306
+#: cross_section.h:318 dialog_save_solution.c:88
 msgid "Cross section"
 msgstr "Section de canal"
 
-#: cross_section.h:260 initial_flow.h:173 initial_transport.h:168
-#: boundary_flow.h:371 channel.h:388 channel.h:461 channel.h:498
+#: cross_section.h:269 initial_flow.h:173 initial_transport.h:168
+#: boundary_flow.h:371 channel.h:386 channel.h:459 channel.h:496
 msgid "Bad order"
 msgstr "Ordre erroné"
 
-#: cross_section.h:387 initial_flow.h:210 initial_flow.h:230
+#: cross_section.h:396 initial_flow.h:210 initial_flow.h:230
 #: initial_transport.h:206 initial_transport.h:223 boundary_flow.h:390
 #: boundary_flow.h:403 boundary_flow.h:414 boundary_flow.h:425
 #: boundary_flow.h:436 boundary_flow.h:448 boundary_flow.h:600
@@ -107,7 +107,7 @@ msgstr "Données de l_iaison"
 
 #: junction_data.h:94 boundary_flow.h:358 boundary_flow.h:366
 #: boundary_transport.h:208 boundary_transport.h:214 boundary_transport.h:224
-#: channel.h:377 dialog_position.h:64
+#: channel.h:375 dialog_position.h:64
 msgid "Bad position"
 msgstr "Position erronée"
 
@@ -119,7 +119,7 @@ msgstr "Condition au limit d'écoulement"
 msgid "Inlet flow"
 msgstr "Entrée d'écoulement"
 
-#: boundary_flow.h:344 channel.h:488 channel.h:507
+#: boundary_flow.h:344 channel.h:486 channel.h:505
 msgid "Outlet flow"
 msgstr "Sortie d'écoulement"
 
@@ -144,45 +144,45 @@ msgid "Transport boundary condition"
 msgstr "Condition au limit de transport"
 
 #: transport.h:62 transport.h:100 transport.h:168 transport.h:175
-#: transport.h:183 channel.h:622 system.h:511
+#: transport.h:183 channel.h:620 system.h:511
 msgid "Transport"
 msgstr "Transport"
 
-#: transport.h:176 transport.h:184 channel.h:594
+#: transport.h:176 transport.h:184 channel.h:592
 msgid "Bad name"
 msgstr "Nom indéfini"
 
-#: channel_transport.h:66 channel.h:527
+#: channel_transport.h:66 channel.h:525
 msgid "Channel transport"
 msgstr "Canal de transport"
 
-#: channel.h:81 channel.h:250 channel.h:573 channel.h:580 channel.h:587
-#: channel.h:594 system.h:260 system.h:271 system.h:282 system.h:284
+#: channel.h:81 channel.h:250 channel.h:571 channel.h:578 channel.h:585
+#: channel.h:592 system.h:260 system.h:271 system.h:282 system.h:284
 #: system.h:294 system.h:296 system.h:298 system.h:536
 msgid "Channel"
 msgstr "Canal"
 
-#: channel.h:436 channel.h:489
+#: channel.h:434 channel.h:487
 msgid "Duplicated definition"
 msgstr "Définition dupliquée"
 
-#: channel.h:444 channel.h:460 channel.h:471 channel.h:497 channel.h:615
+#: channel.h:442 channel.h:458 channel.h:469 channel.h:495 channel.h:613
 msgid "Flow boundary conditions"
 msgstr "Conditions aux limites d'écoulement"
 
-#: channel.h:574
+#: channel.h:572
 msgid "Not cell size"
 msgstr "Longueur de cellule indéfinie"
 
-#: channel.h:581
+#: channel.h:579
 msgid "Bad cell size"
 msgstr "Longueur de cellule erronée"
 
-#: channel.h:616
+#: channel.h:614
 msgid "Undefined"
 msgstr "Indéfini"
 
-#: channel.h:623
+#: channel.h:621
 msgid "Bad number of solutes"
 msgstr "Nombre de solutés erroné"
 
@@ -210,8 +210,8 @@ msgstr "Nombre de section erroné"
 msgid "Mixing frontal and lateral junctions"
 msgstr ""
 
-#: system.h:382 write.h:360 draw.h:90 init.c:433 dialog_system.c:78
-#: dialog_save_solution.c:46 dialog_save_solution.c:158
+#: system.h:382 write.h:360 draw.h:90 init.c:433 dialog_system.c:80
+#: dialog_save_solution.c:46 dialog_save_solution.c:159
 msgid "Unable to open the file"
 msgstr "Impossible d'ouvrir le fichier"
 
@@ -331,7 +331,7 @@ msgstr "Pas établi encore"
 msgid "Mesh"
 msgstr "Maille"
 
-#: write.h:239 dialog_save_solution.c:111 dialog_save_solution.c:158
+#: write.h:239 dialog_save_solution.c:111 dialog_save_solution.c:159
 #: dialog_simulator.c:278
 msgid "Save solution"
 msgstr "Enregistrer solution"
@@ -463,7 +463,8 @@ msgstr "swigs [-np nombre_de_processeurs] fichier_de_simulation"
 msgid "Position (1-%d)"
 msgstr "Position (1-%d)"
 
-#: dialog_position.h:55 dialog_graphical_options.c:411 dialog_simulator.c:66
+#: dialog_position.h:55 dialog_system.c:54 dialog_graphical_options.c:411
+#: dialog_save_solution.c:113 dialog_mass.c:111 dialog_simulator.c:66
 msgid "_OK"
 msgstr "_Accepter"
 
@@ -471,10 +472,15 @@ msgstr "_Accepter"
 msgid "XML system file (*.xml, *.XML)"
 msgstr "XML fichier de sistème (*.xml, *.XML)"
 
-#: dialog_system.c:47 dialog_system.c:52 dialog_system.c:77
+#: dialog_system.c:47 dialog_system.c:52 dialog_system.c:79
 #: dialog_simulator.c:275
 msgid "Open system"
 msgstr "Ouvrir sistème"
+
+#: dialog_system.c:55 dialog_graphical_options.c:412
+#: dialog_save_solution.c:114 dialog_simulator.c:65
+msgid "_Cancel"
+msgstr ""
 
 #: dialog_graphical_options.c:37
 msgid "Discharge"
@@ -568,10 +574,6 @@ msgstr "Animation"
 #: dialog_graphical_options.c:410 dialog_simulator.c:280
 msgid "Graphical options"
 msgstr "Options graphiques"
-
-#: dialog_graphical_options.c:412 dialog_simulator.c:65
-msgid "_Cancel"
-msgstr ""
 
 #: dialog_mass.c:35
 msgid "Initial mass"
@@ -747,25 +749,6 @@ msgstr "Temps de computation"
 
 #~ msgid "About"
 #~ msgstr "Apropos"
-
-#~ msgid ""
-#~ "SWIGS 0.1.2\n"
-#~ "Simulator of systems of open channels and rivers flow\n"
-#~ "CSIC and University of Zaragoza (Spain)\n"
-#~ "Author: Javier Burguete Tolosa\n"
-#~ "E-Mail: jburguete@eead.csic.es\n"
-#~ "Phone: (034+) 976 491 996\n"
-#~ "Copyright 2005-2014 Javier Burguete Tolosa Javier Burguete. All rights "
-#~ "reserved"
-#~ msgstr ""
-#~ "SWIGS 0.1.2\n"
-#~ "Simulateur d'écoulement en sistèmes de canaux irregulières et en "
-#~ "rivières\n"
-#~ "CSIC et Université de Saragosse (Espagne)\n"
-#~ "Auteur: Javier Burguete Tolosa\n"
-#~ "E-Mail: jburguete@eead.csic.es\n"
-#~ "Téléphone: (034+) 976 491 996\n"
-#~ "Copyright (c) 2005-2014 Javier Burguete. Tous les droits réservés"
 
 #~ msgid "Unable to open the graphical librery (OpenGL)"
 #~ msgstr "Impossible d'ouvrir la librairie graphique (OpenGL)"

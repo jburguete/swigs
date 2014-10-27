@@ -47,16 +47,14 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * \enum TransientSectionType
  * \brief Enumeration to define transient section types.
+ * \var TRANSIENT_SECTION_TYPE_STRAIGHT
+ * \brief straight transient section type.
+ * \var TRANSIENT_SECTION_TYPE_POLILYNE
+ * \brief polyline transient section type.
  */
 enum TransientSectionType
 {
-/**
- * \var TRANSIENT_SECTION_TYPE_RECT
- * \brief rect.
- * \var TRANSIENT_SECTION_TYPE_POLILYNE
- * \brief polyline.
- */
-	TRANSIENT_SECTION_TYPE_RECT = 0,
+	TRANSIENT_SECTION_TYPE_STRAIGHT = 0,
 	TRANSIENT_SECTION_TYPE_POLILYNE = 1
 };
 
@@ -189,7 +187,7 @@ static inline int _transient_section_create
 	ts->name = jb_strdup(name);
 	switch (type)
 	{
-	case TRANSIENT_SECTION_TYPE_RECT:
+	case TRANSIENT_SECTION_TYPE_STRAIGHT:
 		ts->data = g_try_malloc(j*sizeof(SectionPoint2));
 		ts->sp = (SectionPoint2*)ts->data;
 		break;
@@ -239,7 +237,7 @@ static inline int _transient_section_copy
 	}
 	switch (ts->type)
 	{
-	case TRANSIENT_SECTION_TYPE_RECT:
+	case TRANSIENT_SECTION_TYPE_STRAIGHT:
 		memcpy(ts->data, ts_copy->data, (ts->n + 1) * sizeof(SectionPoint2));
 		ts->sp = (SectionPoint2*)ts->data;
 		break;
@@ -303,12 +301,12 @@ static inline int _transient_section_open_xml
 	}
 	xmlFree(buffer);
 
-	if (!xmlHasProp(node, XML_TYPE)) ts->type = TRANSIENT_SECTION_TYPE_RECT;
+	if (!xmlHasProp(node, XML_TYPE)) ts->type = TRANSIENT_SECTION_TYPE_STRAIGHT;
 	else
 	{
 		buffer=(char*)xmlGetProp(node, XML_TYPE);
-		if (!xmlStrcmp((const xmlChar*)buffer, XML_RECT))
-			ts->type = TRANSIENT_SECTION_TYPE_RECT;
+		if (!xmlStrcmp((const xmlChar*)buffer, XML_STRAIGHT))
+			ts->type = TRANSIENT_SECTION_TYPE_STRAIGHT;
 		else if (!xmlStrcmp((const xmlChar*)buffer, XML_POLILYNE))
 			ts->type = TRANSIENT_SECTION_TYPE_POLILYNE;
 		else
@@ -347,7 +345,7 @@ static inline int _transient_section_open_xml
 	j = -1;
 	switch (ts->type)
 	{
-	case TRANSIENT_SECTION_TYPE_RECT:
+	case TRANSIENT_SECTION_TYPE_STRAIGHT:
 		do
 		{
 			#if DEBUG_TRANSIENT_SECTION_OPEN_XML
@@ -459,7 +457,7 @@ static inline int _transient_section_open_xml
 	if (j) goto exit2;
 
 exit0:
-	j=0;
+	j = 0;
 	transient_section_error(ts, gettext("Bad defined"));
 
 exit1:
@@ -508,7 +506,7 @@ static inline void
 	jb_xml_node_set_float(node, XML_DZ, ts->dz);
 	switch (ts->type)
 	{
-	case TRANSIENT_SECTION_TYPE_RECT:
+	case TRANSIENT_SECTION_TYPE_STRAIGHT:
 		sp = (SectionPoint2*)ts->data;
 		for (i = 0; i < ts->n; ++i, ++sp)
 		{

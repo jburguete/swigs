@@ -283,10 +283,8 @@ static inline int _channel_copy(Channel *c,Channel *c_copy)
 	c->fic->p = NULL;
 	c->bf = NULL;
 	c->ct = NULL;
-	#if INTERFACE != INTERFACE_DEMO
-		c->cg->cs = NULL;
-		c->cg->x = NULL;
-	#endif
+	c->cg->cs = NULL;
+	c->cg->x = NULL;
 	c->list_section_changes = c->list_section_gauge =
 		c->list_variable_segments = NULL;
 
