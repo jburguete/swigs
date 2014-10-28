@@ -1,7 +1,7 @@
 # To work in:
-#   - Debian Linux 7.6
-#   - Debian kFreeBSD 7.6
-#   - Debian Hurd 7.6
+#   - Debian Linux 7.7
+#   - Debian kFreeBSD 7.7
+#   - Debian Hurd 7.7
 #	- DragonFly BSD 3.8.2
 #   - FreeBSD 10.0
 #   - Microsoft Windows XP 32 bits
