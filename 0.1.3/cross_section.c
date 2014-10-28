@@ -72,15 +72,12 @@ void cross_section_delete(CrossSection *cs) {_cross_section_delete(cs);}
 #endif
 
 /**
- * \fn int cross_section_create(CrossSection *cs, int n, int type, \
- *   char *name)
+ * \fn int cross_section_create(CrossSection *cs, int n, char *name)
  * \brief Method to create a CrossSection structure.
  * \param cs
  * \brief CrossSection structure.
  * \param n
  * \brief points number.
- * \param type
- * \brief type
  * \param name
  * \brief name.
  * \return 0 on error, 1 on success.
@@ -115,17 +112,12 @@ int cross_section_order(CrossSection *cs) {return _cross_section_order(cs);}
 #endif
 
 /**
- * \fn int cross_section_open_xml(CrossSection *cs, xmlNode *node, \
- *   JBFLOAT x, JBFLOAT y, JBFLOAT angle)
+ * \fn int cross_section_open_xml(CrossSection *cs, xmlNode *node)
  * \brief Method to open a CrossSection structure on a XML node.
  * \param cs
  * \brief CrossSection structure.
  * \param node
  * \brief XML node.
- * \param x
- * \brief x-coordinate of the axis point.
- * \param y
- * \brief y-coordinate of the axis point.
  * \param angle
  * \brief orientation angle of the transient section.
  * \return 0 on error, 1 on success.

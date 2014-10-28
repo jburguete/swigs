@@ -42,8 +42,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * \def INTERFACE_SCIENTIFIC
- * \var Macro to select a scientific interface (more accurate and more advanced
- *   options).
+ * \brief Macro to select a scientific interface (more accurate and more \
+ *   advanced options).
  * \def INTERFACE_MARKET
  * \brief Macro to select a market interface (simpler and faster).
  * \def MESH_BOUNDARY_UNIFORM
@@ -99,7 +99,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \def BOUNDARY_FLOW_GLOBAL
  * \brief Macro to select global mass conservation method at flow boundaries.
  * \def FLOW_LINEARIZATION_ROE
+ * \brief Macro to select the Roe's averages linearization.
  * \def FLOW_LINEARIZATION_SIMPLE
+ * \brief Macro to select the arithmetical averages linearization.
  * \def FLOW_ENTROPY_CORRECTION_HARTEN
  * \def FLOW_ENTROPY_CORRECTION_MEAN_MAX
  * \def FLOW_ENTROPY_CORRECTION_MEAN_MEAN

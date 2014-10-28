@@ -131,7 +131,7 @@ typedef struct
 	void *data;
 } BoundaryFlow;
 
-extern int simulating;
+extern int simulating, mass_inputs;
 
 static inline void _boundary_flow_print(BoundaryFlow *bf,FILE *file)
 {

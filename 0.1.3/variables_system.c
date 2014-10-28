@@ -63,6 +63,7 @@ System sys[1]: the system of channels to simulate
 char *message=NULL;
 GMutex mutex[1];
 int simulating=0;
+int mass_inputs=0;
 JBFLOAT friction_dz=FRICTION_DZ;
 SectionPoint2 spnew[2]={{0.,0.,0.03,0},{1.,1.,0.,0}};
 TransientSection tsnew[2]={{1,0,0.,0.,0.,1.,0.1,0.,spnew,spnew,"Transient1"},

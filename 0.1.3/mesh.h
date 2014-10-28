@@ -73,7 +73,8 @@ typedef struct
 
 typedef struct
 {
-	JBDOUBLE m0,m,inlet,inner,outlet;
+	JBDOUBLE m0,m,inlet,inner,outlet,*mi;
+	unsigned int n;
 } Mass;
 
 typedef struct

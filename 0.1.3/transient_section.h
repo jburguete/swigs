@@ -88,7 +88,8 @@ typedef struct
  * \var name
  * \brief name.
  */
-	unsigned int n, type;
+	int n;
+	unsigned int type;
 	JBDOUBLE t;
 	JBFLOAT u, contraction, hmax, dz, zmin;
 	void *data;
@@ -112,10 +113,10 @@ extern TransientSection tsnew[2];
 
 static inline void _transient_section_print(TransientSection *ts, FILE *file)
 {
-	register int i;
+	int i;
 	fprintf(file, "transient_section_print: start\n");
 	fprintf(file, "TSP %s\n", ts->name);
-	fprintf(file, "TSP n=%u type=%u\n", ts->n, ts->type);
+	fprintf(file, "TSP n=%d type=%u\n", ts->n, ts->type);
 	fprintf(file, "TSP t="FWL" u="FWF" contraction="FWF"\n",
 		ts->t, ts->u, ts->contraction);
 	fprintf(file, "TSP hmax="FWF" dz="FWF" zmin="FWF"\n",
@@ -178,10 +179,11 @@ static inline void _transient_section_error(TransientSection *ts, char *m)
 static inline int _transient_section_create
 	(TransientSection *ts, int n, int type, char *name)
 {
-	register int j=n+1;
+	int j;
 	#if DEBUG_TRANSIENT_SECTION_CREATE
 		fprintf(stderr, "transient_section_create: start\n");
 	#endif
+	j = n + 1;
 	ts->n = n;
 	ts->type = type;
 	ts->name = jb_strdup(name);
