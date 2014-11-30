@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: swigs 0.1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-28 15:12+0100\n"
+"POT-Creation-Date: 2014-11-30 18:48+0100\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -42,9 +42,9 @@ msgstr "Section transitoire"
 #: system.h:223 system.h:337 system.h:512 system.h:537 section.h:446
 #: section.h:480 section.h:1303 section.h:1313 section.h:1507
 #: channel_segment.h:213 section_changes.h:157 section_changes.h:268
-#: section_changes.h:309 mesh.h:387 mesh.h:631 mesh.h:1008 mesh.h:1048
-#: mesh.h:1097 mesh.h:1138 mesh.h:1243 mesh.h:1336 mesh.h:1427 mesh.h:1491
-#: mesh.h:1627 write.h:239 write.h:295 write.h:381
+#: section_changes.h:309 mesh.h:388 mesh.h:632 mesh.h:1009 mesh.h:1049
+#: mesh.h:1098 mesh.h:1139 mesh.h:1244 mesh.h:1337 mesh.h:1428 mesh.h:1492
+#: mesh.h:1628 write.h:239 write.h:295 write.h:381
 msgid "Not enough memory"
 msgstr "Mémoire insuffisante"
 
@@ -194,11 +194,11 @@ msgstr "Sistème"
 msgid "Boundary flow"
 msgstr "Limit d'écoulemnt"
 
-#: system.h:262 system.h:273 mesh.h:1008
+#: system.h:262 system.h:273 mesh.h:1009
 msgid "Junction"
 msgstr "L_iaison"
 
-#: system.h:263 init.c:270
+#: system.h:263 init.c:305
 msgid "Bad channel number"
 msgstr "Nombre de canal erroné"
 
@@ -210,7 +210,7 @@ msgstr "Nombre de section erroné"
 msgid "Mixing frontal and lateral junctions"
 msgstr ""
 
-#: system.h:382 write.h:360 draw.h:90 init.c:433 dialog_system.c:80
+#: system.h:382 write.h:360 draw.h:90 init.c:464 dialog_system.c:80
 #: dialog_save_solution.c:46 dialog_save_solution.c:159
 msgid "Unable to open the file"
 msgstr "Impossible d'ouvrir le fichier"
@@ -295,39 +295,39 @@ msgstr "Liste de sections de jaugeage"
 msgid "Variable sections list"
 msgstr "Liste de sections variables"
 
-#: mesh.h:387
+#: mesh.h:388
 msgid "Variables"
 msgstr "Variables"
 
-#: mesh.h:630
+#: mesh.h:631
 msgid "Transport initial conditions"
 msgstr "Conditions initiales de transport"
 
-#: mesh.h:1048 mesh.h:1097 mesh.h:1138
+#: mesh.h:1049 mesh.h:1098 mesh.h:1139
 msgid "Junctions"
 msgstr "Con_fluences"
 
-#: mesh.h:1243 mesh.h:1336
+#: mesh.h:1244 mesh.h:1337
 msgid "Volume of junctions"
 msgstr "Volume des confluences"
 
-#: mesh.h:1426
+#: mesh.h:1427
 msgid "Tributary junctions"
 msgstr "Confluences latérales"
 
-#: mesh.h:1490
+#: mesh.h:1491
 msgid "Frontal junctions"
 msgstr "Confluences frontales"
 
-#: mesh.h:1530
+#: mesh.h:1531
 msgid "Parallel junction"
 msgstr "Confluences parallèles"
 
-#: mesh.h:1531
+#: mesh.h:1532
 msgid "Not yet implemented"
 msgstr "Pas établi encore"
 
-#: mesh.h:1963
+#: mesh.h:1964
 msgid "Mesh"
 msgstr "Maille"
 
@@ -341,12 +341,12 @@ msgstr "Enregistrer solution"
 msgid "Time evolution"
 msgstr "Évolution temporelle"
 
-#: write.h:360 draw.h:90 init.c:264 init.c:270 init.c:279 init.c:287
-#: init.c:315 init.c:320 init.c:433 dialog_save_solution.c:46
+#: write.h:360 draw.h:90 init.c:299 init.c:305 init.c:314 init.c:322
+#: init.c:350 init.c:355 init.c:464 dialog_save_solution.c:46
 msgid "Solution"
 msgstr "Solution"
 
-#: system.c:103 mesh.c:212 init.c:589 init.c:628
+#: system.c:103 mesh.c:212 init.c:617 init.c:656
 msgid "Usage is"
 msgstr "Usage est"
 
@@ -394,67 +394,67 @@ msgstr ""
 msgid "Channel overflow"
 msgstr "Débordement du canal"
 
-#: init.c:255
+#: init.c:290
 msgid "Bad profile"
 msgstr "Profile erroné"
 
-#: init.c:299
+#: init.c:334
 msgid "Bad write XML node"
 msgstr "Node XML de solution erroné"
 
-#: init.c:315 init.c:320
+#: init.c:350 init.c:355
 msgid "Bad evolution"
 msgstr "Évolution temporelle erroné"
 
-#: init.c:358
+#: init.c:393
 msgid "Bad q error"
 msgstr "q error erroné"
 
-#: init.c:363
+#: init.c:398
 msgid "High q error"
 msgstr "q error haut"
 
-#: init.c:372
+#: init.c:407
 msgid "Bad h error"
 msgstr "h error erroné"
 
-#: init.c:377
+#: init.c:412
 msgid "High h error"
 msgstr "h error haut"
 
-#: init.c:386
+#: init.c:421
 msgid "Bad s error"
 msgstr "s error erroné"
 
-#: init.c:391
+#: init.c:426
 msgid "High s error"
 msgstr "s error haut"
 
-#: init.c:402
+#: init.c:437
 msgid "Solution file"
 msgstr "Fichier de solution"
 
-#: init.c:402
+#: init.c:437
 msgid "No name"
 msgstr "Nom indéfini"
 
-#: init.c:470
+#: init.c:494
 msgid "Unable to open the parameters"
 msgstr "Impossible d'ouvrir le fichier"
 
-#: init.c:476 init.c:483
+#: init.c:500 init.c:507
 msgid "Bad simulation XML file"
 msgstr "Fichier XML de simulation erroné"
 
-#: init.c:578
+#: init.c:606
 msgid "Unable to open the external libraries"
 msgstr "Impossible d'ouvrir les librairies externes"
 
-#: init.c:590
+#: init.c:618
 msgid "swigs [-np number_of_processors]"
 msgstr "swigs [-np nombre_de_processeurs]"
 
-#: init.c:629
+#: init.c:657
 msgid "swigs [-np number_of_processors] simulation_file"
 msgstr "swigs [-np nombre_de_processeurs] fichier_de_simulation"
 

@@ -1345,7 +1345,7 @@ exit_1:
 	#if DEBUG_FLOW_INNER_BOUNDARY
 		if (t>=DEBUG_TIME)
 		{
-			fprintf(stderr,"FIB inlet:="FWL" dQp="FWF" dQm="FWF"\nla "
+			fprintf(stderr,"FIB inner="FWL" dQp="FWF" dQm="FWF"\nla "
 				FWF" lb="FWF" c="FWF"\n",
 				m->inner,(pv-1)->dQp,pv->dQm,pv->la,pv->lb,pv->uc);
 			fprintf(stderr,"flow_inner_boundary: end\n");

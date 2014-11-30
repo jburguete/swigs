@@ -27,66 +27,99 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/*
-variables_system.c
+/**
+ * \file variables_system.c
+ * \brief Source file to define the necessary variables to define a system of
+ *   channels.
+ * \author Javier Burguete Tolosa.
+ * \copyright Copyright 2005-2014 Javier Burguete Tolosa. All rights reserved.
+ */
 
-Source file to define the necessary variables to define a system of channels
+// Global variables of swigs defined in variables_system.c
 
-Author: Javier Burguete Tolosa
-Copyright 2005-2014 Javier Burguete Tolosa. All rights reserved
-*/
-
-/*
-Global variables of swigs defined in variables_system.c
-
-char *message: string to show messages
-GMutex *mutex: variable to make mutex
-int simulating: boolean defining if the program is simulating
-JBFLOAT friction_dz: accuracy of the height in friction calculation
-SectionPoint2 spnew[2]: two typical points of a cross section
-TransientSection tsnew[2]: two typical transient sections
-JBFLOAT csnewt1[1], csnewt2[1]: two typical times to define cross sections
-CrossSection csnew[NEW_GEOMETRY_SIZE]: array of typical cross sections
-JBFLOAT bfnew1t[1], bfnew2t[1], bfnew3t[1]: three typical times to define
-	boundary conditions
-JBFLOAT bfnew1p[1], bfnew2p[1], bfnew3p[1]: three typical parameters to define
-	boundary conditions
-BoundaryFlow bfnew[3]: tyree typical boundary conditions of flow
-BoundaryTransport btnew[1]: a typical boundary condition of transport
-ChannelTransport ctnew[1]: a typical struct defining the transport in a channel
-JBFLOAT cgnewx[NEW_GEOMETRY_SIZE]: array of positions to define a channel geometry
-Channel chanew[1]: a typical channel
-System sysnew[1]: a typical system of channels
-System sys[1]: the system of channels to simulate
-*/
-
-char *message=NULL;
+/**
+ * \var message
+ * \brief string to show messages.
+ * \var mutex
+ * \brief variable to make a mutex.
+ * \var simulating
+ * \brief boolean defining if the program is simulating.
+ * \var friction_dz
+ * \brief accuracy of the height in friction calculation.
+ * \var spnew
+ * \brief array with two typical points to init a new cross section.
+ * \var tsnew
+ * \brief array with two typical transient sections to init a new cross section.
+ * \var csnewt1
+ * \brief typical times array to define the first cross section.
+ * \var csnewt2
+ * \brief typical times array to define the second cross section.
+ * \var csnew
+ * \brief array of typical cross sections to define a new channel.
+ * \var bfnew1t
+ * \brief first typical times array to define the inner boundary condition of a
+ *   new channel.
+ * \var bfnew2t
+ * \brief second typical times array to define the inlet boundary conditions of
+ *   a new channel.
+ * \var bfnew3t
+ * \brief third typical times array to define the outlet boundary condition of a
+ *   new channel.
+ * \var bfnew1p1
+ * \brief first typical parameters array to define the inner boundary condition
+ *   of a new channel.
+ * \var bfnew2p1
+ * \brief second typical parameters array to define the inlet boundary condition
+ *   of a new channel.
+ * \var bfnew3p1
+ * \brief third typical parameters array to define the outlet boundary condition
+ *   of a new channel.
+ * \var bfnew
+ * \brief tyree typical boundary conditions of flow to define a new channel.
+ * \var btnew
+ * \brief a typical boundary condition of transport to define a new channel.
+ * \var ctnew
+ * \brief a typical struct defining the transport in a new channel.
+ * \var cgnewx
+ * \brief array of positions to define the channel geometry in a new channel.
+ * \var chanew
+ * \brief a typical channel struct to define a new system of channels.
+ * \var sysnew
+ * \brief a typical new system of channels.
+ * \var sys
+ * \brief the system of channels to simulate.
+ */
+char *message = NULL;
 GMutex mutex[1];
-int simulating=0;
-int mass_inputs=0;
-JBFLOAT friction_dz=FRICTION_DZ;
-SectionPoint2 spnew[2]={{0.,0.,0.03,0},{1.,1.,0.,0}};
-TransientSection tsnew[2]={{1,0,0.,0.,0.,1.,0.1,0.,spnew,spnew,"Transient1"},
-	{1,0,0.,0.,0.,1.,0.1,0.,spnew,spnew,"Transient2"}};
-JBFLOAT csnewt1[1]={0.};
-JBFLOAT csnewt2[1]={0.};
-CrossSection csnew[NEW_GEOMETRY_SIZE]=
-	{{0,0,0,0,0,0,0.,0.,90.,0.,0.,0.,0.,0.,csnewt1,tsnew,"Section1"},
-	{0,0,0,0,0,0,1.,0.,90.,0.,0.,0.,0.,0.,csnewt2,tsnew+1,"Section2"}};
-JBFLOAT bfnew1t[1]={0.};
-JBFLOAT bfnew1p1[1]={0.};
-JBFLOAT bfnew2t[1]={0.};
-JBFLOAT bfnew2p1[1]={0.};
-JBFLOAT bfnew3t[1]={0.};
-JBFLOAT bfnew3p1[1]={0.};
-BoundaryFlow bfnew[3]={{0,1,1,0,0,0,bfnew1t,bfnew1p1,0,"Inner1",0},
-	{0,1,1,0,0,0,bfnew2t,bfnew2p1,0,"Inlet",0},
-	{0,2,1,0,0,0,bfnew3t,bfnew3p1,0,"Outlet",0}};
-BoundaryTransport btnew[1]={{0,1,1,0,0,0,0.,bfnew1t,bfnew1p1,"Boundary"}};
-ChannelTransport ctnew[1]={{-1,{{0,0,0}},NULL}};
-JBFLOAT cgnewx[NEW_GEOMETRY_SIZE]={0.,1.};
-Channel chanew[1]={{1,-1,0,1,0,1.,{{1,cgnewx,csnew}},
-	{{0,0,0}},bfnew+1,NULL,NULL,NULL,NULL,"Channel"}};
-System sys[1],sysnew[1]={{0,-1,0.,0.,0.,0.,0.9,0.5,1e-12,0.,SECTION_WIDTH_MIN,
-	FLOW_DEPTH_MIN,GRANULOMETRIC_COEFFICIENT,NULL,NULL,chanew,"New.xml",".",
-	"sol.tmp","./sol.tmp"}};
+int simulating = 0;
+int mass_inputs = 0;
+JBFLOAT friction_dz = FRICTION_DZ;
+SectionPoint2 spnew[2] = {{0., 0., 0.03, 0}, {1., 1., 0., 0}};
+TransientSection tsnew[2] = {
+	{1, 0, 0., 0., 0., 1., 0.1, 0., spnew, spnew, "Transient1"}, 
+	{1, 0, 0., 0., 0., 1., 0.1, 0., spnew, spnew, "Transient2"}};
+JBFLOAT csnewt1[1] = {0.};
+JBFLOAT csnewt2[1] = {0.};
+CrossSection csnew[NEW_GEOMETRY_SIZE] = 
+	{{0, 0, 0, 0, 0, 0, 0., 0., 90., 0., 0., 0., 0., 0., csnewt1, tsnew,
+		"Section1"}, 
+	{0, 0, 0, 0, 0, 0, 1., 0., 90., 0., 0., 0., 0., 0., csnewt2, tsnew + 1,
+		"Section2"}};
+JBFLOAT bfnew1t[1] = {0.};
+JBFLOAT bfnew1p1[1] = {0.};
+JBFLOAT bfnew2t[1] = {0.};
+JBFLOAT bfnew2p1[1] = {0.};
+JBFLOAT bfnew3t[1] = {0.};
+JBFLOAT bfnew3p1[1] = {0.};
+BoundaryFlow bfnew[3] = {{0, 1, 1, 0, 0, 0, bfnew1t, bfnew1p1, 0, "Inner1", 0}, 
+	{0, 1, 1, 0, 0, 0, bfnew2t, bfnew2p1, 0, "Inlet", 0}, 
+	{0, 2, 1, 0, 0, 0, bfnew3t, bfnew3p1, 0, "Outlet", 0}};
+BoundaryTransport btnew[1] =
+	{{0, 1, 1, 0, 0, 0, 0., bfnew1t, bfnew1p1, "Boundary"}};
+ChannelTransport ctnew[1] = {{-1, {{0, 0, 0}}, NULL}};
+JBFLOAT cgnewx[NEW_GEOMETRY_SIZE] = {0., 1.};
+Channel chanew[1] = {{1, -1, 0, 1, 0, 1., {{1, cgnewx, csnew}}, 
+	{{0, 0, 0}}, bfnew + 1, NULL, NULL, NULL, NULL, "Channel"}};
+System sys[1], sysnew[1] = {{0, -1, 0., 0., 0., 0., 0.9, 0.5, 1e-12, 0.,
+	SECTION_WIDTH_MIN, FLOW_DEPTH_MIN, GRANULOMETRIC_COEFFICIENT, NULL, NULL,
+	chanew, "New.xml", ".", "sol.tmp", "./sol.tmp"}};

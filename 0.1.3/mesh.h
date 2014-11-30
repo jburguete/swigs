@@ -27,15 +27,12 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/*
-mesh.h
-
-Header file to define the mesh
-
-Author: Javier Burguete Tolosa
-Copyright 2005-2014 Javier Burguete Tolosa. All right reserved
-*/
-
+/**
+ * \file mesh.h
+ * \brief Header file to define the mesh.
+ * \author Javier Burguete Tolosa.
+ * \copyright Copyright 2005-2014 Javier Burguete Tolosa. All right reserved.
+ */
 #ifndef MESH__H
 #define MESH__H 1
 
@@ -43,6 +40,10 @@ Copyright 2005-2014 Javier Burguete Tolosa. All right reserved
 #include "channel_segment.h"
 #include "section_changes.h"
 
+/**
+ * \def N_OF_VARIABLES
+ * \brief Macro to define the number of variables to save in the solution file.
+ */
 #define N_OF_VARIABLES 8
 
 typedef struct

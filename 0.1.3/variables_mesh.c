@@ -27,46 +27,53 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/*
-variables_mesh.c
+/**
+ * \file variables_mesh.c
+ * \brief Source file to define the necessary variables to define a mesh.
+ * \author Javier Burguete Tolosa.
+ * \copyright Copyright 2005-2014 Javier Burguete Tolosa. All rights reserved.
+ */
 
-Source file to define the necessary variables to define a mesh
+// Global variables of swigs defined in variables_mesh.c
 
-Author: Javier Burguete Tolosa
-Copyright 2005-2014 Javier Burguete Tolosa. All rights reserved
-*/
-
-/*
-Global variables of swigs defined in variables_mesh.c
-
-int nth: number of threads compatible with the mesh
-int nthreads: number of threads
-JBDOUBLE t: simulation time
-JBDOUBLE dt: size of a time step
-JBDOUBLE tmax: time of the next time step
-int n: number of mesh cells
-int njunctions: number of junctions
-int vsize: size in bytes of the variables
-int *cell_thread: array of index of mesh cells corresponding to every thread
-Parameters *p: array of flow parameters
-TransportParameters *tp: array of transport parameters
-Variables v[1]: struct with the variables
-Junction *junction: array of junctions
-Mass *mass: array of masses
-GSList **list_channels: array of channels lists
-*/
-
-int nth,nthreads;
-
-JBDOUBLE t,dt,tmax;
-int n,njunctions,vsize;
-
-int *cell_thread=NULL;
-
-Parameters *p=NULL;
-TransportParameters *tp=NULL;
+/**
+ * \var nth
+ * \brief number of threads compatible with the mesh.
+ * \var nthreads
+ * \brief number of threads.
+ * \var n
+ * \brief number of mesh cells.
+ * \var njunctions
+ * \brief number of junctions.
+ * \var vsize
+ * \brief size in bytes of the variables.
+ * \var t
+ * \brief simulation time.
+ * \var dt
+ * \brief size of a time step.
+ * \var tmax
+ * \brief time of the next time step.
+ * \var cell_thread
+ * \brief array of index of mesh cells corresponding to every thread.
+ * \var p
+ * \brief array of flow parameters.
+ * \var tp
+ * \brief array of transport parameters.
+ * \var v
+ * \brief struct with the variables.
+ * \var junction
+ * \brief array of junctions.
+ * \var m
+ * \brief array of masses.
+ * \var list_channels
+ * \brief array of channels lists.
+ */
+int nth, nthreads, n, njunctions, vsize;
+JBDOUBLE t, dt, tmax;
+int *cell_thread = NULL;
+Parameters *p = NULL;
+TransportParameters *tp = NULL;
 Variables v[1];
-Junction *junction=NULL;
-Mass *m=NULL;
-
-GSList **list_channels=NULL;
+Junction *junction = NULL;
+Mass *m = NULL;
+GSList **list_channels = NULL;
