@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<simulate>
+	<system name="Violada.xml">
+		<evolution name="Inlet.evo" channel="1" section="1"/>
+		<evolution name="Alumudevar.evo" channel="1" section="2"/>
+		<evolution name="Outlet.evo" channel="1" section="5"/>
+	</system>
+</simulate>

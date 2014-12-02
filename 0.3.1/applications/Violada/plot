@@ -1,0 +1,9 @@
+set term pos enh eps
+set xlabel 'Date (s)'
+set ylabel 'Discharge (m^3/s)'
+set out 'Violada-contributions.eps'
+plot 'Violada.con' u ($1-1262300400):2 t'Inlet' w l, \
+	'Violada.con' u ($1-1262300400):3 t'Almudevar' w l, \
+	'Violada.con' u ($1-1262300400):4 t'Gurrea' w l, \
+	'Violada.con' u ($1-1262300400):5 t'El Temple' w l, \
+	'Violada.con' u ($1-1262300400):6 t'Outlet' w l
