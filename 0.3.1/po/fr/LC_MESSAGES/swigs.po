@@ -5,9 +5,9 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: swigs 0.3.0\n"
+"Project-Id-Version: swigs 0.3.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-01 05:09+0100\n"
+"POT-Creation-Date: 2014-12-02 08:41+0100\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -133,7 +133,7 @@ msgstr "Tolérance erronée"
 
 #: boundary_flow.h:596
 msgid "Not hydrogram"
-msgstr ""
+msgstr "Hydrogramme indéfini"
 
 #: boundary_flow.h:628 boundary_flow.h:747
 msgid "Bad time"
@@ -154,11 +154,11 @@ msgstr "Nom indéfini"
 
 #: transport.h:190
 msgid "Bad solubility"
-msgstr "Solubilité erronée"
+msgstr "Solubilité incorrecte"
 
 #: transport.h:201
 msgid "Bad danger concentration"
-msgstr "Concentration de danger erronée"
+msgstr "Concentration dangereuse incorrecte"
 
 #: channel_transport.h:66 channel.h:525
 msgid "Channel transport"
@@ -200,7 +200,7 @@ msgstr "Sistème"
 
 #: system.h:291 system.h:302
 msgid "Boundary flow"
-msgstr ""
+msgstr "Limit d'écoulemnt"
 
 #: system.h:292 system.h:303 mesh.h:1007
 msgid "Junction"
@@ -265,7 +265,7 @@ msgstr "Temps final de simulation erroné"
 
 #: system.h:513
 msgid "Final time lower than initial time"
-msgstr ""
+msgstr "Temps final plus petit que le temps final"
 
 #: system.h:519
 msgid "Bad CFL"
@@ -285,7 +285,7 @@ msgstr "Intervalle de temps de mesure erroné"
 
 #: system.h:547
 msgid "Bad minimum cross section width"
-msgstr ""
+msgstr "La plus petite largeur de la section de canal incorrecte"
 
 #: system.h:554
 msgid "Bad minimum depth"
@@ -368,7 +368,7 @@ msgstr "Solution"
 
 #: system.c:103 mesh.c:212 init.c:617 init.c:656
 msgid "Usage is"
-msgstr ""
+msgstr "Usage est"
 
 #: system.c:103 mesh.c:212
 msgid "swigs simulation_file"
@@ -384,7 +384,7 @@ msgstr "Attention!"
 
 #: simulate.c:92
 msgid "Calculating geometrical parameters"
-msgstr ""
+msgstr "En calculant paramètres géometriques"
 
 #: simulate.c:99
 msgid "Opening mesh"
@@ -410,7 +410,7 @@ msgstr "Conditions initiales d'écoulement"
 msgid "Do you want to overwrite the solution file?"
 msgstr ""
 
-#: simulate.c:561
+#: simulate.c:562
 msgid "Channel overflow"
 msgstr "Débordement du canal"
 
@@ -500,7 +500,7 @@ msgstr "Ouvrir sistème"
 #: dialog_system.c:55 dialog_graphical_options.c:412
 #: dialog_save_solution.c:114 dialog_simulator.c:65
 msgid "_Cancel"
-msgstr ""
+msgstr "_Annuler"
 
 #: dialog_graphical_options.c:37
 msgid "Discharge"

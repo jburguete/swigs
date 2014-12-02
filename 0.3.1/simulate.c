@@ -531,6 +531,7 @@ void simulate()
 			#endif
 			if (type_animation == 2) draw();
 			if (sys->plumes_path) write_plumes(file3, p, tp, t, sys);
+			if (sys->contributions_path) write_contributions(file4, t, sys);
 		}
 		#if DEBUG_SIMULATE
 			if (t >= DEBUG_TIME) fprintf(stderr, "S draw\n");
