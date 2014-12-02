@@ -687,6 +687,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define XML_CROSS_SECTION		(const xmlChar*)"cross_section"
 #define XML_DAM 		 		(const xmlChar*)"dam"
 #define XML_DANGER 		 		(const xmlChar*)"danger"
+#define XML_DELAY				(const xmlChar*)"delay"
 #define XML_DEPTH				(const xmlChar*)"depth"
 #define XML_DEPTH_MIN			(const xmlChar*)"depth_min"
 #define XML_DISCHARGE			(const xmlChar*)"discharge"

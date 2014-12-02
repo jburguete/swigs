@@ -79,6 +79,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define N_BOUNDARY_FLOW_EXTERN	15
 #define N_BOUNDARY_FLOW_INNER	9
 
+#define BOUNDARY_DELAY(bf) (((JBFLOAT*)bf->data)[0])
+
 #define DAM_LEVEL(bf) (((JBFLOAT*)bf->data)[0])
 #define DAM_ROUGHNESS(bf) (((JBFLOAT*)bf->data)[1])
 
@@ -173,6 +175,13 @@ static inline void _boundary_flow_print(BoundaryFlow *bf,FILE *file)
 
 	switch (bf->type)
 	{
+	case BOUNDARY_FLOW_QT:
+	case BOUNDARY_FLOW_HT:
+	case BOUNDARY_FLOW_ZT:
+	case BOUNDARY_FLOW_QT_HT:
+	case BOUNDARY_FLOW_QT_ZT:
+		fprintf(file,"BFP delay="FWF"\n",BOUNDARY_DELAY(bf));
+		break;
 	case BOUNDARY_FLOW_DAM:
 		fprintf(file,"BFP level="FWF" roughness="FWF"\n",
 			DAM_LEVEL(bf),DAM_ROUGHNESS(bf));
@@ -301,6 +310,18 @@ static inline int _boundary_flow_copy(BoundaryFlow *bf,BoundaryFlow *bf_copy)
 		GAUGE_TOLERANCE(bf) = GAUGE_TOLERANCE(bf_copy);
 	}
 
+	switch (bf->type)
+	{
+	case BOUNDARY_FLOW_QT:
+	case BOUNDARY_FLOW_HT:
+	case BOUNDARY_FLOW_ZT:
+	case BOUNDARY_FLOW_QT_HT:
+	case BOUNDARY_FLOW_QT_ZT:
+		bf->data = g_try_malloc(sizeof(JBFLOAT));
+		if (!bf->data) goto exit1;
+		BOUNDARY_DELAY(bf) = BOUNDARY_DELAY(bf_copy);
+	}
+		
 exit0:
 	#if DEBUG_BOUNDARY_FLOW_COPY
 		boundary_flow_print(bf,stderr);
@@ -894,11 +915,28 @@ type0i:
 	}
 
 exit0:
+	xmlFree(buffer);
+	switch (bf->type)
+	{
+	case BOUNDARY_FLOW_QT:
+	case BOUNDARY_FLOW_HT:
+	case BOUNDARY_FLOW_ZT:
+	case BOUNDARY_FLOW_QT_HT:
+	case BOUNDARY_FLOW_QT_ZT:
+		bf->data = g_try_malloc(sizeof(JBFLOAT));
+		if (!bf->data) goto exit1;
+		BOUNDARY_DELAY(bf)
+			= jb_xml_node_get_float_with_default(node, XML_DELAY, &i, 0.);
+		if (!i)
+		{
+			boundary_flow_error(bf, gettext("Bad delay"));
+			goto exit1;
+		}
+	}
 	#if DEBUG_BOUNDARY_FLOW_OPEN_XML
 		boundary_flow_print(bf,stderr);
 		fprintf(stderr,"boundary_flow_open_xml: end\n");
 	#endif
-	xmlFree(buffer);
 	return 1;
 
 exit4:
@@ -1026,6 +1064,17 @@ static inline void _boundary_flow_save_xml
 		g_free(buffer2);
 	}
 
+	switch (bf->type)
+	{
+	case BOUNDARY_FLOW_QT:
+	case BOUNDARY_FLOW_HT:
+	case BOUNDARY_FLOW_ZT:
+	case BOUNDARY_FLOW_QT_HT:
+	case BOUNDARY_FLOW_QT_ZT:
+		jb_xml_node_set_float_with_default
+			(node, XML_DELAY, BOUNDARY_DELAY(bf), 0.);
+	}
+
 	#if DEBUG_BOUNDARY_FLOW_SAVE_XML
 		fprintf(stderr,"boundary_flow_save_xml: end\n");
 	#endif
@@ -1056,7 +1105,7 @@ static inline JBDOUBLE _boundary_flow_parameter(BoundaryFlow *bf,JBDOUBLE t)
 	case BOUNDARY_FLOW_QT_ZT:
 		if (!simulating) return bf->p2[0];
 	}
-	k = jbm_farray_interpolate(t, bf->p1, bf->p2, bf->n);
+	k = jbm_farray_interpolate(t - BOUNDARY_DELAY(bf), bf->p1, bf->p2, bf->n);
 	#if DEBUG_BOUNDARY_FLOW_PARAMETER
 		fprintf(stderr,"boundary_flow_parameter: end\n");
 	#endif
@@ -1088,7 +1137,7 @@ static inline JBDOUBLE _boundary_flow_parameter2(BoundaryFlow *bf,JBDOUBLE t)
 	case BOUNDARY_FLOW_QT_ZT:
 		if (!simulating) return bf->p3[0];
 	}
-	k = jbm_farray_interpolate(t, bf->p1, bf->p3, bf->n);
+	k = jbm_farray_interpolate(t - BOUNDARY_DELAY(bf), bf->p1, bf->p3, bf->n);
 	#if DEBUG_BOUNDARY_FLOW_PARAMETER2
 		fprintf(stderr,"boundary_flow_parameter2: end\n");
 	#endif
@@ -1122,7 +1171,8 @@ static inline JBDOUBLE _boundary_flow_parameter_integral
 	case BOUNDARY_FLOW_QT_ZT:
 		if (!simulating) return bf->p2[0] * (tmax - t);
 	}
-	k = jbm_farray_integral(bf->p1, bf->p2, bf->n, t, tmax);
+	k = jbm_farray_integral(bf->p1, bf->p2, bf->n, t - BOUNDARY_DELAY(bf),
+		tmax - BOUNDARY_DELAY(bf));
 	#if DEBUG_BOUNDARY_FLOW_PARAMETER_INTEGRAL
 		fprintf(stderr,"boundary_flow_parameter_integral: end\n");
 	#endif
