@@ -264,3 +264,63 @@ void editor_transient_section_draw
 		fprintf(stderr,"editor_transient_section_draw: end\n");
 	#endif
 }
+
+/**
+ * \fn void editor_transient_section_new(EditorTransientSection *editor)
+ * \brief Function to create a new transient section editor.
+ * \param editor
+ * \brief transient section editor.
+ */
+void editor_transient_section_new(EditorTransientSection *editor)
+{
+	int i;
+	static const char *label_type[N_TRANSIENT_SECTION_TYPES] =
+		{gettext("Straight"), gettext("Polilyne")};
+	editor->grid = (GtkGrid*)gtk_grid_new();
+	editor->label_name = (GtkLabel*)gtk_label_new(gettext("Name"));
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_name), 0, 0, 1, 1);
+	editor->entry_name = (GtkEntry*)gtk_entry_new();
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_name), 0, 0, 1, 1);
+	editor->label_t = (GtkLabel*)gtk_label_new(gettext("Time"));
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_t), 0, 0, 1, 1);
+	editor->entry_t = (GtkEntry*)gtk_entry_new();
+	editor->label_u = (GtkLabel*)gtk_label_new(gettext("Velocity"));
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_u), 0, 0, 1, 1);
+	editor->entry_u = (GtkEntry*)gtk_entry_new();
+	editor->label_contraction
+		= (GtkLabel*)gtk_label_new(gettext("Contraction coefficient"));
+	gtk_grid_attach
+		(editor->grid, GTK_WIDGET(editor->label_contraction), 0, 0, 1, 1);
+	editor->entry_contraction = (GtkEntry*)gtk_entry_new();
+	editor->label_hmax = (GtkLabel*)gtk_label_new(gettext("Maximum depth"));
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_hmax), 0, 0, 1, 1);
+	editor->entry_hmax = (GtkEntry*)gtk_entry_new();
+	editor->label_dz
+		= (GtkLabel*)gtk_label_new(gettext("Depth accuracy for friction"));
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_dz), 0, 0, 1, 1);
+	editor->entry_dz = (GtkEntry*)gtk_entry_new();
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_dz), 0, 0, 1, 1);
+	for (i = 0; i < N_TRANSIENT_SECTION_TYPES; ++i)
+	{
+		editor->array_type[i]
+			= (GtkRadioButton*)gtk_radio_button_new_with_label(label_type[i]);
+		gtk_grid_attach
+			(editor->grid, GTK_WIDGET(editor->array_type[i]), 0, 0, 1, 1);
+	}
+	editor->button_insert
+		= (GtkButton*)gtk_button_new_with_label(gettext("Insert point"));
+	gtk_grid_attach
+		(editor->grid, GTK_WIDGET(editor->button_insert), 0, 0, 1, 1);
+	editor->button_remove
+		= (GtkButton*)gtk_button_new_with_label(gettext("Remove point"));
+	gtk_grid_attach
+		(editor->grid, GTK_WIDGET(editor->button_remove), 0, 0, 1, 1);
+	editor->button_plot
+		= (GtkButton*)gtk_button_new_with_label(gettext("Update plot"));
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->button_plot), 0, 0, 1, 1);
+	g_signal_connect_swapped(editor->button_insert, "clicked",
+		(void(*))&editor_transient_section_insert_point, editor);
+	g_signal_connect_swapped(editor->button_remove, "clicked",
+		(void(*))&editor_transient_section_remove_point, editor);
+	gtk_widget_show_all(GTK_WIDGET(editor->grid));
+}

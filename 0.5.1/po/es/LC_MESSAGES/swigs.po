@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: swigs 0.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-03 05:40+0100\n"
+"POT-Creation-Date: 2014-12-03 12:49+0100\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -18,14 +18,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: transient_section.h:165 transient_section.h:204 transient_section.h:285
-#: transient_section.h:296 dialog_graphical_options.c:296
+#: transient_section.h:165 transient_section.h:204 transient_section.h:308
+#: transient_section.h:319 dialog_graphical_options.c:296
 #: dialog_graphical_options.c:356 dialog_graphical_options.c:371
 msgid "Transient section"
 msgstr "Sección transitoria"
 
-#: transient_section.h:205 transient_section.h:297 transient_section.h:336
-#: transient_section.h:367 transient_section.h:413 transient_section.h:439
+#: transient_section.h:205 transient_section.h:320 transient_section.h:359
+#: transient_section.h:390 transient_section.h:436 transient_section.h:462
 #: cross_section.h:203 cross_section.h:319 cross_section.h:428
 #: channel_geometry.h:136 channel_geometry.h:221 channel_geometry.h:259
 #: initial_flow.h:187 initial_flow.h:278 initial_flow.h:291
@@ -49,16 +49,16 @@ msgstr "Sección transitoria"
 msgid "Not enough memory"
 msgstr "Falta memoria"
 
-#: transient_section.h:286 cross_section.h:307 boundary_flow.h:372
+#: transient_section.h:309 cross_section.h:307 boundary_flow.h:372
 #: boundary_transport.h:189 transport.h:175 channel.h:585
 msgid "Not name"
 msgstr "Nombre no definido"
 
-#: transient_section.h:314
+#: transient_section.h:337
 msgid "Unknown type"
 msgstr "Tipo desconocido"
 
-#: transient_section.h:460 cross_section.h:326 cross_section.h:332
+#: transient_section.h:481 cross_section.h:326 cross_section.h:332
 #: cross_section.h:338 cross_section.h:344 cross_section.h:360
 #: cross_section.h:374 cross_section.h:388 cross_section.h:404
 #: cross_section.h:410 cross_section.h:417 cross_section.h:443
