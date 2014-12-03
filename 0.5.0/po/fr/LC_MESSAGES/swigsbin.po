@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: swigs 0.5.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-02 18:23+0100\n"
+"POT-Creation-Date: 2014-12-03 03:44+0100\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -33,9 +33,9 @@ msgstr "Section transitoire"
 #: boundary_flow.h:638 boundary_flow.h:658 boundary_flow.h:669
 #: boundary_flow.h:757 boundary_flow.h:777 boundary_flow.h:788
 #: boundary_flow.h:823 boundary_flow.h:836 boundary_flow.h:847
-#: boundary_flow.h:874 boundary_flow.h:901 boundary_transport.h:156
-#: boundary_transport.h:196 boundary_transport.h:259 boundary_transport.h:274
-#: boundary_transport.h:287 boundary_transport.h:298 transport.h:106
+#: boundary_flow.h:874 boundary_flow.h:901 boundary_transport.h:157
+#: boundary_transport.h:197 boundary_transport.h:270 boundary_transport.h:285
+#: boundary_transport.h:298 boundary_transport.h:309 transport.h:106
 #: transport.h:148 channel_transport.h:114 channel_transport.h:204
 #: channel_transport.h:248 channel.h:129 channel.h:187 channel.h:251
 #: channel.h:343 channel.h:443 channel.h:470 channel.h:506 channel.h:526
@@ -49,7 +49,7 @@ msgid "Not enough memory"
 msgstr "Mémoire insuffisante"
 
 #: transient_section.h:289 cross_section.h:307 boundary_flow.h:372
-#: boundary_transport.h:188 transport.h:175 channel.h:585
+#: boundary_transport.h:189 transport.h:175 channel.h:585
 msgid "Not name"
 msgstr "Nom indéfini"
 
@@ -64,7 +64,7 @@ msgstr "Type inconnu"
 #: channel_geometry.h:271 initial_flow.h:306 initial_transport.h:261
 #: junction_data.h:104 boundary_flow.h:522 boundary_flow.h:535
 #: boundary_flow.h:545 boundary_flow.h:551 boundary_flow.h:868
-#: boundary_flow.h:895 boundary_transport.h:246 boundary_transport.h:253
+#: boundary_flow.h:895 boundary_transport.h:257 boundary_transport.h:264
 #: channel_transport.h:255 channel.h:537 system.h:617
 msgid "Bad defined"
 msgstr "Erroné"
@@ -85,7 +85,7 @@ msgstr "Ordre erroné"
 #: boundary_flow.h:458 boundary_flow.h:470 boundary_flow.h:622
 #: boundary_flow.h:629 boundary_flow.h:740 boundary_flow.h:748
 #: boundary_flow.h:863 boundary_flow.h:888 boundary_flow.h:913
-#: boundary_transport.h:233 boundary_transport.h:312
+#: boundary_transport.h:234 boundary_transport.h:323
 msgid "Unknow type"
 msgstr "Type inconnu"
 
@@ -106,7 +106,7 @@ msgid "Junction data"
 msgstr "Données de l_iaison"
 
 #: junction_data.h:94 boundary_flow.h:380 boundary_flow.h:388
-#: boundary_transport.h:208 boundary_transport.h:214 boundary_transport.h:224
+#: boundary_transport.h:209 boundary_transport.h:215 boundary_transport.h:225
 #: channel.h:375 dialog_position.h:64
 msgid "Bad position"
 msgstr "Position erronée"
@@ -139,11 +139,11 @@ msgstr ""
 msgid "Bad time"
 msgstr "Temps erroné"
 
-#: boundary_flow.h:932
+#: boundary_flow.h:932 boundary_transport.h:245
 msgid "Bad delay"
 msgstr "Retard erroné"
 
-#: boundary_transport.h:91 boundary_transport.h:187 boundary_transport.h:195
+#: boundary_transport.h:92 boundary_transport.h:188 boundary_transport.h:196
 msgid "Transport boundary condition"
 msgstr "Condition au limit de transport"
 

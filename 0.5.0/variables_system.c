@@ -116,7 +116,7 @@ BoundaryFlow bfnew[3] = {
 	{0, 1, 1, 0, 0, 0, 0., bfnew2t, bfnew2p1, 0, "Inlet", 0}, 
 	{0, 2, 1, 0, 0, 0, 0., bfnew3t, bfnew3p1, 0, "Outlet", 0}};
 BoundaryTransport btnew[1] =
-	{{0, 1, 1, 0, 0, 0, 0., 0., bfnew1t, bfnew1p1, "Boundary"}};
+	{{0, 1, 1, 0, 0, 0, 0., 0., 0., bfnew1t, bfnew1p1, "Boundary"}};
 ChannelTransport ctnew[1] = {{-1, {{0, 0, 0}}, NULL}};
 JBFLOAT cgnewx[NEW_GEOMETRY_SIZE] = {0., 1.};
 Channel chanew[1] = {{1, -1, 0, 1, 0, 1., {{1, cgnewx, csnew}}, 

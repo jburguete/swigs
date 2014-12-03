@@ -51,7 +51,7 @@ enum BoundaryTransportType
 typedef struct
 {
 	int type,pos,pos2,n,i,i2;
-	JBFLOAT contribution,length,*p1,*p2;
+	JBFLOAT contribution,length,delay,*p1,*p2;
 	char *name;
 } BoundaryTransport;
 
@@ -63,6 +63,7 @@ static inline void _boundary_transport_print(BoundaryTransport *bt,FILE *file)
 	fprintf(file,"boundary_transport_print: start\n");
 	fprintf(file,"BTP name=%s\n",bt->name);
 	fprintf(file,"BTP type=%d pos=%d pos2=%d\n",bt->type,bt->pos,bt->pos2);
+	fprintf(file, "BTP length="FWF" delay="FWF"\n", bt->length, bt->delay);
 	switch (bt->type)
 	{
 	case BOUNDARY_TRANSPORT_M:
@@ -131,7 +132,7 @@ static inline int _boundary_transport_copy
 
 	if (bt == bt_copy) goto exit0;
 
-	memcpy(bt, bt_copy, (size_t)&bt->i - (size_t)bt);
+	memcpy(bt, bt_copy, (size_t)&bt->p1 - (size_t)bt);
 
 	bt->p1 = 0;
 
@@ -236,6 +237,16 @@ static inline int _boundary_transport_open_xml
 	buffer=(char*)xmlGetProp(node,XML_TYPE);
 	#if DEBUG_BOUNDARY_TRANSPORT_OPEN_XML
 		fprintf(stderr,"BTOX type=%s\n",buffer);
+	#endif
+
+	bt->delay = jb_xml_node_get_float_with_default(node, XML_DELAY, &i, 0.);
+	if (!i)
+	{
+		boundary_transport_error(bt,gettext("Bad delay"));
+		goto exit1;
+	}
+	#if DEBUG_BOUNDARY_TRANSPORT_OPEN_XML
+		fprintf(stderr,"BTOX delay=%s\n",bt->delay);
 	#endif
 
 	if (!xmlStrcmp((const xmlChar*)buffer,XML_M))
@@ -355,7 +366,8 @@ static inline void _boundary_transport_save_xml
 
 	xmlSetProp(node,XML_NAME,(const xmlChar*)bt->name);
 	jb_xml_node_set_int(node,XML_INITIAL,bt->pos);
-	if (bt->pos != bt->pos2) jb_xml_node_set_int(node,XML_FINAL,bt->pos2);
+	jb_xml_node_set_int_with_default(node, XML_FINAL, bt->pos2, bt->pos);
+	jb_xml_node_set_float_with_default(node, XML_DELAY, bt->delay, 0.);
 	xmlSetProp(node,XML_TYPE,bttype[bt->type]);
 
 	switch (bt->type)
@@ -396,7 +408,7 @@ static inline JBDOUBLE _boundary_transport_parameter
 	(BoundaryTransport *bt,JBDOUBLE t)
 {
 	if (!simulating) return bt->p2[0];
-	return jbm_farray_interpolate(t,bt->p1,bt->p2,bt->n);
+	return jbm_farray_interpolate(t - bt->delay, bt->p1, bt->p2, bt->n);
 }
 
 #if INLINE_BOUNDARY_TRANSPORT_PARAMETER
