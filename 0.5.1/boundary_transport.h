@@ -246,7 +246,7 @@ static inline int _boundary_transport_open_xml
 		goto exit1;
 	}
 	#if DEBUG_BOUNDARY_TRANSPORT_OPEN_XML
-		fprintf(stderr,"BTOX delay=%s\n",bt->delay);
+		fprintf(stderr,"BTOX delay="FWF"\n",bt->delay);
 	#endif
 
 	if (!xmlStrcmp((const xmlChar*)buffer,XML_M))

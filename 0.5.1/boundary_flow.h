@@ -1092,7 +1092,7 @@ static inline JBDOUBLE _boundary_flow_parameter(BoundaryFlow *bf,JBDOUBLE t)
 	#if DEBUG_BOUNDARY_FLOW_PARAMETER
 		int i;
 		fprintf(stderr,"boundary_flow_parameter: start\n");
-		fprintf(stderr,"BFP t="FWL"\n",t);
+		fprintf(stderr,"BFP t="FWL" type=%d n=%d\n",t,bf->type,bf->n);
 		for (i=0; i<=bf->n; ++i) fprintf(stderr,"BFP i=%d p1="FWF" p2="FWF"\n",
 			i,bf->p1[i],bf->p2[i]);
 	#endif
@@ -1104,8 +1104,9 @@ static inline JBDOUBLE _boundary_flow_parameter(BoundaryFlow *bf,JBDOUBLE t)
 	case BOUNDARY_FLOW_QT_HT:
 	case BOUNDARY_FLOW_QT_ZT:
 		if (!simulating) return bf->p2[0];
+		t -= BOUNDARY_DELAY(bf);
 	}
-	k = jbm_farray_interpolate(t - BOUNDARY_DELAY(bf), bf->p1, bf->p2, bf->n);
+	k = jbm_farray_interpolate(t, bf->p1, bf->p2, bf->n);
 	#if DEBUG_BOUNDARY_FLOW_PARAMETER
 		fprintf(stderr,"boundary_flow_parameter: end\n");
 	#endif
@@ -1136,8 +1137,9 @@ static inline JBDOUBLE _boundary_flow_parameter2(BoundaryFlow *bf,JBDOUBLE t)
 	case BOUNDARY_FLOW_QT_HT:
 	case BOUNDARY_FLOW_QT_ZT:
 		if (!simulating) return bf->p3[0];
+		t -= BOUNDARY_DELAY(bf);
 	}
-	k = jbm_farray_interpolate(t - BOUNDARY_DELAY(bf), bf->p1, bf->p3, bf->n);
+	k = jbm_farray_interpolate(t, bf->p1, bf->p3, bf->n);
 	#if DEBUG_BOUNDARY_FLOW_PARAMETER2
 		fprintf(stderr,"boundary_flow_parameter2: end\n");
 	#endif
@@ -1170,9 +1172,9 @@ static inline JBDOUBLE _boundary_flow_parameter_integral
 	case BOUNDARY_FLOW_QT_HT:
 	case BOUNDARY_FLOW_QT_ZT:
 		if (!simulating) return bf->p2[0] * (tmax - t);
+		t -= BOUNDARY_DELAY(bf);
 	}
-	k = jbm_farray_integral(bf->p1, bf->p2, bf->n, t - BOUNDARY_DELAY(bf),
-		tmax - BOUNDARY_DELAY(bf));
+	k = jbm_farray_integral(bf->p1, bf->p2, bf->n, t, tmax);
 	#if DEBUG_BOUNDARY_FLOW_PARAMETER_INTEGRAL
 		fprintf(stderr,"boundary_flow_parameter_integral: end\n");
 	#endif

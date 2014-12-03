@@ -241,13 +241,10 @@ static inline int _transient_section_copy
 	{
 	case TRANSIENT_SECTION_TYPE_STRAIGHT:
 		memcpy(ts->data, ts_copy->data, (ts->n + 1) * sizeof(SectionPoint2));
-		ts->sp = (SectionPoint2*)ts->data;
 		break;
 	default:
 		memcpy(ts->data, ts_copy->data,
 			(ts->n + 1) * (sizeof(SectionPoint3) + sizeof(SectionPoint2)));
-		ts->sp =
-			(SectionPoint2*)(ts->data + (ts->n + 1) * sizeof(SectionPoint3));
 	}
 
 exit0:
@@ -262,6 +259,29 @@ exit0:
 	#define transient_section_copy _transient_section_copy
 #else
 	int transient_section_copy(TransientSection*, TransientSection*);
+#endif
+
+static inline int _transient_section_transform
+	(TransientSection *ts, JBFLOAT x, JBFLOAT y, JBFLOAT angle)
+{
+	int i, n;
+	#if DEBUG_TRANSIENT_SECTION_TRANSFORM
+		fprintf(stderr, "transient_section_transform: start\n");
+	#endif
+	n = ts->n;
+	ts->sp = (SectionPoint2*)(ts->data + (n + 1) * sizeof(SectionPoint3));
+	for (i = 0; i <= n; ++i) section_point2_transform
+		(ts->sp + i, TRANSIENT_SECTION_POINT3(ts) + i, x, y, angle);
+	#if DEBUG_TRANSIENT_SECTION_TRANSFORM
+		fprintf(stderr, "transient_section_transform: end\n");
+	#endif
+}
+
+#if INLINE_TRANSIENT_SECTION_TRANSFORM
+	#define transient_section_transform _transient_section_transform
+#else
+	int transient_section_transform
+		(TransientSection*, JBFLOAT, JBFLOAT, JBFLOAT);
 #endif
 
 static inline int _transient_section_open_xml
@@ -442,9 +462,7 @@ static inline int _transient_section_open_xml
 			transient_section_error(ts, gettext("Not enough memory"));
 			goto exit1;
 		}
-		ts->sp = (SectionPoint2*)(ts->data + (j + 1) * sizeof(SectionPoint3));
-		for (i = 0; i <= j; ++i) section_point2_transform
-			(ts->sp + i, TRANSIENT_SECTION_POINT3(ts) + i, x, y, angle);
+		transient_section_transform(ts, x, y, angle);
 	}
 	#if DEBUG_TRANSIENT_SECTION_OPEN_XML
 		fprintf(stderr, "TSOX data=%ld sp=%ld\n",

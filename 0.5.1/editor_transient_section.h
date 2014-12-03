@@ -86,6 +86,7 @@ typedef struct
 	JBWArrayEditor *array;
 	JBWGraphic *graphic;
 	GtkEntry *entry_name;
+	GtkButton *button_insert, *button_remove;
 	GtkRadioButton *array_type[N_TRANSIENT_SECTION_TYPES];
 	GtkSpinButton *entry_t, *entry_u, *entry_contraction, *entry_hmax,
 		*entry_dz;

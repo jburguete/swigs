@@ -107,6 +107,26 @@ int transient_section_copy(TransientSection *ts, TransientSection *ts_copy)
 #endif
 
 /**
+ * \fn int transient_section_transform(TransientSection *ts, JBFLOAT x, \
+ *   JBFLOAT y, JBFLOAT angle)
+ * \brief Method to transform from a polilyne to a cross section.
+ * \param ts
+ * \brief TransientSection structure.
+ * \param x
+ * \brief x-coordinate of the axis point.
+ * \param y
+ * \brief y-coordinate of the axis point.
+ * \param angle
+ * \brief orientation angle of the transient section.
+ * \return 0 on error, 1 on success.
+ */
+#if !INLINE_TRANSIENT_SECTION_TRANSFORM
+int transient_section_transform
+	(TransientSection *ts, JBFLOAT x, JBFLOAT y, JBFLOAT angle)
+{return _transient_section_transform(ts, x, y, angle);}
+#endif
+
+/**
  * \fn int transient_section_open_xml(TransientSection *ts, xmlNode *node, \
  *   JBFLOAT x, JBFLOAT y, JBFLOAT angle)
  * \brief Method to open a TransientSection structure on a XML node.

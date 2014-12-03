@@ -2762,7 +2762,6 @@ static inline void _system_simulate_step2_parallel()
 static inline void _system_simulate_step2_simple()
 {
 	#if DEBUG_SYSTEM_SIMULATE_STEP2_SIMPLE
-		int i;
 		if (t>=DEBUG_TIME)
 			fprintf(stderr,"system_simulate_step2_simple: start\n");
 	#endif
@@ -2770,11 +2769,7 @@ static inline void _system_simulate_step2_simple()
 	part_simulate_step2(0);
 	#if DEBUG_SYSTEM_SIMULATE_STEP2_SIMPLE
 		if (t>=DEBUG_TIME)
-		{
-//			for (i=0; i<=n; ++i)
-//				fprintf(stderr,"SSS2S i=%d Q="FWF" A="FWF"\n",i,p[i].Q,p[i].A);
 			fprintf(stderr,"system_simulate_step2_simple: end\n");
-		}
 	#endif
 }
 
