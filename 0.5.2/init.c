@@ -484,7 +484,7 @@ int simulation_open(char *file_name)
 	int i;
 	char *system_name;
 	xmlNode *node, *child;
-	xmlDocPtr doc;
+	xmlDoc *doc;
 	#if DEBUG_SIMULATION_OPEN
 		fprintf(stderr, "simulation_open: start\n");
 	#endif
@@ -492,13 +492,13 @@ int simulation_open(char *file_name)
 	if (!doc)
 	{
 		jbw_show_error(gettext("Unable to open the parameters"));
-		return 0;
+		goto error_file;
 	}
 	node = xmlDocGetRootElement(doc);
 	if (xmlStrcmp(node->name, XML_SIMULATE))
 	{
 		jbw_show_error(gettext("Bad simulation XML file"));
-		return 0;
+		goto error_file;
 	}
 	for (node = node->children; node; node = node->next)
 	{
@@ -526,12 +526,14 @@ int simulation_open(char *file_name)
 		system_delete(sys);
 		xmlFree(system_name);
 	}
+	xmlFreeDoc(doc);
 	#if DEBUG_SIMULATION_OPEN
 		fprintf(stderr, "simulation_open: end\n");
 	#endif
 	return 1;
 
 error_file:
+	xmlFreeDoc(doc);
 	#if DEBUG_SIMULATION_OPEN
 		fprintf(stderr, "simulation_open: end\n");
 	#endif

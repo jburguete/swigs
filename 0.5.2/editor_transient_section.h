@@ -80,20 +80,21 @@ typedef struct
  * \var label_dz
  * \brief GtkLabel structure to show  a label of the transient section vertical
  *   step size calculating the friction coefficients.
+ * \var frame_type
+ * \brief GtkFrame structure to group the array_type buttons.
  * \var grid
  * \brief GtkGrid structure to pack the widgets.
  */
 	JBWArrayEditor *array;
 	JBWGraphic *graphic;
-	GtkEntry *entry_name;
+	GtkEntry *entry_name, *entry_t;
 	GtkButton *button_insert, *button_remove, *button_plot;
 	GtkRadioButton *array_type[N_TRANSIENT_SECTION_TYPES];
-	GtkSpinButton *entry_t, *entry_u, *entry_contraction, *entry_hmax,
-		*entry_dz;
+	GtkSpinButton *entry_u, *entry_contraction, *entry_hmax, *entry_dz;
 	GtkLabel *label_name, *label_t, *label_u, *label_contraction, *label_hmax,
 		*label_dz;
 	GtkFrame *frame_type;
-	GtkGrid *grid;
+	GtkGrid *grid, *grid_type;
 } EditorTransientSection;
 
 #endif

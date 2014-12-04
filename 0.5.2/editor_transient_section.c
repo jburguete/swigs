@@ -35,6 +35,29 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #include "editor_transient_section.h"
 
+#if TEST_EDITOR_TRANSIENT_SECTION
+	char *message;
+	TransientSection ts[1];
+	EditorTransientSection editor[1];
+#endif
+
+/**
+ * \fn void editor_transient_section_update(EditorTransientSection *editor)
+ * \brief Function to update the view of a transient section editor.
+ * \param editor
+ * \brief transient section editor.
+ */
+void editor_transient_section_update(EditorTransientSection *editor)
+{
+	int i;
+	i = jbw_array_radio_buttons_get_active(editor->array_type);
+	if (i == TRANSIENT_SECTION_TYPE_STRAIGHT)
+		jbw_array_editor_hide_column(editor->array, 0);
+	else jbw_array_editor_show_column(editor->array, 0);
+	gtk_widget_set_sensitive
+		(GTK_WIDGET(editor->button_remove), editor->array->n > 2);
+}
+
 /**
  * \fn void editor_transient_section_get(EditorTransientSection *editor, \
  *   TransientSection *ts)
@@ -48,7 +71,7 @@ void editor_transient_section_get
 	(EditorTransientSection *editor, TransientSection *ts)
 {
 	int i, j = editor->array->n;
-	JBFLOAT x[j], y[j], z[j];
+	JBFLOAT x[j], y[j], z[j], r[j];
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_GET
 		fprintf(stderr, "editor_transient_section_get: start\n");
 	#endif
@@ -56,7 +79,7 @@ void editor_transient_section_get
 	if (!transient_section_create(ts,
 		editor->array->n,
 		jbw_array_radio_buttons_get_active(editor->array_type),
-		gtk_entry_get_text(editor->entry_name)))
+		(char*)gtk_entry_get_text(editor->entry_name)))
 	{
 		jbw_show_error(message);
 		#if DEBUG_EDITOR_TRANSIENT_SECTION_GET
@@ -64,14 +87,16 @@ void editor_transient_section_get
 		#endif
 		gtk_main_quit();
 	}
+	jbw_array_editor_get_column_float(editor->array, 1, y);
+	jbw_array_editor_get_column_float(editor->array, 2, z);
+	jbw_array_editor_get_column_float(editor->array, 3, r);
+	#if INTERFACE == INTERFACE_SCIENTIFIC
+		int t[j];
+		jbw_array_editor_get_column_int(editor->array, 4, t);
+	#endif
 	if (ts->type == TRANSIENT_SECTION_TYPE_STRAIGHT)
 	{
-		jbw_array_editor_get_column_float(editor->array, 0, y);
-		jbw_array_editor_get_column_float(editor->array, 1, z);
-		jbw_array_editor_get_column_float(editor->array, 2, r);
 		#if INTERFACE == INTERFACE_SCIENTIFIC
-			int t[j];
-			jbw_array_editor_get_column_int(editor->array, 3, t);
 			for (i = j; --i>=0;)
 				section_point2_open(ts->sp + i, y[i], z[i], r[i], t[i]);
 		#else
@@ -82,12 +107,7 @@ void editor_transient_section_get
 	else
 	{
 		jbw_array_editor_get_column_float(editor->array, 0, x);
-		jbw_array_editor_get_column_float(editor->array, 1, y);
-		jbw_array_editor_get_column_float(editor->array, 2, z);
-		jbw_array_editor_get_column_float(editor->array, 3, r);
 		#if INTERFACE == INTERFACE_SCIENTIFIC
-			int t[j];
-			jbw_array_editor_get_column_int(editor->array, 4, t);
 			for (i = j; --i>=0;)
 				section_point3_open(TRANSIENT_SECTION_POINT3(ts) + i,
 					x[i], y[i], z[i], r[i], t[i]);
@@ -98,11 +118,11 @@ void editor_transient_section_get
 		#endif
 	}
 	ts->n = --j;
-	ts->t = gtk_spin_button_get_value(editor->entry_t);
+	ts->t = jb_get_time((char*)gtk_entry_get_text(editor->entry_t), &i);
 	ts->u = gtk_spin_button_get_value(editor->entry_u);
 	ts->contraction = gtk_spin_button_get_value(editor->entry_contraction);
 	ts->dz = gtk_spin_button_get_value(editor->entry_dz);
-	ts->zmin = jbm_varray_min(&(ts->sp->z), sizeof(SectionPoint), j);
+	ts->zmin = jbm_varray_min(&(ts->sp->z), sizeof(SectionPoint2), j);
 	ts->hmax = gtk_spin_button_get_value(editor->entry_hmax);
 	if (ts->hmax == 0.)
 		ts->hmax = fminl(ts->sp[0].z, ts->sp[ts->n].z) - ts->zmin;
@@ -147,12 +167,6 @@ void editor_transient_section_open
 				t[i] = ts->sp[i].t;
 			#endif
 		}
-		jbw_array_editor_set_column_float(dlg->editor_transient, 0, y);
-		jbw_array_editor_set_column_float(dlg->editor_transient, 1, z);
-		jbw_array_editor_set_column_float(dlg->editor_transient, 2, r);
-		#if INTERFACE == INTERFACE_SCIENTIFIC
-			jbw_array_editor_set_column_int(dlg->editor_transient, 3, t);
-		#endif
 	}
 	else
 	{
@@ -166,40 +180,25 @@ void editor_transient_section_open
 				t[i] = TRANSIENT_SECTION_POINT3(ts)[i].t;
 			#endif
 		}
-		jbw_array_editor_set_column_float(dlg->editor_transient, 0, y);
-		jbw_array_editor_set_column_float(dlg->editor_transient, 1, z);
-		jbw_array_editor_set_column_float(dlg->editor_transient, 2, r);
-		#if INTERFACE == INTERFACE_SCIENTIFIC
-			jbw_array_editor_set_column_int(dlg->editor_transient, 3, t);
-		#endif
+		jbw_array_editor_set_column_float(editor->array, 0, x);
 	}
-	gtk_spin_button_set_value(editor->entry_t, ts->t);
+	jbw_array_editor_set_column_float(editor->array, 1, y);
+	jbw_array_editor_set_column_float(editor->array, 2, z);
+	jbw_array_editor_set_column_float(editor->array, 3, r);
+	#if INTERFACE == INTERFACE_SCIENTIFIC
+		jbw_array_editor_set_column_int(editor->array, 4, t);
+	#endif
+	gtk_entry_set_text(editor->entry_t, jb_set_time(ts->t));
 	gtk_spin_button_set_value(editor->entry_u, ts->u);
 	gtk_spin_button_set_value(editor->entry_contraction, ts->contraction);
 	gtk_spin_button_set_value(editor->entry_dz, ts->dz);
 	if (ts->hmax == fminl(ts->sp[0].z, ts->sp[ts->n].z) - ts->zmin)
 		gtk_spin_button_set_value(editor->entry_hmax, 0.);
 	else gtk_spin_button_set_value(editor->entry_hmax, ts->hmax);
+	editor_transient_section_update(editor);
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_OPEN
 		fprintf(stderr,"editor_transient_section_open: end\n");
 	#endif
-}
-
-/**
- * \fn void editor_transient_section_update(EditorTransientSection *editor)
- * \brief Function to update the view of a transient section editor.
- * \param editor
- * \brief transient section editor.
- */
-void editor_transient_section_update(EditorTransientSection *editor)
-{
-	int i;
-	i = jbw_array_radio_buttons_get_active(editor->array_type);
-	if (i == TRANSIENT_SECTION_TYPE_STRAIGHT)
-		jbw_array_editor_hide_column(editor->array, 0);
-	else jbw_array_editor_show_column(editor->array, 0);
-	i = editor->array->n;
-	gtk_widget_set_sensitive(GTK_WIDGET(editor->button_remove), n < 3);
 }
 
 /**
@@ -274,53 +273,116 @@ void editor_transient_section_draw
 void editor_transient_section_new(EditorTransientSection *editor)
 {
 	int i;
-	static const char *label_type[N_TRANSIENT_SECTION_TYPES] =
+	const char *label_type[N_TRANSIENT_SECTION_TYPES] =
 		{gettext("Straight"), gettext("Polilyne")};
+	const char *label_array[5]
+		= {"x", "y", "z", gettext("Roughness"), gettext("Type")};
 	editor->grid = (GtkGrid*)gtk_grid_new();
 	editor->label_name = (GtkLabel*)gtk_label_new(gettext("Name"));
 	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_name), 0, 0, 1, 1);
 	editor->entry_name = (GtkEntry*)gtk_entry_new();
-	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_name), 0, 0, 1, 1);
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_name), 1, 0, 2, 1);
 	editor->label_t = (GtkLabel*)gtk_label_new(gettext("Time"));
-	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_t), 0, 0, 1, 1);
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_t), 0, 1, 1, 1);
 	editor->entry_t = (GtkEntry*)gtk_entry_new();
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_t), 1, 1, 2, 1);
 	editor->label_u = (GtkLabel*)gtk_label_new(gettext("Velocity"));
-	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_u), 0, 0, 1, 1);
-	editor->entry_u = (GtkEntry*)gtk_entry_new();
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_u), 0, 2, 1, 1);
+	editor->entry_u
+		= (GtkSpinButton*)gtk_spin_button_new_with_range(-1000., 1000., 0.0001);
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_u), 1, 2, 2, 1);
 	editor->label_contraction
 		= (GtkLabel*)gtk_label_new(gettext("Contraction coefficient"));
 	gtk_grid_attach
-		(editor->grid, GTK_WIDGET(editor->label_contraction), 0, 0, 1, 1);
-	editor->entry_contraction = (GtkEntry*)gtk_entry_new();
+		(editor->grid, GTK_WIDGET(editor->label_contraction), 0, 3, 1, 1);
+	editor->entry_contraction
+		= (GtkSpinButton*)gtk_spin_button_new_with_range(0., 100., 0.001);
+	gtk_grid_attach
+		(editor->grid, GTK_WIDGET(editor->entry_contraction), 1, 3, 2, 1);
 	editor->label_hmax = (GtkLabel*)gtk_label_new(gettext("Maximum depth"));
-	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_hmax), 0, 0, 1, 1);
-	editor->entry_hmax = (GtkEntry*)gtk_entry_new();
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_hmax), 0, 4, 1, 1);
+	editor->entry_hmax =
+		(GtkSpinButton*)gtk_spin_button_new_with_range(-10000., 10000., 0.001);
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_hmax), 1, 4, 2, 1);
 	editor->label_dz
 		= (GtkLabel*)gtk_label_new(gettext("Depth accuracy for friction"));
-	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_dz), 0, 0, 1, 1);
-	editor->entry_dz = (GtkEntry*)gtk_entry_new();
-	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_dz), 0, 0, 1, 1);
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_dz), 0, 5, 1, 1);
+	editor->entry_dz
+		= (GtkSpinButton*)gtk_spin_button_new_with_range(0., 10., 0.0001);
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_dz), 1, 5, 2, 1);
+	editor->frame_type = (GtkFrame*)gtk_frame_new(gettext("Type"));
+	editor->grid_type = (GtkGrid*)gtk_grid_new();
+	editor->array_type[0] = NULL;
 	for (i = 0; i < N_TRANSIENT_SECTION_TYPES; ++i)
 	{
 		editor->array_type[i]
-			= (GtkRadioButton*)gtk_radio_button_new_with_label(label_type[i]);
+			= (GtkRadioButton*)gtk_radio_button_new_with_label_from_widget
+				(editor->array_type[0], label_type[i]);
 		gtk_grid_attach
-			(editor->grid, GTK_WIDGET(editor->array_type[i]), 0, 0, 1, 1);
+			(editor->grid_type, GTK_WIDGET(editor->array_type[i]), 0, i, 1, 1);
+		g_signal_connect_swapped(editor->array_type[i], "clicked",
+			(void(*))&editor_transient_section_update, editor);
 	}
+	gtk_container_add
+		(GTK_CONTAINER(editor->frame_type), GTK_WIDGET(editor->grid_type));
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->frame_type), 0, 6, 3, 1);
 	editor->button_insert
 		= (GtkButton*)gtk_button_new_with_label(gettext("Insert point"));
 	gtk_grid_attach
-		(editor->grid, GTK_WIDGET(editor->button_insert), 0, 0, 1, 1);
+		(editor->grid, GTK_WIDGET(editor->button_insert), 0, 7, 1, 1);
+	g_signal_connect_swapped(editor->button_insert, "clicked",
+		(void(*))&editor_transient_section_insert_point, editor);
 	editor->button_remove
 		= (GtkButton*)gtk_button_new_with_label(gettext("Remove point"));
 	gtk_grid_attach
-		(editor->grid, GTK_WIDGET(editor->button_remove), 0, 0, 1, 1);
-	editor->button_plot
-		= (GtkButton*)gtk_button_new_with_label(gettext("Update plot"));
-	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->button_plot), 0, 0, 1, 1);
-	g_signal_connect_swapped(editor->button_insert, "clicked",
-		(void(*))&editor_transient_section_insert_point, editor);
+		(editor->grid, GTK_WIDGET(editor->button_remove), 1, 7, 1, 1);
 	g_signal_connect_swapped(editor->button_remove, "clicked",
 		(void(*))&editor_transient_section_remove_point, editor);
+	editor->button_plot
+		= (GtkButton*)gtk_button_new_with_label(gettext("Update plot"));
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->button_plot), 2, 7, 1, 1);
+	editor->array = jbw_array_editor_new(4, 3, 2, label_array);
+	gtk_grid_attach
+		(editor->grid, GTK_WIDGET(editor->array->scrolled), 0, 8, 3, 1);
 	gtk_widget_show_all(GTK_WIDGET(editor->grid));
 }
+
+#if TEST_EDITOR_TRANSIENT_SECTION
+int main(int argn, char **argc)
+{
+	xmlNode *node;
+	xmlDoc *doc;
+	GtkDialog *dlg;
+	ts->data = NULL;
+	ts->name = NULL;
+	xmlKeepBlanksDefault(0);
+	if (!jbw_graphic_init(&argn, &argc)) return 1;
+	editor_transient_section_new(editor);
+	doc = xmlParseFile(argc[1]);
+	if (!doc) return 2;
+	node = xmlDocGetRootElement(doc);
+	if (!transient_section_open_xml(ts, node, 0., 0., 0.)) return 3;
+	xmlFreeDoc(doc);
+	dlg = (GtkDialog*)gtk_dialog_new_with_buttons(
+		"Test editor transient section", NULL, GTK_DIALOG_MODAL,
+		gettext("_OK"), GTK_RESPONSE_OK,
+		gettext("_Cancel"), GTK_RESPONSE_CANCEL,
+		NULL);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg)),
+		GTK_WIDGET(editor->grid));
+	editor_transient_section_open(editor, ts);
+	if (gtk_dialog_run(dlg) == GTK_RESPONSE_OK)
+	{
+		editor_transient_section_get(editor, ts);
+		doc = xmlNewDoc((const xmlChar*)"1.0");
+		node = xmlNewDocNode(doc, 0, XML_TRANSIENT_SECTION, 0);
+		xmlDocSetRootElement(doc, node);
+		transient_section_save_xml(ts, node);
+		xmlSaveFormatFile(argc[2], doc, 1);
+		xmlFree(doc);
+	}
+	gtk_widget_destroy(GTK_WIDGET(dlg));
+	transient_section_delete(ts);
+	return 0;
+}
+#endif

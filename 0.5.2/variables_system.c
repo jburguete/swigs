@@ -44,8 +44,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \brief variable to make a mutex.
  * \var simulating
  * \brief boolean defining if the program is simulating.
- * \var friction_dz
- * \brief accuracy of the height in friction calculation.
  * \var spnew
  * \brief array with two typical points to init a new cross section.
  * \var tsnew
@@ -93,7 +91,6 @@ char *message = NULL;
 GMutex mutex[1];
 int simulating = 0;
 int mass_inputs = 0;
-JBFLOAT friction_dz = FRICTION_DZ;
 SectionPoint2 spnew[2] = {{0., 0., 0.03, 0}, {1., 1., 0., 0}};
 TransientSection tsnew[2] = {
 	{1, 0, 0., 0., 0., 1., 0.1, 0., spnew, spnew, "Transient1"}, 

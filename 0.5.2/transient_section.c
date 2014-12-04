@@ -36,6 +36,12 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "transient_section.h"
 
 /**
+ * \var friction_dz
+ * \brief accuracy of the height in friction calculation.
+ */
+JBFLOAT friction_dz = FRICTION_DZ;
+
+/**
  * \fn void transient_section_print(TransientSection *ts, FILE *file)
  * \brief Method to print a TransientSection structure on a file.
  * \param ts
@@ -121,9 +127,9 @@ int transient_section_copy(TransientSection *ts, TransientSection *ts_copy)
  * \return 0 on error, 1 on success.
  */
 #if !INLINE_TRANSIENT_SECTION_TRANSFORM
-int transient_section_transform
+void transient_section_transform
 	(TransientSection *ts, JBFLOAT x, JBFLOAT y, JBFLOAT angle)
-{return _transient_section_transform(ts, x, y, angle);}
+{_transient_section_transform(ts, x, y, angle);}
 #endif
 
 /**

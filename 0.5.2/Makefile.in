@@ -388,3 +388,10 @@ dist: $(name) $(dll) $(manuals)
 		$(localdir)$(fr)
 	zip -r surcos $(bindir)*.exe $(bindir)*.dll $(bindir)*.png \
 		$(localdir)*/*/*.mo $(basedir)*.pdf $(etcdir) $(libdir)
+
+editor-transient-section: editor_transient_section.c \
+	editor_transient_section.h transient_section.o
+	$(CC) -Wall $(CPPFLAGS) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
+		@PNG_CFLAGS@ @GTK_CFLAGS@ editor_transient_section.c \
+		transient_section.o points.o jb_xml.o jb_win.o jb_math.o jb_def.o \
+		$(LDFLAGS) -DTEST_EDITOR_TRANSIENT_SECTION=1 -o editor-transient-section

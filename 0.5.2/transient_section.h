@@ -261,7 +261,7 @@ exit0:
 	int transient_section_copy(TransientSection*, TransientSection*);
 #endif
 
-static inline int _transient_section_transform
+static inline void _transient_section_transform
 	(TransientSection *ts, JBFLOAT x, JBFLOAT y, JBFLOAT angle)
 {
 	int i, n;
@@ -280,7 +280,7 @@ static inline int _transient_section_transform
 #if INLINE_TRANSIENT_SECTION_TRANSFORM
 	#define transient_section_transform _transient_section_transform
 #else
-	int transient_section_transform
+	void transient_section_transform
 		(TransientSection*, JBFLOAT, JBFLOAT, JBFLOAT);
 #endif
 
@@ -524,6 +524,8 @@ static inline void
 	jb_xml_node_set_float_with_default
 		(node, XML_CONTRACTION, ts->contraction, 0.);
 	jb_xml_node_set_float(node, XML_DZ, ts->dz);
+	jb_xml_node_set_float_with_default(node, XML_HMAX, ts->hmax,
+		fmin(ts->sp[0].z, ts->sp[ts->n].z) - ts->zmin);
 	switch (ts->type)
 	{
 	case TRANSIENT_SECTION_TYPE_STRAIGHT:
