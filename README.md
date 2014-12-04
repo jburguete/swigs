@@ -55,7 +55,7 @@ Debian kFreeBSD 7.7
 ___________________
 Debian Hurd 7.7
 _______________
-DragonFly BSD 3.8.2
+DragonFly BSD 4.0.1
 ___________________
 FreeBSD 10.0
 ____________
@@ -64,7 +64,7 @@ ________________________________
 
 * download the latest [JB library](https://github.com/jburguete/jb)
 * cd 0.5.2
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.3 jb)
+* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.6 jb)
 * aclocal
 * autoconf
 * automake --add-missing
@@ -82,7 +82,7 @@ utilities. You can follow detailed instructions in
 [MinGW-64-Make](https://github.com/jburguete/MinGW-64-Make)
 * download the latest [JB library](https://github.com/jburguete/jb)
 * cd 0.5.2
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.3 jb)
+* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.6 jb)
 * aclocal
 * autoconf
 * automake --add-missing
@@ -99,7 +99,7 @@ utilities. You can follow detailed instructions in
 [MinGW-64-Make](https://github.com/jburguete/MinGW-64-Make)
 * download the latest [JB library](https://github.com/jburguete/jb)
 * cd 0.5.2
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.3 jb)
+* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.6 jb)
 * aclocal
 * autoconf
 * automake --add-missing
@@ -107,12 +107,12 @@ utilities. You can follow detailed instructions in
 * make
 * strip win64/bin/*.exe (optional: to make a final version)
 
-OpenBSD 5.5
+OpenBSD 5.6
 ___________
 
 * download the latest [JB library](https://github.com/jburguete/jb)
 * cd 0.5.2
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.3 jb)
+* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.6 jb)
 * export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
 * aclocal
 * autoconf
