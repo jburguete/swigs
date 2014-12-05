@@ -97,4 +97,15 @@ typedef struct
 	GtkGrid *grid, *grid_type;
 } EditorTransientSection;
 
+void editor_transient_section_update(EditorTransientSection *editor);
+void editor_transient_section_get
+	(EditorTransientSection *editor, TransientSection *ts);
+void editor_transient_section_open
+	(EditorTransientSection *editor, TransientSection *ts);
+void editor_transient_section_insert_point(EditorTransientSection *editor);
+void editor_transient_section_remove_point(EditorTransientSection *editor);
+void editor_transient_section_draw
+	(EditorTransientSection *editor, TransientSection *ts);
+void editor_transient_section_new(EditorTransientSection *editor);
+
 #endif

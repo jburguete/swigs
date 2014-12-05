@@ -254,13 +254,13 @@ void editor_transient_section_draw
 	int i, n = ts->n + 1;
 	JBFLOAT y[n], z[n];
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_DRAW
-		fprintf(stderr,"editor_transient_section_draw: start\n");
+		fprintf(stderr, "editor_transient_section_draw: start\n");
 	#endif
 	for (i = n; --i >= 0;) y[i] = ts->sp[i].y, z[i] = ts->sp[i].z;
 	jbw_graphic_draw_lines(editor->graphic, y, z, 0, 0, 0, n);
 	jbw_graphic_draw_logo(editor->graphic);
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_DRAW
-		fprintf(stderr,"editor_transient_section_draw: end\n");
+		fprintf(stderr, "editor_transient_section_draw: end\n");
 	#endif
 }
 
@@ -277,6 +277,9 @@ void editor_transient_section_new(EditorTransientSection *editor)
 		{gettext("Straight"), gettext("Polilyne")};
 	const char *label_array[5]
 		= {"x", "y", "z", gettext("Roughness"), gettext("Type")};
+	#if DEBUG_EDITOR_TRANSIENT_SECTION_NEW
+		fprintf(stderr, "editor_transient_section_new: start\n");
+	#endif
 	editor->grid = (GtkGrid*)gtk_grid_new();
 	editor->label_name = (GtkLabel*)gtk_label_new(gettext("Name"));
 	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_name), 0, 0, 1, 1);
@@ -345,6 +348,9 @@ void editor_transient_section_new(EditorTransientSection *editor)
 	gtk_grid_attach
 		(editor->grid, GTK_WIDGET(editor->array->scrolled), 0, 8, 3, 1);
 	gtk_widget_show_all(GTK_WIDGET(editor->grid));
+	#if DEBUG_EDITOR_TRANSIENT_SECTION_NEW
+		fprintf(stderr, "editor_transient_section_new: end\n");
+	#endif
 }
 
 #if TEST_EDITOR_TRANSIENT_SECTION

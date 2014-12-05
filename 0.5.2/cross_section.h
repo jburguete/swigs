@@ -76,7 +76,7 @@ typedef struct
  * \var j
  * \brief number of current transient section.
  * \var nt
- * \brief number of times when the control parameter has been obtained.
+ * \brief number of times that the control parameter has been obtained.
  * \var x
  * \brief position x-coordinate.
  * \var y
@@ -94,7 +94,7 @@ typedef struct
  * \var pt
  * \brief integrated parameter at the control.
  * \var t
- * \brief times, associated to every transient section, array.
+ * \brief times array associated to every transient section.
  * \var ts
  * \brief transient sections array
  * \var name
