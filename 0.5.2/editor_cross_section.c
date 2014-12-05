@@ -143,7 +143,7 @@ void editor_cross_section_new(EditorCrossSection *editor, char **channel_name,
 	editor->label_name = (GtkLabel*)gtk_label_new(gettext("Name"));
 	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_name), 0, 0, 1, 1);
 	editor->entry_name = (GtkEntry*)gtk_entry_new();
-	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_name), 1, 0, 1, 1);
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_name), 1, 0, 2, 1);
 	editor->grid_type = (GtkGrid*)gtk_grid_new();
 	editor->array_type[0] = NULL;
 	for (i = 0; i < 2; ++i)
@@ -159,31 +159,43 @@ void editor_cross_section_new(EditorCrossSection *editor, char **channel_name,
 	control->frame_type = (GtkFrame*)gtk_frame_new(gettext("Type"));
 	gtk_container_add
 		(GTK_CONTAINER(control->frame_type), GTK_WIDGET(control->grid_type));
-	gtk_grid_attach(control->grid, GTK_WIDGET(control->frame_type), 0, 1, 2, 1);
+	gtk_grid_attach(control->grid, GTK_WIDGET(control->frame_type), 0, 1, 3, 1);
 	editor->label_x = (GtkLabel*)gtk_label_new("x");
 	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_x), 0, 2, 1, 1);
 	editor->entry_x
 		= (GtkSpinButton*)gtk_spin_button_new_with_range(-1e6, 1e6, 0.001);
-	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_x), 1, 2, 1, 1);
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_x), 1, 2, 2, 1);
 	editor->label_y = (GtkLabel*)gtk_label_new("y");
 	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_y), 0, 3, 1, 1);
 	editor->entry_y
 		= (GtkSpinButton*)gtk_spin_button_new_with_range(-1e6, 1e6, 0.001);
-	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_y), 1, 3, 1, 1);
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_y), 1, 3, 2, 1);
 	editor->label_angle = (GtkLabel*)gtk_label_new(gettext("Angle"));
 	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_angle), 0, 4, 1, 1);
 	editor->entry_angle
 		= (GtkSpinButton*)gtk_spin_button_new_with_range(-360., 360., 0.001);
-	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_angle), 1, 4, 1, 1);
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->entry_angle), 1, 4, 2, 1);
+	editor->button_insert = (GtkButton*)gtk_button_new_with_label
+		(gettext("Insert transient section"));
+	gtk_grid_attach
+		(editor->grid, GTK_WIDGET(editor->button_insert), 0, 5, 1, 1);
+	editor->button_remove = (GtkButton*)gtk_button_new_with_label
+		(gettext("Remove transient section"));
+	gtk_grid_attach
+		(editor->grid, GTK_WIDGET(editor->button_remove), 1, 5, 1, 1);
+	editor->button_plot
+		= (GtkButton*)gtk_button_new_with_label(gettext("Update plot"));
+	gtk_grid_attach
+		(editor->grid, GTK_WIDGET(editor->button_plot), 2, 5, 1, 1);
 	editor->label_transient
 		= (GtkLabel*)gtk_label_new(gettext("Transient section"));
 	gtk_grid_attach
-		(editor->grid, GTK_WIDGET(editor->label_transient), 0, 5, 6, 1);
+		(editor->grid, GTK_WIDGET(editor->label_transient), 0, 6, 1, 1);
 	editor->combo_transient = (GtkComboBoxText*)gtk_combo_box_text_new();
 	gtk_grid_attach
-		(editor->grid, GTK_WIDGET(editor->combo_transient), 1, 5, 6, 1);
+		(editor->grid, GTK_WIDGET(editor->combo_transient), 1, 6, 2, 1);
 	editor_control_new
 		(editor->control, channel_name, nchannels, section_name, nsections);
 	gtk_grid_attach
-		(editor->grid, GTK_WIDGET(editor->control->frame), 0, 6, 2, 1);
+		(editor->grid, GTK_WIDGET(editor->control->frame), 0, 7, 3, 1);
 }
