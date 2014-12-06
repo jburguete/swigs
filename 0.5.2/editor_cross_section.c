@@ -37,7 +37,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #if TEST_EDITOR_CROSS_SECTION
 	char *message;
-	CrossSection cs[1];
 	EditorCrossSection editor[1];
 #endif
 
@@ -132,6 +131,28 @@ void editor_cross_section_update(EditorCrossSection *editor)
 	i = jbw_array_radio_buttons_get_active(editor->array_type);
 	if (i) gtk_widget_show(GTK_WIDGET(editor->control->frame));
 	else gtk_widget_hide(GTK_WIDGET(editor->control->frame));
+}
+
+void editor_cross_section_get(EditorCrossSection *editor)
+{
+	CrossSection *cs = editor->cs;
+	g_free(cs->name);
+	cs->name = g_strdup(gtk_entry_get_text(editor->entry_name));
+	if (!cs->name)
+	{
+		jbw_show_error(message);
+		gtk_main_quit();
+	}
+	cs->x = gtk_spin_button_get_value(editor->entry_x);
+	cs->y = gtk_spin_button_get_value(editor->entry_y);
+	cs->angle = gtk_spin_button_get_value(editor->entry_angle);
+	switch (jbw_array_radio_buttons_get_active(editor->array_type))
+	{
+	case 0:
+		cs->type = 0;
+		break;
+	default:
+	}
 }
 
 void editor_cross_section_new(EditorCrossSection *editor, char **channel_name,

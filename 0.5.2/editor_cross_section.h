@@ -65,6 +65,7 @@ typedef struct
 	GtkComboBoxText *combo_transient;
 	GtkFrame *frame_type;
 	GtkGrid *grid, *grid_type;
+	CrossSection cs[1];
 } EditorCrossSection;
 
 #endif

@@ -84,6 +84,8 @@ typedef struct
  * \brief GtkFrame structure to group the array_type buttons.
  * \var grid
  * \brief GtkGrid structure to pack the widgets.
+ * \var ts
+ * \brief TransientSection structure.
  */
 	JBWArrayEditor *array;
 	JBWGraphic *graphic;
@@ -95,17 +97,16 @@ typedef struct
 		*label_dz;
 	GtkFrame *frame_type;
 	GtkGrid *grid, *grid_type;
+	TransientSection ts[1];
 } EditorTransientSection;
 
 void editor_transient_section_update(EditorTransientSection *editor);
-void editor_transient_section_get
-	(EditorTransientSection *editor, TransientSection *ts);
-void editor_transient_section_open
-	(EditorTransientSection *editor, TransientSection *ts);
+void editor_transient_section_get(EditorTransientSection *editor);
+void editor_transient_section_open(EditorTransientSection *editor);
 void editor_transient_section_insert_point(EditorTransientSection *editor);
 void editor_transient_section_remove_point(EditorTransientSection *editor);
-void editor_transient_section_draw
-	(EditorTransientSection *editor, TransientSection *ts);
+void editor_transient_section_draw(EditorTransientSection *editor);
+void editor_transient_section_destroy(EditorTransientSection *editor);
 void editor_transient_section_new(EditorTransientSection *editor);
 
 #endif

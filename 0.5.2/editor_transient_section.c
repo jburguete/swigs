@@ -37,7 +37,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #if TEST_EDITOR_TRANSIENT_SECTION
 	char *message;
-	TransientSection ts[1];
 	EditorTransientSection editor[1];
 #endif
 
@@ -59,19 +58,16 @@ void editor_transient_section_update(EditorTransientSection *editor)
 }
 
 /**
- * \fn void editor_transient_section_get(EditorTransientSection *editor, \
- *   TransientSection *ts)
+ * \fn void editor_transient_section_get(EditorTransientSection *editor)
  * \brief Function to get actual transient section data from the editor.
  * \param editor
  * \brief transient section editor.
- * \param ts
- * \brief transient section.
  */
-void editor_transient_section_get
-	(EditorTransientSection *editor, TransientSection *ts)
+void editor_transient_section_get(EditorTransientSection *editor)
 {
 	int i, j = editor->array->n;
 	JBFLOAT x[j], y[j], z[j], r[j];
+	TransientSection ts = editor->ts;
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_GET
 		fprintf(stderr, "editor_transient_section_get: start\n");
 	#endif
@@ -133,17 +129,14 @@ void editor_transient_section_get
 }
 
 /**
- * \fn void editor_transient_section_open(EditorTransientSection *editor, \
- *   TransientSection *ts)
+ * \fn void editor_transient_section_open(EditorTransientSection *editor)
  * \brief Function to open a transient section in the editor.
  * \param editor
  * \brief transient section editor.
- * \param ts
- * \brief transient section.
  */
-void editor_transient_section_open
-	(EditorTransientSection *editor, TransientSection *ts)
+void editor_transient_section_open(EditorTransientSection *editor)
 {
+	TransientSection ts = editor->ts;
 	int i, n = ts->n + 1;
 	JBFLOAT x[n], y[n], z[n], r[n];
 	#if INTERFACE == INTERFACE_SCIENTIFIC
@@ -240,17 +233,14 @@ void editor_transient_section_remove_point(EditorTransientSection *editor)
 }
 
 /**
- * \fn void editor_transient_section_draw(EditorTransientSection *editor, \
- *   TransientSection *ts)
+ * \fn void editor_transient_section_draw(EditorTransientSection *editor)
  * \brief Function to draw a transient section in a transient section editor.
  * \param editor
  * \brief transient section editor.
- * \param ts
- * \brief transient section.
  */
-void editor_transient_section_draw
-	(EditorTransientSection *editor, TransientSection *ts)
+void editor_transient_section_draw(EditorTransientSection *editor)
 {
+	TransientSection *ts = editor->ts;
 	int i, n = ts->n + 1;
 	JBFLOAT y[n], z[n];
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_DRAW
@@ -262,6 +252,18 @@ void editor_transient_section_draw
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_DRAW
 		fprintf(stderr, "editor_transient_section_draw: end\n");
 	#endif
+}
+
+/**
+ * \fn void editor_transient_section_destroy(EditorTransientSection *editor)
+ * \brief Function to destroy a transient section editor.
+ * \param editor
+ * \brief transient section editor.
+ */
+void editor_transient_section_destroy(EditorTransientSection *editor)
+{
+	gtk_widget_destroy(GTK_WIDGET(editor->grid));
+	transient_section_delete(editor->ts);
 }
 
 /**
@@ -359,15 +361,15 @@ int main(int argn, char **argc)
 	xmlNode *node;
 	xmlDoc *doc;
 	GtkDialog *dlg;
-	ts->data = NULL;
-	ts->name = NULL;
+	editor->ts->data = NULL;
+	editor->ts->name = NULL;
 	xmlKeepBlanksDefault(0);
 	if (!jbw_graphic_init(&argn, &argc)) return 1;
 	editor_transient_section_new(editor);
 	doc = xmlParseFile(argc[1]);
 	if (!doc) return 2;
 	node = xmlDocGetRootElement(doc);
-	if (!transient_section_open_xml(ts, node, 0., 0., 0.)) return 3;
+	if (!transient_section_open_xml(editor->ts, node, 0., 0., 0.)) return 3;
 	xmlFreeDoc(doc);
 	dlg = (GtkDialog*)gtk_dialog_new_with_buttons(
 		"Test editor transient section", NULL, GTK_DIALOG_MODAL,
@@ -376,19 +378,19 @@ int main(int argn, char **argc)
 		NULL);
 	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg)),
 		GTK_WIDGET(editor->grid));
-	editor_transient_section_open(editor, ts);
+	editor_transient_section_open(editor);
 	if (gtk_dialog_run(dlg) == GTK_RESPONSE_OK)
 	{
-		editor_transient_section_get(editor, ts);
+		editor_transient_section_get(editor);
 		doc = xmlNewDoc((const xmlChar*)"1.0");
 		node = xmlNewDocNode(doc, 0, XML_TRANSIENT_SECTION, 0);
 		xmlDocSetRootElement(doc, node);
-		transient_section_save_xml(ts, node);
+		transient_section_save_xml(editor->ts, node);
 		xmlSaveFormatFile(argc[2], doc, 1);
 		xmlFree(doc);
 	}
+	editor_transient_section_destroy(editor);
 	gtk_widget_destroy(GTK_WIDGET(dlg));
-	transient_section_delete(ts);
 	return 0;
 }
 #endif
