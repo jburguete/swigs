@@ -16,7 +16,6 @@ foreach $toma(@tomas)
 }
 
 print <<END1;
-    </geometry>
     <initial type="steady"/>
     <inlet type="qt">
 END1
@@ -102,7 +101,7 @@ printf "    </boundary>\n";
 
 print <<END5;
     <outlet type = "gate" height = "0.85" width = "1.5">
-      0 0.55
+      2010 1 1 0 0 0 0.55
     </outlet>
   </channel>
 END5
