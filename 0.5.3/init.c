@@ -602,7 +602,7 @@ int main(int argn, char **argc)
 		fprintf(stderr, "M copying system\n");
 	#endif
 	if (!system_copy(sys, sysnew)) return 3;
-#if JBW==JBW_GTK
+#if JBW == JBW_GTK
 	if (!jbw_graphic_init(&argn, &argc))
 	{
 		printf("%s\n", gettext("Unable to open the external libraries"));
@@ -634,7 +634,7 @@ int main(int argn, char **argc)
 	#if DEBUG_MAIN
 		fprintf(stderr, "M main bucle\n");
 	#endif
-	#if JBW_GRAPHIC==JBW_GRAPHIC_GLUT
+	#if JBW_GRAPHIC == JBW_GRAPHIC_GLUT
 		glutIdleFunc((void(*))gtk_main_iteration);
 		glutMainLoop();
 	#else
