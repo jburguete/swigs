@@ -2,7 +2,7 @@
 #   - Debian Linux 7.7
 #   - Debian kFreeBSD 7.7
 #   - Debian Hurd 7.7
-#	- DragonFly BSD 3.8.2
+#	- DragonFly BSD 4.0.1
 #   - FreeBSD 10.0
 #   - Microsoft Windows XP 32 bits
 #   - Microsoft Windows 7 32 bits
@@ -24,7 +24,7 @@
 # ./configure --host=x86_64-w64-mingw32
 # make
 
-# To work in OpenBSD 5.5:
+# To work in OpenBSD 5.6:
 #
 # export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
 # aclocal
@@ -34,7 +34,7 @@
 # make
 
 AC_PREREQ([2.69])
-AC_INIT([SWIGS], [0.5.2])
+AC_INIT([SWIGS], [0.5.3])
 
 # Checks for operative systems
 AC_CANONICAL_HOST

@@ -38,6 +38,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if TEST_EDITOR_TRANSIENT_SECTION
 	char *message;
 	EditorTransientSection editor[1];
+	void editor_draw() {editor_transient_section_draw(editor);}
 #endif
 
 /**
@@ -67,7 +68,7 @@ void editor_transient_section_get(EditorTransientSection *editor)
 {
 	int i, j = editor->array->n;
 	JBFLOAT x[j], y[j], z[j], r[j];
-	TransientSection ts = editor->ts;
+	TransientSection *ts = editor->ts;
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_GET
 		fprintf(stderr, "editor_transient_section_get: start\n");
 	#endif
@@ -136,7 +137,7 @@ void editor_transient_section_get(EditorTransientSection *editor)
  */
 void editor_transient_section_open(EditorTransientSection *editor)
 {
-	TransientSection ts = editor->ts;
+	TransientSection *ts = editor->ts;
 	int i, n = ts->n + 1;
 	JBFLOAT x[n], y[n], z[n], r[n];
 	#if INTERFACE == INTERFACE_SCIENTIFIC
@@ -349,6 +350,11 @@ void editor_transient_section_new(EditorTransientSection *editor)
 	editor->array = jbw_array_editor_new(4, 3, 2, label_array);
 	gtk_grid_attach
 		(editor->grid, GTK_WIDGET(editor->array->scrolled), 0, 8, 3, 1);
+	editor->graphic = jbw_graphic_new(NULL, 6, 6, 0, &editor_draw);
+	jbw_graphic_set_title(editor->graphic, gettext("Transient section"));
+	jbw_graphic_set_logo(editor->graphic, "swigs.png");
+	jbw_graphic_set_xlabel(editor->graphic, "y (m)");
+	jbw_graphic_set_ylabel(editor->graphic, "z (m)");
 	gtk_widget_show_all(GTK_WIDGET(editor->grid));
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_NEW
 		fprintf(stderr, "editor_transient_section_new: end\n");
@@ -356,41 +362,54 @@ void editor_transient_section_new(EditorTransientSection *editor)
 }
 
 #if TEST_EDITOR_TRANSIENT_SECTION
+
+void ok(char *name)
+{
+	xmlNode *node;
+	xmlDoc *doc;
+	editor_transient_section_get(editor);
+	doc = xmlNewDoc((const xmlChar*)"1.0");
+	node = xmlNewDocNode(doc, 0, XML_TRANSIENT_SECTION, 0);
+	xmlDocSetRootElement(doc, node);
+	transient_section_save_xml(editor->ts, node);
+	xmlSaveFormatFile(name, doc, 1);
+	xmlFree(doc);
+	glutLeaveMainLoop();
+}
+
 int main(int argn, char **argc)
 {
 	xmlNode *node;
 	xmlDoc *doc;
+	GtkButton *button_ok, *button_cancel;
 	GtkDialog *dlg;
 	editor->ts->data = NULL;
 	editor->ts->name = NULL;
 	xmlKeepBlanksDefault(0);
 	if (!jbw_graphic_init(&argn, &argc)) return 1;
+	glutIdleFunc((void(*))&gtk_main_iteration);
 	editor_transient_section_new(editor);
 	doc = xmlParseFile(argc[1]);
 	if (!doc) return 2;
 	node = xmlDocGetRootElement(doc);
 	if (!transient_section_open_xml(editor->ts, node, 0., 0., 0.)) return 3;
 	xmlFreeDoc(doc);
-	dlg = (GtkDialog*)gtk_dialog_new_with_buttons(
-		"Test editor transient section", NULL, GTK_DIALOG_MODAL,
-		gettext("_OK"), GTK_RESPONSE_OK,
-		gettext("_Cancel"), GTK_RESPONSE_CANCEL,
-		NULL);
+	dlg = (GtkDialog*)gtk_dialog_new();
 	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg)),
 		GTK_WIDGET(editor->grid));
+	gtk_window_set_title(GTK_WINDOW(dlg), "Test editor transient section");
+	button_ok = (GtkButton*)gtk_dialog_add_button
+		(dlg, gettext("_OK"), GTK_RESPONSE_OK);
+	g_signal_connect_swapped(button_ok, "clicked", (void(*))&ok, argc[2]);
+	button_cancel = (GtkButton*)gtk_dialog_add_button
+		(dlg, gettext("_Cancel"), GTK_RESPONSE_CANCEL);
+	g_signal_connect(button_cancel, "clicked", &glutLeaveMainLoop, NULL);
+	gtk_widget_show_all(GTK_WIDGET(dlg));
 	editor_transient_section_open(editor);
-	if (gtk_dialog_run(dlg) == GTK_RESPONSE_OK)
-	{
-		editor_transient_section_get(editor);
-		doc = xmlNewDoc((const xmlChar*)"1.0");
-		node = xmlNewDocNode(doc, 0, XML_TRANSIENT_SECTION, 0);
-		xmlDocSetRootElement(doc, node);
-		transient_section_save_xml(editor->ts, node);
-		xmlSaveFormatFile(argc[2], doc, 1);
-		xmlFree(doc);
-	}
+	glutMainLoop();
 	editor_transient_section_destroy(editor);
 	gtk_widget_destroy(GTK_WIDGET(dlg));
 	return 0;
 }
+
 #endif

@@ -1,4 +1,4 @@
-SWIGS (0.5.2 version)
+SWIGS (0.5.3 version)
 ====================
 
 SWIGS (Shallow Water in Irregular Geometries Simulator): a software to simulate
@@ -63,7 +63,7 @@ NetBSD 6.1.5 (with modular xorg)
 ________________________________
 
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 0.5.2
+* cd 0.5.3
 * link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.6 jb)
 * aclocal
 * autoconf
@@ -81,7 +81,7 @@ ____________________________
 utilities. You can follow detailed instructions in
 [MinGW-64-Make](https://github.com/jburguete/MinGW-64-Make)
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 0.5.2
+* cd 0.5.3
 * link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.6 jb)
 * aclocal
 * autoconf
@@ -98,7 +98,7 @@ ____________________________
 utilities. You can follow detailed instructions in
 [MinGW-64-Make](https://github.com/jburguete/MinGW-64-Make)
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 0.5.2
+* cd 0.5.3
 * link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.6 jb)
 * aclocal
 * autoconf
@@ -111,7 +111,7 @@ OpenBSD 5.6
 ___________
 
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 0.5.2
+* cd 0.5.3
 * link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.6 jb)
 * export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
 * aclocal

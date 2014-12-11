@@ -109,4 +109,8 @@ void editor_transient_section_draw(EditorTransientSection *editor);
 void editor_transient_section_destroy(EditorTransientSection *editor);
 void editor_transient_section_new(EditorTransientSection *editor);
 
+#if TEST_EDITOR_TRANSIENT_SECTION
+	void editor_draw();
+#endif
+
 #endif

@@ -54,8 +54,8 @@ foreach $la(@lf)
 printf "    <boundary name=\"extAlm\" type=\"qt\" initial=\"9\" delay=\"%g\">\n",$d_alm;
 for($i=0;$i<14;$i++) 
 {
-	printf "      2010 1 %d 0 0 0 %g\n",$i+1,$p[$i];
-	printf "      2010 1 %d 0 0 0 %g\n",$i+2,$p[$i];
+	printf "      2010 1 %d 0 0 0 %g\n",$i+1,-$p[$i];
+	printf "      2010 1 %d 0 0 0 %g\n",$i+2,-$p[$i];
 }
 printf "    </boundary>\n";
 
@@ -74,8 +74,8 @@ foreach $la(@lf)
 printf "    <boundary name=\"extGur\" type=\"qt\" initial=\"32\" delay=\"%g\">\n",$d_gur;
 for($i=0;$i<14;$i++) 
 {
-	printf "      2010 1 %d 0 0 0 %g\n",$i+1,$p[$i];
-	printf "      2010 1 %d 0 0 0 %g\n",$i+2,$p[$i];
+	printf "      2010 1 %d 0 0 0 %g\n",$i+1,-$p[$i];
+	printf "      2010 1 %d 0 0 0 %g\n",$i+2,-$p[$i];
 }
 printf "    </boundary>\n";
 
@@ -94,8 +94,8 @@ foreach $la(@lf)
 printf "    <boundary name=\"extTem\" type=\"qt\" initial=\"33\" delay=\"%g\">\n",$d_tem;
 for($i=0;$i<14;$i++) 
 {
-	printf "      2010 1 %d 0 0 0 %g\n",$i+1,$p[$i];
-	printf "      2010 1 %d 0 0 0 %g\n",$i+2,$p[$i];
+	printf "      2010 1 %d 0 0 0 %g\n",$i+1,-$p[$i];
+	printf "      2010 1 %d 0 0 0 %g\n",$i+2,-$p[$i];
 }
 printf "    </boundary>\n";
 
