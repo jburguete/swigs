@@ -88,8 +88,38 @@ int cross_section_create(CrossSection *cs, int n, char *name)
 #endif
 
 /**
- * \fn int cross_section_copy(CrossSection *cs, \
- *   CrossSection *cs_copy)
+ * \fn int cross_section_insert_transient(CrossSection *cs, \
+ *   TransientSection *ts, int position)
+ * \brief Method to insert a TransientSection in a CrossSection structure.
+ * \param cs
+ * \brief CrossSection structure.
+ * \param ts
+ * \brief TransientSection structure.
+ * \param position
+ * \brief insertion position.
+ * \return 0 on error, 1 on success.
+ */
+#if !INLINE_CROSS_SECTION_INSERT_TRANSIENT
+int cross_section_insert_transient
+	(CrossSection *cs, TransientSection *ts, int position)
+{return _cross_section_insert_transient(cs, ts, position);}
+#endif
+
+/**
+ * \fn int cross_section_remove_transient(CrossSection *cs, int position)
+ * \brief Method to remove a TransientSection in a CrossSection structure.
+ * \param cs
+ * \brief CrossSection structure.
+ * \param position
+ * \brief remove position.
+ */
+#if !INLINE_CROSS_SECTION_REMOVE_TRANSIENT
+void cross_section_remove_transient(CrossSection *cs, int position)
+{_cross_section_remove_transient(cs, position);}
+#endif
+
+/**
+ * \fn int cross_section_copy(CrossSection *cs, CrossSection *cs_copy)
  * \brief Method to copy two CrossSection structures.
  * \param cs
  * \brief CrossSection structure copy.

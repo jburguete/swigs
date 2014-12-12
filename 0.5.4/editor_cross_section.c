@@ -35,19 +35,62 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #include "editor_cross_section.h"
 
+/**
+ * \def EDITOR_GEOMETRY
+ * \brief Macro to get the position of the geometry editor in the notebook.
+ * \def EDITOR_CROSS_SECTION
+ * \brief Macro to get the position of the cross section editor in the notebook.
+ * \def EDITOR_TRANSIENT_SECTION
+ * \brief Macro to get the position of the transient section editor in the
+ *   notebook.
+ */
 #if TEST_EDITOR_CROSS_SECTION
+	#define EDITOR_GEOMETRY 0
 	char *message;
 	EditorCrossSection editor[1];
+	void editor_draw() {editor_cross_section_draw(editor);}
+#else
+	#define EDITOR_GEOMETRY 2
 #endif
+#define EDITOR_CROSS_SECTION (EDITOR_GEOMETRY + 1)
+#define EDITOR_TRANSIENT_SECTION (EDITOR_CROSS_SECTION + 1)
 
+/**
+ * \fn void editor_control_update(EditorControl *control)
+ * \brief Function to update the view of a control type cross section.
+ * \param control
+ * \brief editor parameters of a control type cross section.
+ */
 void editor_control_update(EditorControl *control)
 {
 	int i;
+	#if DEBUG_EDITOR_CONTROL_UPDATE
+		fprintf(stderr, "editor_control_update: start\n");
+	#endif
 	i = gtk_combo_box_get_active(GTK_COMBO_BOX(control->combo_channel));
 	jbw_combo_box_set_strings
 		(control->combo_section, control->section_name[i], nsections[i]);
+	#if DEBUG_EDITOR_CONTROL_UPDATE
+		fprintf(stderr, "editor_control_update: end\n");
+	#endif
 }
 
+/**
+ * \fn void editor_control_new(EditorControl *control, char **channel_name, \
+ *   int nchannels, char ***section_name, int *nsections)
+ * \brief Function to create the editor parameters of a control type cross
+ *   section.
+ * \param control
+ * \brief editor parameters of a control type cross section.
+ * \param channel_name
+ * \brief array of channel names.
+ * \param nchannels
+ * \brief number of channels.
+ * \param section_name
+ * \brief array of arrays of cross section names.
+ * \param nsections
+ * \brief array of number of cross sections.
+ */
 void editor_control_new(EditorControl *control, char **channel_name,
 	int nchannels, char ***section_name, int *nsections)
 {
@@ -56,6 +99,9 @@ void editor_control_new(EditorControl *control, char **channel_name,
 		gettext("Controlled by discharge"),
 		gettext("Controlled by depth"),
 		gettext("Controlled by level")};
+	#if DEBUG_EDITOR_CONTROL_NEW
+		fprintf(stderr, "editor_control_new: start\n");
+	#endif
 	control->nchannels = nchannels;
 	control->nsections = nsections;
 	control->channel_name = channel_name;
@@ -116,6 +162,9 @@ void editor_control_new(EditorControl *control, char **channel_name,
 	gtk_container_add(GTK_CONTAINER(control->frame), GTK_WIDGET(control->grid));
 	g_signal_connect_swapped(control->combo_channel, "changed",
 		(void(*))&editor_control_update, control);
+	#if DEBUG_EDITOR_CONTROL_NEW
+		fprintf(stderr, "editor_control_new: end\n");
+	#endif
 }
 
 /**
@@ -127,15 +176,32 @@ void editor_control_new(EditorControl *control, char **channel_name,
 void editor_cross_section_update(EditorCrossSection *editor)
 {
 	int i;
+	#if DEBUG_EDITOR_CROSS_SECTION_UPDATE
+		fprintf(stderr, "editor_cross_section_update: start\n");
+	#endif
 	editor_control_update(editor->control);
 	i = jbw_array_radio_buttons_get_active(editor->array_type);
 	if (i) gtk_widget_show(GTK_WIDGET(editor->control->frame));
 	else gtk_widget_hide(GTK_WIDGET(editor->control->frame));
+	gtk_widget_set_sensitive
+		(GTK_WIDGET(editor->button_remove), editor->cs->n > 0);
+	#if DEBUG_EDITOR_CROSS_SECTION_UPDATE
+		fprintf(stderr, "editor_cross_section_update: end\n");
+	#endif
 }
 
+/**
+ * \fn void editor_cross_section_get(EditorCrossSection *editor)
+ * \brief Function to get the actual cross section data from the editor.
+ * \param editor
+ * \brief cross section editor.
+ */
 void editor_cross_section_get(EditorCrossSection *editor)
 {
 	CrossSection *cs = editor->cs;
+	#if DEBUG_EDITOR_CROSS_SECTION_GET
+		fprintf(stderr, "editor_cross_section_get: start\n");
+	#endif
 	g_free(cs->name);
 	cs->name = g_strdup(gtk_entry_get_text(editor->entry_name));
 	if (!cs->name)
@@ -152,15 +218,193 @@ void editor_cross_section_get(EditorCrossSection *editor)
 		cs->type = 0;
 		break;
 	default:
+		cs->type = 1
+			+ jbw_array_radio_buttons_get_active(editor->control->array_type);
 	}
+	#if DEBUG_EDITOR_CROSS_SECTION_GET
+		fprintf(stderr, "editor_cross_section_get: end\n");
+	#endif
 }
 
-void editor_cross_section_new(EditorCrossSection *editor, char **channel_name,
-	int nchannels, char ***section_name, int *nsections)
+/**
+ * \fn void editor_cross_section_open(EditorCrossSection *editor)
+ * \brief Function to open a cross section in the editor.
+ * \param editor
+ * \brief cross section editor.
+ */
+void editor_cross_section_open(EditorCrossSection *editor)
+{
+	CrossSection *cs;
+	#if DEBUG_EDITOR_CROSS_SECTION_OPEN
+		fprintf(stderr, "editor_cross_section_open: start\n");
+	#endif
+	cs = editor->cs;
+	gtk_entry_set_text(editor->entry_name, cs->name);
+	gtk_spin_button_set_value(editor->entry_x, cs->x);
+	gtk_spin_button_set_value(editor->entry_y, cs->y);
+	gtk_spin_button_set_value(editor->entry_angle, cs->angle);
+	#if DEBUG_EDITOR_CROSS_SECTION_OPEN
+		fprintf(stderr, "editor_cross_section_open: end\n");
+	#endif
+}
+
+/**
+ * \fn void editor_cross_section_insert_transient(EditorCrossSection *editor)
+ * \brief Function to insert a transient section in the actual cross section
+ *   data of the editor.
+ * \param editor
+ * \brief cross section editor.
+ */
+void editor_cross_section_insert_transient(EditorCrossSection *editor)
+{
+	int i;
+	TransientSection *ts;
+	#if DEBUG_EDITOR_CROSS_SECTION_INSERT_TRANSIENT
+		fprintf(stderr, "editor_cross_section_insert_transient: start\n");
+	#endif
+	i = gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_transient));
+	ts = editor->cs->ts + i;
+	cross_section_insert_transient(editor->cs, ts, i + 1);
+	gtk_combo_box_text_insert_text(editor->combo_transient, i, ts->name);
+	editor_cross_section_update(editor);
+	gtk_notebook_set_current_page(editor->notebook, EDITOR_TRANSIENT_SECTION);
+	#if DEBUG_EDITOR_CROSS_SECTION_INSERT_TRANSIENT
+		fprintf(stderr, "editor_cross_section_insert_transient: end\n");
+	#endif
+}
+
+/**
+ * \fn void editor_cross_section_remove_transient(EditorCrossSection *editor)
+ * \brief Function to remove a transient section in the actual cross section
+ *   data of the editor.
+ * \param editor
+ * \brief cross section editor.
+ */
+void editor_cross_section_remove_transient(EditorCrossSection *editor)
+{
+	int i;
+	#if DEBUG_EDITOR_CROSS_SECTION_REMOVE_TRANSIENT
+		fprintf(stderr, "editor_cross_section_remove_transient: start\n");
+	#endif
+	i = gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_transient));
+	cross_section_remove_transient(editor->cs, i);
+	gtk_combo_box_text_remove(editor->combo_transient, i);
+	editor_cross_section_update(editor);
+	#if DEBUG_EDITOR_CROSS_SECTION_REMOVE_TRANSIENT
+		fprintf(stderr, "editor_cross_section_remove_transient: end\n");
+	#endif
+}
+
+/**
+ * \fn void editor_cross_section_draw(EditorCrossSection *editor)
+ * \brief Function to draw a cross section in a cross section editor.
+ * \param editor
+ * \brief cross section editor.
+ */
+void editor_cross_section_draw(EditorCrossSection *editor)
+{
+	int i, j, n, nmax;
+	JBDOUBLE k1, k2;
+	JBFLOAT *y, *z;
+	CrossSection *cs = editor->cs;
+	TransientSection *ts = cs->ts;
+	JBWGraphic *graphic = editor->graphic;
+
+	#if DEBUG_EDITOR_CROSS_SECTION_DRAW
+		fprintf(stderr,"editor_cross_section_draw: start\n");
+	#endif
+
+	// Getting extreme values
+	nmax = ts->n;
+	jbm_varray_maxmin(&ts->sp->y, sizeof(SectionPoint2), nmax, &graphic->xmax,
+		&graphic->xmin);
+	jbm_varray_maxmin(&ts->sp->z, sizeof(SectionPoint2), nmax, &graphic->ymax,
+		&graphic->ymin);
+	for (i = 0; ++i <= cs->n;)
+	{
+		++ts;
+		nmax = jbm_max(nmax, ts->n);
+		jbm_varray_maxmin(&ts->sp->y, sizeof(SectionPoint2), ts->n, &k2, &k1);
+		graphic->xmax = fmaxl(graphic->xmax, k2);
+		graphic->xmin = fminl(graphic->xmin, k1);
+		jbm_varray_maxmin(&ts->sp->z, sizeof(SectionPoint2), ts->n, &k2, &k1);
+		graphic->ymax = fmaxl(graphic->ymax, k2);
+		graphic->ymin = fminl(graphic->ymin, k1);
+	}
+
+	// Drawing labels
+	jbw_graphic_labels(graphic);
+
+	// Drawing lines
+	y = (JBFLOAT*)g_malloc((++nmax) * 2 * sizeof(JBFLOAT));
+	z = y + nmax;
+	for (i = 0, ts = cs->ts; i <= cs->n; ++i, ++ts)
+	{
+		for (j = n = ts->n + 1; --j >= 0;)
+			y[j] = ts->sp[j].y, z[j] = ts->sp[j].z;
+		k1 = ((float)i) / (cs->n + 1);
+		jbw_graphic_draw_line(graphic, 0., k1, 1. - k1, y, z, n);
+	}
+	g_free(y);
+
+	// Drawing logo
+	jbw_graphic_draw_logo(graphic);
+
+	// End
+	#if DEBUG_EDITOR_CROSS_SECTION_DRAW
+		fprintf(stderr,"editor_cross_section_draw: end\n");
+	#endif
+}
+
+/**
+ * \fn void editor_cross_section_destroy(EditorCrossSection *editor)
+ * \brief Function to destroy a cross section editor.
+ * \param editor
+ * \brief cross section editor.
+ */
+void editor_cross_section_destroy(EditorCrossSection *editor)
+{
+	#if DEBUG_EDITOR_CROSS_SECTION_DESTROY
+		fprintf(stderr, "editor_cross_section_destroy: start\n");
+	#endif
+	editor_transient_section_destroy(editor->editor_transient);
+	gtk_widget_destroy(GTK_WIDGET(editor->grid));
+	cross_section_delete(editor->cs);
+	#if DEBUG_EDITOR_CROSS_SECTION_DESTROY
+		fprintf(stderr, "editor_cross_section_destroy: end\n");
+	#endif
+}
+
+/**
+ * \fn void editor_cross_section_new(EditorCrossSection *editor, \
+ *   GtkNotebook *notebook, char **channel_name, int nchannels, \
+ *   char ***section_name, int *nsections)
+ * \brief Function to create a new cross section editor.
+ * \param editor
+ * \param notebook
+ * \brief GtkNotebook to pack the widgets.
+ * \param channel_name
+ * \brief array of channel names.
+ * \param nchannels
+ * \brief number of channels.
+ * \param section_name
+ * \brief array of arrays of cross section names.
+ * \param nsections
+ * \brief array of number of cross sections.
+ */
+void editor_cross_section_new(EditorCrossSection *editor, GtkNotebook *notebook,
+	char **channel_name, int nchannels, char ***section_name, int *nsections)
 {
 	int i;
 	const char *label_type[2] = {gettext("Normal"), gettext("Control")};
+	#if DEBUG_EDITOR_CROSS_SECTION_NEW
+		fprintf(stderr, "editor_cross_section_new: start\n");
+	#endif
+	editor->notebook = notebook;
 	editor->grid = (GtkGrid*)gtk_grid_new();
+	gtk_notebook_append_page(notebook, GTK_WIDGET(editor->grid),
+		gtk_label_new(gettext("Cross section")));
+	editor_transient_section_new(editor->editor_transient, notebook);
 	editor->label_name = (GtkLabel*)gtk_label_new(gettext("Name"));
 	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_name), 0, 0, 1, 1);
 	editor->entry_name = (GtkEntry*)gtk_entry_new();
@@ -200,10 +444,14 @@ void editor_cross_section_new(EditorCrossSection *editor, char **channel_name,
 		(gettext("Insert transient section"));
 	gtk_grid_attach
 		(editor->grid, GTK_WIDGET(editor->button_insert), 0, 5, 1, 1);
+	g_signal_connect_swapped(editor->button_insert, "clicked",
+		(void(*))&editor_cross_section_insert_transient, editor);
 	editor->button_remove = (GtkButton*)gtk_button_new_with_label
 		(gettext("Remove transient section"));
 	gtk_grid_attach
 		(editor->grid, GTK_WIDGET(editor->button_remove), 1, 5, 1, 1);
+	g_signal_connect_swapped(editor->button_remove, "clicked",
+		(void(*))&editor_cross_section_remove_transient, editor);
 	editor->button_plot
 		= (GtkButton*)gtk_button_new_with_label(gettext("Update plot"));
 	gtk_grid_attach
@@ -219,4 +467,12 @@ void editor_cross_section_new(EditorCrossSection *editor, char **channel_name,
 		(editor->control, channel_name, nchannels, section_name, nsections);
 	gtk_grid_attach
 		(editor->grid, GTK_WIDGET(editor->control->frame), 0, 7, 3, 1);
+	editor->graphic = jbw_graphic_new(NULL, 6, 6, 0, &editor_draw);
+	jbw_graphic_set_title(editor->graphic, gettext("Cross section"));
+	jbw_graphic_set_logo(editor->graphic, "swigs.png");
+	jbw_graphic_set_xlabel(editor->graphic, "y (m)");
+	jbw_graphic_set_ylabel(editor->graphic, "z (m)");
+	#if DEBUG_EDITOR_CROSS_SECTION_NEW
+		fprintf(stderr, "editor_cross_section_new: end\n");
+	#endif
 }

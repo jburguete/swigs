@@ -57,6 +57,7 @@ typedef struct
 {
 	EditorTransientSection editor_transient[1];
 	EditorControl control[1];
+	JBWGraphic *graphic;
 	GtkLabel *label_name, *label_x, *label_y, *label_angle, *label_transient;
 	GtkEntry *name;
 	GtkSpinButton *entry_x, *entry_y, *entry_angle;
@@ -65,7 +66,26 @@ typedef struct
 	GtkComboBoxText *combo_transient;
 	GtkFrame *frame_type;
 	GtkGrid *grid, *grid_type;
+	GtkNotebook *notebook;
 	CrossSection cs[1];
 } EditorCrossSection;
+
+void editor_control_update(EditorControl *control);
+void editor_control_new(EditorControl *control, char **channel_name,
+	int nchannels, char ***section_name, int *nsections);
+
+void editor_cross_section_update(EditorCrossSection *editor);
+void editor_cross_section_get(EditorCrossSection *editor);
+void editor_cross_section_open(EditorCrossSection *editor);
+void editor_cross_section_insert_transient(EditorCrossSection *editor);
+void editor_cross_section_remove_transient(EditorCrossSection *editor);
+void editor_cross_section_draw(EditorCrossSection *editor);
+void editor_cross_section_destroy(EditorCrossSection *editor);
+void editor_cross_section_new(EditorCrossSection *editor, GtkNotebook *notebook,
+	char **channel_name, int nchannels, char ***section_name, int *nsections);
+
+#if TEST_EDITOR_CROSS_SECTION
+	void editor_draw();
+#endif
 
 #endif

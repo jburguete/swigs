@@ -84,6 +84,10 @@ typedef struct
  * \brief GtkFrame structure to group the array_type buttons.
  * \var grid
  * \brief GtkGrid structure to pack the widgets.
+ * \var grid_type
+ * \brief GtkGrid structure to pack the array_type buttons.
+ * \var notebook
+ * \brief GtkNotebook structure to put the widgets.
  * \var ts
  * \brief TransientSection structure.
  */
@@ -97,6 +101,7 @@ typedef struct
 		*label_dz;
 	GtkFrame *frame_type;
 	GtkGrid *grid, *grid_type;
+	GtkNotebook *notebook;
 	TransientSection ts[1];
 } EditorTransientSection;
 
@@ -107,7 +112,8 @@ void editor_transient_section_insert_point(EditorTransientSection *editor);
 void editor_transient_section_remove_point(EditorTransientSection *editor);
 void editor_transient_section_draw(EditorTransientSection *editor);
 void editor_transient_section_destroy(EditorTransientSection *editor);
-void editor_transient_section_new(EditorTransientSection *editor);
+void editor_transient_section_new
+	(EditorTransientSection *editor, GtkNotebook *notebook);
 
 #if TEST_EDITOR_TRANSIENT_SECTION
 	void editor_draw();

@@ -180,8 +180,8 @@ static inline int _cross_section_create(CrossSection *cs, int n, char *name)
 		fprintf(stderr, "cross_section_create: start\n");
 	#endif
 	cs->n = -1;
-	cs->t = 0;
-	cs->ts = 0;
+	cs->t = NULL;
+	cs->ts = NULL;
 	cs->name = jb_strdup(name);
 	if (!cs->name) goto exit2;
 	cs->ts
@@ -211,6 +211,74 @@ exit2:
 	#define cross_section_create _cross_section_create
 #else
 	int cross_section_create(CrossSection*, int, char*);
+#endif
+
+static inline int _cross_section_insert_transient
+	(CrossSection *cs, TransientSection *ts, int position)
+{
+	int i;
+	#if DEBUG_CROSS_SECTION_INSERT_TRANSIENT
+		fprintf(stderr, "cross_section_insert_transient: start\n");
+	#endif
+	cs->t = (JBFLOAT*)jb_realloc(cs->t, (cs->n + 2) * sizeof(JBFLOAT));
+	if (!cs->t) goto error_insert;
+	cs->ts = (TransientSection*)
+		jb_realloc(cs->ts, (cs->n + 2) * sizeof(TransientSection));
+	if (!cs->ts) goto error_insert;
+	++cs->n;
+	for (i = cs->n; i > position; --i)
+	{
+		cs->t[i] = cs->t[i - 1];
+		cs->ts[i] = cs->ts[i - 1];
+	}
+	cs->t[i] = 0.;
+	if (!transient_section_copy(cs->ts + i, ts)) goto error_insert;
+	#if DEBUG_CROSS_SECTION_INSERT_TRANSIENT
+		fprintf(stderr, "cross_section_insert_transient: end\n");
+	#endif
+	return 1;
+
+error_insert:
+	cross_section_error(cs, gettext("Not enough memory"));
+	cross_section_delete(cs);
+	#if DEBUG_CROSS_SECTION_INSERT_TRANSIENT
+		fprintf(stderr, "cross_section_insert_transient: end\n");
+	#endif
+	return 0;
+}
+
+#if INLINE_CROSS_SECTION_INSERT_TRANSIENT
+	#define cross_section_insert_transient _cross_section_insert_transient
+#else
+	int cross_section_insert_transient(CrossSection*, TransientSection*, int);
+#endif
+
+static inline void _cross_section_remove_transient
+	(CrossSection *cs, int position)
+{
+	int i;
+	#if DEBUG_CROSS_SECTION_REMOVE_TRANSIENT
+		fprintf(stderr, "cross_section_remove_transient: start\n");
+	#endif
+	transient_section_delete(cs->ts + position);
+	for (i = position; i < cs->n; ++i)
+	{
+		cs->t[i] = cs->t[i + 1];
+		cs->ts[i] = cs->ts[i + 1];
+	}
+	cs->t = (JBFLOAT*)g_realloc(cs->t, cs->n * sizeof(JBFLOAT));
+	cs->ts =
+		(TransientSection*)g_realloc(cs->ts, cs->n * sizeof(TransientSection));
+	--cs->n;
+	#if DEBUG_CROSS_SECTION_REMOVE_TRANSIENT
+		fprintf(stderr, "cross_section_remove_transient: end\n");
+	#endif
+}
+
+#if INLINE_CROSS_SECTION_REMOVE_TRANSIENT
+	#define cross_section_remove_transient _cross_section_remove_transient
+#else
+	void cross_section_remove_transient(CrossSection*, int);
 #endif
 
 static inline int _cross_section_copy(CrossSection *cs, CrossSection *cs_copy)

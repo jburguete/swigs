@@ -50,17 +50,23 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 void editor_transient_section_update(EditorTransientSection *editor)
 {
 	int i;
+	#if DEBUG_EDITOR_TRANSIENT_SECTION_UPDATE
+		fprintf(stderr, "editor_transient_section_update: start\n");
+	#endif
 	i = jbw_array_radio_buttons_get_active(editor->array_type);
 	if (i == TRANSIENT_SECTION_TYPE_STRAIGHT)
 		jbw_array_editor_hide_column(editor->array, 0);
 	else jbw_array_editor_show_column(editor->array, 0);
 	gtk_widget_set_sensitive
 		(GTK_WIDGET(editor->button_remove), editor->array->n > 2);
+	#if DEBUG_EDITOR_TRANSIENT_SECTION_UPDATE
+		fprintf(stderr, "editor_transient_section_update: end\n");
+	#endif
 }
 
 /**
  * \fn void editor_transient_section_get(EditorTransientSection *editor)
- * \brief Function to get actual transient section data from the editor.
+ * \brief Function to get the actual transient section data from the editor.
  * \param editor
  * \brief transient section editor.
  */
@@ -263,15 +269,24 @@ void editor_transient_section_draw(EditorTransientSection *editor)
  */
 void editor_transient_section_destroy(EditorTransientSection *editor)
 {
+	#if DEBUG_EDITOR_TRANSIENT_SECTION_DESTROY
+		fprintf(stderr, "editor_transient_section_destroy: start\n");
+	#endif
 	gtk_widget_destroy(GTK_WIDGET(editor->grid));
 	transient_section_delete(editor->ts);
+	#if DEBUG_EDITOR_TRANSIENT_SECTION_DESTROY
+		fprintf(stderr, "editor_transient_section_destroy: end\n");
+	#endif
 }
 
 /**
- * \fn void editor_transient_section_new(EditorTransientSection *editor)
+ * \fn void editor_transient_section_new(EditorTransientSection *editor, \
+ *   GtkNotebook *notebook)
  * \brief Function to create a new transient section editor.
  * \param editor
  * \brief transient section editor.
+ * \param notebook
+ * \brief GtkNotebook to pack the widgets.
  */
 void editor_transient_section_new(EditorTransientSection *editor)
 {
@@ -283,7 +298,10 @@ void editor_transient_section_new(EditorTransientSection *editor)
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_NEW
 		fprintf(stderr, "editor_transient_section_new: start\n");
 	#endif
+	editor->notebook = notebook;
 	editor->grid = (GtkGrid*)gtk_grid_new();
+	gtk_notebook_append_page(notebook, GTK_WIDGET(editor->grid),
+		gtk_label_new(gettext("Transient section")));
 	editor->label_name = (GtkLabel*)gtk_label_new(gettext("Name"));
 	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_name), 0, 0, 1, 1);
 	editor->entry_name = (GtkEntry*)gtk_entry_new();
@@ -381,6 +399,7 @@ int main(int argn, char **argc)
 {
 	xmlNode *node;
 	xmlDoc *doc;
+	GtkNotebook *notebook;
 	GtkButton *button_ok, *button_cancel;
 	GtkDialog *dlg;
 	editor->ts->data = NULL;
@@ -388,7 +407,8 @@ int main(int argn, char **argc)
 	xmlKeepBlanksDefault(0);
 	if (!jbw_graphic_init(&argn, &argc)) return 1;
 	glutIdleFunc((void(*))&gtk_main_iteration);
-	editor_transient_section_new(editor);
+	notebook = (GtkNotebook*)gtk_notebook_new();
+	editor_transient_section_new(editor, notebook);
 	doc = xmlParseFile(argc[1]);
 	if (!doc) return 2;
 	node = xmlDocGetRootElement(doc);
@@ -396,7 +416,7 @@ int main(int argn, char **argc)
 	xmlFreeDoc(doc);
 	dlg = (GtkDialog*)gtk_dialog_new();
 	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg)),
-		GTK_WIDGET(editor->grid));
+		GTK_WIDGET(notebook));
 	gtk_window_set_title(GTK_WINDOW(dlg), "Test editor transient section");
 	button_ok = (GtkButton*)gtk_dialog_add_button
 		(dlg, gettext("_OK"), GTK_RESPONSE_OK);
