@@ -234,6 +234,7 @@ void editor_cross_section_get(EditorCrossSection *editor)
  */
 void editor_cross_section_open(EditorCrossSection *editor)
 {
+	int i;
 	CrossSection *cs;
 	#if DEBUG_EDITOR_CROSS_SECTION_OPEN
 		fprintf(stderr, "editor_cross_section_open: start\n");
@@ -243,6 +244,16 @@ void editor_cross_section_open(EditorCrossSection *editor)
 	gtk_spin_button_set_value(editor->entry_x, cs->x);
 	gtk_spin_button_set_value(editor->entry_y, cs->y);
 	gtk_spin_button_set_value(editor->entry_angle, cs->angle);
+	for (i = 0; i <= cs->n; ++i)
+		gtk_combo_box_text_append_text(editor->combo_transient, cs->ts[i].name);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_transient), 0);
+	if (cs->type == CROSS_SECTION_TYPE_VARIABLE)
+		jbw_array_buttons_set_active(editor->array_type, 0);
+	else
+	{
+		jbw_array_buttons_set_active(editor->array_type, 1);
+		jbw_array_buttons_set_active(editor->control->array_type, cs->type - 1);
+	}
 	#if DEBUG_EDITOR_CROSS_SECTION_OPEN
 		fprintf(stderr, "editor_cross_section_open: end\n");
 	#endif

@@ -70,7 +70,11 @@ typedef struct
  * \var type
  * \brief type.
  * \var control
- * \brief number of cross section to measure the variable to control.
+ * \brief number of system cross section to measure the variable to control.
+ * \var control_channel
+ * \brief number of channel where to measure the variable to control.
+ * \var control
+ * \brief number of system cross section to measure the variable to control.
  * \var i
  * \brief number of mesh cross section.
  * \var j
