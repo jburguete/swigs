@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+			<cross_section name="1.sec" x="1" y="2" angle="30">
+				<transient_section name="1.tra">
+					-10 28.04 0 0
+					0 8.04 0 0
+					10 28.04
+				</transient_section>
+			</cross_section>

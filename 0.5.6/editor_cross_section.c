@@ -45,12 +45,11 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *   notebook.
  */
 #if TEST_EDITOR_CROSS_SECTION
-	#define EDITOR_GEOMETRY 0
+	#define EDITOR_GEOMETRY -1
 	char *message;
 	EditorCrossSection editor[1];
-	void editor_draw() {editor_cross_section_draw(editor);}
 #else
-	#define EDITOR_GEOMETRY 2
+	#define EDITOR_GEOMETRY 1
 #endif
 #define EDITOR_CROSS_SECTION (EDITOR_GEOMETRY + 1)
 #define EDITOR_TRANSIENT_SECTION (EDITOR_CROSS_SECTION + 1)
@@ -68,8 +67,9 @@ void editor_control_update(EditorControl *control)
 		fprintf(stderr, "editor_control_update: start\n");
 	#endif
 	i = gtk_combo_box_get_active(GTK_COMBO_BOX(control->combo_channel));
-	jbw_combo_box_set_strings
-		(control->combo_section, control->section_name[i], nsections[i]);
+	jbw_combo_box_set_strings(control->combo_section, control->section_name[i],
+		control->nsections[i]);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(control->combo_section), 0);
 	#if DEBUG_EDITOR_CONTROL_UPDATE
 		fprintf(stderr, "editor_control_update: end\n");
 	#endif
@@ -191,6 +191,29 @@ void editor_cross_section_update(EditorCrossSection *editor)
 }
 
 /**
+ * \fn void editor_cross_section_get_transient(EditorCrossSection *editor)
+ * \brief Function to get the actual transient section data from the editor.
+ * \param editor
+ * \brief cross section editor.
+ */
+void editor_cross_section_get_transient(EditorCrossSection *editor)
+{
+	int i;
+	TransientSection *ts;
+	#if DEBUG_EDITOR_CROSS_SECTION_GET_TRANSIENT
+		fprintf(stderr, "editor_cross_section_get_transient: start\n");
+	#endif
+	i = gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_transient));
+	ts = editor->cs->ts + i;
+	transient_section_delete(ts);
+	editor_transient_section_get(editor->editor_transient);
+	transient_section_copy(ts, editor->editor_transient->ts);
+	#if DEBUG_EDITOR_CROSS_SECTION_GET_TRANSIENT
+		fprintf(stderr, "editor_cross_section_get_transient: end\n");
+	#endif
+}
+
+/**
  * \fn void editor_cross_section_get(EditorCrossSection *editor)
  * \brief Function to get the actual cross section data from the editor.
  * \param editor
@@ -220,9 +243,34 @@ void editor_cross_section_get(EditorCrossSection *editor)
 	default:
 		cs->type = 1
 			+ jbw_array_radio_buttons_get_active(editor->control->array_type);
+		cs->control_channel = gtk_combo_box_get_active
+			(GTK_COMBO_BOX(editor->control->combo_channel));
+		cs->control_section = gtk_combo_box_get_active
+			(GTK_COMBO_BOX(editor->control->combo_section));
 	}
 	#if DEBUG_EDITOR_CROSS_SECTION_GET
 		fprintf(stderr, "editor_cross_section_get: end\n");
+	#endif
+}
+
+/**
+ * \fn void editor_cross_section_open_transient(EditorCrossSection *editor)
+ * \brief Function to open a transient section in the editor.
+ * \param editor
+ * \brief cross section editor.
+ */
+void editor_cross_section_open_transient(EditorCrossSection *editor)
+{
+	int i;
+	#if DEBUG_EDITOR_CROSS_SECTION_OPEN_TRANSIENT
+		fprintf(stderr, "editor_cross_section_open_transient: start\n");
+	#endif
+	i = gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_transient));
+	transient_section_delete(editor->editor_transient->ts);
+	transient_section_copy(editor->editor_transient->ts, editor->cs->ts + i);
+	editor_transient_section_open(editor->editor_transient);
+	#if DEBUG_EDITOR_CROSS_SECTION_OPEN_TRANSIENT
+		fprintf(stderr, "editor_cross_section_open_transient: end\n");
 	#endif
 }
 
@@ -244,16 +292,25 @@ void editor_cross_section_open(EditorCrossSection *editor)
 	gtk_spin_button_set_value(editor->entry_x, cs->x);
 	gtk_spin_button_set_value(editor->entry_y, cs->y);
 	gtk_spin_button_set_value(editor->entry_angle, cs->angle);
+	g_signal_handler_block(editor->combo_transient, editor->id_transient);
+	gtk_combo_box_text_remove_all(editor->combo_transient);
 	for (i = 0; i <= cs->n; ++i)
 		gtk_combo_box_text_append_text(editor->combo_transient, cs->ts[i].name);
+	g_signal_handler_unblock(editor->combo_transient, editor->id_transient);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_transient), 0);
-	if (cs->type == CROSS_SECTION_TYPE_VARIABLE)
-		jbw_array_buttons_set_active(editor->array_type, 0);
+	if (cs->type == CROSS_SECTION_TYPE_TIME)
+		jbw_array_radio_buttons_set_active(editor->array_type, 0, 1);
 	else
 	{
-		jbw_array_buttons_set_active(editor->array_type, 1);
-		jbw_array_buttons_set_active(editor->control->array_type, cs->type - 1);
+		jbw_array_radio_buttons_set_active(editor->array_type, 1, 1);
+		jbw_array_radio_buttons_set_active
+			(editor->control->array_type, cs->type - 1, 1);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(editor->control->combo_channel),
+			cs->control_channel);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(editor->control->combo_section),
+			cs->control_section);
 	}
+	editor_cross_section_update(editor);
 	#if DEBUG_EDITOR_CROSS_SECTION_OPEN
 		fprintf(stderr, "editor_cross_section_open: end\n");
 	#endif
@@ -270,14 +327,20 @@ void editor_cross_section_insert_transient(EditorCrossSection *editor)
 {
 	int i;
 	TransientSection *ts;
+	EditorTransientSection *editor_transient;
 	#if DEBUG_EDITOR_CROSS_SECTION_INSERT_TRANSIENT
 		fprintf(stderr, "editor_cross_section_insert_transient: start\n");
 	#endif
-	i = gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_transient));
+	i = 1 + gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_transient));
+	cross_section_insert_transient(editor->cs, i);
 	ts = editor->cs->ts + i;
-	cross_section_insert_transient(editor->cs, ts, i + 1);
 	gtk_combo_box_text_insert_text(editor->combo_transient, i, ts->name);
 	editor_cross_section_update(editor);
+	editor_transient = editor->editor_transient;
+	transient_section_delete(editor_transient->ts);
+	transient_section_copy(editor_transient->ts, ts);
+	editor_transient_section_open(editor_transient);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_transient), i);
 	gtk_notebook_set_current_page(editor->notebook, EDITOR_TRANSIENT_SECTION);
 	#if DEBUG_EDITOR_CROSS_SECTION_INSERT_TRANSIENT
 		fprintf(stderr, "editor_cross_section_insert_transient: end\n");
@@ -299,7 +362,11 @@ void editor_cross_section_remove_transient(EditorCrossSection *editor)
 	#endif
 	i = gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_transient));
 	cross_section_remove_transient(editor->cs, i);
+	g_signal_handler_block(editor->combo_transient, editor->id_transient);
 	gtk_combo_box_text_remove(editor->combo_transient, i);
+	g_signal_handler_unblock(editor->combo_transient, editor->id_transient);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_transient),
+		jbm_min(i, editor->cs->n));
 	editor_cross_section_update(editor);
 	#if DEBUG_EDITOR_CROSS_SECTION_REMOVE_TRANSIENT
 		fprintf(stderr, "editor_cross_section_remove_transient: end\n");
@@ -360,6 +427,13 @@ void editor_cross_section_draw(EditorCrossSection *editor)
 
 	// Drawing logo
 	jbw_graphic_draw_logo(graphic);
+
+	// Displaying
+#if JBW_GRAPHIC == JBW_GRAPHIC_GLUT
+	glutSwapBuffers();
+#elif JBW_GRAPHIC == JBW_GRAPHIC_CLUTTER
+	glFlush();
+#endif
 
 	// End
 	#if DEBUG_EDITOR_CROSS_SECTION_DRAW
@@ -424,18 +498,18 @@ void editor_cross_section_new(EditorCrossSection *editor, GtkNotebook *notebook,
 	editor->array_type[0] = NULL;
 	for (i = 0; i < 2; ++i)
 	{
-		control->array_type[i]
+		editor->array_type[i]
 			= (GtkRadioButton*)gtk_radio_button_new_with_label_from_widget
-				(control->array_type[0], array_label[i]);
-		gtk_grid_attach(control->grid_type, GTK_WIDGET(control->array_type[i]),
+				(editor->array_type[0], label_type[i]);
+		gtk_grid_attach(editor->grid_type, GTK_WIDGET(editor->array_type[i]),
 			0, i, 1, 1);
-		g_signal_connect_swapped(control->array_type[i], "toggled",
-			(void(*))&editor_channel_update, editor);
+		g_signal_connect_swapped(editor->array_type[i], "toggled",
+			(void(*))&editor_cross_section_update, editor);
 	}
-	control->frame_type = (GtkFrame*)gtk_frame_new(gettext("Type"));
+	editor->frame_type = (GtkFrame*)gtk_frame_new(gettext("Type"));
 	gtk_container_add
-		(GTK_CONTAINER(control->frame_type), GTK_WIDGET(control->grid_type));
-	gtk_grid_attach(control->grid, GTK_WIDGET(control->frame_type), 0, 1, 3, 1);
+		(GTK_CONTAINER(editor->frame_type), GTK_WIDGET(editor->grid_type));
+	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->frame_type), 0, 1, 3, 1);
 	editor->label_x = (GtkLabel*)gtk_label_new("x");
 	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_x), 0, 2, 1, 1);
 	editor->entry_x
@@ -467,6 +541,8 @@ void editor_cross_section_new(EditorCrossSection *editor, GtkNotebook *notebook,
 		= (GtkButton*)gtk_button_new_with_label(gettext("Update plot"));
 	gtk_grid_attach
 		(editor->grid, GTK_WIDGET(editor->button_plot), 2, 5, 1, 1);
+	g_signal_connect_swapped(editor->button_plot, "clicked",
+		(void(*))&editor_cross_section_draw, editor);
 	editor->label_transient
 		= (GtkLabel*)gtk_label_new(gettext("Transient section"));
 	gtk_grid_attach
@@ -474,6 +550,8 @@ void editor_cross_section_new(EditorCrossSection *editor, GtkNotebook *notebook,
 	editor->combo_transient = (GtkComboBoxText*)gtk_combo_box_text_new();
 	gtk_grid_attach
 		(editor->grid, GTK_WIDGET(editor->combo_transient), 1, 6, 2, 1);
+	editor->id_transient = g_signal_connect_swapped(editor->combo_transient,
+		"changed", (void(*))&editor_cross_section_open_transient, editor);
 	editor_control_new
 		(editor->control, channel_name, nchannels, section_name, nsections);
 	gtk_grid_attach
@@ -487,3 +565,100 @@ void editor_cross_section_new(EditorCrossSection *editor, GtkNotebook *notebook,
 		fprintf(stderr, "editor_cross_section_new: end\n");
 	#endif
 }
+
+#if TEST_EDITOR_CROSS_SECTION
+
+void editor_draw()
+{
+	switch (gtk_notebook_get_current_page(editor->notebook))
+	{
+		case EDITOR_CROSS_SECTION:
+			editor_cross_section_draw(editor);
+			break;
+		case EDITOR_TRANSIENT_SECTION:
+			editor_transient_section_draw(editor->editor_transient);
+			break;
+	}
+}
+
+void change_current_page(EditorCrossSection *editor)
+{
+	TransientSection *ts;
+	switch (gtk_notebook_get_current_page(editor->notebook))
+	{
+		case EDITOR_CROSS_SECTION:
+			editor_cross_section_get(editor);
+			break;
+		case EDITOR_TRANSIENT_SECTION:
+			editor_transient_section_get(editor->editor_transient);
+			ts = editor->cs->ts + gtk_combo_box_get_active
+				(GTK_COMBO_BOX(editor->combo_transient));
+			transient_section_delete(ts);
+			transient_section_copy(ts, editor->editor_transient->ts);
+			editor_cross_section_open(editor);
+			break;
+	}
+}
+
+void ok(char *name)
+{
+	xmlNode *node;
+	xmlDoc *doc;
+	editor_cross_section_get(editor);
+	doc = xmlNewDoc((const xmlChar*)"1.0");
+	node = xmlNewDocNode(doc, 0, XML_CROSS_SECTION, 0);
+	xmlDocSetRootElement(doc, node);
+	cross_section_save_xml(editor->cs, node);
+	xmlSaveFormatFile(name, doc, 1);
+	xmlFree(doc);
+	glutLeaveMainLoop();
+}
+
+int main(int argn, char **argc)
+{
+	int nsections[2] = {3, 2};
+	char *channel_name[2] = {"Channel1", "Channel2"};
+	char *section_name1[3] = {"Section1", "Section2", "Section3"},
+		*section_name2[2] = {"SectionA", "SectionB"};
+	char **section_name[2] = {section_name1, section_name2};
+	xmlNode *node;
+	xmlDoc *doc;
+	GtkNotebook *notebook;
+	GtkButton *button_ok, *button_cancel;
+	GtkDialog *dlg;
+	editor->cs->t = NULL;
+	editor->cs->ts = NULL;
+	editor->cs->name = NULL;
+	xmlKeepBlanksDefault(0);
+	if (!jbw_graphic_init(&argn, &argc)) return 1;
+	glutIdleFunc((void(*))&gtk_main_iteration);
+	notebook = (GtkNotebook*)gtk_notebook_new();
+	g_signal_connect_swapped(notebook, "switch-page",
+		(void(*))&change_current_page, editor);
+	g_signal_connect_after(notebook, "switch-page", &editor_draw, NULL);
+	editor_cross_section_new
+		(editor, notebook, channel_name, 2, section_name, nsections);
+	doc = xmlParseFile(argc[1]);
+	if (!doc) return 2;
+	node = xmlDocGetRootElement(doc);
+	if (!cross_section_open_xml(editor->cs, node)) return 3;
+	xmlFreeDoc(doc);
+	dlg = (GtkDialog*)gtk_dialog_new();
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg)),
+		GTK_WIDGET(notebook));
+	gtk_window_set_title(GTK_WINDOW(dlg), "Test editor cross section");
+	button_ok = (GtkButton*)gtk_dialog_add_button
+		(dlg, gettext("_OK"), GTK_RESPONSE_OK);
+	g_signal_connect_swapped(button_ok, "clicked", (void(*))&ok, argc[2]);
+	button_cancel = (GtkButton*)gtk_dialog_add_button
+		(dlg, gettext("_Cancel"), GTK_RESPONSE_CANCEL);
+	g_signal_connect(button_cancel, "clicked", &glutLeaveMainLoop, NULL);
+	gtk_widget_show_all(GTK_WIDGET(dlg));
+	editor_cross_section_open(editor);
+	glutMainLoop();
+	editor_cross_section_destroy(editor);
+	gtk_widget_destroy(GTK_WIDGET(dlg));
+	return 0;
+}
+
+#endif

@@ -247,15 +247,21 @@ void editor_transient_section_remove_point(EditorTransientSection *editor)
  */
 void editor_transient_section_draw(EditorTransientSection *editor)
 {
-	TransientSection *ts = editor->ts;
-	int i, n = ts->n + 1;
-	JBFLOAT y[n], z[n];
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_DRAW
 		fprintf(stderr, "editor_transient_section_draw: start\n");
 	#endif
+	editor_transient_section_get(editor);
+	TransientSection *ts = editor->ts;
+	int i, n = ts->n + 1;
+	JBFLOAT y[n], z[n];
 	for (i = n; --i >= 0;) y[i] = ts->sp[i].y, z[i] = ts->sp[i].z;
 	jbw_graphic_draw_lines(editor->graphic, y, z, 0, 0, 0, n);
 	jbw_graphic_draw_logo(editor->graphic);
+#if JBW_GRAPHIC == JBW_GRAPHIC_GLUT
+	glutSwapBuffers();
+#elif JBW_GRAPHIC == JBW_GRAPHIC_CLUTTER
+	glFlush();
+#endif
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_DRAW
 		fprintf(stderr, "editor_transient_section_draw: end\n");
 	#endif
@@ -288,7 +294,8 @@ void editor_transient_section_destroy(EditorTransientSection *editor)
  * \param notebook
  * \brief GtkNotebook to pack the widgets.
  */
-void editor_transient_section_new(EditorTransientSection *editor)
+void editor_transient_section_new
+	(EditorTransientSection *editor, GtkNotebook *notebook)
 {
 	int i;
 	const char *label_type[N_TRANSIENT_SECTION_TYPES] =
@@ -365,6 +372,7 @@ void editor_transient_section_new(EditorTransientSection *editor)
 	editor->button_plot
 		= (GtkButton*)gtk_button_new_with_label(gettext("Update plot"));
 	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->button_plot), 2, 7, 1, 1);
+	g_signal_connect(editor->button_plot, "clicked", &editor_draw, NULL);
 	editor->array = jbw_array_editor_new(4, 3, 2, label_array);
 	gtk_grid_attach
 		(editor->grid, GTK_WIDGET(editor->array->scrolled), 0, 8, 3, 1);

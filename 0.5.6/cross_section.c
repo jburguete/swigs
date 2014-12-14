@@ -88,21 +88,17 @@ int cross_section_create(CrossSection *cs, int n, char *name)
 #endif
 
 /**
- * \fn int cross_section_insert_transient(CrossSection *cs, \
- *   TransientSection *ts, int position)
+ * \fn int cross_section_insert_transient(CrossSection *cs, int position)
  * \brief Method to insert a TransientSection in a CrossSection structure.
  * \param cs
  * \brief CrossSection structure.
- * \param ts
- * \brief TransientSection structure.
  * \param position
  * \brief insertion position.
  * \return 0 on error, 1 on success.
  */
 #if !INLINE_CROSS_SECTION_INSERT_TRANSIENT
-int cross_section_insert_transient
-	(CrossSection *cs, TransientSection *ts, int position)
-{return _cross_section_insert_transient(cs, ts, position);}
+int cross_section_insert_transient(CrossSection *cs, int position)
+{return _cross_section_insert_transient(cs, position);}
 #endif
 
 /**

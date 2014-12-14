@@ -73,7 +73,7 @@ typedef struct
  * \brief number of system cross section to measure the variable to control.
  * \var control_channel
  * \brief number of channel where to measure the variable to control.
- * \var control
+ * \var control_section
  * \brief number of system cross section to measure the variable to control.
  * \var i
  * \brief number of mesh cross section.
@@ -104,7 +104,7 @@ typedef struct
  * \var name
  * \brief name.
  */
-	int n, type, control, i, j, nt;
+	int n, type, control, control_channel, control_section, i, j, nt;
 	JBFLOAT x, y, angle, parameter, time, tolerance, tmax, pt;
 	JBFLOAT *t;
 	TransientSection *ts;
@@ -218,7 +218,7 @@ exit2:
 #endif
 
 static inline int _cross_section_insert_transient
-	(CrossSection *cs, TransientSection *ts, int position)
+	(CrossSection *cs, int position)
 {
 	int i;
 	#if DEBUG_CROSS_SECTION_INSERT_TRANSIENT
@@ -230,13 +230,16 @@ static inline int _cross_section_insert_transient
 		jb_realloc(cs->ts, (cs->n + 2) * sizeof(TransientSection));
 	if (!cs->ts) goto error_insert;
 	++cs->n;
-	for (i = cs->n; i > position; --i)
+	#if DEBUG_CROSS_SECTION_INSERT_TRANSIENT
+		fprintf(stderr, "cross_section_insert_transient: n=%d position=%d\n",
+			cs->n, position);
+	#endif
+	for (i = cs->n; i >= position; --i)
 	{
 		cs->t[i] = cs->t[i - 1];
-		cs->ts[i] = cs->ts[i - 1];
+		if (!transient_section_copy(cs->ts + i, cs->ts + i - 1))
+			goto error_insert;
 	}
-	cs->t[i] = 0.;
-	if (!transient_section_copy(cs->ts + i, ts)) goto error_insert;
 	#if DEBUG_CROSS_SECTION_INSERT_TRANSIENT
 		fprintf(stderr, "cross_section_insert_transient: end\n");
 	#endif
@@ -254,7 +257,7 @@ error_insert:
 #if INLINE_CROSS_SECTION_INSERT_TRANSIENT
 	#define cross_section_insert_transient _cross_section_insert_transient
 #else
-	int cross_section_insert_transient(CrossSection*, TransientSection*, int);
+	int cross_section_insert_transient(CrossSection*, int);
 #endif
 
 static inline void _cross_section_remove_transient

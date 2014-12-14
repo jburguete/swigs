@@ -45,52 +45,58 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 typedef struct
 {
 /**
+ * \var ts
+ * \brief TransientSection to define the transient section data.
  * \var array
- * \brief JBWArrayEditor structure to define the section points.
+ * \brief JBWArrayEditor to define the section points.
  * \var graphic
- * \brief JBWGraphic structure to show the transient section graphic.
+ * \brief JBWGraphic to show the transient section graphic.
  * \var entry_name
- * \brief GtkEntry structure to set the transient section name.
- * \var array_type
- * \brief array of GtkRadioButton structures to set the transient section type.
+ * \brief GtkEntry to set the transient section name.
  * \var entry_t
- * \brief GtkSpinButton structure to set the transient section date.
+ * \brief GtkSpinButton to set the transient section date.
+ * \var button_insert
+ * \brief GtkButton to insert a point.
+ * \var button_remove
+ * \brief GtkButton to remove a point.
+ * \var button_plot
+ * \brief GtkButton to update the transient section graphic.
+ * \var array_type
+ * \brief array of GtkRadioButtons to set the transient section type.
  * \var entry_u
- * \brief GtkSpinButton structure to set the transient section velocity.
+ * \brief GtkSpinButton to set the transient section velocity.
  * \var entry_contraction
- * \brief GtkSpinButton structure to set the transient section
- *   expansion/contraction coefficient.
+ * \brief GtkSpinButton to set the transient section expansion/contraction
+ *   coefficient.
  * \var entry_hmax
- * \brief GtkSpinButton structure to set the transient section maximum depth.
+ * \brief GtkSpinButton to set the transient section maximum depth.
  * \var entry_dz
- * \brief GtkSpinButton structure to set the transient section vertical step
- *   size calculating the friction coefficients.
+ * \brief GtkSpinButton to set the transient section vertical step size
+ *   calculating the friction coefficients.
  * \var label_name
- * \brief GtkLabel structure to show  a label of the transient section name.
+ * \brief GtkLabel to show a label of the transient section name.
  * \var label_t
- * \brief GtkLabel structure to show  a label of the transient section date.
+ * \brief GtkLabel to show a label of the transient section date.
  * \var label_u
- * \brief GtkLabel structure to show  a label of the transient section velocity.
+ * \brief GtkLabel to show a label of the transient section velocity.
  * \var label_contraction
- * \brief GtkLabel structure to show  a label of the transient section
+ * \brief GtkLabel to show a label of the transient section
  *   expansion/contraction coefficient.
  * \var label_hmax
- * \brief GtkLabel structure to show  a label of the transient section maximum
- *   depth.
+ * \brief GtkLabel to show a label of the transient section maximum depth.
  * \var label_dz
- * \brief GtkLabel structure to show  a label of the transient section vertical
- *   step size calculating the friction coefficients.
+ * \brief GtkLabel to show a label of the transient section vertical step size
+ *   calculating the friction coefficients.
  * \var frame_type
- * \brief GtkFrame structure to group the array_type buttons.
+ * \brief GtkFrame to group the array_type buttons.
  * \var grid
- * \brief GtkGrid structure to pack the widgets.
+ * \brief GtkGrid to pack the widgets.
  * \var grid_type
- * \brief GtkGrid structure to pack the array_type buttons.
+ * \brief GtkGrid to pack the array_type buttons.
  * \var notebook
- * \brief GtkNotebook structure to put the widgets.
- * \var ts
- * \brief TransientSection structure.
+ * \brief GtkNotebook to put the widgets.
  */
+	TransientSection ts[1];
 	JBWArrayEditor *array;
 	JBWGraphic *graphic;
 	GtkEntry *entry_name, *entry_t;
@@ -102,7 +108,6 @@ typedef struct
 	GtkFrame *frame_type;
 	GtkGrid *grid, *grid_type;
 	GtkNotebook *notebook;
-	TransientSection ts[1];
 } EditorTransientSection;
 
 void editor_transient_section_update(EditorTransientSection *editor);
@@ -115,8 +120,6 @@ void editor_transient_section_destroy(EditorTransientSection *editor);
 void editor_transient_section_new
 	(EditorTransientSection *editor, GtkNotebook *notebook);
 
-#if TEST_EDITOR_TRANSIENT_SECTION
-	void editor_draw();
-#endif
+extern void editor_draw();
 
 #endif
