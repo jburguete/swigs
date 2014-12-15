@@ -27,31 +27,21 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+/**
+ * \file channel_geometry.c
+ * \brief Source file to define channel geometry structures and methods.
+ * \authors Javier Burguete Tolosa.
+ * \copyright Copyright 2005 - 2014 Javier Burguete Tolosa.
+ */
 #include "channel_geometry.h"
 
 #if !INLINE_CHANNEL_GEOMETRY_PRINT
-void channel_geometry_print(ChannelGeometry *cg,FILE *file)
-{_channel_geometry_print(cg,file);}
+void channel_geometry_print(ChannelGeometry *cg, FILE *file)
+{_channel_geometry_print(cg, file);}
 #endif
 
 #if !INLINE_CHANNEL_GEOMETRY_ERROR
 void channel_geometry_error(char *m) {_channel_geometry_error(m);}
-#endif
-
-#if !INLINE_CHANNEL_GEOMETRY_ACTUALIZE_X
-void channel_geometry_actualize_x(ChannelGeometry *cg,int i)
-{_channel_geometry_actualize_x(cg,i);}
-#endif
-
-#if !INLINE_CHANNEL_GEOMETRY_DELETE_SECTION
-void channel_geometry_delete_section(ChannelGeometry *cg,int i)
-{_channel_geometry_delete_section(cg,i);}
-#endif
-
-#if !INLINE_CHANNEL_GEOMETRY_INSERT_SECTION
-int channel_geometry_insert_section
-	(ChannelGeometry *cg,CrossSection *cs,int i)
-{return _channel_geometry_insert_section(cg,cs,i);}
 #endif
 
 #if !INLINE_CHANNEL_GEOMETRY_DELETE
@@ -59,17 +49,32 @@ void channel_geometry_delete(ChannelGeometry *cg)
 {_channel_geometry_delete(cg);}
 #endif
 
+#if !INLINE_CHANNEL_GEOMETRY_UPDATE_X
+void channel_geometry_update_x(ChannelGeometry *cg, int i)
+{_channel_geometry_update_x(cg, i);}
+#endif
+
+#if !INLINE_CHANNEL_GEOMETRY_INSERT_SECTION
+int channel_geometry_insert_section(ChannelGeometry *cg, int i)
+{return _channel_geometry_insert_section(cg, i);}
+#endif
+
+#if !INLINE_CHANNEL_GEOMETRY_REMOVE_SECTION
+void channel_geometry_remove_section(ChannelGeometry *cg, int i)
+{_channel_geometry_remove_section(cg, i);}
+#endif
+
 #if !INLINE_CHANNEL_GEOMETRY_COPY
-int channel_geometry_copy(ChannelGeometry *cg,ChannelGeometry *cg_copy)
-{return _channel_geometry_copy(cg,cg_copy);}
+int channel_geometry_copy(ChannelGeometry *cg, ChannelGeometry *cg_copy)
+{return _channel_geometry_copy(cg, cg_copy);}
 #endif
 
 #if !INLINE_CHANNEL_GEOMETRY_OPEN_XML
-int channel_geometry_open_xml(ChannelGeometry *cg,xmlNode *node)
-{return _channel_geometry_open_xml(cg,node);}
+int channel_geometry_open_xml(ChannelGeometry *cg, xmlNode *node)
+{return _channel_geometry_open_xml(cg, node);}
 #endif
 
 #if !INLINE_CHANNEL_GEOMETRY_SAVE_XML
-void channel_geometry_save_xml(ChannelGeometry *cg,xmlNode *node)
-{_channel_geometry_save_xml(cg,node);}
+void channel_geometry_save_xml(ChannelGeometry *cg, xmlNode *node)
+{_channel_geometry_save_xml(cg, node);}
 #endif

@@ -305,6 +305,8 @@ void editor_transient_section_new
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_NEW
 		fprintf(stderr, "editor_transient_section_new: start\n");
 	#endif
+	editor->ts->data = NULL;
+	editor->ts->name = NULL;
 	editor->notebook = notebook;
 	editor->grid = (GtkGrid*)gtk_grid_new();
 	gtk_notebook_append_page(notebook, GTK_WIDGET(editor->grid),
@@ -410,8 +412,6 @@ int main(int argn, char **argc)
 	GtkNotebook *notebook;
 	GtkButton *button_ok, *button_cancel;
 	GtkDialog *dlg;
-	editor->ts->data = NULL;
-	editor->ts->name = NULL;
 	xmlKeepBlanksDefault(0);
 	if (!jbw_graphic_init(&argn, &argc)) return 1;
 	glutIdleFunc((void(*))&gtk_main_iteration);

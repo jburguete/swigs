@@ -36,8 +36,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "editor_cross_section.h"
 
 /**
- * \def EDITOR_GEOMETRY
- * \brief Macro to get the position of the geometry editor in the notebook.
+ * \def EDITOR_CHANNEL_GEOMETRY
+ * \brief Macro to get the position of the channel geometry editor in the
+ *   notebook.
  * \def EDITOR_CROSS_SECTION
  * \brief Macro to get the position of the cross section editor in the notebook.
  * \def EDITOR_TRANSIENT_SECTION
@@ -45,13 +46,13 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *   notebook.
  */
 #if TEST_EDITOR_CROSS_SECTION
-	#define EDITOR_GEOMETRY -1
+	#define EDITOR_CHANNEL_GEOMETRY -1
 	char *message;
 	EditorCrossSection editor[1];
 #else
-	#define EDITOR_GEOMETRY 1
+	#define EDITOR_CHANNEL_GEOMETRY 1
 #endif
-#define EDITOR_CROSS_SECTION (EDITOR_GEOMETRY + 1)
+#define EDITOR_CROSS_SECTION (EDITOR_CHANNEL_GEOMETRY + 1)
 #define EDITOR_TRANSIENT_SECTION (EDITOR_CROSS_SECTION + 1)
 
 /**
@@ -414,14 +415,23 @@ void editor_cross_section_draw(EditorCrossSection *editor)
 	jbw_graphic_labels(graphic);
 
 	// Drawing lines
+	glLoadIdentity();
+	glOrtho
+		(graphic->xmin, graphic->xmax, graphic->ymin, graphic->ymax, -1., 1.);
 	y = (JBFLOAT*)g_malloc((++nmax) * 2 * sizeof(JBFLOAT));
 	z = y + nmax;
 	for (i = 0, ts = cs->ts; i <= cs->n; ++i, ++ts)
 	{
 		for (j = n = ts->n + 1; --j >= 0;)
+		{
 			y[j] = ts->sp[j].y, z[j] = ts->sp[j].z;
+		}
 		k1 = ((float)i) / (cs->n + 1);
-		jbw_graphic_draw_line(graphic, 0., k1, 1. - k1, y, z, n);
+		#if JB_PRECISION < 3
+			jbw_draw_linesf(0., k1, 1. - k1, y, z, n);
+		#else
+			jbw_draw_linesd(0., k1, 1. - k1, y, z, n);
+		#endif
 	}
 	g_free(y);
 
@@ -482,9 +492,15 @@ void editor_cross_section_new(EditorCrossSection *editor, GtkNotebook *notebook,
 {
 	int i;
 	const char *label_type[2] = {gettext("Normal"), gettext("Control")};
+	CrossSection *cs;
 	#if DEBUG_EDITOR_CROSS_SECTION_NEW
 		fprintf(stderr, "editor_cross_section_new: start\n");
 	#endif
+	cs = editor->cs;
+	cs->n = -1;
+	cs->t = NULL;
+	cs->ts = NULL;
+	cs->name = NULL;
 	editor->notebook = notebook;
 	editor->grid = (GtkGrid*)gtk_grid_new();
 	gtk_notebook_append_page(notebook, GTK_WIDGET(editor->grid),
@@ -541,8 +557,7 @@ void editor_cross_section_new(EditorCrossSection *editor, GtkNotebook *notebook,
 		= (GtkButton*)gtk_button_new_with_label(gettext("Update plot"));
 	gtk_grid_attach
 		(editor->grid, GTK_WIDGET(editor->button_plot), 2, 5, 1, 1);
-	g_signal_connect_swapped(editor->button_plot, "clicked",
-		(void(*))&editor_cross_section_draw, editor);
+	g_signal_connect(editor->button_plot, "clicked", &editor_draw, NULL);
 	editor->label_transient
 		= (GtkLabel*)gtk_label_new(gettext("Transient section"));
 	gtk_grid_attach
@@ -626,9 +641,6 @@ int main(int argn, char **argc)
 	GtkNotebook *notebook;
 	GtkButton *button_ok, *button_cancel;
 	GtkDialog *dlg;
-	editor->cs->t = NULL;
-	editor->cs->ts = NULL;
-	editor->cs->name = NULL;
 	xmlKeepBlanksDefault(0);
 	if (!jbw_graphic_init(&argn, &argc)) return 1;
 	glutIdleFunc((void(*))&gtk_main_iteration);

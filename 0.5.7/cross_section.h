@@ -100,7 +100,7 @@ typedef struct
  * \var t
  * \brief times array associated to every transient section.
  * \var ts
- * \brief transient sections array
+ * \brief transient sections array.
  * \var name
  * \brief name.
  */
@@ -221,6 +221,7 @@ static inline int _cross_section_insert_transient
 	(CrossSection *cs, int position)
 {
 	int i;
+	TransientSection *ts;
 	#if DEBUG_CROSS_SECTION_INSERT_TRANSIENT
 		fprintf(stderr, "cross_section_insert_transient: start\n");
 	#endif
@@ -234,10 +235,15 @@ static inline int _cross_section_insert_transient
 		fprintf(stderr, "cross_section_insert_transient: n=%d position=%d\n",
 			cs->n, position);
 	#endif
+	ts = cs->ts + cs->n;
+	ts->data = NULL;
+	ts->name = NULL;
 	for (i = cs->n; i >= position; --i)
 	{
 		cs->t[i] = cs->t[i - 1];
-		if (!transient_section_copy(cs->ts + i, cs->ts + i - 1))
+		ts = cs->ts + i;
+		transient_section_delete(ts);
+		if (!transient_section_copy(ts, ts - 1))
 			goto error_insert;
 	}
 	#if DEBUG_CROSS_SECTION_INSERT_TRANSIENT
@@ -264,6 +270,7 @@ static inline void _cross_section_remove_transient
 	(CrossSection *cs, int position)
 {
 	int i;
+	TransientSection *ts;
 	#if DEBUG_CROSS_SECTION_REMOVE_TRANSIENT
 		fprintf(stderr, "cross_section_remove_transient: start\n");
 	#endif
@@ -271,7 +278,9 @@ static inline void _cross_section_remove_transient
 	for (i = position; i < cs->n; ++i)
 	{
 		cs->t[i] = cs->t[i + 1];
-		cs->ts[i] = cs->ts[i + 1];
+		ts = cs->ts + i;
+		transient_section_delete(ts);
+		transeint_section_copy(ts, ts + 1);
 	}
 	cs->t = (JBFLOAT*)g_realloc(cs->t, cs->n * sizeof(JBFLOAT));
 	cs->ts =
@@ -298,7 +307,7 @@ static inline int _cross_section_copy(CrossSection *cs, CrossSection *cs_copy)
 	#endif
 	
 	if (cs == cs_copy) goto exit0;
-	memcpy(cs, cs_copy, (size_t)&cs->ts - (size_t)cs);
+	memcpy(cs, cs_copy, (size_t)&cs->t - (size_t)cs);
 	if (!cross_section_create(cs, cs_copy->n, cs_copy->name)) goto exit3;
 
 	for (i = 0; i <= cs_copy->n; ++i)
