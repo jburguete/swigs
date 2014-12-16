@@ -130,8 +130,8 @@ void editor_transient_section_get(EditorTransientSection *editor)
 	if (ts->hmax == 0.)
 		ts->hmax = fminl(ts->sp[0].z, ts->sp[ts->n].z) - ts->zmin;
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_GET
-		transient_section_print(ts,stderr);
-		fprintf(stderr,"editor_transient_section_get: end\n");
+		transient_section_print(ts, stderr);
+		fprintf(stderr, "editor_transient_section_get: end\n");
 	#endif
 }
 
@@ -150,7 +150,7 @@ void editor_transient_section_open(EditorTransientSection *editor)
 		unsigned int t[n];
 	#endif
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_OPEN
-		fprintf(stderr,"editor_transient_section_open: start\n");
+		fprintf(stderr, "editor_transient_section_open: start\n");
 		transient_section_print(ts, stderr);
 	#endif
 	gtk_entry_set_text(editor->entry_name, ts->name);
@@ -197,7 +197,7 @@ void editor_transient_section_open(EditorTransientSection *editor)
 	else gtk_spin_button_set_value(editor->entry_hmax, ts->hmax);
 	editor_transient_section_update(editor);
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_OPEN
-		fprintf(stderr,"editor_transient_section_open: end\n");
+		fprintf(stderr, "editor_transient_section_open: end\n");
 	#endif
 }
 

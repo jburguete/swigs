@@ -37,37 +37,37 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define INITIAL_FLOW__H 1
 
 /**
- * \def N_INITIAL_FLOW
+ * \def N_INITIAL_FLOW_TYPES
  * \brief Macro to define the number of initial flow condition types.
  */
-#define N_INITIAL_FLOW (INITIAL_FLOW_XQZ + 1)
+#define N_INITIAL_FLOW_TYPES (INITIAL_FLOW_TYPE_XUZ + 1)
 
 #include "points.h"
 
 /**
  * \enum InitialFlowType
  * \brief Enumeration to define the initial flow condition type.
- * \var INITIAL_FLOW_DRY
+ * \var INITIAL_FLOW_TYPE_DRY
  * \brief dry initial flow condition.
- * \var INITIAL_FLOW_STEADY
+ * \var INITIAL_FLOW_TYPE_STEADY
  * \brief steady initial flow condition.
- * \var INITIAL_FLOW_XQH
+ * \var INITIAL_FLOW_TYPE_XQH
  * \brief tabular (x, Q, h) initial flow condition.
- * \var INITIAL_FLOW_XQZ
+ * \var INITIAL_FLOW_TYPE_XQZ
  * \brief tabular (x, Q, z) initial flow condition.
- * \var INITIAL_FLOW_XUH
+ * \var INITIAL_FLOW_TYPE_XUH
  * \brief tabular (x, u, h) initial flow condition.
- * \var INITIAL_FLOW_XUZ 
+ * \var INITIAL_FLOW_TYPE_XUZ 
  * \brief tabular (x, u, z) initial flow condition.
  */
 enum InitialFlowType
 {
-	INITIAL_FLOW_DRY = 0,
-	INITIAL_FLOW_STEADY = 1,
-	INITIAL_FLOW_XQH = 2,
-	INITIAL_FLOW_XQZ = 3,
-	INITIAL_FLOW_XUH = 4,
-	INITIAL_FLOW_XUZ = 5
+	INITIAL_FLOW_TYPE_DRY = 0,
+	INITIAL_FLOW_TYPE_STEADY = 1,
+	INITIAL_FLOW_TYPE_XQH = 2,
+	INITIAL_FLOW_TYPE_XQZ = 3,
+	INITIAL_FLOW_TYPE_XUH = 4,
+	INITIAL_FLOW_TYPE_XUZ = 5
 };
 
 /**
@@ -95,10 +95,10 @@ static inline void _initial_flow_print(InitialFlow *fic, FILE *file)
 	fprintf(file, "IFP type=%d\n", fic->type);
 	switch (fic->type)
 	{
-	case INITIAL_FLOW_XQH:
-	case INITIAL_FLOW_XQZ:
-	case INITIAL_FLOW_XUH:
-	case INITIAL_FLOW_XUZ:
+	case INITIAL_FLOW_TYPE_XQH:
+	case INITIAL_FLOW_TYPE_XQZ:
+	case INITIAL_FLOW_TYPE_XUH:
+	case INITIAL_FLOW_TYPE_XUZ:
 		for (i = 0; i<=fic->n; ++i)
 			fprintf(file, "IFP i=%d x="FWF" Q="FWF" z="FWF"\n",
 				i, fic->p[i].x, fic->p[i].y, fic->p[i].z);
@@ -154,7 +154,7 @@ static inline void _initial_flow_init_empty(InitialFlow *fic)
 	#if DEBUG_INITIAL_FLOW_INIT_EMPTY
 		fprintf(stderr, "initial_flow_init_empty: start\n");
 	#endif
-	jb_free_null((void**)&fic->p);
+	fic->p = NULL;
 	#if DEBUG_INITIAL_FLOW_INIT_EMPTY
 		fprintf(stderr, "initial_flow_init_empty: end\n");
 	#endif
@@ -183,8 +183,8 @@ static inline int _initial_flow_copy(InitialFlow *fic, InitialFlow *fic_copy)
 	fic->n = fic_copy->n;
 	switch (fic->type)
 	{
-	case INITIAL_FLOW_DRY:
-	case INITIAL_FLOW_STEADY:
+	case INITIAL_FLOW_TYPE_DRY:
+	case INITIAL_FLOW_TYPE_STEADY:
 		goto exit0;
 	}
 
@@ -268,18 +268,18 @@ static inline int _initial_flow_open_xml(InitialFlow *fic, xmlNode *node)
 	buffer = xmlGetProp(node, XML_TYPE);
 	if (!xmlStrcmp(buffer, XML_DRY))
 	{
-		fic->type = INITIAL_FLOW_DRY;
+		fic->type = INITIAL_FLOW_TYPE_DRY;
 		goto exit0;
 	}
 	else if (!xmlStrcmp(buffer, XML_STEADY))
 	{
-		fic->type = INITIAL_FLOW_STEADY;
+		fic->type = INITIAL_FLOW_TYPE_STEADY;
 		goto exit0;
 	}
-	else if (!xmlStrcmp(buffer, XML_XQH)) fic->type = INITIAL_FLOW_XQH;
-	else if (!xmlStrcmp(buffer, XML_XQZ)) fic->type = INITIAL_FLOW_XQZ;
-	else if (!xmlStrcmp(buffer, XML_XUH)) fic->type = INITIAL_FLOW_XUH;
-	else if (!xmlStrcmp(buffer, XML_XUZ)) fic->type = INITIAL_FLOW_XUZ;
+	else if (!xmlStrcmp(buffer, XML_XQH)) fic->type = INITIAL_FLOW_TYPE_XQH;
+	else if (!xmlStrcmp(buffer, XML_XQZ)) fic->type = INITIAL_FLOW_TYPE_XQZ;
+	else if (!xmlStrcmp(buffer, XML_XUH)) fic->type = INITIAL_FLOW_TYPE_XUH;
+	else if (!xmlStrcmp(buffer, XML_XUZ)) fic->type = INITIAL_FLOW_TYPE_XUZ;
 	else
 	{
 		initial_flow_error(gettext("Unknow type"));
@@ -368,19 +368,19 @@ static inline void _initial_flow_save_xml(InitialFlow *fic, xmlNode *node)
 
 	switch (fic->type)
 	{
-	case INITIAL_FLOW_DRY:
+	case INITIAL_FLOW_TYPE_DRY:
 		xmlSetProp(node, XML_TYPE, XML_DRY);
 		goto exit1;
-	case INITIAL_FLOW_STEADY:
+	case INITIAL_FLOW_TYPE_STEADY:
 		xmlSetProp(node, XML_TYPE, XML_STEADY);
 		goto exit1;
-	case INITIAL_FLOW_XQH:
+	case INITIAL_FLOW_TYPE_XQH:
 		xmlSetProp(node, XML_TYPE, XML_XQH);
 		break;
-	case INITIAL_FLOW_XQZ:
+	case INITIAL_FLOW_TYPE_XQZ:
 		xmlSetProp(node, XML_TYPE, XML_XQZ);
 		break;
-	case INITIAL_FLOW_XUH:
+	case INITIAL_FLOW_TYPE_XUH:
 		xmlSetProp(node, XML_TYPE, XML_XUH);
 		break;
 	default:
