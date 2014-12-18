@@ -87,7 +87,7 @@ void editor_initial_flow_update(EditorInitialFlow *editor)
 			gtk_widget_hide(GTK_WIDGET(editor->grid_parameters));
 	}
 	gtk_widget_set_sensitive
-		(GTK_WIDGET(editor->button_remove), editor->array->n > 0);
+		(GTK_WIDGET(editor->button_remove), editor->array->n > 1);
 	#if DEBUG_EDITOR_INITIAL_FLOW_UPDATE
 		fprintf(stderr, "editor_initial_flow_update: end\n");
 	#endif
@@ -116,6 +116,7 @@ void editor_initial_flow_get(EditorInitialFlow *editor)
 		case INITIAL_FLOW_TYPE_STEADY:
 			break;
 		default:
+			ifc->p = g_realloc(ifc->p, 3 * j * sizeof(JBFLOAT));
 			jbw_array_editor_get_column_float(editor->array, 1, x);
 			jbw_array_editor_get_column_float(editor->array, 2, p1);
 			jbw_array_editor_get_column_float(editor->array, 3, p2);
@@ -333,7 +334,22 @@ void ok(char *name)
 {
 	xmlNode *node;
 	xmlDoc *doc;
+	InitialFlow *ifc;
 	editor_initial_flow_get(editor);
+	ifc = editor->ifc;
+	switch (ifc->type)
+	{
+		case INITIAL_FLOW_TYPE_DRY:
+		case INITIAL_FLOW_TYPE_STEADY:
+			break;
+		default:
+			if (ifc->n < 0)
+			{
+				jbw_show_error2("Flow initial conditions",
+					"Not enough profile points number");
+				return;
+			}
+	}
 	doc = xmlNewDoc((const xmlChar*)"1.0");
 	node = xmlNewDocNode(doc, 0, XML_INITIAL_FLOW, 0);
 	xmlDocSetRootElement(doc, node);

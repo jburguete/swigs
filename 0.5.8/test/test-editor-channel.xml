@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+	<channel name="Channel1" cell_size="1">
+		<geometry>
+			<cross_section name="Sec1" x="1" y="2" angle="30">
+				<transient_section name="Tra1">
+					-10 28.04 0 0
+					0 8.04 0 0
+					10 28.04
+				</transient_section>
+			</cross_section>
+			<cross_section name="Sec2" x="20" y="1" angle="40">
+				<transient_section name="Tra2">
+					-10 27.04 0 0
+					0 7.04 0 0
+					10 27.04
+				</transient_section>
+			</cross_section>
+			<cross_section name="Sec3" x="30" angle="50">
+				<transient_section name="1.tra">
+					-10 10.04 0 0
+					0 0.04 0 0
+					10 10.04
+				</transient_section>
+			</cross_section>
+		</geometry>
+		<initial type="dry"/>
+		<inlet type="q" discharge="0.000000000000000000e+00"/>
+		<outlet type="q" discharge="0.000000000000000000e+00"/>
+	</channel>
