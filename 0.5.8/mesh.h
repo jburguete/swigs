@@ -501,8 +501,8 @@ static inline void _initial_variables_open
 	#endif
 	switch (ifc->type)
 	{
-	case INITIAL_FLOW_STEADY:
-	case INITIAL_FLOW_DRY:
+	case INITIAL_FLOW_TYPE_STEADY:
+	case INITIAL_FLOW_TYPE_DRY:
 		p->A = p->Q = 0.;
 		break;
 	default:
@@ -530,11 +530,11 @@ static inline void _initial_variables_open
 				p->x, ifc->p[nif].x, ifc->p[nif+1].x);
 			fprintf(stderr,"IVO h="FWF"\n",p->h);
 		#endif
-		if (ifc->type == INITIAL_FLOW_XQH)
+		if (ifc->type == INITIAL_FLOW_TYPE_XQH)
 			p->A = section_area_with_depth(p->s, p->h);
-		else if (ifc->type == INITIAL_FLOW_XQZ)
+		else if (ifc->type == INITIAL_FLOW_TYPE_XQZ)
 			p->A = section_area(p->s, p->h);
-		else if (ifc->type == INITIAL_FLOW_XUH)
+		else if (ifc->type == INITIAL_FLOW_TYPE_XUH)
 		{
 			p->A = section_area_with_depth(p->s, p->h);
 			p->Q *= p->A;
@@ -721,8 +721,8 @@ static inline int _part_open(int thread)
 		#endif
 		switch (ifc->type)
 		{
-		case INITIAL_FLOW_STEADY:
-		case INITIAL_FLOW_DRY:
+		case INITIAL_FLOW_TYPE_STEADY:
+		case INITIAL_FLOW_TYPE_DRY:
 			break;
 		default:
 			while (nif<ifc->n && pv->x > ifc->p[nif+1].x) ++nif;

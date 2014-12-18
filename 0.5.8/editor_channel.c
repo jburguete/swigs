@@ -43,6 +43,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \def EDITOR_TRANSIENT_SECTION
  * \brief Macro to get the position of the transient section editor in the
  *   notebook.
+ * \def EDITOR_INITIAL_FLOW
+ * \brief Macro to get the position of the flow initial conditions editor in the
+ *   notebook.
  */
 #if TEST_EDITOR_CHANNEL
 	#define EDITOR_CHANNEL 0
@@ -53,6 +56,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 #define EDITOR_CROSS_SECTION (EDITOR_CHANNEL + 1)
 #define EDITOR_TRANSIENT_SECTION (EDITOR_CROSS_SECTION + 1)
+#define EDITOR_INITIAL_FLOW (EDITOR_TRANSIENT_SECTION + 1)
 
 /**
  * \fn void editor_channel_update(EditorChannel *editor)
@@ -367,6 +371,7 @@ void editor_channel_new(EditorChannel *editor,
 		gtk_label_new(gettext("Channel")));
 	editor_cross_section_new(editor->editor_section, notebook, channel_name,
 		nchannels, section_name, nsections);
+	editor_initial_flow_new(editor->editor_initial, notebook);
 	editor->label_name = (GtkLabel*)gtk_label_new(gettext("Name"));
 	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_name), 0, 0, 1, 1);
 	editor->entry_name = (GtkEntry*)gtk_entry_new();
@@ -424,6 +429,9 @@ void editor_draw()
 			editor_transient_section_draw
 				(editor->editor_section->editor_transient);
 			break;
+		case EDITOR_INITIAL_FLOW:
+			editor_initial_flow_draw(editor->editor_initial);
+			break;
 	}
 }
 
@@ -432,8 +440,10 @@ void change_current_page(EditorChannel *editor)
 	int i;
 	CrossSection *cs;
 	TransientSection *ts;
+	InitialFlow *ifc;
 	EditorCrossSection *editor_section;
 	EditorTransientSection *editor_transient;
+	EditorInitialFlow *editor_initial;
 	switch (gtk_notebook_get_current_page(editor->notebook))
 	{
 		case EDITOR_CROSS_SECTION:
@@ -463,6 +473,14 @@ void change_current_page(EditorChannel *editor)
 			editor_cross_section_open(editor_section);
 			gtk_combo_box_set_active
 				(GTK_COMBO_BOX(editor_section->combo_transient), i);
+			break;
+		case EDITOR_INITIAL_FLOW:
+			editor_initial = editor->editor_initial;
+			editor_initial_flow_get(editor_initial);
+			ifc = editor->channel->fic;
+			initial_flow_delete(ifc);
+			initial_flow_copy(ifc, editor_initial->ifc);
+			editor_channel_open(editor);
 			break;
 	}
 }

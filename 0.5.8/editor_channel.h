@@ -38,6 +38,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "channel.h"
 #include "editor_cross_section.h"
+#include "editor_initial_flow.h"
 
 /**
  * \struct EditorChannel
@@ -48,6 +49,8 @@ typedef struct
 /**
  * \var editor_section
  * \brief EditorCrossSection to define the cross sections editor.
+ * \var editor_initial
+ * \brief EditorInitialFlow to define the flow initial conditions editor.
  * \var channel
  * \brief Channel to define the channel data.
  * \var graphic
@@ -74,6 +77,7 @@ typedef struct
  * \brief identifier number of the combo_section signals handler.
  */
 	EditorCrossSection editor_section[1];
+	EditorInitialFlow editor_initial[1];
 	Channel channel[1];
 	JBWGraphic *graphic;
 	GtkLabel *label_name, *label_section;
