@@ -27,6 +27,12 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+/**
+ * \file junction_data.h
+ * \brief Header file to define junction structures and functions.
+ * \authors Javier Burguete Tolosa.
+ * \copyright Copyright 2005-2014 Javier Burguete Tolosa.
+ */
 #ifndef JUNCTION_DATA__H
 #define JUNCTION_DATA__H 1
 
@@ -34,56 +40,68 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "jb/jb_win.h"
 #include "jb/jb_xml.h"
 
+/**
+ * \struct JunctionData
+ * \brief Structure to define the junction data.
+ */
 typedef struct
 {
-	int channel,pos,pos2;
+/**
+ * \var channel
+ * \brief number of the channel to connect.
+ * \var pos
+ * \brief number of the first channel cross section to connect.
+ * \var pos2
+ * \brief number of the last channel cross section to connect.
+ */
+	int channel, pos, pos2;
 } JunctionData;
 
-static inline void _junction_data_print(JunctionData *data,FILE *file)
+static inline void _junction_data_print(JunctionData *data, FILE *file)
 {
-	fprintf(file,"junction_data_print: start\n");
-	fprintf(file,"JDP channel=%d pos=%d pos2=%d\n",
-		data->channel,data->pos,data->pos2);
-	fprintf(file,"junction_data_print: end\n");
+	fprintf(file, "junction_data_print: start\n");
+	fprintf(file, "JDP channel=%d pos=%d pos2=%d\n",
+		data->channel, data->pos, data->pos2);
+	fprintf(file, "junction_data_print: end\n");
 }
 
 #if INLINE_JUNCTION_DATA_PRINT
 	#define junction_data_print _junction_data_print
 #else
-	void junction_data_print(JunctionData*,FILE*);
+	void junction_data_print(JunctionData*, FILE*);
 #endif
 
 static inline void
-	_junction_data_copy(JunctionData *data,JunctionData *data_copy)
+	_junction_data_copy(JunctionData *data, JunctionData *data_copy)
 {
 	#if DEBUG_JUNCTION_DATA_COPY
-		fprintf(file,"junction_data_copy: start\n");
-		junction_data_print(data,stderr);
+		fprintf(file, "junction_data_copy: start\n");
+		junction_data_print(data, stderr);
 	#endif
-	memcpy(data,data_copy,sizeof(JunctionData));	
+	memcpy(data, data_copy, sizeof(JunctionData));	
 	#if DEBUG_JUNCTION_DATA_COPY
-		fprintf(file,"junction_data_copy: end\n");
+		fprintf(file, "junction_data_copy: end\n");
 	#endif
 }
 
 #if INLINE_JUNCTION_DATA_COPY
 	#define junction_data_copy _junction_data_copy
 #else
-	void junction_data_copy(JunctionData*,JunctionData*);
+	void junction_data_copy(JunctionData*, JunctionData*);
 #endif
 
-static inline int _junction_data_open_xml(JunctionData *data,xmlNode *node)
+static inline int _junction_data_open_xml(JunctionData *data, xmlNode *node)
 {
-	int i,j,k;
+	int i, j, k;
 	#if DEBUG_JUNCTION_DATA_OPEN_XML
-		fprintf(file,"junction_data_open_xml: start\n");
+		fprintf(file, "junction_data_open_xml: start\n");
 	#endif
 	if (xmlStrcmp(node->name, XML_JUNCTION)) goto exit0;
 	data->channel = jb_xml_node_get_int(node, XML_CHANNEL, &i) - 1;
 	data->pos = jb_xml_node_get_int(node, XML_INITIAL, &j) - 1;
-	if (!xmlHasProp(node,XML_FINAL))
+	if (!xmlHasProp(node, XML_FINAL))
 	{
-		k=1;
+		k = 1;
 		data->pos2 = data->pos;
 	}
 	else data->pos2 = jb_xml_node_get_int(node, XML_FINAL, &k) - 1;
@@ -95,7 +113,7 @@ static inline int _junction_data_open_xml(JunctionData *data,xmlNode *node)
 		goto exit1;
 	}
 	#if DEBUG_JUNCTION_DATA_OPEN_XML
-		fprintf(file,"junction_data_open_xml: end\n");
+		fprintf(file, "junction_data_open_xml: end\n");
 	#endif
 	return 1;
 
@@ -105,7 +123,7 @@ exit0:
 
 exit1:
 	#if DEBUG_JUNCTION_DATA_OPEN_XML
-		fprintf(file,"junction_data_open_xml: end\n");
+		fprintf(file, "junction_data_open_xml: end\n");
 	#endif
 	return 0;
 }
@@ -113,26 +131,26 @@ exit1:
 #if INLINE_JUNCTION_DATA_OPEN_XML
 	#define junction_data_open_xml _junction_data_open_xml
 #else
-	int junction_data_open_xml(JunctionData*,xmlNode*);
+	int junction_data_open_xml(JunctionData*, xmlNode*);
 #endif
 
-static inline void _junction_data_save_xml(JunctionData *data,xmlNode *node)
+static inline void _junction_data_save_xml(JunctionData *data, xmlNode *node)
 {
 	#if DEBUG_JUNCTION_DATA_SAVE_XML
-		fprintf(file,"junction_data_save_xml: start\n");
+		fprintf(file, "junction_data_save_xml: start\n");
 	#endif
 	jb_xml_node_set_int(node, XML_CHANNEL, data->channel + 1);
 	jb_xml_node_set_int(node, XML_INITIAL, data->pos + 1);
 	jb_xml_node_set_int(node, XML_FINAL, data->pos2 + 1);
 	#if DEBUG_JUNCTION_DATA_SAVE_XML
-		fprintf(file,"junction_data_save_xml: end\n");
+		fprintf(file, "junction_data_save_xml: end\n");
 	#endif
 }
 
 #if INLINE_JUNCTION_DATA_SAVE_XML
 	#define junction_data_save_xml _junction_data_save_xml
 #else
-	void junction_data_save_xml(JunctionData*,xmlNode*);
+	void junction_data_save_xml(JunctionData*, xmlNode*);
 #endif
 
 #endif

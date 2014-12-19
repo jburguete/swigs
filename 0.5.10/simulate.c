@@ -350,7 +350,7 @@ int simulate_start()
 		simulate_steady();
 		for (j = sys->n, channel = sys->channel; j >= 0; --j, ++channel)
 			for (i = 0; i <= channel->nt; ++i)
-				if (channel->ct[i].it->type != INITIAL_TRANSPORT_STEADY)
+				if (channel->ct[i].it->type != INITIAL_TRANSPORT_TYPE_STEADY)
 					transport_variables_open
 						(p, tp+i*(n+1), n, channel->ct[i].it);
 		system_parameters2();

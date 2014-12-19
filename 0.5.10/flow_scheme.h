@@ -463,8 +463,8 @@ static inline void _boundary_flow_tmax(BoundaryFlow *bf)
 	pv = p + bf->i;
 	switch (bf->type)
 	{
-	case BOUNDARY_FLOW_H:
-	case BOUNDARY_FLOW_HT:
+	case BOUNDARY_FLOW_TYPE_H:
+	case BOUNDARY_FLOW_TYPE_HT:
 		#if DEBUG_BOUNDARY_FLOW_TMAX
 			if (t>=DEBUG_TIME)
 				fprintf(stderr,"h="FWL" A="FWL"\n",
@@ -474,32 +474,32 @@ static inline void _boundary_flow_tmax(BoundaryFlow *bf)
 		#endif
 		AA = section_area_with_depth(pv->s, boundary_flow_parameter(bf, tmax));
 		goto area;
-	case BOUNDARY_FLOW_Z:
-	case BOUNDARY_FLOW_ZT:
+	case BOUNDARY_FLOW_TYPE_Z:
+	case BOUNDARY_FLOW_TYPE_ZT:
 		AA = section_area(pv->s, boundary_flow_parameter(bf, tmax));
 		goto area;
-	case BOUNDARY_FLOW_Q_H:
-	case BOUNDARY_FLOW_QT_HT:
+	case BOUNDARY_FLOW_TYPE_Q_H:
+	case BOUNDARY_FLOW_TYPE_QT_HT:
 		QQ = boundary_flow_parameter(bf, tmax);
 		AA = section_area_with_depth(pv->s,
 			boundary_flow_parameter2(bf, tmax));
 		goto end;
-	case BOUNDARY_FLOW_Q_Z:
-	case BOUNDARY_FLOW_QT_ZT:
+	case BOUNDARY_FLOW_TYPE_Q_Z:
+	case BOUNDARY_FLOW_TYPE_QT_ZT:
 		QQ = boundary_flow_parameter(bf, tmax);
 		AA = section_area(pv->s, boundary_flow_parameter2(bf, tmax));
 		goto end;
-	case BOUNDARY_FLOW_Q:
-	case BOUNDARY_FLOW_QT:
+	case BOUNDARY_FLOW_TYPE_Q:
+	case BOUNDARY_FLOW_TYPE_QT:
 		QQ = boundary_flow_parameter(bf, tmax);
 		goto discharge;
-	case BOUNDARY_FLOW_QH:
+	case BOUNDARY_FLOW_TYPE_QH:
 		QQ = boundary_flow_parameter(bf, pv->h);
 		goto discharge;
-	case BOUNDARY_FLOW_QZ:
+	case BOUNDARY_FLOW_TYPE_QZ:
 		QQ = boundary_flow_parameter(bf, pv->zs);
 		goto discharge;
-	case BOUNDARY_FLOW_GATE:
+	case BOUNDARY_FLOW_TYPE_GATE:
 		k = boundary_flow_parameter(bf, t);
 		QQ = 0.61 / sqrt(1. + 0.61 * k / p->h) * k * GATE_WIDTH(bf) *
 			sqrt(2. * JBM_G * p->h);
@@ -1277,23 +1277,23 @@ static inline void _flow_inner_boundary(BoundaryFlow *bf)
 	pv = p + bf->i;
 	switch (bf->type)
 	{
-	case BOUNDARY_FLOW_DAM:
-	case BOUNDARY_FLOW_PIPE:
+	case BOUNDARY_FLOW_TYPE_DAM:
+	case BOUNDARY_FLOW_TYPE_PIPE:
 		k = fmin(pv->V, boundary_flow_parameter_integral(bf, t, tmax));
 		pv->V -= k;
 		p[bf->i2].V += k;
 		goto exit_1;
-	case BOUNDARY_FLOW_Q:
-	case BOUNDARY_FLOW_QT:
+	case BOUNDARY_FLOW_TYPE_Q:
+	case BOUNDARY_FLOW_TYPE_QT:
 		k=boundary_flow_parameter_integral(bf, t, tmax);
 		break;
-	case BOUNDARY_FLOW_QH:
+	case BOUNDARY_FLOW_TYPE_QH:
 		k = boundary_flow_parameter(bf, pv->h) * dt;
 		break;
-	case BOUNDARY_FLOW_QZ:
+	case BOUNDARY_FLOW_TYPE_QZ:
 		k = boundary_flow_parameter(bf, pv->zs) * dt;
 		break;
-	case BOUNDARY_FLOW_GAUGE:
+	case BOUNDARY_FLOW_TYPE_GAUGE:
 		#if DEBUG_FLOW_INNER_BOUNDARY
 			if (t>=DEBUG_TIME)
 				fprintf(stderr,
@@ -1563,42 +1563,42 @@ static inline void _flow_inlet_explicit(BoundaryFlow *bf,Parameters *p)
 
 	switch (bf->type)
 	{
-	case BOUNDARY_FLOW_H:
-	case BOUNDARY_FLOW_HT:
+	case BOUNDARY_FLOW_TYPE_H:
+	case BOUNDARY_FLOW_TYPE_HT:
 		k = section_area_with_depth(p->s,
 			boundary_flow_parameter(bf, tmax));
 		goto area_subcritical;
-	case BOUNDARY_FLOW_Z:
-	case BOUNDARY_FLOW_ZT:
+	case BOUNDARY_FLOW_TYPE_Z:
+	case BOUNDARY_FLOW_TYPE_ZT:
 		k = section_area(p->s, boundary_flow_parameter(bf, tmax));
 		goto area_subcritical;
-	case BOUNDARY_FLOW_Q_H:
-	case BOUNDARY_FLOW_QT_HT:
+	case BOUNDARY_FLOW_TYPE_Q_H:
+	case BOUNDARY_FLOW_TYPE_QT_HT:
 		k3 = boundary_flow_parameter(bf, tmax);
 		k = boundary_flow_parameter_integral(bf, t, tmax);
 		k2 = section_area_with_depth(p->s,
 			boundary_flow_parameter2(bf, tmax));
 		goto inlet_fix;
-	case BOUNDARY_FLOW_Q_Z:
-	case BOUNDARY_FLOW_QT_ZT:
+	case BOUNDARY_FLOW_TYPE_Q_Z:
+	case BOUNDARY_FLOW_TYPE_QT_ZT:
 		k3 = boundary_flow_parameter(bf, tmax);
 		k = boundary_flow_parameter_integral(bf, t, tmax);
 		k2 = section_area(p->s, boundary_flow_parameter2(bf, tmax));
 		goto inlet_fix;
-	case BOUNDARY_FLOW_Q:
-	case BOUNDARY_FLOW_QT:
+	case BOUNDARY_FLOW_TYPE_Q:
+	case BOUNDARY_FLOW_TYPE_QT:
 		k=boundary_flow_parameter(bf,t);
 		k2=boundary_flow_parameter_integral(bf,t,tmax);
 		goto discharge_subcritical;
-	case BOUNDARY_FLOW_QH:
+	case BOUNDARY_FLOW_TYPE_QH:
 		k = -boundary_flow_parameter(bf, p->h);
 		k2 = 0.5 * (k + p->Q) * dt;
 		goto discharge_subcritical;
-	case BOUNDARY_FLOW_QZ:
+	case BOUNDARY_FLOW_TYPE_QZ:
 		k = -boundary_flow_parameter(bf, p->zs);
 		k2 = 0.5 * (k + p->Q) * dt;
 		goto discharge_subcritical;
-	case BOUNDARY_FLOW_GATE:
+	case BOUNDARY_FLOW_TYPE_GATE:
 		k2 = boundary_flow_parameter(bf, t);
 		if (k2 <= 0. || p->h<=0.) k=0.; else
 			k = 0.61 / sqrt(1. + 0.61 * k2 / p->h) * k2 * GATE_WIDTH(bf) *
@@ -1609,7 +1609,7 @@ static inline void _flow_inlet_explicit(BoundaryFlow *bf,Parameters *p)
 		k = -k;
 		k2 = k * dt;
 		goto discharge_subcritical;
-	case BOUNDARY_FLOW_JUNCTION:
+	case BOUNDARY_FLOW_TYPE_JUNCTION:
 		goto inlet_end;
 	default:
 		k = p->Q + p->iQ / p->dx;
@@ -1798,42 +1798,42 @@ static inline void _flow_outlet_explicit(BoundaryFlow *bf,Parameters *p)
 
 	switch (bf->type)
 	{
-	case BOUNDARY_FLOW_H:
-	case BOUNDARY_FLOW_HT:
+	case BOUNDARY_FLOW_TYPE_H:
+	case BOUNDARY_FLOW_TYPE_HT:
 		k = section_area_with_depth(p->s,
 			boundary_flow_parameter(bf, tmax));
 		goto area_subcritical;
-	case BOUNDARY_FLOW_Z:
-	case BOUNDARY_FLOW_ZT:
+	case BOUNDARY_FLOW_TYPE_Z:
+	case BOUNDARY_FLOW_TYPE_ZT:
 		k = section_area(p->s, boundary_flow_parameter(bf, tmax));
 		goto area_subcritical;
-	case BOUNDARY_FLOW_Q_H:
-	case BOUNDARY_FLOW_QT_HT:
+	case BOUNDARY_FLOW_TYPE_Q_H:
+	case BOUNDARY_FLOW_TYPE_QT_HT:
 		k3 = boundary_flow_parameter(bf, tmax);
 		k = -boundary_flow_parameter_integral(bf, t, tmax);
 		k2 = section_area_with_depth(p->s,
 			boundary_flow_parameter2(bf, tmax));
 		goto outlet_fix;
-	case BOUNDARY_FLOW_Q_Z:
-	case BOUNDARY_FLOW_QT_ZT:
+	case BOUNDARY_FLOW_TYPE_Q_Z:
+	case BOUNDARY_FLOW_TYPE_QT_ZT:
 		k3 = boundary_flow_parameter(bf, tmax);
 		k = -boundary_flow_parameter_integral(bf, t, tmax);
 		k2 = section_area(p->s, boundary_flow_parameter2(bf, tmax));
 		goto outlet_fix;
-	case BOUNDARY_FLOW_Q:
-	case BOUNDARY_FLOW_QT:
+	case BOUNDARY_FLOW_TYPE_Q:
+	case BOUNDARY_FLOW_TYPE_QT:
 		k=boundary_flow_parameter(bf,tmax);
 		k2=-boundary_flow_parameter_integral(bf,t,tmax);
 		goto discharge_subcritical;
-	case BOUNDARY_FLOW_QH:
+	case BOUNDARY_FLOW_TYPE_QH:
 		k = boundary_flow_parameter(bf, p->h);
 		k2 = -0.5 * (k + p->Q) * dt;
 		goto discharge_subcritical;
-	case BOUNDARY_FLOW_QZ:
+	case BOUNDARY_FLOW_TYPE_QZ:
 		k = boundary_flow_parameter(bf, p->zs);
 		k2 = -0.5 * (k + p->Q) * dt;
 		goto discharge_subcritical;
-	case BOUNDARY_FLOW_GATE:
+	case BOUNDARY_FLOW_TYPE_GATE:
 		k2 = boundary_flow_parameter(bf, t);
 		if (k2 <= 0. || p->h<=0.) k=0.; else
 			k = 0.61 / sqrt(1. + 0.61 * k2 / p->h) * k2 * GATE_WIDTH(bf) *
@@ -1843,7 +1843,7 @@ static inline void _flow_outlet_explicit(BoundaryFlow *bf,Parameters *p)
 		k += GATE_WIDTH(bf) * (p->h - k2) * sqrt(JBM_G * (p->h - k2));
 		k2 = -k * dt;
 		goto discharge_subcritical;
-	case BOUNDARY_FLOW_JUNCTION:
+	case BOUNDARY_FLOW_TYPE_JUNCTION:
 		goto outlet_end;
 	default:
 		k = p->Q + p->iQ / p->dx;

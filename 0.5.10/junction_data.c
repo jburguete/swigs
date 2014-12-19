@@ -27,24 +27,63 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+/**
+ * \file junction_data.c
+ * \brief Source file to define junction structures and functions.
+ * \authors Javier Burguete Tolosa.
+ * \copyright Copyright 2005-2014 Javier Burguete Tolosa.
+ */
 #include "junction_data.h"
 
+/**
+ * \fn void junction_data_print(JunctionData *data, FILE *file)
+ * \brief Function to print a JunctionData structure on a file.
+ * \param data
+ * \brief JunctionData structure.
+ * \param file
+ * \brief file.
+ */
 #if !INLINE_JUNCTION_DATA_PRINT
-void junction_data_print(JunctionData *data,FILE *file)
-{_junction_data_print(data,file);}
+void junction_data_print(JunctionData *data, FILE *file)
+{_junction_data_print(data, file);}
 #endif
 
+/**
+ * \fn void junction_data_copy(JunctionData *data, JunctionData *data_copy)
+ * \brief Function to copy two JunctionData structures.
+ * \param data
+ * \brief JunctionData structure copy.
+ * \param data_copy
+ * \brief JunctionData structure copied.
+ */
 #if !INLINE_JUNCTION_DATA_COPY
-void junction_data_copy(JunctionData *data,JunctionData *data_copy)
-{_junction_data_copy(data,data_copy);}
+void junction_data_copy(JunctionData *data, JunctionData *data_copy)
+{_junction_data_copy(data, data_copy);}
 #endif
 
+/**
+ * \fn int junction_data_open_xml(JunctionData *data, xmlNode *node)
+ * \brief Function to open a JunctionData structure on a XML node.
+ * \param data
+ * \brief JunctionData structure.
+ * \param node
+ * \brief XML node.
+ * \return 1 on succes, 0 on error.
+ */
 #if !INLINE_JUNCTION_DATA_OPEN_XML
-int junction_data_open_xml(JunctionData *data,xmlNode *node)
-{return _junction_data_open_xml(data,node);}
+int junction_data_open_xml(JunctionData *data, xmlNode *node)
+{return _junction_data_open_xml(data, node);}
 #endif
 
+/**
+ * \fn void junction_data_save_xml(JunctionData *data, xmlNode *node)
+ * \brief Function to save a JunctionData structure on a XML node.
+ * \param data
+ * \brief JunctionData structure.
+ * \param node
+ * \brief XML node.
+ */
 #if !INLINE_JUNCTION_DATA_SAVE_XML
-void junction_data_save_xml(JunctionData *data,xmlNode *node)
-{_junction_data_save_xml(data,node);}
+void junction_data_save_xml(JunctionData *data, xmlNode *node)
+{_junction_data_save_xml(data, node);}
 #endif

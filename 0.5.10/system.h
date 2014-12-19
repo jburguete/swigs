@@ -279,7 +279,7 @@ static inline int _system_junctions_test(System *s)
 	{
 		for (j=0, bf=s->channel[i].bf; j<=s->channel[i].n; ++j, ++bf)
 		{
-			if (bf->type == BOUNDARY_FLOW_JUNCTION)
+			if (bf->type == BOUNDARY_FLOW_TYPE_JUNCTION)
 			{
 				for (k=0; k<=JUNCTION_N(bf); ++k, type2=type)
 				{
@@ -305,9 +305,9 @@ static inline int _system_junctions_test(System *s)
 						goto error1;
 					}
 					if ((!jd->pos && !jd->pos2 &&
-						c->bf->type != BOUNDARY_FLOW_JUNCTION) ||
+						c->bf->type != BOUNDARY_FLOW_TYPE_JUNCTION) ||
 						(jd->pos == c->cg->n && jd->pos2 == c->cg->n &&
-						 c->bf[c->n].type != BOUNDARY_FLOW_JUNCTION))
+						 c->bf[c->n].type != BOUNDARY_FLOW_TYPE_JUNCTION))
 					{
 						message=g_strconcat(gettext("Channel"), ": ",
 							s->channel[i].name, "\n",

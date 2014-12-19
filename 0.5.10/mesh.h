@@ -342,11 +342,11 @@ static inline void _transport_variables_open
 	#endif
 	switch (it->type)
 	{
-	case INITIAL_TRANSPORT_STEADY:
-	case INITIAL_TRANSPORT_DRY:
+	case INITIAL_TRANSPORT_TYPE_STEADY:
+	case INITIAL_TRANSPORT_TYPE_DRY:
 		for (i=n+1; --i>=0;) tp[i].c = 0.;
 		break;
-	case INITIAL_TRANSPORT_XC:
+	case INITIAL_TRANSPORT_TYPE_XC:
 		transport_variables_interpolate(p,tp,n,it);
 	}
 	for (i=n+1; --i>=0;)
@@ -563,8 +563,8 @@ static inline void _initial_variables_open
 		#endif
 		switch (it->type)
 		{
-		case INITIAL_TRANSPORT_STEADY:
-		case INITIAL_TRANSPORT_DRY:
+		case INITIAL_TRANSPORT_TYPE_STEADY:
+		case INITIAL_TRANSPORT_TYPE_DRY:
 			tp->c = 0.;
 			break;
 		default:
@@ -742,8 +742,8 @@ static inline int _part_open(int thread)
 			#endif
 			switch (it->type)
 			{
-			case INITIAL_TRANSPORT_STEADY:
-			case INITIAL_TRANSPORT_DRY:
+			case INITIAL_TRANSPORT_TYPE_STEADY:
+			case INITIAL_TRANSPORT_TYPE_DRY:
 				break;
 			default:
 				while (nit[k]<it->n && pv->x > it->p[nit[k]+1].x) ++nit[k];
@@ -1395,9 +1395,9 @@ static inline int _junctions_open(Junction **junction,int *n)
 		{
 			#if DEBUG_JUNCTIONS_OPEN
 				fprintf(stderr,"JO type=%d junction=%d\n",
-					bf->type,BOUNDARY_FLOW_JUNCTION);
+					bf->type,BOUNDARY_FLOW_TYPE_JUNCTION);
 			#endif
-			if (bf->type == BOUNDARY_FLOW_JUNCTION)
+			if (bf->type == BOUNDARY_FLOW_TYPE_JUNCTION)
 			{
 				jd=JUNCTION_DATA(bf,0);
 				#if DEBUG_JUNCTIONS_OPEN

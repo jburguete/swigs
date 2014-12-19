@@ -36,54 +36,54 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 typedef struct
 {
-	JBFLOAT kmin,kmax,period;
-	int channel,boundary;
+	JBFLOAT kmin, kmax, period;
+	int channel, boundary;
 } GaugeInfluence;
 
 /*
-static inline void _gauge_influence_print(JunctionData *data,FILE *file)
+static inline void _gauge_influence_print(JunctionData *data, FILE *file)
 {
-	fprintf(file,"gauge_influence_print: start\n");
-	fprintf(file,"JDP channel=%d pos=%d pos2=%d\n",
-		data->channel,data->pos,data->pos2);
-	fprintf(file,"gauge_influence_print: end\n");
+	fprintf(file, "gauge_influence_print: start\n");
+	fprintf(file, "GIP channel=%d pos=%d pos2=%d\n",
+		data->channel, data->pos, data->pos2);
+	fprintf(file, "gauge_influence_print: end\n");
 }
 
 #if INLINE_GAUGE_INFLUENCE_PRINT
 	#define gauge_influence_print _gauge_influence_print
 #else
-	void gauge_influence_print(JunctionData*,FILE*);
+	void gauge_influence_print(JunctionData*, FILE*);
 #endif
 
 static inline void
-	_gauge_influence_copy(JunctionData *data,JunctionData *data_copy)
+	_gauge_influence_copy(JunctionData *data, JunctionData *data_copy)
 {
 	#if DEBUG_GAUGE_INFLUENCE_COPY
-		fprintf(file,"gauge_influence_copy: start\n");
-		gauge_influence_print(data,stderr);
+		fprintf(file, "gauge_influence_copy: start\n");
+		gauge_influence_print(data, stderr);
 	#endif
-	memcpy(data,data_copy,sizeof(JunctionData));	
+	memcpy(data, data_copy, sizeof(JunctionData));	
 	#if DEBUG_GAUGE_INFLUENCE_COPY
-		fprintf(file,"gauge_influence_copy: end\n");
+		fprintf(file, "gauge_influence_copy: end\n");
 	#endif
 }
 
 #if INLINE_GAUGE_INFLUENCE_COPY
 	#define gauge_influence_copy _gauge_influence_copy
 #else
-	void gauge_influence_copy(JunctionData*,JunctionData*);
+	void gauge_influence_copy(JunctionData*, JunctionData*);
 #endif
 
-static inline int _gauge_influence_open_xml(JunctionData *data,xmlNode *node)
+static inline int _gauge_influence_open_xml(JunctionData *data, xmlNode *node)
 {
-	int i,j,k;
+	int i, j, k;
 	#if DEBUG_GAUGE_INFLUENCE_OPEN_XML
-		fprintf(file,"gauge_influence_open_xml: start\n");
+		fprintf(file, "gauge_influence_open_xml: start\n");
 	#endif
 	if (xmlStrcmp(node->name, XML_JUNCTION)) goto exit0;
 	data->channel = jb_xml_node_get_int(node, XML_CHANNEL, &i) - 1;
 	data->pos = jb_xml_node_get_int(node, XML_INITIAL, &j) - 1;
-	if (!xmlHasProp(node,XML_FINAL))
+	if (!xmlHasProp(node, XML_FINAL))
 	{
 		k=1;
 		data->pos2 = data->pos;
@@ -97,7 +97,7 @@ static inline int _gauge_influence_open_xml(JunctionData *data,xmlNode *node)
 		goto exit1;
 	}
 	#if DEBUG_GAUGE_INFLUENCE_OPEN_XML
-		fprintf(file,"gauge_influence_open_xml: end\n");
+		fprintf(file, "gauge_influence_open_xml: end\n");
 	#endif
 	return 1;
 
@@ -107,7 +107,7 @@ exit0:
 
 exit1:
 	#if DEBUG_GAUGE_INFLUENCE_OPEN_XML
-		fprintf(file,"gauge_influence_open_xml: end\n");
+		fprintf(file, "gauge_influence_open_xml: end\n");
 	#endif
 	return 0;
 }
@@ -115,26 +115,26 @@ exit1:
 #if INLINE_GAUGE_INFLUENCE_OPEN_XML
 	#define gauge_influence_open_xml _gauge_influence_open_xml
 #else
-	int gauge_influence_open_xml(JunctionData*,xmlNode*);
+	int gauge_influence_open_xml(JunctionData*, xmlNode*);
 #endif
 
-static inline void _gauge_influence_save_xml(JunctionData *data,xmlNode *node)
+static inline void _gauge_influence_save_xml(JunctionData *data, xmlNode *node)
 {
 	#if DEBUG_GAUGE_INFLUENCE_SAVE_XML
-		fprintf(file,"gauge_influence_save_xml: start\n");
+		fprintf(file, "gauge_influence_save_xml: start\n");
 	#endif
 	jb_xml_node_set_int(node, XML_CHANNEL, data->channel + 1);
 	jb_xml_node_set_int(node, XML_INITIAL, data->pos + 1);
 	jb_xml_node_set_int(node, XML_FINAL, data->pos2 + 1);
 	#if DEBUG_GAUGE_INFLUENCE_SAVE_XML
-		fprintf(file,"gauge_influence_save_xml: end\n");
+		fprintf(file, "gauge_influence_save_xml: end\n");
 	#endif
 }
 
 #if INLINE_GAUGE_INFLUENCE_SAVE_XML
 	#define gauge_influence_save_xml _gauge_influence_save_xml
 #else
-	void gauge_influence_save_xml(JunctionData*,xmlNode*);
+	void gauge_influence_save_xml(JunctionData*, xmlNode*);
 #endif
 
 */
