@@ -29,7 +29,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * \file initial_flow.h
- * \brief Header file to define initial flow condition structures and functions.
+ * \brief Header file to define initial flow conditions structures and
+ *   functions.
  * \authors Javier Burguete Tolosa.
  * \copyright Copyright 2005-2014 Javier Burguete Tolosa.
  */
@@ -38,7 +39,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * \def N_INITIAL_FLOW_TYPES
- * \brief Macro to define the number of initial flow condition types.
+ * \brief Macro to define the number of initial flow conditions types.
  */
 #define N_INITIAL_FLOW_TYPES (INITIAL_FLOW_TYPE_XUZ + 1)
 
@@ -46,19 +47,19 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * \enum InitialFlowType
- * \brief Enumeration to define the initial flow condition type.
+ * \brief Enumeration to define the initial flow conditions type.
  * \var INITIAL_FLOW_TYPE_DRY
- * \brief dry initial flow condition.
+ * \brief dry initial flow conditions.
  * \var INITIAL_FLOW_TYPE_STEADY
- * \brief steady initial flow condition.
+ * \brief steady initial flow conditions.
  * \var INITIAL_FLOW_TYPE_XQH
- * \brief tabular (x, Q, h) initial flow condition.
+ * \brief tabular (x, Q, h) initial flow conditions.
  * \var INITIAL_FLOW_TYPE_XQZ
- * \brief tabular (x, Q, z) initial flow condition.
+ * \brief tabular (x, Q, z) initial flow conditions.
  * \var INITIAL_FLOW_TYPE_XUH
- * \brief tabular (x, u, h) initial flow condition.
+ * \brief tabular (x, u, h) initial flow conditions.
  * \var INITIAL_FLOW_TYPE_XUZ 
- * \brief tabular (x, u, z) initial flow condition.
+ * \brief tabular (x, u, z) initial flow conditions.
  */
 enum InitialFlowType
 {
@@ -72,7 +73,7 @@ enum InitialFlowType
 
 /**
  * \struct InitialFlow
- * \brief Structure to define the initial flow condition of a channel.
+ * \brief Structure to define the initial flow conditions of a channel.
  */
 typedef struct
 {

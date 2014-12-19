@@ -421,15 +421,28 @@ editor-initial-flow: $(EDITOR_INITIAL_FLOW_SRC) $(EDITOR_INITIAL_FLOW_OBJ)
 		$(EDITOR_INITIAL_FLOW_OBJ) $(LDFLAGS) -DTEST_EDITOR_INITIAL_FLOW=1 \
 		-o editor-initial-flow
 
+EDITOR_INITIAL_TRANSPORT_SRC = editor_initial_transport.c \
+	editor_initial_transport.h
+EDITOR_INITIAL_TRANSPORT_OBJ = initial_transport.o points.o jb_xml.o jb_win.o \
+	jb_math.o jb_def.o
+
+editor-initial-transport: $(EDITOR_INITIAL_TRANSPORT_SRC) \
+	$(EDITOR_INITIAL_TRANSPORT_OBJ)
+	$(CC) -Wall $(CPPFLAGS) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
+		@PNG_CFLAGS@ @GTK_CFLAGS@ editor_initial_transport.c \
+		$(EDITOR_INITIAL_TRANSPORT_OBJ) $(LDFLAGS) \
+		-DTEST_EDITOR_INITIAL_TRANSPORT=1 -o editor-initial-transport
+
 EDITOR_CHANNEL_SRC = editor_channel.c editor_channel.h \
-	$(EDITOR_CROSS_SECTION_SRC) $(EDITOR_INITIAL_FLOW_SRC)
+	$(EDITOR_CROSS_SECTION_SRC) $(EDITOR_INITIAL_FLOW_SRC) \
+	$(EDITOR_INITIAL_TRANSPORT_SRC)
 EDITOR_CHANNEL_OBJ = channel.o channel_geometry.o initial_flow.o \
 	initial_transport.o junction_data.o boundary_flow.o boundary_transport.o \
 	transport.o channel_transport.o $(EDITOR_CROSS_SECTION_OBJ)
 
 editor-channel: $(EDITOR_CHANNEL_SRC) $(EDITOR_CHANNEL_OBJ)
 	$(CC) -Wall $(CPPFLAGS) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
-		@PNG_CFLAGS@ @GTK_CFLAGS@ editor_channel.c editor_initial_flow.c \
-		editor_cross_section.c editor_transient_section.c \
-		$(EDITOR_CHANNEL_OBJ) $(LDFLAGS) -DTEST_EDITOR_CHANNEL=1 \
-		-o editor-channel
+		@PNG_CFLAGS@ @GTK_CFLAGS@ editor_channel.c editor_initial_transport.c \
+		editor_initial_flow.c editor_cross_section.c \
+		editor_transient_section.c $(EDITOR_CHANNEL_OBJ) $(LDFLAGS) \
+		-DTEST_EDITOR_CHANNEL=1 -o editor-channel

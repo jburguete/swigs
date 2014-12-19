@@ -497,7 +497,7 @@ static inline void _initial_variables_open
 	InitialTransport *it;
 	#if DEBUG_INITIAL_VARIABLES_OPEN
 		fprintf(stderr,"init_variables_open: start\n");
-		fprintf(stderr,"IVO fic type=%d\n",ifc->type);
+		fprintf(stderr,"IVO ifc type=%d\n",ifc->type);
 	#endif
 	switch (ifc->type)
 	{
@@ -643,7 +643,7 @@ static inline int _part_open(int thread)
 	#endif
 	if (!channel_segment_open(seg,cs1->ts,cs2->ts,x[0],x[1])) goto exit2;
 	
-	ifc = channel->fic;
+	ifc = channel->ifc;
 	pv=p+i;
 	tpv=tp+i;
 	nif=-1;
@@ -672,7 +672,7 @@ static inline int _part_open(int thread)
 				cs1 = channel->cg->cs;
 				cs2=cs1+1;
 				x = channel->cg->x;
-				ifc = channel->fic;
+				ifc = channel->ifc;
 				ct = channel->ct;
 				nif=-1;
 				for (k=0; k<=channel->nt; ++k) nit[k]=-1;
@@ -717,7 +717,7 @@ static inline int _part_open(int thread)
 		pv->channel = channel;
 		#if DEBUG_PART_OPEN
 			fprintf(stderr,"PO locating flow initial conditions\n");
-			fprintf(stderr,"PO fic type=%d\n",ifc->type);
+			fprintf(stderr,"PO ifc type=%d\n",ifc->type);
 		#endif
 		switch (ifc->type)
 		{

@@ -34,7 +34,7 @@
 # make
 
 AC_PREREQ([2.69])
-AC_INIT([SWIGS], [0.5.9])
+AC_INIT([SWIGS], [0.5.10])
 
 # Checks for operative systems
 AC_CANONICAL_HOST

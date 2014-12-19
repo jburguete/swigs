@@ -29,7 +29,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * \file initial_flow.c
- * \brief Source file to define initial flow condition structures and functions.
+ * \brief Source file to define initial flow conditions structures and
+ *   functions.
  * \authors Javier Burguete Tolosa.
  * \copyright Copyright 2005-2014 Javier Burguete Tolosa.
  */
@@ -37,7 +38,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * \fn void initial_flow_print(InitialFlow *ifc, FILE *file)
- * \brief Function to print a InitialFlow structure on a file.
+ * \brief Function to print an InitialFlow structure on a file.
  * \param ifc
  * \brief InitialFlow structure.
  * \param file
@@ -50,7 +51,7 @@ void initial_flow_print(InitialFlow *ifc, FILE *file)
 
 /**
  * \fn void initial_flow_error(char *m)
- * \brief Function to write an error message opening a InitialFlow structure.
+ * \brief Function to write an error message opening an InitialFlow structure.
  * \param m
  * \brief error message.
  */
@@ -60,7 +61,7 @@ void initial_flow_error(char *m) {_initial_flow_error(m);}
 
 /**
  * \fn void initial_flow_delete(InitialFlow *ifc)
- * \brief Function to delete a InitialFlow structure.
+ * \brief Function to delete an InitialFlow structure.
  * \param ifc
  * \brief InitialFlow structure.
  */
@@ -94,8 +95,10 @@ int initial_flow_copy(InitialFlow *ifc, InitialFlow *ifc_copy)
 
 /**
  * \fn int initial_flow_order(InitialFlow *ifc)
- * \brief Function to check if the points of the initial flow condition are in
+ * \brief Function to check if the points of the initial flow conditions are in
  *   correct order.
+ * \param ifc
+ * \brief InitialFlow structure.
  * \return 1 on succes, 0 on error. 
  */
 #if !INLINE_INITIAL_FLOW_ORDER
@@ -104,7 +107,7 @@ int initial_flow_order(InitialFlow *ifc) {return _initial_flow_order(ifc);}
 
 /**
  * \fn int initial_flow_open_xml(InitialFlow *ifc, xmlNode *node)
- * \brief Function to open a InitialFlow structure on a XML node.
+ * \brief Function to open an InitialFlow structure on a XML node.
  * \param ifc
  * \brief InitialFlow structure.
  * \param node
@@ -118,7 +121,7 @@ int initial_flow_open_xml(InitialFlow *ifc, xmlNode *node)
 
 /**
  * \fn void initial_flow_save_xml(InitialFlow *ifc, xmlNode *node)
- * \brief Function to save a InitialFlow structure on a XML node.
+ * \brief Function to save an InitialFlow structure on a XML node.
  * \param ifc
  * \brief InitialFlow structure.
  * \param node

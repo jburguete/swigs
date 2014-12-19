@@ -56,10 +56,15 @@ void editor_initial_flow_update(EditorInitialFlow *editor)
 	switch (jbw_array_radio_buttons_get_active(editor->array_type))
 	{
 		case INITIAL_FLOW_TYPE_XQH:
+printf("0\n");
 			jbw_array_editor_set_title(editor->array, 1, gettext("Discharge"));
+printf("1\n");
 			jbw_array_editor_set_title(editor->array, 2, gettext("Depth"));
+printf("2\n");
 			jbw_graphic_set_ylabel(editor->graphic, gettext("Discharge"));
+printf("3\n");
 			jbw_graphic_set_zlabel(editor->graphic, gettext("Depth"));
+printf("4\n");
 			gtk_widget_show(GTK_WIDGET(editor->grid_parameters));
 			break;
 		case INITIAL_FLOW_TYPE_XQZ:
@@ -327,7 +332,7 @@ void editor_initial_flow_new(EditorInitialFlow *editor, GtkNotebook *notebook)
 		gettext("Velocity and depth profile"),
 		gettext("Velocity and level profile")};
 	const char *label_array[3]
-		= {"Position", "Discharge", gettext("Depth")};
+		= {gettext("Position"), gettext("Discharge"), gettext("Depth")};
 	#if DEBUG_EDITOR_INITIAL_FLOW_NEW
 		fprintf(stderr, "editor_initial_flow_new: start\n");
 	#endif
@@ -377,6 +382,9 @@ void editor_initial_flow_new(EditorInitialFlow *editor, GtkNotebook *notebook)
 		(editor->grid, GTK_WIDGET(editor->grid_parameters), 0, 1, 1, 1);
 	editor->graphic = jbw_graphic_new(NULL, 6, 6, 0, &editor_draw);
 	jbw_graphic_set_title(editor->graphic, gettext("Initial flow"));
+	jbw_graphic_set_xlabel(editor->graphic, (char*)label_array[0]);
+	jbw_graphic_set_ylabel(editor->graphic, (char*)label_array[1]);
+	jbw_graphic_set_zlabel(editor->graphic, (char*)label_array[2]);
 	jbw_graphic_set_logo(editor->graphic, "swigs.png");
 	gtk_widget_show_all(GTK_WIDGET(editor->grid));
 	#if DEBUG_EDITOR_INITIAL_FLOW_NEW

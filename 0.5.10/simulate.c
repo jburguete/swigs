@@ -345,7 +345,7 @@ int simulate_start()
 		fprintf(stderr, "SS t="FWL" tf="FWL" dtmax="FWL"\n", t, tf, dtmax);
 	#endif
 
-	if (sys->channel->fic->type == INITIAL_FLOW_TYPE_STEADY)
+	if (sys->channel->ifc->type == INITIAL_FLOW_TYPE_STEADY)
 	{
 		simulate_steady();
 		for (j = sys->n, channel = sys->channel; j >= 0; --j, ++channel)

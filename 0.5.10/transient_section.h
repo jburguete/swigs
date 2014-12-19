@@ -42,7 +42,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \def N_TRANSIENT_SECTION_TYPES 2
  * \brief Macro to define the number of transient section types.
  */
-#define N_TRANSIENT_SECTION_TYPES 2
+#define N_TRANSIENT_SECTION_TYPES (TRANSIENT_SECTION_TYPE_POLILYNE + 1)
 
 /**
  * \enum TransientSectionType

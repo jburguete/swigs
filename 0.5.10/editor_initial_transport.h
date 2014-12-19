@@ -1,6 +1,6 @@
 /*
 SWIGS (Shallow Water in Irregular Geometries Simulator): a software to simulate
-initial or steady flows with solute transport in channels, channel networks
+initial or steady transports with solute transport in channels, channel networks
 and rivers.
 
 Copyright 2005-2014 Javier Burguete Tolosa.
@@ -28,41 +28,38 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * \file editor_initial_flow.h
- * \brief Header file to define initial flow editor structures and functions.
+ * \file editor_initial_transport.h
+ * \brief Header file to define initial transported solute editor structures and
+ *   functions.
  * \authors Javier Burguete Tolosa.
  * \copyright Copyright 2005-2014 Javier Burguete Tolosa.
  */
-#ifndef EDITOR_INITIAL_FLOW__H
-#define EDITOR_INITIAL_FLOW__H 1
+#ifndef EDITOR_INITIAL_TRANSPORT__H
+#define EDITOR_INITIAL_TRANSPORT__H 1
 
-#include "initial_flow.h"
+#include "initial_transport.h"
 
 /**
- * \struct EditorInitialFlow
- * \brief Structure to define an editor of initial flows.
+ * \struct EditorInitialTransport
+ * \brief Structure to define an editor of initial transports.
  */
 typedef struct
 {
 /**
- * \var ifc
- * \brief InitialFlow to define the initial flow data.
+ * \var it
+ * \brief InitialTransport to define the initial transported solute data.
  * \var array
- * \brief JBWArrayEditor to define the flow points.
+ * \brief JBWArrayEditor to define the transport points.
  * \var graphic
- * \brief JBWGraphic to show the initial flow graphic.
- * \var entry_name
- * \brief GtkEntry to set the initial flow name.
+ * \brief JBWGraphic to show the initial transported solute graphic.
  * \var button_insert
  * \brief GtkButton to insert a point.
  * \var button_remove
  * \brief GtkButton to remove a point.
  * \var button_plot
- * \brief GtkButton to update the initial flow graphic.
+ * \brief GtkButton to update the initial transported solute graphic.
  * \var array_type
- * \brief array of GtkRadioButtons to set the initial flow type.
- * \var label_name
- * \brief GtkLabel to show a label of the initial flow name.
+ * \brief array of GtkRadioButtons to set the initial transported solute type.
  * \var frame_type
  * \brief GtkFrame to group the array_type buttons.
  * \var grid
@@ -74,26 +71,26 @@ typedef struct
  * \var notebook
  * \brief GtkNotebook to put the widgets.
  */
-	InitialFlow ifc[1];
+	InitialTransport it[1];
 	JBWArrayEditor *array;
 	JBWGraphic *graphic;
 	GtkButton *button_insert, *button_remove, *button_plot;
-	GtkRadioButton *array_type[N_INITIAL_FLOW_TYPES];
+	GtkRadioButton *array_type[N_INITIAL_TRANSPORT_TYPES];
 	GtkFrame *frame_type;
 	GtkGrid *grid, *grid_type, *grid_parameters;
 	GtkNotebook *notebook;
-} EditorInitialFlow;
+} EditorInitialTransport;
 
-void editor_initial_flow_update(EditorInitialFlow *editor);
-void editor_initial_flow_get(EditorInitialFlow *editor);
-void editor_initial_flow_open(EditorInitialFlow *editor);
-void editor_initial_flow_insert_point(EditorInitialFlow *editor);
-void editor_initial_flow_remove_point(EditorInitialFlow *editor);
-void editor_initial_flow_draw(EditorInitialFlow *editor);
-int editor_initial_flow_check(EditorInitialFlow *editor);
-void editor_initial_flow_destroy(EditorInitialFlow *editor);
-void editor_initial_flow_new
-	(EditorInitialFlow *editor, GtkNotebook *notebook);
+void editor_initial_transport_update(EditorInitialTransport *editor);
+void editor_initial_transport_get(EditorInitialTransport *editor);
+void editor_initial_transport_open(EditorInitialTransport *editor);
+void editor_initial_transport_insert_point(EditorInitialTransport *editor);
+void editor_initial_transport_remove_point(EditorInitialTransport *editor);
+void editor_initial_transport_draw(EditorInitialTransport *editor);
+int editor_initial_transport_check(EditorInitialTransport *editor);
+void editor_initial_transport_destroy(EditorInitialTransport *editor);
+void editor_initial_transport_new
+	(EditorInitialTransport *editor, GtkNotebook *notebook);
 
 extern void editor_draw();
 
