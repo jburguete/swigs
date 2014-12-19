@@ -68,6 +68,13 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		p1[i]=time, p2[i]=discharge
 */
 
+/**
+ * \file boundary_flow.h
+ * \brief Header file to define flow boundary conditions structures and
+ *   functions.
+ * \authors Javier Burguete Tolosa.
+ * \copyright Copyright 2005-2014 Javier Burguete Tolosa.
+ */
 #ifndef BOUNDARY_FLOW__H
 #define BOUNDARY_FLOW__H 1
 
