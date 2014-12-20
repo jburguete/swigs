@@ -39,6 +39,12 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "transient_section.h"
 
 /**
+ * \def NEW_GEOMETRY_SIZE
+ * \brief Macro to define the number of points of a new transient cross section.
+ */
+#define NEW_GEOMETRY_SIZE 2
+
+/**
  * \enum CrossSectionType
  * \brief Enumeration to define cross section types.
  * \var CROSS_SECTION_TYPE_TIME
@@ -110,8 +116,6 @@ typedef struct
 	TransientSection *ts;
 	char *name;
 } CrossSection;
-
-#define NEW_GEOMETRY_SIZE 2
 
 extern CrossSection csnew[NEW_GEOMETRY_SIZE];
 

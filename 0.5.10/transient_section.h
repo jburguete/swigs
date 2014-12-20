@@ -39,7 +39,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "points.h"
 
 /**
- * \def N_TRANSIENT_SECTION_TYPES 2
+ * \def N_TRANSIENT_SECTION_TYPES
  * \brief Macro to define the number of transient section types.
  */
 #define N_TRANSIENT_SECTION_TYPES (TRANSIENT_SECTION_TYPE_POLILYNE + 1)

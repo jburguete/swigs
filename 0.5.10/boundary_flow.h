@@ -80,29 +80,73 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "points.h"
 #include "junction_data.h"
-#include "gauge_data.h"
 
+/**
+ * \def N_BOUNDARY_FLOW
+ * \brief Number of flow boundary conditions types.
+ * \def N_BOUNDARY_FLOW_EXTERN
+ * \brief Number of flow boundary conditions types at extreme channel points.
+ * \def N_BOUNDARY_FLOW_INNER
+ * \brief Number of flow boundary conditions types at inner channel points.
+ */
 #define N_BOUNDARY_FLOW			18
 #define N_BOUNDARY_FLOW_EXTERN	15
 #define N_BOUNDARY_FLOW_INNER	9
 
+/**
+ * \def BOUNDARY_DELAY
+ * \brief Macro to define the delay to apply the boundary condition.
+ */
 #define BOUNDARY_DELAY(bf) (((JBFLOAT*)bf->data)[0])
 
+/**
+ * \def DAM_LEVEL
+ * \brief Macro to define the overflow level of a dam.
+ * \def DAM_ROUGHNESS
+ * \brief Macro to define the roughness coeffecient at the dam overflow level.
+ */
 #define DAM_LEVEL(bf) (((JBFLOAT*)bf->data)[0])
 #define DAM_ROUGHNESS(bf) (((JBFLOAT*)bf->data)[1])
 
+/**
+ * \def GATE_HEIGHT
+ * \brief Macro to define the height of a gate.
+ * \def GATE_WIDTH
+ * \brief Macro to define the width of a gate.
+ */
 #define GATE_HEIGHT(bf) (((JBFLOAT*)bf->data)[0])
 #define GATE_WIDTH(bf) (((JBFLOAT*)bf->data)[1])
 
+/**
+ * \def JUNCTION_TYPE
+ * \brief Macro to define the type of a junction.
+ * \def JUNCTION_N
+ * \brief Macro to define the number of JunctionData structures required to
+ *   define a junction.
+ * \def JUNCTION_DATA
+ * \brief Macro to define the data of a junction.
+ */
 #define JUNCTION_TYPE(bf) (((int*)bf->data)[0])
 #define JUNCTION_N(bf) (((int*)bf->data)[1])
 #define JUNCTION_DATA(bf, i) \
-	((JunctionData*)(bf->data+2*sizeof(int)+i*sizeof(JunctionData)))
+	((JunctionData*)(bf->data + 2 * sizeof(int) + i * sizeof(JunctionData)))
 
+/**
+ * \def GAUGE_TOLERANCE
+ * \brief Macro to define the tolerance on a gauge boundary condition.
+ */
 #define GAUGE_TOLERANCE(bf) (((JBFLOAT*)bf->data)[0])
-#define GAUGE_NINFLUENCES(bf) (((int*)(((JBFLOAT*)bf->data)+1))[0])
-#define GAUGE_INFLUENCE(bf) (((GaugeInfluence*)(((JBFLOAT*)bf->data)+2))[0])
 
+/**
+ * \enum JunctionType
+ * \brief Enumeration to define the junction types.
+ * \var JUNCTION_TYPE_FRONTAL
+ * \brief Frontal type of junction.
+ * \var JUNCTION_TYPE_TRIBUTARY
+ * \brief Tributary type of junction.
+ * \var JUNCTION_TYPE_PARALLEL
+ * \brief Parallel type of junction.
+ */
 enum JunctionType
 {
 	JUNCTION_TYPE_FRONTAL = 0,
@@ -110,6 +154,46 @@ enum JunctionType
 	JUNCTION_TYPE_PARALLEL = 2
 };
 
+/**
+ * \enum BoundaryFlowType
+ * \brief Enumeration to define the flow boundary conditions types.
+ * \var BOUNDARY_FLOW_TYPE_Q
+ * \brief Constant discharge flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_H
+ * \brief Constant depth flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_Z
+ * \brief Constant level flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_Q_H
+ * \brief Constant discharge and depth flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_Q_Z
+ * \brief Constant discharge and level flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_QT
+ * \brief Variable in time discharge flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_HT
+ * \brief Variable in time depth flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_ZT
+ * \brief Variable in time level flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_QT_HT
+ * \brief Variable in time discharge and depth flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_QT_ZT
+ * \brief Variable in time discharge and level flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_QH
+ * \brief Discharge depending on depth flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_QZ
+ * \brief Discharge depending on level flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_SUPERCRITICAL
+ * \brief Supercritical flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_DAM
+ * \brief Dam flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_PIPE
+ * \brief Pipe flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_GATE
+ * \brief Gate flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_JUNCTION
+ * \brief Junction flow boundary condition type.
+ * \var BOUNDARY_FLOW_TYPE_GAUGE
+ * \brief Gauge flow boundary condition type.
+ */
 enum BoundaryFlowType
 {
 	BOUNDARY_FLOW_TYPE_Q = 0,
@@ -132,8 +216,40 @@ enum BoundaryFlowType
 	BOUNDARY_FLOW_TYPE_GAUGE = 17
 };
 
+/**
+ * \struct BoundaryFlow
+ * \brief Structure to define a flow boundary condition.
+ */
 typedef struct
 {
+/**
+ * \var type
+ * \brief type.
+ * \var pos
+ * \brief first channel cross section to apply the boundary condition.
+ * \var pos2
+ * \brief last channel cross section to apply the boundary condition.
+ * \var n
+ * \brief number of data.
+ * \var i
+ * \brief index of the first channel cross section to apply the boundary
+ *   condition.
+ * \var i2
+ * \brief index of the last channel cross section to apply the boundary
+ *   condition.
+ * \var contribution
+ * \brief water mass contribution.
+ * \var p1
+ * \brief array of first parameters data.
+ * \var p2
+ * \brief array of second parameters data.
+ * \var p3
+ * \brief array of third parameters data.
+ * \var name
+ * \brief name.
+ * \var data
+ * \brief additional data.
+ */
 	int type, pos, pos2, n, i, i2;
 	JBFLOAT contribution;
 	JBFLOAT *p1, *p2, *p3;
@@ -157,7 +273,7 @@ static inline void _boundary_flow_print(BoundaryFlow *bf, FILE *file)
 	case BOUNDARY_FLOW_TYPE_Q_Z:
 	case BOUNDARY_FLOW_TYPE_QT_HT:
 	case BOUNDARY_FLOW_TYPE_QT_ZT:
-		for (i=0; i<=bf->n; ++i)
+		for (i = 0; i <= bf->n; ++i)
 			fprintf(file, "BFP i=%d p3="FWF"\n", i, bf->p3[i]);
 	case BOUNDARY_FLOW_TYPE_Q:
 	case BOUNDARY_FLOW_TYPE_H:
@@ -171,12 +287,13 @@ static inline void _boundary_flow_print(BoundaryFlow *bf, FILE *file)
 	case BOUNDARY_FLOW_TYPE_PIPE:
 	case BOUNDARY_FLOW_TYPE_GATE:
 	case BOUNDARY_FLOW_TYPE_GAUGE:
-		for (i=0; i<=bf->n; ++i) fprintf(file, "BFP i=%d p1="FWF" p2="FWF"\n",
-			i, bf->p1[i], bf->p2[i]);
+		for (i = 0; i <= bf->n; ++i)
+			fprintf(file, "BFP i=%d p1="FWF" p2="FWF"\n",
+				i, bf->p1[i], bf->p2[i]);
 		break;
 	case BOUNDARY_FLOW_TYPE_JUNCTION:
 		fprintf(file, "BFP n=%d\n", JUNCTION_N(bf));
-		for (i=0; i<=JUNCTION_N(bf); ++i)
+		for (i = 0; i <= JUNCTION_N(bf); ++i)
 			junction_data_print(JUNCTION_DATA(bf, i), file);
 	}
 
@@ -216,8 +333,8 @@ static inline void _boundary_flow_error(BoundaryFlow *bf, char *m)
 	#if DEBUG_BOUNDARY_FLOW_ERROR
 		fprintf(stderr, "boundary_flow_error: start\n");
 	#endif
-	buffer=message;
-	message=g_strconcat(gettext("Flow boundary condition"), ": ", bf->name,
+	buffer = message;
+	message = g_strconcat(gettext("Flow boundary condition"), ": ", bf->name,
 		"\n", m, NULL);
 	g_free(buffer);
 	#if DEBUG_BOUNDARY_FLOW_ERROR
@@ -236,8 +353,8 @@ static inline void _boundary_flow_delete(BoundaryFlow *bf)
 	#if DEBUG_BOUNDARY_FLOW_DELETE
 		fprintf(stderr, "boundary_flow_delete: start\n");
 	#endif
-	jb_free_null((void**)&bf->p1);
 	jb_free_null((void**)&bf->name);
+	jb_free_null((void**)&bf->p1);
 	jb_free_null((void**)&bf->data);
 	#if DEBUG_BOUNDARY_FLOW_DELETE
 		fprintf(stderr, "boundary_flow_delete: end\n");
@@ -250,6 +367,25 @@ static inline void _boundary_flow_delete(BoundaryFlow *bf)
 	void boundary_flow_delete(BoundaryFlow*);
 #endif
 
+static inline void boundary_init_empty(BoundaryFlow *bf)
+{
+	#if DEBUG_BOUNDARY_FLOW_INIT_EMPTY
+		fprintf(stderr, "boundary_flow_init_empty: start\n");
+	#endif
+	bf->name = NULL;
+	bf->p1 = NULL;
+	bf->data = NULL;
+	#if DEBUG_BOUNDARY_FLOW_INIT_EMPTY
+		fprintf(stderr, "boundary_flow_init_empty: end\n");
+	#endif
+}
+
+#if INLINE_BOUNDARY_FLOW_INIT_EMPTY
+	#define boundary_flow_init_empty _boundary_flow_init_empty
+#else
+	void boundary_flow_init_empty(BoundaryFlow*);
+#endif
+
 static inline int _boundary_flow_copy(BoundaryFlow *bf, BoundaryFlow *bf_copy)
 {
 	int i, j;
@@ -260,10 +396,10 @@ static inline int _boundary_flow_copy(BoundaryFlow *bf, BoundaryFlow *bf_copy)
 
 	if (bf == bf_copy) goto exit0;
 
+	boundary_flow_init_empty(bf);
+
 	bf->pos = bf_copy->pos;
 	bf->pos2 = bf_copy->pos2;
-	bf->p1 = NULL;
-	bf->data = NULL;
 
 	bf->name = jb_strdup(bf_copy->name);
 	if (!bf->name) goto exit1;
@@ -278,7 +414,7 @@ static inline int _boundary_flow_copy(BoundaryFlow *bf, BoundaryFlow *bf_copy)
 	{
 		bf->n = bf_copy->n;
 		j = bf->n + 1;
-		bf->p1 = (JBFLOAT*)g_try_malloc(j*2*sizeof(JBFLOAT));
+		bf->p1 = (JBFLOAT*)g_try_malloc(j*2 * sizeof(JBFLOAT));
 		if (!bf->p1) goto exit1;
 		bf->p2 = bf->p1 + j;
 		memcpy(bf->p1, bf_copy->p1, j * 2 * sizeof(JBFLOAT));
@@ -290,7 +426,7 @@ static inline int _boundary_flow_copy(BoundaryFlow *bf, BoundaryFlow *bf_copy)
 	case BOUNDARY_FLOW_TYPE_Q_Z:
 	case BOUNDARY_FLOW_TYPE_QT_HT:
 	case BOUNDARY_FLOW_TYPE_QT_ZT:
-		bf->p1 = (JBFLOAT*)g_try_realloc(bf->p1, j*3*sizeof(JBFLOAT));
+		bf->p1 = (JBFLOAT*)g_try_realloc(bf->p1, j * 3 * sizeof(JBFLOAT));
 		if (!bf->p1) goto exit1;
 		bf->p2 = bf->p1 + j;
 		bf->p3 = bf->p2 + j;
@@ -306,7 +442,7 @@ static inline int _boundary_flow_copy(BoundaryFlow *bf, BoundaryFlow *bf_copy)
 		#if DEBUG_BOUNDARY_FLOW_COPY
 			fprintf(stderr, "BFC n=%d\n", JUNCTION_N(bf_copy));
 		#endif
-		i=2*sizeof(int)+(1+JUNCTION_N(bf_copy))*sizeof(JunctionData);
+		i = 2 * sizeof(int) + (1 + JUNCTION_N(bf_copy)) * sizeof(JunctionData);
 		bf->data = g_try_malloc(i);
 		if (!bf->data) goto exit1;
 		memcpy(bf->data, bf_copy->data, i);
@@ -365,9 +501,7 @@ static inline int _boundary_flow_open_xml
 		fprintf(stderr, "BFOX position=%d\n", position);
 	#endif
 
-	bf->p1 = NULL;
-	bf->data = NULL;
-	bf->name = NULL;
+	boundary_flow_init_empty(bf);
 
 	if (position<0) bf->name = jb_strdup(gettext("Inlet flow"));
 	else if (position>0) bf->name = jb_strdup(gettext("Outlet flow"));
@@ -379,7 +513,7 @@ static inline int _boundary_flow_open_xml
 				gettext("Not name"), NULL);
 			goto exit1;
 		}
-		buffer=(char*)xmlGetProp(node, XML_NAME);
+		buffer = (char*)xmlGetProp(node, XML_NAME);
 		bf->name = jb_strdup(buffer);
 		xmlFree(buffer);
 		if (!xmlHasProp(node, XML_INITIAL))
@@ -390,7 +524,7 @@ static inline int _boundary_flow_open_xml
 		bf->pos = jb_xml_node_get_int(node, XML_INITIAL, &i);
 		bf->pos2 =
 			jb_xml_node_get_int_with_default(node, XML_FINAL, &j, bf->pos + 1);
-		if (i!=1 || j!=1)
+		if (i != 1 || j != 1)
 		{
 			boundary_flow_error(bf, gettext("Bad position"));
 			goto exit1;
@@ -406,7 +540,7 @@ static inline int _boundary_flow_open_xml
 	}
 	if (!bf->name)
 	{
-		message=g_strconcat(gettext("Flow boundary condition"), "\n",
+		message = g_strconcat(gettext("Flow boundary condition"), "\n",
 			gettext("Not enough memory"), NULL);
 		goto exit1;
 	}
@@ -419,7 +553,7 @@ static inline int _boundary_flow_open_xml
 		boundary_flow_error(bf, gettext("Unknow type"));
 		goto exit1;
 	}
-	buffer=(char*)xmlGetProp(node, XML_TYPE);
+	buffer = (char*)xmlGetProp(node, XML_TYPE);
 	#if DEBUG_BOUNDARY_FLOW_OPEN_XML
 		fprintf(stderr, "BFOX type=%s\n", buffer);
 	#endif
@@ -432,7 +566,7 @@ static inline int _boundary_flow_open_xml
 			boundary_flow_error(bf, gettext("Unknow type"));
 			goto exit2;
 		}
-		x=jb_xml_node_get_float(node, XML_DISCHARGE, &i);
+		x = jb_xml_node_get_float(node, XML_DISCHARGE, &i);
 		goto type01;
 	}
 	else if (!xmlStrcmp((const xmlChar*)buffer, XML_H))
@@ -443,7 +577,7 @@ static inline int _boundary_flow_open_xml
 			boundary_flow_error(bf, gettext("Unknow type"));
 			goto exit2;
 		}
-		x=jb_xml_node_get_float(node, XML_DEPTH, &i);
+		x = jb_xml_node_get_float(node, XML_DEPTH, &i);
 		goto type01i;
 	}
 	else if (!xmlStrcmp((const xmlChar*)buffer, XML_Z))
@@ -454,7 +588,7 @@ static inline int _boundary_flow_open_xml
 			boundary_flow_error(bf, gettext("Unknow type"));
 			goto exit2;
 		}
-		x=jb_xml_node_get_float(node, XML_LEVEL, &i);
+		x = jb_xml_node_get_float(node, XML_LEVEL, &i);
 		goto type01i;
 	}
 	else if (!xmlStrcmp((const xmlChar*)buffer, XML_Q_H))
@@ -465,8 +599,8 @@ static inline int _boundary_flow_open_xml
 			boundary_flow_error(bf, gettext("Unknow type"));
 			goto exit2;
 		}
-		x=jb_xml_node_get_float(node, XML_DISCHARGE, &i);
-		y=jb_xml_node_get_float(node, XML_DEPTH, &j);
+		x = jb_xml_node_get_float(node, XML_DISCHARGE, &i);
+		y = jb_xml_node_get_float(node, XML_DEPTH, &j);
 		goto type02i;
 	}
 	else if (!xmlStrcmp((const xmlChar*)buffer, XML_Q_Z))
@@ -477,8 +611,8 @@ static inline int _boundary_flow_open_xml
 			boundary_flow_error(bf, gettext("Unknow type"));
 			goto exit2;
 		}
-		x=jb_xml_node_get_float(node, XML_DISCHARGE, &i);
-		y=jb_xml_node_get_float(node, XML_LEVEL, &j);
+		x = jb_xml_node_get_float(node, XML_DISCHARGE, &i);
+		y = jb_xml_node_get_float(node, XML_LEVEL, &j);
 		goto type02i;
 	}
 	else if (!xmlStrcmp((const xmlChar*)buffer, XML_QT))
@@ -529,15 +663,15 @@ static inline int _boundary_flow_open_xml
 			boundary_flow_error(bf, gettext("Bad defined"));
 			goto exit2;
 		}
-		bf->data = g_try_malloc(2*sizeof(JBFLOAT));
+		bf->data = g_try_malloc(2 * sizeof(JBFLOAT));
 		if (!bf->data);
 		{
 			boundary_flow_error(bf, gettext("Not enough memory"));
 			goto exit2;
 		}
-		DAM_LEVEL(bf)=jb_xml_node_get_float(node, XML_LEVEL, &i);
-		DAM_ROUGHNESS(bf)=jb_xml_node_get_float(node, XML_ROUGHNESS, &j);
-		if (i!=1 || j!=1);
+		DAM_LEVEL(bf) = jb_xml_node_get_float(node, XML_LEVEL, &i);
+		DAM_ROUGHNESS(bf) = jb_xml_node_get_float(node, XML_ROUGHNESS, &j);
+		if (i != 1 || j != 1);
 		{
 			boundary_flow_error(bf, gettext("Bad defined"));
 			goto exit2;
@@ -553,7 +687,7 @@ static inline int _boundary_flow_open_xml
 			goto exit2;
 		}
 		bf->pos2 = jb_xml_node_get_int(node, XML_FINAL, &i);
-		if (i!=1);
+		if (i != 1);
 		{
 			boundary_flow_error(bf, gettext("Bad defined"));
 			goto exit2;
@@ -565,20 +699,20 @@ static inline int _boundary_flow_open_xml
 		bf->type = BOUNDARY_FLOW_TYPE_GATE;
 		if (!xmlHasProp(node, XML_HEIGHT) || !xmlHasProp(node, XML_WIDTH))
 			goto exit2;
-		bf->data = g_try_malloc(2*sizeof(JBFLOAT));
+		bf->data = g_try_malloc(2 * sizeof(JBFLOAT));
 		if (!bf->data) goto exit2;
-		GATE_HEIGHT(bf)=jb_xml_node_get_float(node, XML_HEIGHT, &i);
-		GATE_WIDTH(bf)=jb_xml_node_get_float(node, XML_WIDTH, &j);
-		if (i!=1 || j!=1) goto exit2;
+		GATE_HEIGHT(bf) = jb_xml_node_get_float(node, XML_HEIGHT, &i);
+		GATE_WIDTH(bf) = jb_xml_node_get_float(node, XML_WIDTH, &j);
+		if (i != 1 || j != 1) goto exit2;
 		goto type2itime;
 	}
 	else if (!xmlStrcmp((const xmlChar*)buffer, XML_JUNCTION))
 	{
 		bf->type = BOUNDARY_FLOW_TYPE_JUNCTION;
-		bf->data = g_try_malloc(2*sizeof(int));
+		bf->data = g_try_malloc(2 * sizeof(int));
 		if (!bf->data) goto exit1;
-		JUNCTION_N(bf)=-1;
-		for (child=node->children; child; child=child->next)
+		JUNCTION_N(bf) = -1;
+		for (child = node->children; child; child = child->next)
 		{
 			++JUNCTION_N(bf);
 			bf->data = jb_realloc(bf->data,
@@ -586,7 +720,7 @@ static inline int _boundary_flow_open_xml
 			if (!bf->data) goto exit1;
 			junction_data_open_xml(JUNCTION_DATA(bf, JUNCTION_N(bf)), child);
 		}
-		if (JUNCTION_N(bf)<0)
+		if (JUNCTION_N(bf) < 0)
 		{
 			boundary_flow_error(bf, gettext("Bad junction"));
 			goto exit2;
@@ -596,31 +730,21 @@ static inline int _boundary_flow_open_xml
 	else if (!xmlStrcmp((const xmlChar*)buffer, XML_GAUGE))
 	{
 		bf->type = BOUNDARY_FLOW_TYPE_GAUGE;
-		bf->data = g_try_malloc(2*sizeof(JBFLOAT));
+		bf->data = g_try_malloc(2 * sizeof(JBFLOAT));
 		if (!bf->data) goto exit1;
 		if (xmlHasProp(node, XML_TOLERANCE))
 		{
-			x=jb_xml_node_get_float(node, XML_TOLERANCE, &i);
-			if (i!=1 || x<0.)
+			x = jb_xml_node_get_float(node, XML_TOLERANCE, &i);
+			if (i != 1 || x < 0.)
 			{
 				boundary_flow_error(bf, gettext("Bad tolerance"));
 				goto exit2;
 			}
-			GAUGE_TOLERANCE(bf)=x;
+			GAUGE_TOLERANCE(bf) = x;
 		}
-		else GAUGE_TOLERANCE(bf)=0.;
-		GAUGE_NINFLUENCES(bf)=0;
-		for (child=node->children; child; child=child->next)
-		{
-			if (!xmlStrcmp(child->name, XML_INFLUENCE))
-			{
-				bf->data = jb_realloc(bf->data, 2 * sizeof(JBFLOAT) +
-					(1 + GAUGE_NINFLUENCES(bf)) * sizeof(GaugeInfluence));
-				if (!bf->data) goto exit1;
-				++GAUGE_NINFLUENCES(bf);
-			}
-			if (!xmlStrcmp(child->name, XML_HYDROGRAM)) goto type2nitime;
-		}
+		else GAUGE_TOLERANCE(bf) = 0.;
+		child = node->children;
+		if (!xmlStrcmp(child->name, XML_HYDROGRAM)) goto type2nitime;
 		boundary_flow_error(bf, gettext("Not hydrogram"));
 		goto exit2;
 	}
@@ -639,25 +763,25 @@ type3itime:
 
 /*type3time:*/
 	xmlFree(buffer);
-	file=jb_xml_node_get_content_file(node, &buffer);
+	file = jb_xml_node_get_content_file(node, &buffer);
 	if (!file)
 	{
 		boundary_flow_error(bf, gettext("Not enough memory"));
 		goto exit2;
 	}
-	j=-1;
-	p=0;
+	j = -1;
+	p = NULL;
 	do
 	{
-		x=jb_get_time_file(file, &i);
+		x = jb_get_time_file(file, &i);
 		if (!i) break;
-		if (i!=6)
+		if (i != 6)
 		{
 			boundary_flow_error(bf, gettext("Bad time"));
 			goto exit4;
 		}
-		i=fscanf(file, FRF FRF, &y, &z);
-		if (i<2) break;
+		i = fscanf(file, FRF FRF, &y, &z);
+		if (i < 2) break;
 		++j;
 		p = (Point3*)g_try_realloc(p, (j + 1) * sizeof(Point3));
 		if (!p)
@@ -665,7 +789,7 @@ type3itime:
 			boundary_flow_error(bf, gettext("Not enough memory"));
 			goto exit4;
 		}
-		point3_open(((Point3*)p)+j, x, y, z);
+		point3_open(((Point3*)p) + j, x, y, z);
 	}
 	while (1);
 	bf->n = j;
@@ -678,7 +802,7 @@ type3itime:
 	}
 	bf->p2 = bf->p1 + j;
 	bf->p3 = bf->p2 + j;
-	for (i=j; --i>=0;)
+	for (i = j; --i >= 0;)
 	{
 		bf->p1[i] = ((Point3*)p)[i].x;
 		bf->p2[i] = ((Point3*)p)[i].y;
@@ -698,17 +822,17 @@ type3i:
 
 type3:
 	xmlFree(buffer);
-	file=jb_xml_node_get_content_file(node, &buffer);
+	file = jb_xml_node_get_content_file(node, &buffer);
 	if (!file)
 	{
 		boundary_flow_error(bf, gettext("Not enough memory"));
 		goto exit2;
 	}
-	j=-1;
-	p=0;
+	j = -1;
+	p = NULL;
 	do
 	{
-		i=fscanf(file, FRF FRF FRF, &x, &y, &z);
+		i = fscanf(file, FRF FRF FRF, &x, &y, &z);
 		if (i<3) break;
 		++j;
 		p = (Point3*)g_try_realloc(p, (j + 1) * sizeof(Point3));
@@ -717,7 +841,7 @@ type3:
 			boundary_flow_error(bf, gettext("Not enough memory"));
 			goto exit4;
 		}
-		point3_open(((Point3*)p)+j, x, y, z);
+		point3_open(((Point3*)p) + j, x, y, z);
 	}
 	while (1);
 	bf->n = j;
@@ -730,7 +854,7 @@ type3:
 	}
 	bf->p2 = bf->p1 + j;
 	bf->p3 = bf->p2 + j;
-	for (i=j; --i>=0;)
+	for (i = j; --i >= 0;)
 	{
 		bf->p1[i] = ((Point3*)p)[i].x;
 		bf->p2[i] = ((Point3*)p)[i].y;
@@ -758,25 +882,25 @@ type2itime:
 
 type2time:
 	xmlFree(buffer);
-	file=jb_xml_node_get_content_file(node, &buffer);
+	file = jb_xml_node_get_content_file(node, &buffer);
 	if (!file)
 	{
 		boundary_flow_error(bf, gettext("Not enough memory"));
 		goto exit1;
 	}
-	j=-1;
-	p=NULL;
+	j = -1;
+	p = NULL;
 	do
 	{
-		x=jb_get_time_file(file, &i);
+		x = jb_get_time_file(file, &i);
 		if (!i) break;
-		if (i!=6)
+		if (i != 6)
 		{
 			boundary_flow_error(bf, gettext("Bad time"));
 			goto exit4;
 		}
-		i=fscanf(file, FRF, &y);
-		if (i<1) break;
+		i = fscanf(file, FRF, &y);
+		if (i < 1) break;
 		++j;
 		p = (Point2*)g_try_realloc(p, (j + 1) * sizeof(Point2));
 		if (!p)
@@ -784,7 +908,7 @@ type2time:
 			boundary_flow_error(bf, gettext("Not enough memory"));
 			goto exit4;
 		}
-		point2_open(((Point2*)p)+j, x, y);
+		point2_open(((Point2*)p) + j, x, y);
 	}
 	while (1);
 	bf->n = j;
@@ -796,7 +920,7 @@ type2time:
 		goto exit4;
 	}
 	bf->p2 = bf->p1 + j;
-	for (i=j; --i>=0;)
+	for (i = j; --i >= 0;)
 	{
 		bf->p1[i] = ((Point2*)p)[i].x;
 		bf->p2[i] = ((Point2*)p)[i].y;
@@ -824,18 +948,18 @@ type2i:
 
 type2:
 	xmlFree(buffer);
-	file=jb_xml_node_get_content_file(node, &buffer);
+	file = jb_xml_node_get_content_file(node, &buffer);
 	if (!file)
 	{
 		boundary_flow_error(bf, gettext("Not enough memory"));
 		goto exit1;
 	}
-	j=-1;
-	p=0;
+	j = -1;
+	p = NULL;
 	do
 	{
-		i=fscanf(file, FRF FRF, &x, &y);
-		if (i<2) break;
+		i = fscanf(file, FRF FRF, &x, &y);
+		if (i < 2) break;
 		++j;
 		p = (Point2*)g_try_realloc(p, (j + 1) * sizeof(Point2));
 		if (!p)
@@ -843,7 +967,7 @@ type2:
 			boundary_flow_error(bf, gettext("Not enough memory"));
 			goto exit4;
 		}
-		point2_open(((Point2*)p)+j, x, y);
+		point2_open(((Point2*)p) + j, x, y);
 	}
 	while (1);
 	bf->n = j;
@@ -855,7 +979,7 @@ type2:
 		goto exit4;
 	}
 	bf->p2 = bf->p1 + j;
-	for (i=j; --i>=0;)
+	for (i = j; --i >= 0;)
 	{
 		bf->p1[i] = ((Point2*)p)[i].x;
 		bf->p2[i] = ((Point2*)p)[i].y;
@@ -870,7 +994,7 @@ type02i:
 		boundary_flow_error(bf, gettext("Unknow type"));
 		goto exit2;
 	}
-	if (i!=1 || j!=1)
+	if (i != 1 || j != 1)
 	{
 		boundary_flow_error(bf, gettext("Bad defined"));
 		goto exit2;
@@ -897,7 +1021,7 @@ type01i:
 	}
 
 type01:
-	if (i!=1)
+	if (i != 1)
 	{
 		boundary_flow_error(bf, gettext("Bad defined"));
 		goto exit2;
@@ -982,9 +1106,9 @@ static inline void _boundary_flow_save_xml
 		boundary_flow_print(bf, stderr);
 	#endif
 
-	buffer=NULL;
+	buffer = NULL;
 
-	if (position==0)
+	if (position == 0)
 	{
 		xmlSetProp(node, XML_NAME, (const xmlChar*)bf->name);
 		jb_xml_node_set_int(node, XML_INITIAL, bf->pos);
@@ -1018,37 +1142,38 @@ static inline void _boundary_flow_save_xml
 	case BOUNDARY_FLOW_TYPE_HT:
 	case BOUNDARY_FLOW_TYPE_ZT:
 	case BOUNDARY_FLOW_TYPE_PIPE:
-		for (i=0; i<=bf->n; ++i)
+		for (i = 0; i <= bf->n; ++i)
 		{
-			snprintf(str, JB_BUFFER_SIZE, "\n    "FWF2 FWF, bf->p1[i], bf->p2[i]);
-			if (!i) buffer2=g_strdup(str);
-			else buffer2=g_strconcat(buffer, str, NULL);
+			snprintf
+				(str, JB_BUFFER_SIZE, "\n    "FWF2 FWF, bf->p1[i], bf->p2[i]);
+			if (!i) buffer2 = g_strdup(str);
+			else buffer2 = g_strconcat(buffer, str, NULL);
 			g_free(buffer);
-			buffer=buffer2;
+			buffer = buffer2;
 		}
-		buffer2=g_strconcat(buffer, "\n  ", NULL);
+		buffer2 = g_strconcat(buffer, "\n  ", NULL);
 		xmlNodeSetContent(node, (const xmlChar*)buffer2);
 		g_free(buffer);
 		g_free(buffer2);
 		break;
 	case BOUNDARY_FLOW_TYPE_QT_HT:
 	case BOUNDARY_FLOW_TYPE_QT_ZT:
-		for (i=0; i<=bf->n; ++i)
+		for (i = 0; i <= bf->n; ++i)
 		{
 			snprintf(str, JB_BUFFER_SIZE, "\n    "FWF2 FWF2 FWF,
 				bf->p1[i], bf->p2[i], bf->p3[i]);
-			if (!i) buffer2=g_strdup(str);
-			else buffer2=g_strconcat(buffer, str, NULL);
+			if (!i) buffer2 = g_strdup(str);
+			else buffer2 = g_strconcat(buffer, str, NULL);
 			g_free(buffer);
-			buffer=buffer2;
+			buffer = buffer2;
 		}
-		buffer2=g_strconcat(buffer, "\n  ", NULL);
+		buffer2 = g_strconcat(buffer, "\n  ", NULL);
 		xmlNodeSetContent(node, (const xmlChar*)buffer2);
 		g_free(buffer);
 		g_free(buffer2);
 		break;
 	case BOUNDARY_FLOW_TYPE_JUNCTION:
-		for (i=0; i<=JUNCTION_N(bf); ++i)
+		for (i = 0; i <= JUNCTION_N(bf); ++i)
 		{
 			child=xmlNewChild(node, 0, XML_JUNCTION, 0);
 			junction_data_save_xml(JUNCTION_DATA(bf, i), child);
@@ -1057,15 +1182,16 @@ static inline void _boundary_flow_save_xml
 	case BOUNDARY_FLOW_TYPE_GAUGE:
 		if (GAUGE_TOLERANCE(bf)>0.)
 			jb_xml_node_set_float(node, XML_TOLERANCE, GAUGE_TOLERANCE(bf));
-		for (i=0; i<=bf->n; ++i)
+		for (i = 0; i <= bf->n; ++i)
 		{
-			snprintf(str, JB_BUFFER_SIZE, "\n    "FWF2 FWF, bf->p1[i], bf->p2[i]);
-			if (!i) buffer2=g_strdup(str);
-			else buffer2=g_strconcat(buffer, str, NULL);
+			snprintf
+				(str, JB_BUFFER_SIZE, "\n    "FWF2 FWF, bf->p1[i], bf->p2[i]);
+			if (!i) buffer2 = g_strdup(str);
+			else buffer2 = g_strconcat(buffer, str, NULL);
 			g_free(buffer);
-			buffer=buffer2;
+			buffer = buffer2;
 		}
-		buffer2=g_strconcat(buffer, "\n  ", NULL);
+		buffer2 = g_strconcat(buffer, "\n  ", NULL);
 		xmlNodeSetContent(node, (const xmlChar*)buffer2);
 		g_free(buffer);
 		g_free(buffer2);
@@ -1100,8 +1226,9 @@ static inline JBDOUBLE _boundary_flow_parameter(BoundaryFlow *bf, JBDOUBLE t)
 		int i;
 		fprintf(stderr, "boundary_flow_parameter: start\n");
 		fprintf(stderr, "BFP t="FWL" type=%d n=%d\n", t, bf->type, bf->n);
-		for (i=0; i<=bf->n; ++i) fprintf(stderr, "BFP i=%d p1="FWF" p2="FWF"\n",
-			i, bf->p1[i], bf->p2[i]);
+		for (i = 0; i <= bf->n; ++i)
+			fprintf(stderr, "BFP i=%d p1="FWF" p2="FWF"\n",
+				i, bf->p1[i], bf->p2[i]);
 	#endif
 	switch (bf->type)
 	{
@@ -1133,8 +1260,9 @@ static inline JBDOUBLE _boundary_flow_parameter2(BoundaryFlow *bf, JBDOUBLE t)
 		int i;
 		fprintf(stderr, "boundary_flow_parameter2: start\n");
 		fprintf(stderr, "BFP2 t="FWL"\n", t);
-		for (i=0; i<=bf->n; ++i) fprintf(stderr, "BFP2 i=%d p1="FWF" p3="FWF"\n",
-			i, bf->p1[i], bf->p3[i]);
+		for (i = 0; i <= bf->n; ++i)
+			fprintf(stderr, "BFP2 i=%d p1="FWF" p3="FWF"\n",
+				i, bf->p1[i], bf->p3[i]);
 	#endif
 	switch (bf->type)
 	{
@@ -1168,8 +1296,9 @@ static inline JBDOUBLE _boundary_flow_parameter_integral
 		int i;
 		fprintf(stderr, "boundary_flow_parameter_integral: start\n");
 		fprintf(stderr, "BFPI t="FWL" tmax="FWL"\n", t, tmax);
-		for (i=0; i<=bf->n; ++i) fprintf(stderr, "BFPI i=%d p1="FWF" p2="FWF"\n",
-			i, bf->p1[i], bf->p2[i]);
+		for (i = 0; i <= bf->n; ++i)
+			fprintf(stderr, "BFPI i=%d p1="FWF" p2="FWF"\n",
+				i, bf->p1[i], bf->p2[i]);
 	#endif
 	switch (bf->type)
 	{

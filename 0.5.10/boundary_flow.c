@@ -42,6 +42,10 @@ void boundary_flow_error(BoundaryFlow *bf,char *m) {_boundary_flow_error(bf,m);}
 void boundary_flow_delete(BoundaryFlow *bf) {_boundary_flow_delete(bf);}
 #endif
 
+#if !INLINE_BOUNDARY_FLOW_INIT_EMPTY
+void boundary_flow_init_empty(BoundaryFlow *bf) {_boundary_flow_init_empty(bf);}
+#endif
+
 #if !INLINE_BOUNDARY_FLOW_COPY
 int boundary_flow_copy(BoundaryFlow *bf,BoundaryFlow *bf_copy)
 {return _boundary_flow_copy(bf,bf_copy);}
