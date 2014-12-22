@@ -28,40 +28,46 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * \file editor_initial_transport.h
- * \brief Header file to define transported solute initial conditions editor
+ * \file editor_boundary_transport.h
+ * \brief Header file to define transported solute boundary conditions editor
  *   structures and functions.
  * \authors Javier Burguete Tolosa.
  * \copyright Copyright 2005-2014 Javier Burguete Tolosa.
  */
-#ifndef EDITOR_INITIAL_TRANSPORT__H
-#define EDITOR_INITIAL_TRANSPORT__H 1
+#ifndef EDITOR_BOUNDARY_TRANSPORT__H
+#define EDITOR_BOUNDARY_TRANSPORT__H 1
 
-#include "initial_transport.h"
+#include "boundary_transport.h"
 
 /**
- * \struct EditorInitialTransport
- * \brief Structure to define an editor of transported solute initial
+ * \struct EditorBoundaryTransport
+ * \brief Structure to define an editor of transported solute boundary
  *   conditions.
  */
 typedef struct
 {
 /**
- * \var it
- * \brief InitialTransport to define the transported solute initial conditions
+ * \var bt
+ * \brief BoundaryTransport to define the transported solute boundary conditions
  *   data.
  * \var array
- * \brief JBWArrayEditor to define the transport points.
+ * \brief JBWArrayEditor to define the data points.
  * \var graphic
- * \brief JBWGraphic to show the transported solute initial conditions graphic.
+ * \brief JBWGraphic to show the transported solute boundary condition graphic.
+ * \var label_name
+ * \brief GtkLabel to show a label of the transported solute boundary condition
+ *   name.
+ * \var entry_name
+ * \brief GtkEntry to set the transported solute boundary condition name.
  * \var button_insert
  * \brief GtkButton to insert a point.
  * \var button_remove
  * \brief GtkButton to remove a point.
  * \var button_plot
- * \brief GtkButton to update the transported solute initial conditions graphic.
+ * \brief GtkButton to update the transported solute boundary conditions
+ *   graphic.
  * \var array_type
- * \brief array of GtkRadioButtons to set the transported solute initial
+ * \brief array of GtkRadioButtons to set the transported solute boundary
  *   conditions type.
  * \var frame_type
  * \brief GtkFrame to group the array_type buttons.
@@ -69,33 +75,19 @@ typedef struct
  * \brief GtkGrid to pack the widgets.
  * \var grid_type
  * \brief GtkGrid to pack the array_type buttons.
- * \var grid_parameters
- * \brief GtkGrid to pack parameter widgets.
  * \var notebook
  * \brief GtkNotebook to put the widgets.
  */
-	InitialTransport it[1];
+	BoundaryTransport bt[1];
 	JBWArrayEditor *array;
 	JBWGraphic *graphic;
+	GtkLabel *label_name;
+	GtkEntry *entry_name;
 	GtkButton *button_insert, *button_remove, *button_plot;
-	GtkRadioButton *array_type[N_INITIAL_TRANSPORT_TYPES];
+	GtkRadioButton **button_type;
 	GtkFrame *frame_type;
-	GtkGrid *grid, *grid_type, *grid_parameters;
+	GtkGrid *grid, *grid_type;
 	GtkNotebook *notebook;
-} EditorInitialTransport;
-
-void editor_initial_transport_update(EditorInitialTransport *editor);
-void editor_initial_transport_get(EditorInitialTransport *editor);
-void editor_initial_transport_open(EditorInitialTransport *editor);
-void editor_initial_transport_insert_point(EditorInitialTransport *editor);
-void editor_initial_transport_remove_point(EditorInitialTransport *editor);
-void editor_initial_transport_draw(EditorInitialTransport *editor);
-int editor_initial_transport_check(EditorInitialTransport *editor);
-void editor_initial_transport_destroy(EditorInitialTransport *editor);
-void editor_initial_transport_new
-	(EditorInitialTransport *editor, GtkNotebook *notebook);
-
-extern void editor_draw();
+} EditorBoundaryTransport;
 
 #endif
-

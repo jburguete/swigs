@@ -29,8 +29,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * \file editor_initial_transport.c
- * \brief Source file to define initial transported solute conditions editor structures and
- *   functions.
+ * \brief Source file to define transported solute initial conditions editor
+ *   structures and functions.
  * \authors Javier Burguete Tolosa.
  * \copyright Copyright 2005-2014 Javier Burguete Tolosa.
  */
@@ -44,9 +44,10 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * \fn void editor_initial_transport_update(EditorInitialTransport *editor)
- * \brief Function to update the view of a initial transported solute conditions editor.
+ * \brief Function to update the view of a transported solute initial conditions
+ *   editor.
  * \param editor
- * \brief initial transported solute conditions editor.
+ * \brief transported solute initial conditions editor.
  */
 void editor_initial_transport_update(EditorInitialTransport *editor)
 {
@@ -74,10 +75,10 @@ void editor_initial_transport_update(EditorInitialTransport *editor)
 
 /**
  * \fn void editor_initial_transport_get(EditorInitialTransport *editor)
- * \brief Function to get the actual initial transported solute conditions data from the
- *   editor.
+ * \brief Function to get the actual transported solute initial conditions data
+ *   from the editor.
  * \param editor
- * \brief initial transported solute conditions editor.
+ * \brief transported solute initial conditions editor.
  */
 void editor_initial_transport_get(EditorInitialTransport *editor)
 {
@@ -121,9 +122,9 @@ void editor_initial_transport_get(EditorInitialTransport *editor)
 
 /**
  * \fn void editor_initial_transport_open(EditorInitialTransport *editor)
- * \brief Function to open initial transported solute conditions in the editor.
+ * \brief Function to open transported solute initial conditions in the editor.
  * \param editor
- * \brief initial transported solute conditions editor.
+ * \brief transported solute initial conditions editor.
  */
 void editor_initial_transport_open(EditorInitialTransport *editor)
 {
@@ -157,10 +158,12 @@ void editor_initial_transport_open(EditorInitialTransport *editor)
 }
 
 /**
- * \fn void editor_initial_transport_insert_point (EditorInitialTransport *editor)
- * \brief Function to insert a point in an initial transported solute conditions editor.
+ * \fn void editor_initial_transport_insert_point \
+ *   (EditorInitialTransport *editor)
+ * \brief Function to insert a point in an transported solute initial conditions
+ *   editor.
  * \param editor
- * \brief initial transported solute conditions editor.
+ * \brief transported solute initial conditions editor.
  */
 void editor_initial_transport_insert_point(EditorInitialTransport *editor)
 {
@@ -175,10 +178,12 @@ void editor_initial_transport_insert_point(EditorInitialTransport *editor)
 }
 
 /**
- * \fn void editor_initial_transport_remove_point (EditorInitialTransport *editor)
- * \brief Function to remove a point in an initial transported solute conditions editor.
+ * \fn void editor_initial_transport_remove_point \
+ *   (EditorInitialTransport *editor)
+ * \brief Function to remove a point in a transported solute initial conditions
+ *   editor.
  * \param editor
- * \brief initial transported solute conditions editor.
+ * \brief transported solute initial conditions editor.
  */
 void editor_initial_transport_remove_point(EditorInitialTransport *editor)
 {
@@ -194,10 +199,10 @@ void editor_initial_transport_remove_point(EditorInitialTransport *editor)
 
 /**
  * \fn void editor_initial_transport_draw(EditorInitialTransport *editor)
- * \brief Function to draw a initial transported solute conditions in an initial transport
- *   conditions editor.
+ * \brief Function to draw a transported solute initial conditions in a
+ *  transported solute initial conditions editor.
  * \param editor
- * \brief initial transported solute conditions editor.
+ * \brief transported solute initial conditions editor.
  */
 void editor_initial_transport_draw(EditorInitialTransport *editor)
 {
@@ -225,7 +230,7 @@ void editor_initial_transport_draw(EditorInitialTransport *editor)
  * \fn int editor_initial_transport_check(EditorInitialTransport *editor)
  * \brief Function to check if the transport initial conditions are correct.
  * \param editor
- * \brief initial transported solute conditions editor.
+ * \brief transported solute initial conditions editor.
  * \return 1 on correct transport initial conditions, 0 on error.
  */
 int editor_initial_transport_check(EditorInitialTransport *editor)
@@ -244,7 +249,8 @@ int editor_initial_transport_check(EditorInitialTransport *editor)
 		default:
 			if (it->n < 0)
 			{
-				initial_transport_error(gettext("Not enough profile points number"));
+				initial_transport_error
+					(gettext("Not enough profile points number"));
 				goto check_error;
 			}
 			if (!initial_transport_order(it))
@@ -267,9 +273,9 @@ check_error:
 
 /**
  * \fn void editor_initial_transport_destroy(EditorInitialTransport *editor)
- * \brief Function to destroy a initial transported solute conditions editor.
+ * \brief Function to destroy a transported solute initial conditions editor.
  * \param editor
- * \brief initial transported solute conditions editor.
+ * \brief transported solute initial conditions editor.
  */
 void editor_initial_transport_destroy(EditorInitialTransport *editor)
 {
@@ -286,9 +292,9 @@ void editor_initial_transport_destroy(EditorInitialTransport *editor)
 /**
  * \fn void editor_initial_transport_new(EditorInitialTransport *editor, \
  *   GtkNotebook *notebook)
- * \brief Function to create a new initial transported solute conditions editor.
+ * \brief Function to create a new transported solute initial conditions editor.
  * \param editor
- * \brief initial transported solute conditions editor.
+ * \brief transported solute initial conditions editor.
  * \param notebook
  * \brief GtkNotebook to pack the widgets.
  */
@@ -398,8 +404,8 @@ int main(int argn, char **argc)
 	dlg = (GtkDialog*)gtk_dialog_new();
 	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg)),
 		GTK_WIDGET(notebook));
-	gtk_window_set_title
-		(GTK_WINDOW(dlg), "Test editor initial transported solute conditions");
+	gtk_window_set_title(GTK_WINDOW(dlg),
+		"Test editor of transported solute initial conditions");
 	button_ok = (GtkButton*)gtk_dialog_add_button
 		(dlg, gettext("_OK"), GTK_RESPONSE_OK);
 	g_signal_connect_swapped(button_ok, "clicked", (void(*))&ok, argc[2]);
