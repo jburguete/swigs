@@ -1318,6 +1318,7 @@ static inline void _flow_inner_boundary(BoundaryFlow *bf)
 	default:
 		goto exit_1;
 	}
+	k = fmax(k, -pv->V);
 	#if DEBUG_FLOW_INNER_BOUNDARY
 		if (t>=DEBUG_TIME)
 			fprintf(stderr,"FIB Qm="FWL" t="FWL" tmax="FWL" dt="FWL"\n",
