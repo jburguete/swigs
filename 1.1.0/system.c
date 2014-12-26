@@ -163,14 +163,14 @@ int system_copy(System *s, System *s_copy) {return _system_copy(s, s_copy);}
 #endif
 
 /**
- * \fn int system_check(System *s)
- * \brief Function to check if the system data are correct.
+ * \fn int system_junctions_set_up(System *s)
+ * \brief Function to set up the junctions of a system.
  * \param s
  * \brief System structure.
  * \return 0 on error, 1 on success.
  */
-#if !INLINE_SYSTEM_CHECK
-int system_check(System *s) {return _system_check(s);}
+#if !INLINE_SYSTEM_JUNCTIONS_SET_UP
+int system_junctions_set_up(System *s) {return _system_junctions_set_up(s);}
 #endif
 
 /**

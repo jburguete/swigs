@@ -354,9 +354,16 @@ static inline void _boundary_flow_error(BoundaryFlow *bf, char *m)
 
 static inline void _boundary_flow_delete(BoundaryFlow *bf)
 {
+	int i;
 	#if DEBUG_BOUNDARY_FLOW_DELETE
 		fprintf(stderr, "boundary_flow_delete: start\n");
 	#endif
+	switch (bf->type)
+	{
+		case BOUNDARY_FLOW_TYPE_JUNCTION:
+			for (i = 0; i <= JUNCTION_N(bf); ++i)
+				junction_data_delete(JUNCTION_DATA(bf, i));
+	}
 	jb_free_null((void**)&bf->name);
 	jb_free_null((void**)&bf->p1);
 	jb_free_null((void**)&bf->data);
@@ -462,6 +469,8 @@ static inline int _boundary_flow_copy(BoundaryFlow *bf, BoundaryFlow *bf_copy)
 		bf->data = g_try_malloc(i);
 		if (!bf->data) goto exit1;
 		memcpy(bf->data, bf_copy->data, i);
+		for (i = 0; i <= JUNCTION_N(bf_copy); ++i)
+			junction_data_copy(JUNCTION_DATA(bf, i), JUNCTION_DATA(bf_copy, i));
 		break;
 	case BOUNDARY_FLOW_TYPE_GAUGE:
 		bf->data = g_try_malloc(sizeof(JBFLOAT));
@@ -531,16 +540,16 @@ static inline int _boundary_flow_open_xml
 		}
 		buffer = (char*)xmlGetProp(node, XML_NAME);
 		bf->name = jb_strdup(buffer);
+		xmlFree(buffer);
 		if (!bf->name)
 		{
 			message = g_strconcat(gettext("Flow boundary condition"), "\n",
 				gettext("Not enough memory"), NULL);
-			goto exit2;
+			goto exit1;
 		}
 		#if DEBUG_BOUNDARY_FLOW_OPEN_XML
 			fprintf(stderr, "BFOX name=%s\n", bf->name);
 		#endif
-		xmlFree(buffer);
 		if (!xmlHasProp(node, XML_INITIAL))
 		{
 			boundary_flow_error(bf, gettext("Bad position"));
@@ -548,28 +557,28 @@ static inline int _boundary_flow_open_xml
 		}
 		buffer = (char*)xmlGetProp(node, XML_INITIAL);
 		bf->section = jb_strdup(buffer);
+		xmlFree(buffer);
 		if (!bf->section)
 		{
 			boundary_flow_error(bf, gettext("Bad position"));
-			goto exit2;
+			goto exit1;
 		}
 		#if DEBUG_BOUNDARY_FLOW_OPEN_XML
 			fprintf(stderr, "BFOX section=%s\n", bf->section);
 		#endif
-		xmlFree(buffer);
 		if (xmlHasProp(node, XML_FINAL))
 		{
 			buffer = (char*)xmlGetProp(node, XML_FINAL);
 			bf->section2 = jb_strdup(buffer);
+			xmlFree(buffer);
 			if (!bf->section2)
 			{
 				boundary_flow_error(bf, gettext("Bad position"));
-				goto exit2;
+				goto exit1;
 			}
 			#if DEBUG_BOUNDARY_FLOW_OPEN_XML
 				fprintf(stderr, "BFOX section2=%s\n", bf->section2);
 			#endif
-			xmlFree(buffer);
 		}
 	}
 

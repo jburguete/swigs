@@ -55,13 +55,15 @@ typedef struct
  * \brief number of the last channel cross section to connect.
  */
 	int channel, pos, pos2;
+	char *channel_name, *section, *section2;
 } JunctionData;
 
 static inline void _junction_data_print(JunctionData *data, FILE *file)
 {
 	fprintf(file, "junction_data_print: start\n");
-	fprintf(file, "JDP channel=%d pos=%d pos2=%d\n",
-		data->channel, data->pos, data->pos2);
+	fprintf(file, "JDP channel=%s section=%s\n",
+		data->channel_name, data->section);
+	if (data->section2) fprintf(file, "JDP section2=%s\n", data->section2);
 	fprintf(file, "junction_data_print: end\n");
 }
 
@@ -71,46 +73,147 @@ static inline void _junction_data_print(JunctionData *data, FILE *file)
 	void junction_data_print(JunctionData*, FILE*);
 #endif
 
-static inline void
+static inline void _junction_data_error(char *m)
+{
+	char *buffer;
+	#if DEBUG_JUNCTION_DATA_ERROR
+		fprintf(stderr, "junction_data_error: start\n");
+	#endif
+	buffer = message;
+	message = g_strconcat(gettext("Junction data"), "\n", m, NULL);
+	g_free(buffer);
+	#if DEBUG_JUNCTION_DATA_ERROR
+		fprintf(stderr, "junction_data_error: end\n");
+	#endif
+}
+
+#if INLINE_JUNCTION_DATA_ERROR
+	#define junction_data_error _junction_data_error
+#else
+	void junction_data_error(char*);
+#endif
+
+static inline void _junction_data_delete(JunctionData *data)
+{
+	#if DEBUG_JUNCTION_DATA_DELETE
+		fprintf(file, "junction_data_delete: start\n");
+	#endif
+	jb_free_null((void**)&data->channel_name);
+	jb_free_null((void**)&data->section);
+	jb_free_null((void**)&data->section2);
+	#if DEBUG_JUNCTION_DATA_DELETE
+		fprintf(file, "junction_data_delete: end\n");
+	#endif
+}
+
+#if INLINE_JUNCTION_DATA_DELETE
+	#define junction_data_delete _junction_data_delete
+#else
+	void junction_data_delete(JunctionData*);
+#endif
+
+static inline void _junction_data_init_empty(JunctionData *data)
+{
+	#if DEBUG_JUNCTION_DATA_INIT_EMPTY
+		fprintf(file, "junction_data_init_empty: start\n");
+	#endif
+	data->channel_name = data->section = data->section2 = NULL;
+	#if DEBUG_JUNCTION_DATA_INIT_EMPTY
+		fprintf(file, "junction_data_init_empty: end\n");
+	#endif
+}
+
+#if INLINE_JUNCTION_DATA_INIT_EMPTY
+	#define junction_data_init_empty _junction_data_init_empty
+#else
+	void junction_data_init_empty(JunctionData*);
+#endif
+
+static inline int
 	_junction_data_copy(JunctionData *data, JunctionData *data_copy)
 {
 	#if DEBUG_JUNCTION_DATA_COPY
 		fprintf(file, "junction_data_copy: start\n");
 		junction_data_print(data, stderr);
 	#endif
-	memcpy(data, data_copy, sizeof(JunctionData));	
+	junction_data_init_empty(data);
+	memcpy(data, data_copy, JB_POINTER_SIZE(data->channel_name, data->channel));
+	data->channel_name = jb_strdup(data_copy->channel_name);
+	data->section = jb_strdup(data_copy->section);
+	if (!data->channel_name || !data->section) goto copy_error;
+	if (data_copy->section2)
+	{
+		data->section2 = jb_strdup(data_copy->section2);
+		if (!data->section2) goto copy_error;
+	}
 	#if DEBUG_JUNCTION_DATA_COPY
 		fprintf(file, "junction_data_copy: end\n");
 	#endif
+	return 1;
+
+copy_error:
+	junction_data_error(gettext("Not enough memory"));
+	junction_data_delete(data);
+	#if DEBUG_JUNCTION_DATA_COPY
+		fprintf(file, "junction_data_copy: end\n");
+	#endif
+	return 0;
 }
 
 #if INLINE_JUNCTION_DATA_COPY
 	#define junction_data_copy _junction_data_copy
 #else
-	void junction_data_copy(JunctionData*, JunctionData*);
+	int junction_data_copy(JunctionData*, JunctionData*);
 #endif
 
 static inline int _junction_data_open_xml(JunctionData *data, xmlNode *node)
 {
-	int i, j, k;
+	char *buffer;
 	#if DEBUG_JUNCTION_DATA_OPEN_XML
 		fprintf(file, "junction_data_open_xml: start\n");
 	#endif
-	if (xmlStrcmp(node->name, XML_JUNCTION)) goto exit0;
-	data->channel = jb_xml_node_get_int(node, XML_CHANNEL, &i) - 1;
-	data->pos = jb_xml_node_get_int(node, XML_INITIAL, &j) - 1;
-	if (!xmlHasProp(node, XML_FINAL))
+	junction_data_init_empty(data);
+	if (xmlStrcmp(node->name, XML_JUNCTION))
 	{
-		k = 1;
-		data->pos2 = data->pos;
+		junction_data_error(gettext("Bad defined"));
+		goto exit0;
 	}
-	else data->pos2 = jb_xml_node_get_int(node, XML_FINAL, &k) - 1;
-	if (!i || !j || !k) goto exit0;
-	if (data->pos2 < data->pos)
+	if (!xmlHasProp(node, XML_CHANNEL))
 	{
-		message = g_strconcat
-			(gettext("Junction data"), "\n", gettext("Bad position"), NULL);
-		goto exit1;
+		junction_data_error(gettext("Not channel"));
+		goto exit0;
+	}
+	buffer = (char*)xmlGetProp(node, XML_CHANNEL);
+	data->channel_name = jb_strdup(buffer);
+	xmlFree(buffer);
+	if (!data->channel_name)
+	{
+		junction_data_error(gettext("Not enough memory"));
+		goto exit0;
+	}
+	if (!xmlHasProp(node, XML_INITIAL))
+	{
+		junction_data_error(gettext("Not initial section"));
+		goto exit0;
+	}
+	buffer = (char*)xmlGetProp(node, XML_INITIAL);
+	data->section = jb_strdup(buffer);
+	xmlFree(buffer);
+	if (!data->section)
+	{
+		junction_data_error(gettext("Not enough memory"));
+		goto exit0;
+	}
+	if (xmlHasProp(node, XML_FINAL))
+	{
+		buffer = (char*)xmlGetProp(node, XML_FINAL);
+		data->section2 = jb_strdup(buffer);
+		xmlFree(buffer);
+		if (!data->section2)
+		{
+			junction_data_error(gettext("Not enough memory"));
+			goto exit0;
+		}
 	}
 	#if DEBUG_JUNCTION_DATA_OPEN_XML
 		fprintf(file, "junction_data_open_xml: end\n");
@@ -118,10 +221,7 @@ static inline int _junction_data_open_xml(JunctionData *data, xmlNode *node)
 	return 1;
 
 exit0:
-	message = g_strconcat
-		(gettext("Junction data"), "\n", gettext("Bad defined"), NULL);
-
-exit1:
+	junction_data_delete(data);
 	#if DEBUG_JUNCTION_DATA_OPEN_XML
 		fprintf(file, "junction_data_open_xml: end\n");
 	#endif
@@ -139,9 +239,10 @@ static inline void _junction_data_save_xml(JunctionData *data, xmlNode *node)
 	#if DEBUG_JUNCTION_DATA_SAVE_XML
 		fprintf(file, "junction_data_save_xml: start\n");
 	#endif
-	jb_xml_node_set_int(node, XML_CHANNEL, data->channel + 1);
-	jb_xml_node_set_int(node, XML_INITIAL, data->pos + 1);
-	jb_xml_node_set_int(node, XML_FINAL, data->pos2 + 1);
+	xmlSetProp(node, XML_CHANNEL, (const xmlChar*)data->channel_name);
+	xmlSetProp(node, XML_INITIAL, (const xmlChar*)data->section);
+	if (data->section2)
+		xmlSetProp(node, XML_FINAL, (const xmlChar*)data->section2);
 	#if DEBUG_JUNCTION_DATA_SAVE_XML
 		fprintf(file, "junction_data_save_xml: end\n");
 	#endif

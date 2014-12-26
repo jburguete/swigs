@@ -1,13 +1,12 @@
 High priority:
+	- Dates in solute boundary conditions
 	- Commenting the code using Doxygen
 	- Activating editor
 
 Medium priority:
 	- Iterative algorithm to correct gauges
-	- Dates in solute boundary conditions
 	- Result file (and subdirectory) in the same directory that the input file.
 
 Low priority:
 	- Animation controlled by a dial
-	- Label of the section in junctions
 	- Stable numerical method with high sized cells

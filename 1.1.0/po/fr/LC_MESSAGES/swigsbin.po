@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: swigs 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-26 07:49+0100\n"
+"POT-Creation-Date: 2014-12-26 14:02+0100\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -29,27 +29,28 @@ msgstr "Section transitoire"
 #: cross_section.h:537 channel_geometry.h:170 channel_geometry.h:272
 #: channel_geometry.h:307 initial_flow.h:205 initial_flow.h:296
 #: initial_flow.h:309 initial_transport.h:197 initial_transport.h:286
-#: initial_transport.h:299 boundary_flow.h:492 boundary_flow.h:537
-#: boundary_flow.h:694 boundary_flow.h:794 boundary_flow.h:814
-#: boundary_flow.h:825 boundary_flow.h:913 boundary_flow.h:933
-#: boundary_flow.h:944 boundary_flow.h:979 boundary_flow.h:992
-#: boundary_flow.h:1003 boundary_flow.h:1030 boundary_flow.h:1057
-#: boundary_transport.h:241 boundary_transport.h:280 boundary_transport.h:360
-#: boundary_transport.h:375 boundary_transport.h:388 boundary_transport.h:399
-#: transport.h:137 channel_transport.h:150 channel_transport.h:253
-#: channel_transport.h:297 channel.h:194 channel.h:264 channel.h:335
-#: channel.h:420 channel.h:479 channel.h:506 channel.h:542 channel.h:562
-#: system.h:227 system.h:298 system.h:369 system.h:480 system.h:774
-#: system.h:799 section.h:446 section.h:480 section.h:1303 section.h:1313
-#: section.h:1507 channel_segment.h:213 section_changes.h:157
+#: initial_transport.h:299 junction_data.h:155 junction_data.h:191
+#: junction_data.h:204 junction_data.h:214 boundary_flow.h:501
+#: boundary_flow.h:546 boundary_flow.h:703 boundary_flow.h:803
+#: boundary_flow.h:823 boundary_flow.h:834 boundary_flow.h:922
+#: boundary_flow.h:942 boundary_flow.h:953 boundary_flow.h:988
+#: boundary_flow.h:1001 boundary_flow.h:1012 boundary_flow.h:1039
+#: boundary_flow.h:1066 boundary_transport.h:241 boundary_transport.h:280
+#: boundary_transport.h:360 boundary_transport.h:375 boundary_transport.h:388
+#: boundary_transport.h:399 transport.h:137 channel_transport.h:150
+#: channel_transport.h:253 channel_transport.h:297 channel.h:194 channel.h:264
+#: channel.h:335 channel.h:420 channel.h:479 channel.h:506 channel.h:542
+#: channel.h:562 system.h:227 system.h:298 system.h:369 system.h:480
+#: system.h:774 system.h:799 section.h:446 section.h:480 section.h:1303
+#: section.h:1313 section.h:1507 channel_segment.h:213 section_changes.h:157
 #: section_changes.h:268 section_changes.h:309 mesh.h:385 mesh.h:630
 #: mesh.h:1007 mesh.h:1047 mesh.h:1096 mesh.h:1137 mesh.h:1242 mesh.h:1335
 #: mesh.h:1426 mesh.h:1490 mesh.h:1626 write.h:158 write.h:199 write.h:268
 msgid "Not enough memory"
 msgstr "Mémoire insuffisante"
 
-#: transient_section.h:326 cross_section.h:416 boundary_flow.h:529
-#: boundary_transport.h:272 transport.h:206 channel.h:741
+#: transient_section.h:326 cross_section.h:416 boundary_flow.h:538
+#: boundary_transport.h:272 transport.h:206 channel.h:742
 msgid "Not name"
 msgstr "Nom indéfini"
 
@@ -62,9 +63,9 @@ msgstr "Type inconnu"
 #: cross_section.h:483 cross_section.h:497 cross_section.h:513
 #: cross_section.h:519 cross_section.h:526 cross_section.h:552
 #: channel_geometry.h:319 initial_flow.h:324 initial_transport.h:314
-#: junction_data.h:122 boundary_flow.h:688 boundary_flow.h:701
-#: boundary_flow.h:711 boundary_flow.h:717 boundary_flow.h:1024
-#: boundary_flow.h:1051 boundary_transport.h:347 boundary_transport.h:354
+#: junction_data.h:178 boundary_flow.h:697 boundary_flow.h:710
+#: boundary_flow.h:720 boundary_flow.h:726 boundary_flow.h:1033
+#: boundary_flow.h:1060 boundary_transport.h:347 boundary_transport.h:354
 #: channel_transport.h:304 channel.h:573 system.h:813
 msgid "Bad defined"
 msgstr "Erroné"
@@ -80,11 +81,11 @@ msgid "Bad order"
 msgstr "Ordre erroné"
 
 #: cross_section.h:505 initial_flow.h:266 initial_flow.h:286
-#: initial_transport.h:259 initial_transport.h:276 boundary_flow.h:578
-#: boundary_flow.h:591 boundary_flow.h:602 boundary_flow.h:613
-#: boundary_flow.h:624 boundary_flow.h:636 boundary_flow.h:778
-#: boundary_flow.h:785 boundary_flow.h:896 boundary_flow.h:904
-#: boundary_flow.h:1019 boundary_flow.h:1044 boundary_flow.h:1069
+#: initial_transport.h:259 initial_transport.h:276 boundary_flow.h:587
+#: boundary_flow.h:600 boundary_flow.h:611 boundary_flow.h:622
+#: boundary_flow.h:633 boundary_flow.h:645 boundary_flow.h:787
+#: boundary_flow.h:794 boundary_flow.h:905 boundary_flow.h:913
+#: boundary_flow.h:1028 boundary_flow.h:1053 boundary_flow.h:1078
 #: boundary_transport.h:324 boundary_transport.h:413
 msgid "Unknow type"
 msgstr "Type inconnu"
@@ -101,45 +102,55 @@ msgstr "Conditions initiales d'écoulement"
 msgid "Initial transport conditions"
 msgstr "Conditions initiales de transport"
 
-#: junction_data.h:112 junction_data.h:122
+#: junction_data.h:83
 msgid "Junction data"
 msgstr "Données de l_iaison"
 
-#: junction_data.h:112 boundary_flow.h:546 boundary_flow.h:553
-#: boundary_flow.h:566 boundary_transport.h:292 boundary_transport.h:299
-#: boundary_transport.h:313 channel.h:634 channel.h:695 dialog_position.h:64
-msgid "Bad position"
-msgstr "Position erronée"
+#: junction_data.h:183
+#, fuzzy
+msgid "Not channel"
+msgstr "Nouveau canal"
 
-#: boundary_flow.h:341 boundary_flow.h:528 boundary_flow.h:536
+#: junction_data.h:196
+#, fuzzy
+msgid "Not initial section"
+msgstr "Section initiale"
+
+#: boundary_flow.h:341 boundary_flow.h:537 boundary_flow.h:545
 msgid "Flow boundary condition"
 msgstr "Condition au limit d'écoulement"
 
-#: boundary_flow.h:522
+#: boundary_flow.h:531
 msgid "Inlet flow"
 msgstr "Entrée d'écoulement"
 
-#: boundary_flow.h:523 channel.h:522 channel.h:541
+#: boundary_flow.h:532 channel.h:522 channel.h:541
 msgid "Outlet flow"
 msgstr "Sortie d'écoulement"
 
-#: boundary_flow.h:750 system.h:542
+#: boundary_flow.h:555 boundary_flow.h:562 boundary_flow.h:575
+#: boundary_transport.h:292 boundary_transport.h:299 boundary_transport.h:313
+#: channel.h:635 channel.h:696 dialog_position.h:64
+msgid "Bad position"
+msgstr "Position erronée"
+
+#: boundary_flow.h:759 system.h:542
 msgid "Bad junction"
 msgstr "Liaison erronée"
 
-#: boundary_flow.h:765
+#: boundary_flow.h:774
 msgid "Bad tolerance"
 msgstr "Tolérance erronée"
 
-#: boundary_flow.h:773
+#: boundary_flow.h:782
 msgid "Not hydrogram"
 msgstr ""
 
-#: boundary_flow.h:805 boundary_flow.h:924
+#: boundary_flow.h:814 boundary_flow.h:933
 msgid "Bad time"
 msgstr "Temps erroné"
 
-#: boundary_flow.h:1088 boundary_transport.h:335
+#: boundary_flow.h:1097 boundary_transport.h:335
 msgid "Bad delay"
 msgstr "Retard erroné"
 
@@ -148,11 +159,11 @@ msgid "Transport boundary condition"
 msgstr "Condition au limit de transport"
 
 #: transport.h:81 transport.h:136 transport.h:205 transport.h:212
-#: transport.h:220 transport.h:231 channel.h:776 system.h:773
+#: transport.h:220 transport.h:231 channel.h:777 system.h:773
 msgid "Transport"
 msgstr "Transport"
 
-#: transport.h:213 channel.h:748
+#: transport.h:213 channel.h:749
 msgid "Bad name"
 msgstr "Nom indéfini"
 
@@ -168,8 +179,8 @@ msgstr "Concentration de danger erronée"
 msgid "Channel transport"
 msgstr "Canal de transport"
 
-#: channel.h:121 channel.h:334 channel.h:727 channel.h:734 channel.h:741
-#: channel.h:748 system.h:517 system.h:528 system.h:539 system.h:541
+#: channel.h:121 channel.h:334 channel.h:728 channel.h:735 channel.h:742
+#: channel.h:749 system.h:517 system.h:528 system.h:539 system.h:541
 #: system.h:551 system.h:553 system.h:555 system.h:798
 msgid "Channel"
 msgstr "Canal"
@@ -178,23 +189,23 @@ msgstr "Canal"
 msgid "Duplicated definition"
 msgstr "Définition dupliquée"
 
-#: channel.h:478 channel.h:494 channel.h:505 channel.h:531 channel.h:769
+#: channel.h:478 channel.h:494 channel.h:505 channel.h:531 channel.h:770
 msgid "Flow boundary conditions"
 msgstr "Conditions aux limites d'écoulement"
 
-#: channel.h:728
+#: channel.h:729
 msgid "Not cell size"
 msgstr "Longueur de cellule indéfinie"
 
-#: channel.h:735
+#: channel.h:736
 msgid "Bad cell size"
 msgstr "Longueur de cellule erronée"
 
-#: channel.h:770
+#: channel.h:771
 msgid "Undefined"
 msgstr "Indéfini"
 
-#: channel.h:777
+#: channel.h:778
 msgid "Bad number of solutes"
 msgstr "Nombre de solutés erroné"
 
@@ -957,9 +968,6 @@ msgstr "Temps de computation"
 #~ msgid "_Delete"
 #~ msgstr "_Effacer"
 
-#~ msgid "Initial section"
-#~ msgstr "Section initiale"
-
 #~ msgid "Final section"
 #~ msgstr "Section finale"
 
@@ -995,9 +1003,6 @@ msgstr "Temps de computation"
 
 #~ msgid "Simulating _options"
 #~ msgstr "_Options de simulation"
-
-#~ msgid "New channel"
-#~ msgstr "Nouveau canal"
 
 #~ msgid "Edit channel"
 #~ msgstr "Éditer canal"

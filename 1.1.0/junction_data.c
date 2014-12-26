@@ -49,16 +49,48 @@ void junction_data_print(JunctionData *data, FILE *file)
 #endif
 
 /**
- * \fn void junction_data_copy(JunctionData *data, JunctionData *data_copy)
+ * \fn void junction_data_error(char *m)
+ * \brief Function to write an error message opening a JunctionData structure.
+ * \param file
+ * \brief file.
+ */
+#if !INLINE_JUNCTION_DATA_ERROR
+void junction_data_error(char *m) {_junction_data_error(m);}
+#endif
+
+/**
+ * \fn void junction_data_delete(JunctionData *data)
+ * \brief Function to delete a JunctionData structure.
+ * \param data
+ * \brief JunctionData structure.
+ */
+#if !INLINE_JUNCTION_DATA_DELETE
+void junction_data_delete(JunctionData *data) {_junction_data_delete(data);}
+#endif
+
+/**
+ * \fn void junction_data_init_empty(JunctionData *data)
+ * \brief Function to init an empty JunctionData structure.
+ * \param data
+ * \brief JunctionData structure.
+ */
+#if !INLINE_JUNCTION_DATA_INIT_EMPTY
+void junction_data_init_empty(JunctionData *data)
+{_junction_data_init_empty(data);}
+#endif
+
+/**
+ * \fn int junction_data_copy(JunctionData *data, JunctionData *data_copy)
  * \brief Function to copy two JunctionData structures.
  * \param data
  * \brief JunctionData structure copy.
  * \param data_copy
  * \brief JunctionData structure copied.
+ * \return 1 on success, 0 on error.
  */
 #if !INLINE_JUNCTION_DATA_COPY
-void junction_data_copy(JunctionData *data, JunctionData *data_copy)
-{_junction_data_copy(data, data_copy);}
+int junction_data_copy(JunctionData *data, JunctionData *data_copy)
+{return _junction_data_copy(data, data_copy);}
 #endif
 
 /**

@@ -493,14 +493,14 @@ exit2:
 	int system_copy(System*, System*);
 #endif
 
-static inline int _system_check(System *s)
+static inline int _system_junctions_set_up(System *s)
 {
-	int i, j, k, type, type2;
+	int i, j, k, l, type, type2;
 	JunctionData *jd;
 	BoundaryFlow *bf;
 	Channel *c;
-	#if DEBUG_SYSTEM_CHECK
-		fprintf(stderr, "system_check: start\n");
+	#if DEBUG_SYSTEM_JUNCTIONS_SET_UP
+		fprintf(stderr, "system_junctions_set_up: start\n");
 	#endif
 	for (i = 0; i <= s->n; ++i)
 	{
@@ -511,25 +511,34 @@ static inline int _system_check(System *s)
 				for (k = 0; k <= JUNCTION_N(bf); ++k, type2 = type)
 				{
 					jd = JUNCTION_DATA(bf, k);
-					if (jd->channel < 0 || jd->channel > s->n)
+					for (l = 0; l <= s->n; ++l)
+						if (!strcmp(jd->channel_name, s->channel[l].name))
+								break;
+					if (l > s->n)
 					{
-						message = g_strconcat(
-							gettext("Channel"), ": ", s->channel[i].name, "\n",
-							gettext("Boundary flow"), ": ", bf->name, "\n",
-							gettext("Junction"), ": ",
-							gettext("Bad channel number"), NULL);
+						junction_data_error(gettext("Bad channel"));
 						goto error1;
 					}
-					c = s->channel + jd->channel;
-					if (jd->pos < 0 || jd->pos2 < 0 ||
-						jd->pos > c->cg->n || jd->pos2 > c->cg->n)
+					jd->channel = l;
+					c = s->channel + l;
+					for (l = 0; l <= s->n; ++l)
+						if (!strcmp(jd->section, c->bf[l].name)) break;
+					if (l > c->n)
 					{
-						message = g_strconcat(
-							gettext("Channel"), ": ", s->channel[i].name, "\n",
-							gettext("Boundary flow"), ": ", bf->name, "\n",
-							gettext("Junction"), ": ",
-							gettext("Bad section number"), NULL);
+						junction_data_error(gettext("Bad cross section"));
 						goto error1;
+					}
+					jd->pos = l;
+					if (!jd->section2) jd->pos2 = l;
+					else
+					{
+						for (l = 0; l <= s->n; ++l)
+							if (!strcmp(jd->section2, c->bf[l].name)) break;
+						if (l > c->n || l < jd->pos)
+						{
+							junction_data_error(gettext("Bad cross section"));
+							goto error1;
+						}
 					}
 					if ((!jd->pos && !jd->pos2 &&
 						c->bf->type != BOUNDARY_FLOW_TYPE_JUNCTION) ||
@@ -540,7 +549,7 @@ static inline int _system_check(System *s)
 							s->channel[i].name, "\n",
 							gettext("Channel"), ": ", c->name, "\n",
 							gettext("Bad junction"), NULL);
-						goto error1;
+						goto error2;
 					}
 					if ((!jd->pos && !jd->pos2) ||
 						(jd->pos == c->cg->n && jd->pos2 == c->cg->n))
@@ -555,29 +564,33 @@ static inline int _system_check(System *s)
 							"\n", gettext("Channel"), ": ", c->name, "\n",
 							gettext("Mixing frontal and lateral junctions"),
 							NULL);
-						goto error1;
+						goto error2;
 					}
 				}
 			}
 		}
 	}
-	#if DEBUG_SYSTEM_CHECK
-		fprintf(stderr, "system_check: end\n");
+	#if DEBUG_SYSTEM_JUNCTIONS_SET_UP
+		fprintf(stderr, "system_junctions_set_up: end\n");
 	#endif
 	return 1;
 
 error1:
+	boundary_flow_error(bf, message);
+	channel_error(s->channel + i, message);
+
+error2:
 	system_error(s, message);
-	#if DEBUG_SYSTEM_CHECK
-		fprintf(stderr, "system_check: end\n");
+	#if DEBUG_SYSTEM_JUNCTIONS_SET_UP
+		fprintf(stderr, "system_junctions_set_up: end\n");
 	#endif
 	return 0;
 }
 
-#if INLINE_SYSTEM_CHECK
-	#define system_check _system_check
+#if INLINE_SYSTEM_JUNCTIONS_SET_UP
+	#define system_junctions_set_up _system_junctions_set_up
 #else
-	int system_check(System*);
+	int system_junctions_set_up(System*);
 #endif
 
 static inline int _system_open_xml(System *s, char *name, char *directory)
@@ -816,9 +829,9 @@ static inline int _system_open_xml(System *s, char *name, char *directory)
 	}
 
 	#if DEBUG_SYSTEM_OPEN_XML
-		fprintf(stderr, "SOXML: testing junctions\n");
+		fprintf(stderr, "SOXML: setting up junctions\n");
 	#endif
-	if (!system_check(s)) goto exit0;
+	if (!system_junctions_set_up(s)) goto exit0;
 
 	#if DEBUG_SYSTEM_OPEN_XML
 		system_print(s, stderr);
