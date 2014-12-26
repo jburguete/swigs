@@ -157,17 +157,6 @@ int channel_copy(Channel *c, Channel *c_copy) {return _channel_copy(c, c_copy);}
 #endif
 
 /**
- * \fn int channel_check(Channel *c)
- * \brief Function to check if the channel data are correct.
- * \param c
- * \brief Channel structure.
- * \return 0 on error, 1 on success.
- */
-#if !INLINE_CHANNEL_CHECK
-int channel_check(Channel *c) {return _channel_check(c);}
-#endif
-
-/**
  * \fn int channel_parse_node(Channel *c, xmlNode *node, int *hasof)
  * \brief Function to parse a XML child node defining a channel.
  * \param c
@@ -181,6 +170,31 @@ int channel_check(Channel *c) {return _channel_check(c);}
 #if !INLINE_CHANNEL_PARSE_NODE
 int channel_parse_node(Channel *c, xmlNode *node, int *hasof)
 {return _channel_parse_node(c, node, hasof);}
+#endif
+
+/**
+ * \fn int channel_flow_boundaries_set_up(Channel *c)
+ * \brief Function to set up the flow boundary conditions of a channel.
+ * \param c
+ * \brief Channel structure.
+ * \return 0 on error, 1 on success.
+ */
+#if !INLINE_CHANNEL_FLOW_BOUNDARIES_SET_UP
+int channel_flow_boundaries_set_up(Channel *c)
+{return _channel_flow_boundaries_set_up(c);}
+#endif
+
+/**
+ * \fn int channel_transport_boundaries_set_up(Channel *c)
+ * \brief Function to set up the transported solute boundary conditions of a
+ *   channel.
+ * \param c
+ * \brief Channel structure.
+ * \return 0 on error, 1 on success.
+ */
+#if !INLINE_CHANNEL_TRANSPORT_BOUNDARIES_SET_UP
+int channel_transport_boundaries_set_up(Channel *c)
+{return _channel_transport_boundaries_set_up(c);}
 #endif
 
 /**

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<system initial_time="2010 1 1 0 0 0" final_time="2010 1 15 0 0 0" measured_time="60" max_steady_time="86400" solution_file="Violada.bin" contributions="Violada.con">
+<system initial_time="2010 1 1 0 0 0" final_time="2010 1 1 0 0 1" measured_time="60" max_steady_time="86400" solution_file="Violada.bin" contributions="Violada.con">
   <channel name="Violada" cell_size="10">
     <geometry>
       <cross_section name="inicio" x="0.">
@@ -299,7 +299,7 @@
         </transient_section>
       </cross_section>
     </geometry>
-    <initial type="steady"/>
+    <initial type="dry"/>
     <inlet type="qt">
       2010 1 1 0 0 0 3.632
       2010 1 2 0 0 0 3.632
@@ -330,7 +330,7 @@
       2010 1 14 0 0 0 3.207
       2010 1 15 0 0 0 3.207
     </inlet>
-    <boundary name="extAlm" type="qt" initial="9" delay="1200">
+    <boundary name="extAlm" type="qt" initial="V-5.3" delay="1200">
       2010 1 1 0 0 0 -0.264
       2010 1 2 0 0 0 -0.264
       2010 1 2 0 0 0 -0.27
@@ -360,7 +360,7 @@
       2010 1 14 0 0 0 -0.169
       2010 1 15 0 0 0 -0.169
     </boundary>
-    <boundary name="extGur" type="qt" initial="32" delay="3600">
+    <boundary name="extGur" type="qt" initial="13623" delay="3600">
       2010 1 1 0 0 0 -0.729
       2010 1 2 0 0 0 -0.729
       2010 1 2 0 0 0 -0.694
@@ -390,7 +390,7 @@
       2010 1 14 0 0 0 -0.569
       2010 1 15 0 0 0 -0.569
     </boundary>
-    <boundary name="extTem" type="qt" initial="33" delay="3600">
+    <boundary name="extTem" type="qt" initial="13630" delay="3600">
       2010 1 1 0 0 0 -0.639
       2010 1 2 0 0 0 -0.639
       2010 1 2 0 0 0 -0.586

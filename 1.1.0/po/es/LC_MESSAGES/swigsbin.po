@@ -6,9 +6,9 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: swigs 0.5.12\n"
+"Project-Id-Version: swigs 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-22 00:45+0100\n"
+"POT-Creation-Date: 2014-12-26 07:49+0100\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -30,16 +30,16 @@ msgstr "Sección transitoria"
 #: cross_section.h:537 channel_geometry.h:170 channel_geometry.h:272
 #: channel_geometry.h:307 initial_flow.h:205 initial_flow.h:296
 #: initial_flow.h:309 initial_transport.h:197 initial_transport.h:286
-#: initial_transport.h:299 boundary_flow.h:476 boundary_flow.h:544
-#: boundary_flow.h:669 boundary_flow.h:769 boundary_flow.h:789
-#: boundary_flow.h:800 boundary_flow.h:888 boundary_flow.h:908
-#: boundary_flow.h:919 boundary_flow.h:954 boundary_flow.h:967
-#: boundary_flow.h:978 boundary_flow.h:1005 boundary_flow.h:1032
-#: boundary_transport.h:228 boundary_transport.h:267 boundary_transport.h:340
-#: boundary_transport.h:355 boundary_transport.h:368 boundary_transport.h:379
+#: initial_transport.h:299 boundary_flow.h:492 boundary_flow.h:537
+#: boundary_flow.h:694 boundary_flow.h:794 boundary_flow.h:814
+#: boundary_flow.h:825 boundary_flow.h:913 boundary_flow.h:933
+#: boundary_flow.h:944 boundary_flow.h:979 boundary_flow.h:992
+#: boundary_flow.h:1003 boundary_flow.h:1030 boundary_flow.h:1057
+#: boundary_transport.h:241 boundary_transport.h:280 boundary_transport.h:360
+#: boundary_transport.h:375 boundary_transport.h:388 boundary_transport.h:399
 #: transport.h:137 channel_transport.h:150 channel_transport.h:253
 #: channel_transport.h:297 channel.h:194 channel.h:264 channel.h:335
-#: channel.h:420 channel.h:519 channel.h:546 channel.h:582 channel.h:602
+#: channel.h:420 channel.h:479 channel.h:506 channel.h:542 channel.h:562
 #: system.h:227 system.h:298 system.h:369 system.h:480 system.h:774
 #: system.h:799 section.h:446 section.h:480 section.h:1303 section.h:1313
 #: section.h:1507 channel_segment.h:213 section_changes.h:157
@@ -49,8 +49,8 @@ msgstr "Sección transitoria"
 msgid "Not enough memory"
 msgstr "Falta memoria"
 
-#: transient_section.h:326 cross_section.h:416 boundary_flow.h:513
-#: boundary_transport.h:259 transport.h:206 channel.h:661
+#: transient_section.h:326 cross_section.h:416 boundary_flow.h:529
+#: boundary_transport.h:272 transport.h:206 channel.h:741
 msgid "Not name"
 msgstr "Nombre no definido"
 
@@ -63,10 +63,10 @@ msgstr "Tipo desconocido"
 #: cross_section.h:483 cross_section.h:497 cross_section.h:513
 #: cross_section.h:519 cross_section.h:526 cross_section.h:552
 #: channel_geometry.h:319 initial_flow.h:324 initial_transport.h:314
-#: junction_data.h:122 boundary_flow.h:663 boundary_flow.h:676
-#: boundary_flow.h:686 boundary_flow.h:692 boundary_flow.h:999
-#: boundary_flow.h:1026 boundary_transport.h:327 boundary_transport.h:334
-#: channel_transport.h:304 channel.h:613 system.h:813
+#: junction_data.h:122 boundary_flow.h:688 boundary_flow.h:701
+#: boundary_flow.h:711 boundary_flow.h:717 boundary_flow.h:1024
+#: boundary_flow.h:1051 boundary_transport.h:347 boundary_transport.h:354
+#: channel_transport.h:304 channel.h:573 system.h:813
 msgid "Bad defined"
 msgstr "Mal definido"
 
@@ -76,17 +76,17 @@ msgid "Cross section"
 msgstr "Sección de cauce"
 
 #: cross_section.h:378 initial_flow.h:229 initial_transport.h:221
-#: boundary_flow.h:534 channel.h:464 channel.h:535 channel.h:572
+#: channel.h:495 channel.h:532
 msgid "Bad order"
 msgstr "Orden incorrecto"
 
 #: cross_section.h:505 initial_flow.h:266 initial_flow.h:286
-#: initial_transport.h:259 initial_transport.h:276 boundary_flow.h:553
-#: boundary_flow.h:566 boundary_flow.h:577 boundary_flow.h:588
-#: boundary_flow.h:599 boundary_flow.h:611 boundary_flow.h:753
-#: boundary_flow.h:760 boundary_flow.h:871 boundary_flow.h:879
-#: boundary_flow.h:994 boundary_flow.h:1019 boundary_flow.h:1044
-#: boundary_transport.h:304 boundary_transport.h:393
+#: initial_transport.h:259 initial_transport.h:276 boundary_flow.h:578
+#: boundary_flow.h:591 boundary_flow.h:602 boundary_flow.h:613
+#: boundary_flow.h:624 boundary_flow.h:636 boundary_flow.h:778
+#: boundary_flow.h:785 boundary_flow.h:896 boundary_flow.h:904
+#: boundary_flow.h:1019 boundary_flow.h:1044 boundary_flow.h:1069
+#: boundary_transport.h:324 boundary_transport.h:413
 msgid "Unknow type"
 msgstr "Tipo desconocido"
 
@@ -106,54 +106,54 @@ msgstr "Condiciones ininiciales de transporte"
 msgid "Junction data"
 msgstr "Datos de confluencia"
 
-#: junction_data.h:112 boundary_flow.h:521 boundary_flow.h:529
-#: boundary_transport.h:279 boundary_transport.h:285 boundary_transport.h:295
-#: channel.h:453 dialog_position.h:64
+#: junction_data.h:112 boundary_flow.h:546 boundary_flow.h:553
+#: boundary_flow.h:566 boundary_transport.h:292 boundary_transport.h:299
+#: boundary_transport.h:313 channel.h:634 channel.h:695 dialog_position.h:64
 msgid "Bad position"
 msgstr "Posición incorrecta"
 
-#: boundary_flow.h:337 boundary_flow.h:512 boundary_flow.h:543
+#: boundary_flow.h:341 boundary_flow.h:528 boundary_flow.h:536
 msgid "Flow boundary condition"
 msgstr "Condición de contorno de flujo"
 
-#: boundary_flow.h:506
+#: boundary_flow.h:522
 msgid "Inlet flow"
 msgstr "Entrada de flujo"
 
-#: boundary_flow.h:507 channel.h:562 channel.h:581
+#: boundary_flow.h:523 channel.h:522 channel.h:541
 msgid "Outlet flow"
 msgstr "Salida de flujo"
 
-#: boundary_flow.h:725 system.h:542
+#: boundary_flow.h:750 system.h:542
 msgid "Bad junction"
 msgstr "Confluencia incorrecta"
 
-#: boundary_flow.h:740
+#: boundary_flow.h:765
 msgid "Bad tolerance"
 msgstr "Tolerancia incorrecta"
 
-#: boundary_flow.h:748
+#: boundary_flow.h:773
 msgid "Not hydrogram"
 msgstr ""
 
-#: boundary_flow.h:780 boundary_flow.h:899
+#: boundary_flow.h:805 boundary_flow.h:924
 msgid "Bad time"
 msgstr "Tiempo incorrecto"
 
-#: boundary_flow.h:1063 boundary_transport.h:315
+#: boundary_flow.h:1088 boundary_transport.h:335
 msgid "Bad delay"
 msgstr "Retraso incorrecto"
 
-#: boundary_transport.h:145 boundary_transport.h:258 boundary_transport.h:266
+#: boundary_transport.h:149 boundary_transport.h:271 boundary_transport.h:279
 msgid "Transport boundary condition"
 msgstr "Condición de contorno de transporte"
 
 #: transport.h:81 transport.h:136 transport.h:205 transport.h:212
-#: transport.h:220 transport.h:231 channel.h:696 system.h:773
+#: transport.h:220 transport.h:231 channel.h:776 system.h:773
 msgid "Transport"
 msgstr "Transporte"
 
-#: transport.h:213 channel.h:668
+#: transport.h:213 channel.h:748
 msgid "Bad name"
 msgstr "Nombre no definido"
 
@@ -165,37 +165,37 @@ msgstr "Solubilidad incorrecta"
 msgid "Bad danger concentration"
 msgstr "Concentración de peligro incorrecta"
 
-#: channel_transport.h:85 channel.h:601
+#: channel_transport.h:85 channel.h:561
 msgid "Channel transport"
 msgstr "Cauce de transporte"
 
-#: channel.h:121 channel.h:334 channel.h:647 channel.h:654 channel.h:661
-#: channel.h:668 system.h:517 system.h:528 system.h:539 system.h:541
+#: channel.h:121 channel.h:334 channel.h:727 channel.h:734 channel.h:741
+#: channel.h:748 system.h:517 system.h:528 system.h:539 system.h:541
 #: system.h:551 system.h:553 system.h:555 system.h:798
 msgid "Channel"
 msgstr "Cauce"
 
-#: channel.h:510 channel.h:563
+#: channel.h:470 channel.h:523
 msgid "Duplicated definition"
 msgstr "Definición duplicada"
 
-#: channel.h:518 channel.h:534 channel.h:545 channel.h:571 channel.h:689
+#: channel.h:478 channel.h:494 channel.h:505 channel.h:531 channel.h:769
 msgid "Flow boundary conditions"
 msgstr "Condiciones de contorno de flujo"
 
-#: channel.h:648
+#: channel.h:728
 msgid "Not cell size"
 msgstr "Tamaño de celda no definido"
 
-#: channel.h:655
+#: channel.h:735
 msgid "Bad cell size"
 msgstr "Tamaño de celda incorrecto"
 
-#: channel.h:690
+#: channel.h:770
 msgid "Undefined"
 msgstr "No definido"
 
-#: channel.h:697
+#: channel.h:777
 msgid "Bad number of solutes"
 msgstr "Número de solutos incorrecto"
 

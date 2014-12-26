@@ -101,10 +101,14 @@ typedef struct
  * \brief array of second parameters data.
  * \var name
  * \brief name.
+ * \var section
+ * \brief name of the first cross section to apply the boundary condition.
+ * \var section2
+ * \brief name of the last cross section to apply the boundary condition.
  */
 	int type, pos, pos2, n, i, i2;
 	JBFLOAT contribution, length, delay, *p1, *p2;
-	char *name;
+	char *name, *section, *section2;
 } BoundaryTransport;
 
 extern int simulating;
@@ -163,6 +167,8 @@ static inline void _boundary_transport_delete(BoundaryTransport *bt)
 	#endif
 	jb_free_null((void**)&bt->p1);
 	jb_free_null((void**)&bt->name);
+	jb_free_null((void**)&bt->section);
+	jb_free_null((void**)&bt->section2);
 	#if DEBUG_BOUNDARY_TRANSPORT_DELETE
 		fprintf(stderr, "boundary_transport_delete: end\n");
 	#endif
@@ -179,7 +185,7 @@ static inline void _boundary_transport_init_empty(BoundaryTransport *bt)
 	#if DEBUG_BOUNDARY_TRANSPORT_INIT_EMPTY
 		fprintf(stderr, "boundary_transport_init_empty: start\n");
 	#endif
-	bt->name = NULL;
+	bt->name = bt->section = bt->section2 = NULL;
 	bt->p1 = NULL;
 	#if DEBUG_BOUNDARY_TRANSPORT_INIT_EMPTY
 		fprintf(stderr, "boundary_transport_init_empty: end\n");
@@ -209,6 +215,13 @@ static inline int _boundary_transport_copy
 
 	bt->name = jb_strdup(bt_copy->name);
 	if (!bt->name) goto exit1;
+	bt->section = jb_strdup(bt_copy->section);
+	if (!bt->section) goto exit1;
+	if (bt_copy->section2)
+	{
+		bt->section2 = jb_strdup(bt_copy->section2);
+		if (!bt->section2) goto exit1;
+	}
 
 	j = bt->n + 1;
 	i = j * 2 * sizeof(JBFLOAT);
@@ -266,7 +279,7 @@ static inline int _boundary_transport_open_xml
 		message = g_strconcat(gettext("Transport boundary condition"), ": ",
 			buffer, "\n", gettext("Not enough memory"), NULL);
 		xmlFree(buffer);
-		goto exit1;
+		goto exit2;
 	}
 	xmlFree(buffer);
 	#if DEBUG_BOUNDARY_TRANSPORT_OPEN_XML
@@ -279,25 +292,32 @@ static inline int _boundary_transport_open_xml
 		boundary_transport_error(bt, gettext("Bad position"));
 		goto exit1;
 	}
-	bt->pos = jb_xml_node_get_int(node, XML_INITIAL, &i);
-	if (i != 1)
+	buffer = (char*)xmlGetProp(node, XML_INITIAL);
+	bt->section = jb_strdup(buffer);
+	if (!bt->section)
 	{
 		boundary_transport_error(bt, gettext("Bad position"));
-		goto exit1;
+		goto exit2;
 	}
+	xmlFree(buffer);
 	#if DEBUG_BOUNDARY_TRANSPORT_OPEN_XML
-		fprintf(stderr, "BTOX position=%d\n", bt->pos);
+		fprintf(stderr, "BTOX section=%s\n", bt->section);
 	#endif
 
-	bt->pos2 = jb_xml_node_get_int_with_default(node, XML_FINAL, &i, bt->pos);
-	if (i != 1)
+	if (xmlHasProp(node, XML_FINAL))
 	{
-		boundary_transport_error(bt, gettext("Bad position"));
-		goto exit1;
+		buffer = (char*)xmlGetProp(node, XML_FINAL);
+		bt->section2 = jb_strdup(buffer);
+		if (!bt->section2)
+		{
+			boundary_transport_error(bt, gettext("Bad position"));
+			goto exit2;
+		}
+		xmlFree(buffer);
+		#if DEBUG_BOUNDARY_TRANSPORT_OPEN_XML
+			fprintf(stderr, "BTOX section2=%d\n", bt->section2);
+		#endif
 	}
-	#if DEBUG_BOUNDARY_TRANSPORT_OPEN_XML
-		fprintf(stderr, "BTOX position2=%d\n", bt->pos2);
-	#endif
 
 	if (!xmlHasProp(node, XML_TYPE))
 	{
@@ -435,8 +455,8 @@ static inline void _boundary_transport_save_xml
 	#endif
 
 	xmlSetProp(node, XML_NAME, (const xmlChar*)bt->name);
-	jb_xml_node_set_int(node, XML_INITIAL, bt->pos);
-	jb_xml_node_set_int_with_default(node, XML_FINAL, bt->pos2, bt->pos);
+	xmlSetProp(node, XML_INITIAL, (const xmlChar*)bt->section);
+	if (bt->section2) xmlSetProp(node, XML_FINAL, (const xmlChar*)bt->section2);
 	jb_xml_node_set_float_with_default(node, XML_DELAY, bt->delay, 0.);
 	xmlSetProp(node, XML_TYPE, bttype[bt->type]);
 
@@ -447,7 +467,7 @@ static inline void _boundary_transport_save_xml
 		jb_xml_node_set_float(node, XML_MASS, bt->p2[0]);
 		break;
 	case BOUNDARY_TRANSPORT_TYPE_Q:
-		buffer=NULL;
+		buffer = NULL;
 		for (i = 0; i <= bt->n; ++i)
 		{
 			snprintf

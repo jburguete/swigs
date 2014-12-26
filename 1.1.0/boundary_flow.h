@@ -247,13 +247,17 @@ typedef struct
  * \brief array of third parameters data.
  * \var name
  * \brief name.
+ * \var section
+ * \brief name of the first cross section to apply the boundary condition.
+ * \var section2
+ * \brief name of the last cross section to apply the boundary condition.
  * \var data
  * \brief additional data.
  */
 	int type, pos, pos2, n, i, i2;
 	JBFLOAT contribution;
 	JBFLOAT *p1, *p2, *p3;
-	char *name;
+	char *name, *section, *section2;
 	void *data;
 } BoundaryFlow;
 
@@ -356,6 +360,8 @@ static inline void _boundary_flow_delete(BoundaryFlow *bf)
 	jb_free_null((void**)&bf->name);
 	jb_free_null((void**)&bf->p1);
 	jb_free_null((void**)&bf->data);
+	jb_free_null((void**)&bf->section);
+	jb_free_null((void**)&bf->section2);
 	#if DEBUG_BOUNDARY_FLOW_DELETE
 		fprintf(stderr, "boundary_flow_delete: end\n");
 	#endif
@@ -372,7 +378,7 @@ static inline void _boundary_flow_init_empty(BoundaryFlow *bf)
 	#if DEBUG_BOUNDARY_FLOW_INIT_EMPTY
 		fprintf(stderr, "boundary_flow_init_empty: start\n");
 	#endif
-	bf->name = NULL;
+	bf->name = bf->section = bf->section2 = NULL;
 	bf->p1 = NULL;
 	bf->data = NULL;
 	#if DEBUG_BOUNDARY_FLOW_INIT_EMPTY
@@ -403,6 +409,16 @@ static inline int _boundary_flow_copy(BoundaryFlow *bf, BoundaryFlow *bf_copy)
 
 	bf->name = jb_strdup(bf_copy->name);
 	if (!bf->name) goto exit1;
+	if (bf_copy->section)
+	{
+		bf->section = jb_strdup(bf_copy->section);
+		if (!bf->section) goto exit1;
+	}
+	if (bf_copy->section2)
+	{
+		bf->section2 = jb_strdup(bf_copy->section2);
+		if (!bf->section2) goto exit1;
+	}
 	#if DEBUG_BOUNDARY_FLOW_COPY
 		fprintf(stderr, "BFC name=%s\n", bf->name);
 	#endif
@@ -515,38 +531,47 @@ static inline int _boundary_flow_open_xml
 		}
 		buffer = (char*)xmlGetProp(node, XML_NAME);
 		bf->name = jb_strdup(buffer);
+		if (!bf->name)
+		{
+			message = g_strconcat(gettext("Flow boundary condition"), "\n",
+				gettext("Not enough memory"), NULL);
+			goto exit2;
+		}
+		#if DEBUG_BOUNDARY_FLOW_OPEN_XML
+			fprintf(stderr, "BFOX name=%s\n", bf->name);
+		#endif
 		xmlFree(buffer);
 		if (!xmlHasProp(node, XML_INITIAL))
 		{
 			boundary_flow_error(bf, gettext("Bad position"));
 			goto exit1;
 		}
-		bf->pos = jb_xml_node_get_int(node, XML_INITIAL, &i);
-		bf->pos2 =
-			jb_xml_node_get_int_with_default(node, XML_FINAL, &j, bf->pos + 1);
-		if (i != 1 || j != 1)
+		buffer = (char*)xmlGetProp(node, XML_INITIAL);
+		bf->section = jb_strdup(buffer);
+		if (!bf->section)
 		{
 			boundary_flow_error(bf, gettext("Bad position"));
-			goto exit1;
-		}
-		if (bf->pos2 < bf->pos)
-		{
-			boundary_flow_error(bf, gettext("Bad order"));
-			goto exit1;
+			goto exit2;
 		}
 		#if DEBUG_BOUNDARY_FLOW_OPEN_XML
-			fprintf(stderr, "BFOX pos=%d pos2=%d\n", bf->pos, bf->pos2);
+			fprintf(stderr, "BFOX section=%s\n", bf->section);
 		#endif
+		xmlFree(buffer);
+		if (xmlHasProp(node, XML_FINAL))
+		{
+			buffer = (char*)xmlGetProp(node, XML_FINAL);
+			bf->section2 = jb_strdup(buffer);
+			if (!bf->section2)
+			{
+				boundary_flow_error(bf, gettext("Bad position"));
+				goto exit2;
+			}
+			#if DEBUG_BOUNDARY_FLOW_OPEN_XML
+				fprintf(stderr, "BFOX section2=%s\n", bf->section2);
+			#endif
+			xmlFree(buffer);
+		}
 	}
-	if (!bf->name)
-	{
-		message = g_strconcat(gettext("Flow boundary condition"), "\n",
-			gettext("Not enough memory"), NULL);
-		goto exit1;
-	}
-	#if DEBUG_BOUNDARY_FLOW_OPEN_XML
-		fprintf(stderr, "BFOX name=%s\n", bf->name);
-	#endif
 
 	if (!xmlHasProp(node, XML_TYPE))
 	{
@@ -1111,8 +1136,9 @@ static inline void _boundary_flow_save_xml
 	if (position == 0)
 	{
 		xmlSetProp(node, XML_NAME, (const xmlChar*)bf->name);
-		jb_xml_node_set_int(node, XML_INITIAL, bf->pos);
-		jb_xml_node_set_int(node, XML_FINAL, bf->pos2);
+		xmlSetProp(node, XML_INITIAL, (const xmlChar*)bf->section);
+		if (bf->section2)
+			xmlSetProp(node, XML_FINAL, (const xmlChar*)bf->section2);
 	}
 	xmlSetProp(node, XML_TYPE, bftype[bf->type]);
 

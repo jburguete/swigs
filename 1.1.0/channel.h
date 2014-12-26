@@ -330,7 +330,7 @@ static inline int _channel_create(Channel *c, char *name)
 	c->name = jb_strdup(name);
 	if (!c->name)
 	{
-		buffer=message;
+		buffer = message;
 		message = g_strconcat(gettext("Channel"), ": ", name, "\n",
 			gettext("Not enough memory"), NULL);
 		g_free(buffer);
@@ -435,46 +435,6 @@ exit3:
 	int channel_copy(Channel*, Channel*);
 #endif
 
-static inline int _channel_check(Channel *c)
-{
-	register int i;
-	register BoundaryFlow *bf = c->bf;
-	#if DEBUG_CHANNEL_CHECK
-		fprintf(stderr, "channel_check: start\n");
-		for (i = 0; i <= c->n; ++i)
-			fprintf(stderr, "CC i=%d pos=%d\n", i, bf[i].pos);
-	#endif
-	if (bf->pos != 1) goto exit_error;
-	for (i = 0, ++bf; ++i < c->n; ++bf)
-	{
-		if (bf->pos < (bf - 1)->pos) goto exit_error;
-		if (bf->pos2 < 1 || bf->pos2 > c->cg->n + 1)
-		{
-			boundary_flow_error(bf, gettext("Bad position"));
-			goto exit_error;
-		}
-	}
-	if (bf->pos != c->cg->n + 1) goto exit_error;
-	#if DEBUG_CHANNEL_CHECK
-		fprintf(stderr, "channel_check: end\n");
-	#endif
-	return 1;
-
-exit_error:
-	channel_error(c, gettext("Bad order"));
-	#if DEBUG_CHANNEL_CHECK
-		fprintf(stderr, "CC error: %s\n", bf->name);
-		fprintf(stderr, "channel_check: end\n");
-	#endif
-	return 0;
-}
-
-#if INLINE_CHANNEL_CHECK
-	#define channel_check _channel_check
-#else
-	int channel_check(Channel*);
-#endif
-
 static inline int _channel_parse_node(Channel *c, xmlNode *node, int *hasof)
 {
 	int i, j;
@@ -514,7 +474,7 @@ static inline int _channel_parse_node(Channel *c, xmlNode *node, int *hasof)
 		c->bf = (BoundaryFlow*)g_try_malloc(sizeof(BoundaryFlow));
 		if (!c->bf)
 		{
-			buffer=message;
+			buffer = message;
 			message = g_strconcat(gettext("Flow boundary conditions"), "\n",
 				gettext("Not enough memory"), NULL);
 			g_free(buffer);
@@ -530,7 +490,7 @@ static inline int _channel_parse_node(Channel *c, xmlNode *node, int *hasof)
 		#endif
 		if (c->n < 0)
 		{
-			buffer=message;
+			buffer = message;
 			message = g_strconcat(gettext("Flow boundary conditions"), "\n",
 				gettext("Bad order"), NULL);
 			g_free(buffer);
@@ -541,7 +501,7 @@ static inline int _channel_parse_node(Channel *c, xmlNode *node, int *hasof)
 			jb_try_realloc(c->bf, (j + 1) * sizeof(BoundaryFlow));
 		if (!bf)
 		{
-			buffer=message;
+			buffer = message;
 			message = g_strconcat(gettext("Flow boundary conditions"), "\n",
 				gettext("Not enough memory"), NULL);
 			g_free(buffer);
@@ -597,7 +557,7 @@ static inline int _channel_parse_node(Channel *c, xmlNode *node, int *hasof)
 			jb_try_realloc(c->ct, (j + 1) * sizeof(ChannelTransport));
 		if (!ct)
 		{
-			buffer=message;
+			buffer = message;
 			message = g_strconcat(gettext("Channel transport"), "\n",
 				gettext("Not enough memory"), NULL);
 			g_free(buffer);
@@ -609,7 +569,7 @@ static inline int _channel_parse_node(Channel *c, xmlNode *node, int *hasof)
 	}
 	else
 	{
-		buffer=message;
+		buffer = message;
 		message = g_strconcat((char*)node->name, "\n", gettext("Bad defined"),
 			NULL);
 		g_free(buffer);
@@ -628,6 +588,127 @@ exit0:
 	int channel_parse_node(Channel*, xmlNode *node, int*);
 #endif
 
+static inline int _channel_flow_boundaries_set_up(Channel *c)
+{
+	int i, j;
+	BoundaryFlow *bf;
+	ChannelGeometry *cg;
+	CrossSection *cs;
+	#if DEBUG_CHANNEL_FLOW_BOUNDARIES_SET_UP
+		fprintf(stderr, "channel_flow_boundaries_set_up: start\n");
+		fprintf(stderr, "CFBSU n=%d\n", c->n);
+	#endif
+	cg = c->cg;
+	for (i = 1, bf = c->bf + 1; i < c->n; ++i, ++bf)
+	{
+		for (j = 0, cs = cg->cs; j <= cg->n; ++j, ++cs)
+		{
+			if (!strcmp(cs->name, bf->section)) break;
+		}
+		#if DEBUG_CHANNEL_FLOW_BOUNDARIES_SET_UP
+			fprintf(stderr, "CFBSU bf=%d pos=%d\n", i, j);
+		#endif
+		if (j > cg->n) goto exit_error;
+		bf->pos = ++j;
+		if (!bf->section2)
+		{
+			bf->pos2 = j;
+			continue;
+		}
+		for (j = 0, cs = cg->cs; j <= cg->n; ++j, ++cs)
+		{
+			if (!strcmp(cs->name, bf->section2)) break;
+		}
+		if (j > cg->n) goto exit_error;
+		bf->pos2 = ++j;
+		if (bf->pos2 < bf->pos) goto exit_error;
+		#if DEBUG_CHANNEL_FLOW_BOUNDARIES_SET_UP
+			fprintf(stderr, "CFBSU bf=%d pos2=%d\n", i, j);
+		#endif
+	}
+	#if DEBUG_CHANNEL_FLOW_BOUNDARIES_SET_UP
+		fprintf(stderr, "channel_flow_boundaries_set_up: end\n");
+	#endif
+	return 1;
+
+exit_error:
+	boundary_flow_error(bf, gettext("Bad position"));
+	channel_error(c, message);
+	#if DEBUG_CHANNEL_FLOW_BOUNDARIES_SET_UP
+		fprintf(stderr, "channel_flow_boundaries_set_up: end\n");
+	#endif
+	return 0;
+}
+
+#if INLINE_CHANNEL_FLOW_BOUNDARIES_SET_UP
+	#define channel_flow_boundaries_set_up _channel_flow_boundaries_set_up
+#else
+	int channel_flow_boundaries_set_up(Channel*);
+#endif
+
+static inline int _channel_transport_boundaries_set_up(Channel *c)
+{
+	int i, j, k;
+	ChannelTransport *ct;
+	BoundaryTransport *bt;
+	ChannelGeometry *cg;
+	CrossSection *cs;
+	#if DEBUG_CHANNEL_TRANSPORT_BOUNDARIES_SET_UP
+		fprintf(stderr, "channel_transport_boundaries_set_up: start\n");
+	#endif
+	cg = c->cg;
+	for (i = 0, ct = c->ct; i <= c->nt; ++i, ++ct)
+	{
+		for (j = 0, bt = ct->bt; j <= ct->n; ++i, ++bt)
+		{
+			for (k = 0, cs = cg->cs; k <= cg->n; ++k, ++cs)
+			{
+				if (!strcmp(cs->name, bt->section)) break;
+			}
+			if (k > cg->n) goto exit_error;
+			bt->pos = ++k;
+			#if DEBUG_CHANNEL_TRANSPORT_BOUNDARIES_SET_UP
+				fprintf(stderr, "CTBSU ct=%d bt=%d pos=%d\n", i, j, k);
+			#endif
+			if (!bt->section2)
+			{
+				bt->pos2 = k;
+				continue;
+			}
+			for (k = 0, cs = cg->cs; k <= cg->n; ++k, ++cs)
+			{
+				if (!strcmp(cs->name, bt->section)) break;
+			}
+			if (k > cg->n) goto exit_error;
+			bt->pos2 = ++k;
+			if (bt->pos2 < bt->pos) goto exit_error;
+			#if DEBUG_CHANNEL_TRANSPORT_BOUNDARIES_SET_UP
+				fprintf(stderr, "CTBSU ct=%d bt=%d pos2=%d\n", i, j, k);
+			#endif
+		}
+	}
+	#if DEBUG_CHANNEL_TRANSPORT_BOUNDARIES_SET_UP
+		fprintf(stderr, "channel_transport_boundaries_set_up: end\n");
+	#endif
+	return 1;
+
+exit_error:
+	boundary_transport_error(bt, gettext("Bad position"));
+	channel_transport_error(message);
+	channel_error(c, message);
+	#if DEBUG_CHANNEL_TRANSPORT_BOUNDARIES_SET_UP
+		fprintf(stderr, "channel_transport_boundaries_set_up: end\n");
+	#endif
+	return 0;
+}
+
+#if INLINE_CHANNEL_TRANSPORT_BOUNDARIES_SET_UP
+	#define channel_transport_boundaries_set_up \
+		_channel_transport_boundaries_set_up
+#else
+	int channel_transport_boundaries_set_up(Channel*);
+#endif
+
 static inline int _channel_open_xml(Channel *c, int nt, xmlNode *node)
 {
 	int i, j, hasof;
@@ -639,7 +720,7 @@ static inline int _channel_open_xml(Channel *c, int nt, xmlNode *node)
 
 	j = hasof = 0;
 	#if DEBUG_CHANNEL_OPEN_XML
-		fprintf(stderr, "COXML: starting\n");
+		fprintf(stderr, "COXML starting\n");
 	#endif
 
 	if (!xmlHasProp(node, XML_CELL_SIZE))
@@ -672,7 +753,7 @@ static inline int _channel_open_xml(Channel *c, int nt, xmlNode *node)
 	if (!channel_create(c, buffer)) goto exit2;
 
 	#if DEBUG_CHANNEL_OPEN_XML
-		fprintf(stderr, "COXML: parsing file\n");
+		fprintf(stderr, "COXML parsing file\n");
 	#endif
 	for (node = node->children; node; node = node->next)
 		if (!channel_parse_node(c, node, &hasof))
@@ -682,7 +763,7 @@ static inline int _channel_open_xml(Channel *c, int nt, xmlNode *node)
 		}
 
 	#if DEBUG_CHANNEL_OPEN_XML
-		fprintf(stderr, "COXML: correcting boundaries\n");
+		fprintf(stderr, "COXML correcting boundaries\n");
 	#endif
 	if (c->n < 1)
 	{
@@ -701,13 +782,10 @@ static inline int _channel_open_xml(Channel *c, int nt, xmlNode *node)
 	c->bf[0].pos = c->bf[0].pos2 = 1;
 	c->bf[c->n].pos = c->bf[c->n].pos2 = c->cg->n + 1;
 	#if DEBUG_CHANNEL_OPEN_XML
-		fprintf(stderr, "COXML: checking boundaries\n");
+		fprintf(stderr, "COXML checking boundaries\n");
 	#endif
-	if (!channel_check(c))
-	{
-		channel_error(c, message);
-		goto exit0;
-	}
+	if (!channel_flow_boundaries_set_up(c)) goto exit0;
+	if (!channel_transport_boundaries_set_up(c)) goto exit0;
 	#if DEBUG_CHANNEL_OPEN_XML
 		channel_print(c, stderr);
 	#endif

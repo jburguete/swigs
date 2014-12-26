@@ -27,7 +27,7 @@
 		<outlet type="q" discharge="0.00000000000000e+00"/>
 		<transport>
 			<initial type="dry"/>
-			<boundary name="inlet" type="q" initial="1" final="1">
+			<boundary name="inlet" type="q" initial="1.sec" final="1.sec">
 				0.000000000000e+00 2.460522592574884e+01
 			</boundary>
 		</transport>
@@ -58,7 +58,7 @@
 		<outlet type="q" discharge="0.00000000000000e+00"/>
 		<transport>
 			<initial type="dry"/>
-			<boundary name="inlet" type="q" initial="1" final="1">
+			<boundary name="inlet" type="q" initial="1.sec" final="1.sec">
 				0.000000000000e+00 2.460522592574884e+01
 			</boundary>
 		</transport>
@@ -89,7 +89,7 @@
 		<outlet type="q" discharge="-2.460522592574884e+01"/>
 		<transport>
 			<initial type="dry"/>
-			<boundary name="inlet" type="q" initial="2" final="2">
+			<boundary name="inlet" type="q" initial="2.sec" final="2.sec">
 				0.000000000000e+00 2.460522592574884e+01
 			</boundary>
 		</transport>
@@ -120,7 +120,7 @@
 		<outlet type="h" depth="1.000000000000000e+00"/>
 		<transport>
 			<initial type="dry"/>
-			<boundary name="inlet" type="q" initial="2" final="2">
+			<boundary name="inlet" type="q" initial="2.sec" final="2.sec">
 				0.000000000000e+00 2.460522592574884e+01
 			</boundary>
 		</transport>
@@ -149,7 +149,7 @@
 		<outlet type="q" discharge="0.00000000000000e+00"/>
 		<transport>
 			<initial type="dry"/>
-			<boundary name="inlet" type="q" initial="1" final="1">
+			<boundary name="inlet" type="q" initial="1.sec" final="1.sec">
 				0.000000000000e+00 2.807674431675745e+01
 			</boundary>
 		</transport>
@@ -178,7 +178,7 @@
 		<outlet type="q_h" depth="1.00000000000000e+00" discharge="-2.807674431675745e+01"/>
 		<transport>
 			<initial type="dry"/>
-			<boundary name="inlet" type="q" initial="2" final="2">
+			<boundary name="inlet" type="q" initial="2.sec" final="2.sec">
 				0.000000000000e+00 2.807674431675745e+01
 			</boundary>
 		</transport>
