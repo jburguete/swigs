@@ -57,8 +57,12 @@ typedef struct
  * \var label_name
  * \brief GtkLabel to show a label of the transported solute boundary condition
  *   name.
+ * \var label_delay
+ * \brief GtkLable to show a label of the delay.
  * \var entry_name
  * \brief GtkEntry to set the transported solute boundary condition name.
+ * \var entry_delay
+ * \brief GtkSpinButton to set the delay to apply the boundary condition.
  * \var button_insert
  * \brief GtkButton to insert a point.
  * \var button_remove
@@ -81,8 +85,9 @@ typedef struct
 	BoundaryTransport bt[1];
 	JBWArrayEditor *array;
 	JBWGraphic *graphic;
-	GtkLabel *label_name;
+	GtkLabel *label_name, *label_delay;
 	GtkEntry *entry_name;
+	GtkSpinButton *entry_delay;
 	GtkButton *button_insert, *button_remove, *button_plot;
 	GtkRadioButton **button_type;
 	GtkFrame *frame_type;

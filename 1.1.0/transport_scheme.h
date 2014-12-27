@@ -505,12 +505,12 @@ static inline void _transport_boundary
 	case BOUNDARY_TRANSPORT_TYPE_M:
 		#if DEBUG_TRANSPORT_BOUNDARY
 			if (t>=DEBUG_TIME)
-				fprintf(stderr,"TB t0="FWF" Q0="FWF"\n",bt->p1[0],bt->p2[0]);
+				fprintf(stderr,"TB t0="FWL" Q0="FWF"\n",bt->t[0],bt->p[0]);
 		#endif
-		if (t == bt->p1[0]) mass = bt->p2[0]; else mass = 0.;
+		if (t == bt->t[0]) mass = bt->p[0]; else mass = 0.;
 		break;
 	default:
-		mass = jbm_farray_integral(bt->p1, bt->p2, bt->n, t, tmax);
+		mass = jbm_darray_farray_integral(bt->t, bt->p, bt->n, t, tmax);
 		#if DEBUG_TRANSPORT_BOUNDARY
 			if (t>=DEBUG_TIME)
 				fprintf(stderr,"TB mass="FWL" length="FWF"\n",mass,bt->length);

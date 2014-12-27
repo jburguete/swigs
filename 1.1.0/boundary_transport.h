@@ -95,10 +95,10 @@ typedef struct
  * \brief length to apply the boundary condition.
  * \var delay
  * \brief delay to apply the boundary condition.
- * \var p1
- * \brief array of first parameters data.
- * \var p2
- * \brief array of second parameters data.
+ * \var t
+ * \brief array of dates.
+ * \var p
+ * \brief array of parameters data.
  * \var name
  * \brief name.
  * \var section
@@ -107,7 +107,8 @@ typedef struct
  * \brief name of the last cross section to apply the boundary condition.
  */
 	int type, pos, pos2, n, i, i2;
-	JBFLOAT contribution, length, delay, *p1, *p2;
+	JBFLOAT contribution, length, delay, *p;
+	JBDOUBLE *t;
 	char *name, *section, *section2;
 } BoundaryTransport;
 
@@ -118,17 +119,18 @@ static inline void _boundary_transport_print(BoundaryTransport *bt, FILE *file)
 	int i;
 	fprintf(file, "boundary_transport_print: start\n");
 	fprintf(file, "BTP name=%s\n", bt->name);
-	fprintf(file, "BTP type=%d pos=%d pos2=%d\n", bt->type, bt->pos, bt->pos2);
+	fprintf(file, "BTP name=%s\n", bt->section);
+	if (bt->section2) fprintf(file, "BTP name=%s\n", bt->section2);
+	fprintf(file, "BTP type=%d\n", bt->type);
 	fprintf(file, "BTP length="FWF" delay="FWF"\n", bt->length, bt->delay);
 	switch (bt->type)
 	{
 	case BOUNDARY_TRANSPORT_TYPE_M:
-		fprintf(file, "BTP p1="FWF" p2="FWF"\n", bt->p1[0], bt->p2[0]);
+		fprintf(file, "BTP t="FWL" p="FWF"\n", bt->t[0], bt->p[0]);
 		break;
 	case BOUNDARY_TRANSPORT_TYPE_Q:
 		for (i = 0; i <= bt->n; ++i)
-			fprintf(file, "BTP i=%d p1="FWF" p2="FWF"\n",
-				i, bt->p1[i], bt->p2[i]);
+			fprintf(file, "BTP i=%d t="FWL" p="FWF"\n", i, bt->t[i], bt->p[i]);
 	}
 	fprintf(file, "boundary_transport_print: end\n");
 }
@@ -165,7 +167,8 @@ static inline void _boundary_transport_delete(BoundaryTransport *bt)
 	#if DEBUG_BOUNDARY_TRANSPORT_DELETE
 		fprintf(stderr, "boundary_transport_delete: start\n");
 	#endif
-	jb_free_null((void**)&bt->p1);
+	jb_free_null((void**)&bt->t);
+	jb_free_null((void**)&bt->p);
 	jb_free_null((void**)&bt->name);
 	jb_free_null((void**)&bt->section);
 	jb_free_null((void**)&bt->section2);
@@ -186,7 +189,8 @@ static inline void _boundary_transport_init_empty(BoundaryTransport *bt)
 		fprintf(stderr, "boundary_transport_init_empty: start\n");
 	#endif
 	bt->name = bt->section = bt->section2 = NULL;
-	bt->p1 = NULL;
+	bt->t = NULL;
+	bt->p = NULL;
 	#if DEBUG_BOUNDARY_TRANSPORT_INIT_EMPTY
 		fprintf(stderr, "boundary_transport_init_empty: end\n");
 	#endif
@@ -211,7 +215,7 @@ static inline int _boundary_transport_copy
 
 	boundary_transport_init_empty(bt);
 
-	memcpy(bt, bt_copy, (size_t)&bt->p1 - (size_t)bt);
+	memcpy(bt, bt_copy, JB_POINTER_SIZE(bt->p, bt->type));
 
 	bt->name = jb_strdup(bt_copy->name);
 	if (!bt->name) goto exit1;
@@ -224,11 +228,14 @@ static inline int _boundary_transport_copy
 	}
 
 	j = bt->n + 1;
-	i = j * 2 * sizeof(JBFLOAT);
-	bt->p1 = (JBFLOAT*)g_try_malloc(i);
-	if (!bt->p1) goto exit1;
-	bt->p2 = bt->p1 + j;
-	memcpy(bt->p1, bt_copy->p1, i);
+	i = j * sizeof(JBDOUBLE);
+	bt->t = (JBDOUBLE*)g_try_malloc(i);
+	if (!bt->t) goto exit1;
+	memcpy(bt->t, bt_copy->t, i);
+	i = j * sizeof(JBFLOAT);
+	bt->p = (JBFLOAT*)g_try_malloc(i);
+	if (!bt->p) goto exit1;
+	memcpy(bt->p, bt_copy->p, i);
 
 exit0:
 	#if DEBUG_BOUNDARY_TRANSPORT_COPY
@@ -257,8 +264,8 @@ static inline int _boundary_transport_open_xml
 {
 	int i, j;
 	char *buffer;
-	void *p;
-	JBFLOAT x, y;
+	JBDOUBLE t;
+	JBFLOAT p;
 	FILE *file;
 	#if DEBUG_BOUNDARY_TRANSPORT_OPEN_XML
 		fprintf(stderr, "boundary_transport_open_xml: start\n");
@@ -347,22 +354,27 @@ static inline int _boundary_transport_open_xml
 			boundary_transport_error(bt, gettext("Bad defined"));
 			goto exit2;
 		}
-		x = jb_xml_node_get_float(node, XML_TIME, &i);
-		y = jb_xml_node_get_float(node, XML_MASS, &j);
+		t = jb_xml_node_get_time(node, XML_TIME, &i);
+		p = jb_xml_node_get_float(node, XML_MASS, &j);
 		if (i != 1 || j != 1)
 		{
 			boundary_transport_error(bt, gettext("Bad defined"));
 			goto exit2;
 		}
-		bt->p1 = (JBFLOAT*)g_try_malloc(2 * sizeof(JBFLOAT));
-		if (!bt->p1)
+		bt->t = (JBDOUBLE*)g_try_malloc(sizeof(JBDOUBLE));
+		if (!bt->t)
 		{
 			boundary_transport_error(bt, gettext("Not enough memory"));
 			goto exit2;
 		}
-		bt->p2 = bt->p1 + 1;
-		bt->p1[0] = x;
-		bt->p2[0] = y;
+		bt->t[0] = t;
+		bt->p = (JBFLOAT*)g_try_malloc(sizeof(JBFLOAT));
+		if (!bt->p)
+		{
+			boundary_transport_error(bt, gettext("Not enough memory"));
+			goto exit2;
+		}
+		bt->p[0] = p;
 		bt->n = 0;
 	}
 	else if (!xmlStrcmp((const xmlChar*)buffer, XML_Q))
@@ -376,36 +388,25 @@ static inline int _boundary_transport_open_xml
 			goto exit1;
 		}
 		j = -1;
-		p = NULL;
 		do
 		{
-			i = fscanf(file, FRF FRF, &x, &y);
-			if (i < 2) break;
+			t = jb_get_time_file(file, &i);
+			if (i != 6) break;
+			if (fscanf(file, FRF, &p) < 1) break;
 			++j;
-			p = (Point2*)jb_try_realloc(p, (j + 1) * sizeof(Point2));
-			if (!p)
+			bt->t = (JBDOUBLE*)jb_try_realloc
+				(bt->t, (j + 1) * sizeof(JBDOUBLE));
+			bt->p = (JBFLOAT*)jb_try_realloc(bt->p, (j + 1) * sizeof(JBFLOAT));
+			if (!bt->t || !bt->p)
 			{
 				boundary_transport_error(bt, gettext("Not enough memory"));
 				goto exit4;
 			}
-			point2_open(((Point2*)p) + j, x, y);
+			bt->t[j] = t;
+			bt->p[j] = p;
 		}
 		while (1);
 		bt->n = j;
-		++j;
-		bt->p1 = (JBFLOAT*)g_try_malloc(j * 2 * sizeof(JBFLOAT));
-		if (!bt->p1)
-		{
-			boundary_transport_error(bt, gettext("Not enough memory"));
-			goto exit4;
-		}
-		bt->p2 = bt->p1 + j;
-		for (i = j; --i >= 0;)
-		{
-			bt->p1[i] = ((Point2*)p)[i].x;
-			bt->p2[i] = ((Point2*)p)[i].y;
-		}
-		jb_free_null((void**)&p);
 		fclose(file);
 	}
 	else
@@ -422,7 +423,6 @@ static inline int _boundary_transport_open_xml
 	return 1;
 
 exit4:
-	g_free(p);
 	fclose(file);
 
 exit2:
@@ -463,16 +463,18 @@ static inline void _boundary_transport_save_xml
 	switch (bt->type)
 	{
 	case BOUNDARY_TRANSPORT_TYPE_M:
-		jb_xml_node_set_float(node, XML_TIME, bt->p1[0]);
-		jb_xml_node_set_float(node, XML_MASS, bt->p2[0]);
+		jb_xml_node_set_time(node, XML_TIME, bt->t[0]);
+		jb_xml_node_set_float(node, XML_MASS, bt->p[0]);
 		break;
 	case BOUNDARY_TRANSPORT_TYPE_Q:
 		buffer = NULL;
 		for (i = 0; i <= bt->n; ++i)
 		{
+			buffer2 = jb_set_time(bt->t[i]);
 			snprintf
-				(str, JB_BUFFER_SIZE, "\n      "FWF2 FWF, bt->p1[i], bt->p2[i]);
-			if (!i) buffer2=g_strdup(str);
+				(str, JB_BUFFER_SIZE, "\n      %s " FWF, buffer2, bt->p[i]);
+			g_free(buffer2);
+			if (!i) buffer2 = g_strdup(str);
 			else buffer2 = g_strconcat(buffer, str, NULL);
 			g_free(buffer);
 			buffer = buffer2;
@@ -498,8 +500,8 @@ static inline void _boundary_transport_save_xml
 static inline JBDOUBLE _boundary_transport_parameter
 	(BoundaryTransport *bt, JBDOUBLE t)
 {
-	if (!simulating) return bt->p2[0];
-	return jbm_farray_interpolate(t - bt->delay, bt->p1, bt->p2, bt->n);
+	if (!simulating) return bt->p[0];
+	return jbm_darray_farray_interpolate(t - bt->delay, bt->t, bt->p, bt->n);
 }
 
 #if INLINE_BOUNDARY_TRANSPORT_PARAMETER

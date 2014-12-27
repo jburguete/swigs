@@ -56,15 +56,10 @@ void editor_initial_flow_update(EditorInitialFlow *editor)
 	switch (jbw_array_radio_buttons_get_active(editor->array_type))
 	{
 		case INITIAL_FLOW_TYPE_XQH:
-printf("0\n");
 			jbw_array_editor_set_title(editor->array, 1, gettext("Discharge"));
-printf("1\n");
 			jbw_array_editor_set_title(editor->array, 2, gettext("Depth"));
-printf("2\n");
 			jbw_graphic_set_ylabel(editor->graphic, gettext("Discharge"));
-printf("3\n");
 			jbw_graphic_set_zlabel(editor->graphic, gettext("Depth"));
-printf("4\n");
 			gtk_widget_show(GTK_WIDGET(editor->grid_parameters));
 			break;
 		case INITIAL_FLOW_TYPE_XQZ:
