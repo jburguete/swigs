@@ -57,6 +57,8 @@ void editor_initial_transport_update(EditorInitialTransport *editor)
 	switch (jbw_array_radio_buttons_get_active(editor->array_type))
 	{
 		case INITIAL_TRANSPORT_TYPE_XC:
+			if (editor->array->n < 1)
+				jbw_array_editor_set_rows(editor->array, 1);
 			jbw_array_editor_set_title
 				(editor->array, 1, gettext("Solute concentration"));
 			jbw_graphic_set_ylabel
@@ -247,12 +249,6 @@ int editor_initial_transport_check(EditorInitialTransport *editor)
 		case INITIAL_TRANSPORT_TYPE_STEADY:
 			break;
 		default:
-			if (it->n < 0)
-			{
-				initial_transport_error
-					(gettext("Not enough profile points number"));
-				goto check_error;
-			}
 			if (!initial_transport_check(it)) goto check_error;
 	}
 	#if DEBUG_EDITOR_INITIAL_TRANSPORT_CHECK

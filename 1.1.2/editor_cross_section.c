@@ -148,7 +148,7 @@ void editor_control_new(EditorControl *control, char **channel_name,
 	gtk_grid_attach
 		(control->grid, GTK_WIDGET(control->label_time), 0, 4, 1, 1);
 	control->entry_time
-		= (GtkSpinButton*)gtk_spin_button_new_with_range(0, 1e6, 1e-3);
+		= (GtkSpinButton*)gtk_spin_button_new_with_range(0., 1e6, 1e-3);
 	gtk_grid_attach
 		(control->grid, GTK_WIDGET(control->entry_time), 1, 4, 1, 1);
 	control->label_tolerance
@@ -156,7 +156,7 @@ void editor_control_new(EditorControl *control, char **channel_name,
 	gtk_grid_attach
 		(control->grid, GTK_WIDGET(control->label_tolerance), 0, 5, 1, 1);
 	control->entry_tolerance
-		= (GtkSpinButton*)gtk_spin_button_new_with_range(-1e4, 1e4, 1e-6);
+		= (GtkSpinButton*)gtk_spin_button_new_with_range(0., 1e4, 1e-6);
 	gtk_grid_attach
 		(control->grid, GTK_WIDGET(control->entry_tolerance), 1, 5, 1, 1);
 	control->frame = (GtkFrame*)gtk_frame_new(gettext("Control"));

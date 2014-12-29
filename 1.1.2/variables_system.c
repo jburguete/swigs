@@ -92,9 +92,9 @@ TransientSection tsnew[2] = {
 	{1, 0, 0., 0., 0., 1., 0.1, 0., spnew, spnew, "Transient2"}};
 CrossSection csnew[NEW_GEOMETRY_SIZE] = {
 	{0, 0, 0, 0, 0, 0, 0, 0, 0., 0., 90., 0., 0., 0., 0., 0., tsnew,
-		"Section1"}, 
+		"Section1", NULL, NULL}, 
 	{0, 0, 0, 0, 0, 0, 0, 0, 1., 0., 90., 0., 0., 0., 0., 0., tsnew + 1,
-		"Section2"}};
+		"Section2", NULL, NULL}};
 JBFLOAT bfnew1t[1] = {0.};
 JBFLOAT bfnew1p1[1] = {0.};
 JBFLOAT bfnew2t[1] = {0.};

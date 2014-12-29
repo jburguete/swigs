@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: swigs 1.1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-29 02:03+0100\n"
+"POT-Creation-Date: 2014-12-29 02:43+0100\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -25,8 +25,8 @@ msgstr "Section transitoire"
 
 #: transient_section.h:223 transient_section.h:337 transient_section.h:376
 #: transient_section.h:407 transient_section.h:453 transient_section.h:479
-#: cross_section.h:220 cross_section.h:245 cross_section.h:413
-#: cross_section.h:521 channel_geometry.h:170 channel_geometry.h:272
+#: cross_section.h:224 cross_section.h:249 cross_section.h:417
+#: cross_section.h:525 channel_geometry.h:170 channel_geometry.h:272
 #: channel_geometry.h:307 initial_flow.h:205 initial_flow.h:296
 #: initial_flow.h:309 initial_transport.h:197 initial_transport.h:286
 #: initial_transport.h:299 junction_data.h:155 junction_data.h:191
@@ -49,7 +49,7 @@ msgstr "Section transitoire"
 msgid "Not enough memory"
 msgstr "Mémoire insuffisante"
 
-#: transient_section.h:326 cross_section.h:401 boundary_flow.h:538
+#: transient_section.h:326 cross_section.h:405 boundary_flow.h:538
 #: boundary_transport.h:279 transport.h:206 channel.h:742
 msgid "Not name"
 msgstr "Nom indéfini"
@@ -58,10 +58,10 @@ msgstr "Nom indéfini"
 msgid "Unknown type"
 msgstr "Type inconnu"
 
-#: transient_section.h:498 cross_section.h:420 cross_section.h:426
-#: cross_section.h:432 cross_section.h:438 cross_section.h:454
-#: cross_section.h:468 cross_section.h:482 cross_section.h:498
-#: cross_section.h:504 cross_section.h:511 cross_section.h:535
+#: transient_section.h:498 cross_section.h:424 cross_section.h:430
+#: cross_section.h:436 cross_section.h:442 cross_section.h:458
+#: cross_section.h:472 cross_section.h:486 cross_section.h:502
+#: cross_section.h:508 cross_section.h:515 cross_section.h:539
 #: channel_geometry.h:319 initial_flow.h:324 initial_transport.h:314
 #: junction_data.h:178 boundary_flow.h:697 boundary_flow.h:710
 #: boundary_flow.h:720 boundary_flow.h:726 boundary_flow.h:1033
@@ -70,17 +70,17 @@ msgstr "Type inconnu"
 msgid "Bad defined"
 msgstr "Erroné"
 
-#: cross_section.h:147 cross_section.h:219 cross_section.h:400
-#: cross_section.h:412 dialog_save_solution.c:88
+#: cross_section.h:151 cross_section.h:223 cross_section.h:404
+#: cross_section.h:416 dialog_save_solution.c:88
 msgid "Cross section"
 msgstr "Section de canal"
 
-#: cross_section.h:364 initial_flow.h:229 initial_transport.h:221
+#: cross_section.h:368 initial_flow.h:229 initial_transport.h:221
 #: channel.h:495 channel.h:532
 msgid "Bad order"
 msgstr "Ordre erroné"
 
-#: cross_section.h:490 initial_flow.h:266 initial_flow.h:286
+#: cross_section.h:494 initial_flow.h:266 initial_flow.h:286
 #: initial_transport.h:259 initial_transport.h:276 boundary_flow.h:587
 #: boundary_flow.h:600 boundary_flow.h:611 boundary_flow.h:622
 #: boundary_flow.h:633 boundary_flow.h:645 boundary_flow.h:787

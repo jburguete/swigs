@@ -56,6 +56,8 @@ void editor_initial_flow_update(EditorInitialFlow *editor)
 	switch (jbw_array_radio_buttons_get_active(editor->array_type))
 	{
 		case INITIAL_FLOW_TYPE_XQH:
+			if (editor->array->n < 1)
+				jbw_array_editor_set_rows(editor->array, 1);
 			jbw_array_editor_set_title(editor->array, 1, gettext("Discharge"));
 			jbw_array_editor_set_title(editor->array, 2, gettext("Depth"));
 			jbw_graphic_set_ylabel(editor->graphic, gettext("Discharge"));
@@ -63,6 +65,8 @@ void editor_initial_flow_update(EditorInitialFlow *editor)
 			gtk_widget_show(GTK_WIDGET(editor->grid_parameters));
 			break;
 		case INITIAL_FLOW_TYPE_XQZ:
+			if (editor->array->n < 1)
+				jbw_array_editor_set_rows(editor->array, 1);
 			jbw_array_editor_set_title(editor->array, 1, gettext("Discharge"));
 			jbw_array_editor_set_title(editor->array, 2, gettext("Level"));
 			jbw_graphic_set_ylabel(editor->graphic, gettext("Discharge"));
@@ -70,6 +74,8 @@ void editor_initial_flow_update(EditorInitialFlow *editor)
 			gtk_widget_show(GTK_WIDGET(editor->grid_parameters));
 			break;
 		case INITIAL_FLOW_TYPE_XUH:
+			if (editor->array->n < 1)
+				jbw_array_editor_set_rows(editor->array, 1);
 			jbw_array_editor_set_title(editor->array, 1, gettext("Velocity"));
 			jbw_array_editor_set_title(editor->array, 2, gettext("Depth"));
 			jbw_graphic_set_ylabel(editor->graphic, gettext("Velocity"));
@@ -77,6 +83,8 @@ void editor_initial_flow_update(EditorInitialFlow *editor)
 			gtk_widget_show(GTK_WIDGET(editor->grid_parameters));
 			break;
 		case INITIAL_FLOW_TYPE_XUZ:
+			if (editor->array->n < 1)
+				jbw_array_editor_set_rows(editor->array, 1);
 			jbw_array_editor_set_title(editor->array, 1, gettext("Velocity"));
 			jbw_array_editor_set_title(editor->array, 2, gettext("Level"));
 			jbw_graphic_set_ylabel(editor->graphic, gettext("Velocity"));
@@ -267,11 +275,6 @@ int editor_initial_flow_check(EditorInitialFlow *editor)
 		case INITIAL_FLOW_TYPE_STEADY:
 			break;
 		default:
-			if (ifc->n < 0)
-			{
-				initial_flow_error(gettext("Not enough profile points number"));
-				goto check_error;
-			}
 			if (!initial_flow_check(ifc)) goto check_error;
 	}
 	#if DEBUG_EDITOR_INITIAL_FLOW_CHECK

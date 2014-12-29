@@ -107,11 +107,15 @@ typedef struct
  * \brief transient sections array.
  * \var name
  * \brief name.
+ * \var channel
+ * \brief channel name of the control point.
+ * \var section
+ * \brief cross section name of the control point.
  */
 	int n, type, control, control_channel, control_section, i, j, nt;
 	JBFLOAT x, y, angle, parameter, time, tolerance, tmax, pt;
 	TransientSection *ts;
-	char *name;
+	char *name, *channel, *section;
 } CrossSection;
 
 extern CrossSection csnew[NEW_GEOMETRY_SIZE];
@@ -536,7 +540,7 @@ static inline int _cross_section_open_xml(CrossSection *cs, xmlNode *node)
 		goto exit0;
 	}
 
-	if (cs->type==CROSS_SECTION_TYPE_TIME && !cross_section_check(cs))
+	if (cs->type == CROSS_SECTION_TYPE_TIME && !cross_section_check(cs))
 		goto exit0;
 
 	#if DEBUG_CROSS_SECTION_OPEN_XML
