@@ -593,6 +593,67 @@ error2:
 	int system_junctions_set_up(System*);
 #endif
 
+static inline int _system_controls_set_up(System *s)
+{
+	int i, j, k, n;
+	Channel *channel;
+	ChannelGeometry *cg, *cg2;
+	CrossSection *cs, *cs2;
+	#if DEBUG_SYSTEM_CONTROLS_SET_UP
+		fprintf(stderr, "system_controls_set_up: start\n");
+	#endif
+	for (i = 0, channel = s->channel; i <= s->n; ++i, ++channel)
+	{
+		cg = channel->cg;
+		for (j = 0, cs = cg->cs; j <= cg->n; ++j, ++cs)
+		{
+			if (cs->type != CROSS_SECTION_TYPE_TIME)
+			{
+				n = 0;
+				for (k = 0; k <= s->n; ++k)
+				{
+					if (!strcmp(s->channel[k].name, cs->channel)) break;
+					n += s->channel[k].cg->n + 1;
+				}
+				if (k > s->n)
+				{
+					cross_section_error(cs, gettext("Bad control channel"));
+					goto set_up_error;
+				}
+				cs->control_channel = k;
+				cg2 = s->channel[k].cg;
+				for (k = 0, cs2 = cg2->cs; k <= cg2->n; ++k, ++cs2)
+					if (!strcmp(cs2->name, cs->section)) break;
+				if (k > cg2->n)
+				{
+					cross_section_error
+						(cs, gettext("Bad control cross section"));
+					goto set_up_error;
+				}
+				cs->control_section = k;
+				cs->control = n + k;
+			}
+		}
+	}
+	#if DEBUG_SYSTEM_CONTROLS_SET_UP
+		fprintf(stderr, "system_controls_set_up: end\n");
+	#endif
+	return 1;
+
+set_up_error:
+	system_error(s, message);
+	#if DEBUG_SYSTEM_CONTROLS_SET_UP
+		fprintf(stderr, "system_controls_set_up: end\n");
+	#endif
+	return 0;
+}
+
+#if INLINE_SYSTEM_CONTROLS_SET_UP
+	#define system_controls_set_up _system_controls_set_up
+#else
+	int system_controls_set_up(System*);
+#endif
+
 static inline int _system_open_xml(System *s, char *name, char *directory)
 {
 	int j, k;
@@ -832,11 +893,12 @@ static inline int _system_open_xml(System *s, char *name, char *directory)
 		fprintf(stderr, "SOXML: setting up junctions\n");
 	#endif
 	if (!system_junctions_set_up(s)) goto exit0;
+	if (!system_controls_set_up(s)) goto exit0;
 
 	#if DEBUG_SYSTEM_OPEN_XML
 		system_print(s, stderr);
 	#endif
-	k=1;
+	k = 1;
 	goto exit1;
 
 exit0:

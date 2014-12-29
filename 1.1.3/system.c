@@ -107,7 +107,7 @@ void system_remove_channel(System *s, int i) {_system_remove_channel(s, i);}
 
 /**
  * \fn int system_insert_transport(System *s, int i)
- * \brief Function to insert a transported solute in a system.
+ * \brief Function to insert a transported solute in a channels system.
  * \param s
  * \brief System structure.
  * \param i
@@ -120,7 +120,7 @@ int system_insert_transport(System *s, int i)
 
 /**
  * \fn void system_remove_transport(System *s, int i)
- * \brief Function to remove a transported solute in a system.
+ * \brief Function to remove a transported solute in a channels system.
  * \param s
  * \brief System structure.
  * \param i
@@ -164,13 +164,24 @@ int system_copy(System *s, System *s_copy) {return _system_copy(s, s_copy);}
 
 /**
  * \fn int system_junctions_set_up(System *s)
- * \brief Function to set up the junctions of a system.
+ * \brief Function to set up the junctions of a channels system.
  * \param s
  * \brief System structure.
  * \return 0 on error, 1 on success.
  */
 #if !INLINE_SYSTEM_JUNCTIONS_SET_UP
 int system_junctions_set_up(System *s) {return _system_junctions_set_up(s);}
+#endif
+
+/**
+ * \fn int system_controls_set_up(System *s)
+ * \brief Function to set up the control cross sections of a channels system.
+ * \param s
+ * \brief System structure.
+ * \return 0 on error, 1 on success.
+ */
+#if !INLINE_SYSTEM_CONTROLS_SET_UP
+int system_controls_set_up(System *s) {return _system_controls_set_up(s);}
 #endif
 
 /**

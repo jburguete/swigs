@@ -262,6 +262,10 @@ int editor_cross_section_get(EditorCrossSection *editor)
 			(GTK_COMBO_BOX(editor->control->combo_channel));
 		cs->control_section = gtk_combo_box_get_active
 			(GTK_COMBO_BOX(editor->control->combo_section));
+		cs->channel = gtk_combo_box_text_get_active_text
+			(editor->control->combo_channel);
+		cs->section = gtk_combo_box_text_get_active_text
+			(editor->control->combo_section);
 	}
 	#if DEBUG_EDITOR_CROSS_SECTION_GET
 		fprintf(stderr, "editor_cross_section_get: end\n");

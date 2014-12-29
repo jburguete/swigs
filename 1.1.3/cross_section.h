@@ -496,24 +496,47 @@ static inline int _cross_section_open_xml(CrossSection *cs, xmlNode *node)
 		}
 	}
 	else cs->type = CROSS_SECTION_TYPE_TIME;
-	cs->control = jb_xml_node_get_int_with_default(node, XML_CONTROL, &j, 0);
-	if (j != 1)
+	if (cs->type != CROSS_SECTION_TYPE_TIME)
 	{
-		cross_section_error(cs, gettext("Bad defined"));
-		goto exit0;
-	}
-	cs->time = jb_xml_node_get_float_with_default(node, XML_TIME, &j, 0.);
-	if (j != 1)
-	{
-		cross_section_error(cs, gettext("Bad defined"));
-		goto exit0;
-	}
-	cs->tolerance =
-		jb_xml_node_get_float_with_default(node, XML_TOLERANCE, &j, 0.);
-	if (j != 1)
-	{
-		cross_section_error(cs, gettext("Bad defined"));
-		goto exit0;
+		if (!xmlHasProp(node, XML_CHANNEL))
+		{
+			cross_section_error(cs, gettext("Not control channel"));
+			goto exit0;
+		}
+		buffer = (char*)xmlGetProp(node, XML_CHANNEL);
+		cs->channel = (char*)jb_strdup(buffer);
+		xmlFree(buffer);
+		if (!cs->channel)
+		{
+			cross_section_error(cs, gettext("Not enough memory"));
+			goto exit0;
+		}
+		if (!xmlHasProp(node, XML_SECTION))
+		{
+			cross_section_error(cs, gettext("Not control section"));
+			goto exit0;
+		}
+		buffer = (char*)xmlGetProp(node, XML_SECTION);
+		cs->section = (char*)jb_strdup(buffer);
+		xmlFree(buffer);
+		if (!cs->section)
+		{
+			cross_section_error(cs, gettext("Not enough memory"));
+			goto exit0;
+		}
+		cs->time = jb_xml_node_get_float_with_default(node, XML_TIME, &j, 0.);
+		if (j != 1)
+		{
+			cross_section_error(cs, gettext("Bad integration time"));
+			goto exit0;
+		}
+		cs->tolerance =
+			jb_xml_node_get_float_with_default(node, XML_TOLERANCE, &j, 0.);
+		if (j != 1)
+		{
+			cross_section_error(cs, gettext("Bad tolerance"));
+			goto exit0;
+		}
 	}
 
 	for (j = 0, node = node->children; node; ++j, node = node->next)
@@ -583,7 +606,8 @@ static inline void _cross_section_save_xml(CrossSection *cs, xmlNode *node)
 	if (cs->type != CROSS_SECTION_TYPE_TIME)
 	{
 		xmlSetProp(node, XML_TYPE, str[cs->type-1]);
-		jb_xml_node_set_int(node, XML_CONTROL, cs->control);
+		xmlSetProp(node, XML_CHANNEL, (const xmlChar*)cs->channel);
+		xmlSetProp(node, XML_SECTION, (const xmlChar*)cs->section);
 		jb_xml_node_set_float_with_default(node, XML_TIME, cs->time, 0.);
 		jb_xml_node_set_float_with_default
 			(node, XML_TOLERANCE, cs->tolerance, 0.);
