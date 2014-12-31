@@ -139,6 +139,41 @@ int cross_section_copy(CrossSection *cs, CrossSection *cs_copy)
 #endif
 
 /**
+ * \fn int cross_section_control_channel_set_up(CrossSection *cs, char **name, \
+ *   unsigned int n)
+ * \brief Function to set up the channel of a control cross section.
+ * \param cs
+ * \brief ControlSection structure.
+ * \param name
+ * \brief array of channel names.
+ * \param n
+ * \brief number of channel names.
+ * \return 1 on succes, 0 on error.
+ */
+#if !INLINE_CROSS_SECTION_CONTROL_CHANNEL_SET_UP
+int cross_section_control_channel_set_up(CrossSection *cs, char **name, int n)
+{return _cross_section_control_channel_set_up(cs, name, n);}
+#endif
+
+/**
+ * \fn int cross_section_control_section_set_up(CrossSection *cs, char **name, \
+ *   unsigned int n)
+ * \brief Function to set up the cross section of a control cross section.
+ * \param cs
+ * \brief ControlSection structure.
+ * \param name
+ * \brief array of cross section names.
+ * \param n
+ * \brief number of cross section names.
+ * \return 1 on succes, 0 on error.
+ */
+#if !INLINE_CROSS_SECTION_CONTROL_SECTION_SET_UP
+int cross_section_control_section_set_up
+	(CrossSection *cs, char **name, unsigned int n)
+{return _cross_section_control_section_set_up(cs, name, n);}
+#endif
+
+/**
  * \fn int cross_section_check(CrossSection *cs)
  * \brief Function to check if the TransientSections are in correct order.
  * \return 1 on succes, 0 on error. 

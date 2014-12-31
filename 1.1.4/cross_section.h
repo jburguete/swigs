@@ -357,6 +357,70 @@ exit3:
 	int cross_section_copy(CrossSection*, CrossSection*);
 #endif
 
+static inline int _cross_section_control_channel_set_up
+	(CrossSection *cs, char **name, unsigned int n)
+{
+	unsigned int i;
+	#if DEBUG_CROSS_SECTION_CONTROL_CHANNEL_SET_UP
+		fprintf(stderr, "cross_section_control_channel_set_up: start\n");
+	#endif
+	for (i = 0; i < n; ++i) if (!strcmp(cs->channel, name[i])) break;
+	if (i == n)
+	{
+		cs->control_channel = 0;
+		cross_section_error(cs, gettext("Bad control channel"));
+		#if DEBUG_CROSS_SECTION_CONTROL_CHANNEL_SET_UP
+			fprintf(stderr, "cross_section_control_channel_set_up: end\n");
+		#endif
+		return 0;
+	}
+	cs->control_channel = i;
+	#if DEBUG_CROSS_SECTION_CONTROL_CHANNEL_SET_UP
+		fprintf(stderr, "cross_section_control_channel_set_up: end\n");
+	#endif
+	return 1;
+}
+
+#if INLINE_CROSS_SECTION_CONTROL_CHANNEL_SET_UP
+	#define cross_section_control_channel_set_up \
+		_cross_section_control_channel_set_up
+#else
+	int cross_section_control_channel_set_up
+		(CrossSection*, char**, unsigned int);
+#endif
+
+static inline int _cross_section_control_section_set_up
+	(CrossSection *cs, char **name, unsigned int n)
+{
+	unsigned int i;
+	#if DEBUG_CROSS_SECTION_CONTROL_SECTION_SET_UP
+		fprintf(stderr, "cross_section_control_section_set_up: start\n");
+	#endif
+	for (i = 0; i < n; ++i) if (!strcmp(cs->section, name[i])) break;
+	if (i == n)
+	{
+		cs->control_section = 0;
+		cross_section_error(cs, gettext("Bad control cross section"));
+		#if DEBUG_CROSS_SECTION_CONTROL_SECTION_SET_UP
+			fprintf(stderr, "cross_section_control_section_set_up: end\n");
+		#endif
+		return 0;
+	}
+	cs->control_section = i;
+	#if DEBUG_CROSS_SECTION_CONTROL_SECTION_SET_UP
+		fprintf(stderr, "cross_section_control_section_set_up: end\n");
+	#endif
+	return 1;
+}
+
+#if INLINE_CROSS_SECTION_CONTROL_SECTION_SET_UP
+	#define cross_section_control_section_set_up \
+		_cross_section_control_section_set_up
+#else
+	int cross_section_control_section_set_up
+		(CrossSection*, char**, unsigned int);
+#endif
+
 static inline int _cross_section_check(CrossSection *cs)
 {
 	register int i;

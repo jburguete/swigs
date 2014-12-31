@@ -231,10 +231,12 @@ int editor_cross_section_get_transient(EditorCrossSection *editor)
  */
 int editor_cross_section_get(EditorCrossSection *editor)
 {
-	CrossSection *cs = editor->cs;
+	CrossSection *cs;
+	EditorControl *control;
 	#if DEBUG_EDITOR_CROSS_SECTION_GET
 		fprintf(stderr, "editor_cross_section_get: start\n");
 	#endif
+	cs = editor->cs;
 	if (!editor_cross_section_get_transient(editor))
 	{
 		cross_section_error(cs, message);
@@ -256,16 +258,19 @@ int editor_cross_section_get(EditorCrossSection *editor)
 		cs->type = 0;
 		break;
 	default:
-		cs->type = 1
-			+ jbw_array_radio_buttons_get_active(editor->control->array_type);
-		cs->control_channel = gtk_combo_box_get_active
-			(GTK_COMBO_BOX(editor->control->combo_channel));
-		cs->control_section = gtk_combo_box_get_active
-			(GTK_COMBO_BOX(editor->control->combo_section));
-		cs->channel = gtk_combo_box_text_get_active_text
-			(editor->control->combo_channel);
-		cs->section = gtk_combo_box_text_get_active_text
-			(editor->control->combo_section);
+		control = editor->control;
+		cs->parameter = gtk_spin_button_get_value(control->entry_parameter);
+		cs->time = gtk_spin_button_get_value(control->entry_time);
+		cs->tolerance = gtk_spin_button_get_value(control->entry_tolerance);
+		cs->type = 1 + jbw_array_radio_buttons_get_active(control->array_type);
+		cs->control_channel
+			= gtk_combo_box_get_active (GTK_COMBO_BOX(control->combo_channel));
+		cs->control_section
+			= gtk_combo_box_get_active(GTK_COMBO_BOX(control->combo_section));
+		cs->channel
+			= gtk_combo_box_text_get_active_text(control->combo_channel);
+		cs->section
+			= gtk_combo_box_text_get_active_text(control->combo_section);
 	}
 	#if DEBUG_EDITOR_CROSS_SECTION_GET
 		fprintf(stderr, "editor_cross_section_get: end\n");
@@ -310,6 +315,7 @@ void editor_cross_section_open(EditorCrossSection *editor)
 {
 	int i;
 	CrossSection *cs;
+	EditorControl *control;
 	#if DEBUG_EDITOR_CROSS_SECTION_OPEN
 		fprintf(stderr, "editor_cross_section_open: start\n");
 	#endif
@@ -328,13 +334,21 @@ void editor_cross_section_open(EditorCrossSection *editor)
 		jbw_array_radio_buttons_set_active(editor->array_type, 0, 1);
 	else
 	{
+		control = editor->control;
+		gtk_spin_button_set_value(control->entry_parameter, cs->parameter);
+		gtk_spin_button_set_value(control->entry_time, cs->time);
+		gtk_spin_button_set_value(control->entry_tolerance, cs->tolerance);
 		jbw_array_radio_buttons_set_active(editor->array_type, 1, 1);
 		jbw_array_radio_buttons_set_active
 			(editor->control->array_type, cs->type - 1, 1);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(editor->control->combo_channel),
-			cs->control_channel);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(editor->control->combo_section),
-			cs->control_section);
+		cross_section_control_channel_set_up
+			(cs, control->channel_name, control->nchannels);
+		i = cs->control_channel;
+		gtk_combo_box_set_active(GTK_COMBO_BOX(control->combo_channel), i);
+		cross_section_control_section_set_up
+			(cs, control->section_name[i], control->nsections[i]);
+		gtk_combo_box_set_active
+			(GTK_COMBO_BOX(control->combo_section), cs->control_section);
 	}
 	editor_cross_section_update(editor);
 	#if DEBUG_EDITOR_CROSS_SECTION_OPEN
