@@ -57,7 +57,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * \fn void editor_control_update(EditorControl *control)
- * \brief Function to update the view of a control type cross section.
+ * \brief Function to update the view of a control type cross section editor.
  * \param control
  * \brief editor parameters of a control type cross section.
  */
@@ -73,6 +73,60 @@ void editor_control_update(EditorControl *control)
 	gtk_combo_box_set_active(GTK_COMBO_BOX(control->combo_section), 0);
 	#if DEBUG_EDITOR_CONTROL_UPDATE
 		fprintf(stderr, "editor_control_update: end\n");
+	#endif
+}
+
+/**
+ * \fn void editor_control_update_channels(EditorControl *control, \
+ *   char **channel_name, int nchannels)
+ * \brief Function to update the channel names in a control type cross section
+ *   editor.
+ * \param control
+ * \brief editor parameters of a control type cross section.
+ * \param channel_name
+ * \brief new array of channel names.
+ * \param nchannels
+ * \brief new number of channels.
+ */
+void editor_control_update_channels
+	(EditorControl *control, char **channel_name, int channels)
+{
+	#if DEBUG_EDITOR_CONTROL_UPDATE_CHANNELS
+		fprintf(stderr, "editor_control_update_channels: start\n");
+	#endif
+	control->channel_name = channel_name;
+	control->nchanels = nchannels;
+	editor_control_update(control);
+	#if DEBUG_EDITOR_CONTROL_UPDATE_CHANNELS
+		fprintf(stderr, "editor_control_update_channels: end\n");
+	#endif
+}
+
+/**
+ * \fn void editor_control_update_sections(EditorControl *control, \
+ *   int channel, char **section_name, int nsections)
+ * \brief Function to update the cross section names of a channel in a control
+ *   type cross section editor.
+ * \param control
+ * \brief editor parameters of a control type cross section.
+ * \param channel
+ * \brief number of channel.
+ * \param section_name
+ * \brief new array of cross section names.
+ * \param nsections
+ * \brief new number of cross sections.
+ */
+void editor_control_update_sections
+	(EditorControl *control, int channel, char **section_name, int nsections)
+{
+	#if DEBUG_EDITOR_CONTROL_UPDATE_SECTIONS
+		fprintf(stderr, "editor_control_update_sections: start\n");
+	#endif
+	control->section_name[channel] = section_name;
+	control->nsections[channel] = nsections;
+	editor_control_update(control);
+	#if DEBUG_EDITOR_CONTROL_UPDATE_SECTIONS
+		fprintf(stderr, "editor_control_update_sections: end\n");
 	#endif
 }
 

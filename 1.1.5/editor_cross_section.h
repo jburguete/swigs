@@ -174,6 +174,10 @@ typedef struct
 } EditorCrossSection;
 
 void editor_control_update(EditorControl *control);
+void editor_control_update_channels
+	(EditorControl *control, char **channel_name, int channels);
+void editor_control_update_sections
+	(EditorControl *control, int channel, char **section_name, int nsections);
 void editor_control_new(EditorControl *control, char **channel_name,
 	int nchannels, char ***section_name, int *nsections);
 
