@@ -213,25 +213,21 @@ static inline int _transport_open_xml(Transport *t, xmlNode *node)
 			gettext("Bad name"), NULL);
 		goto exit2;
 	}
-	t->solubility =
-		jb_xml_node_get_float_with_default(node, XML_SOLUBILITY, &j, 0.);
+	t->solubility
+		= jb_xml_node_get_float_with_default(node, XML_SOLUBILITY, &j, 0.);
 	if (!j)
 	{
 		message = g_strconcat(gettext("Transport"), ": ", buffer,
 			"\n", gettext("Bad solubility"), NULL);
 		goto exit1;
 	}
-	if (!xmlHasProp(node, XML_DANGER)) t->danger = 0.;
-	else
+	t->danger
+		= jb_xml_node_get_float_with_default(node, XML_DANGER, &j, 0.);
+	if (!j)
 	{
-		t->danger =
-			jb_xml_node_get_float_with_default(node, XML_DANGER, &j, 0.);
-		if (!j)
-		{
-			message = g_strconcat(gettext("Transport"), ": ", buffer,
-				"\n", gettext("Bad danger concentration"), NULL);
-			goto exit1;
-		}
+		message = g_strconcat(gettext("Transport"), ": ", buffer,
+			"\n", gettext("Bad danger concentration"), NULL);
+		goto exit1;
 	}
 	if (!transport_create(t, buffer))
 	{

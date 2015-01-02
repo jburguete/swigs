@@ -392,10 +392,12 @@ dist: $(name) $(dll) $(manuals)
 	zip -r surcos $(bindir)*.exe $(bindir)*.dll $(bindir)*.png \
 		$(localdir)*/*/*.mo $(basedir)*.pdf $(etcdir) $(libdir)
 
+JB_OBJ = jb_xml.o jb_win.o jb_math.o jb_def.o
+POINTS_OBJ = points.o $(JB_OBJ)
+
 EDITOR_TRANSIENT_SECTION_SRC = editor_transient_section.c \
 	editor_transient_section.h
-EDITOR_TRANSIENT_SECTION_OBJ = transient_section.o points.o jb_xml.o jb_win.o \
-	jb_math.o jb_def.o
+EDITOR_TRANSIENT_SECTION_OBJ = transient_section.o $(POINTS_OBJ)
 
 editor-transient-section: $(EDITOR_TRANSIENT_SECTION_SRC) \
 	$(EDITOR_TRANSIENT_SECTION_OBJ)
@@ -415,8 +417,7 @@ editor-cross-section: $(EDITOR_CROSS_SECTION_SRC) $(EDITOR_CROSS_SECTION_OBJ)
 		-DTEST_EDITOR_CROSS_SECTION=1 -o editor-cross-section
 
 EDITOR_INITIAL_FLOW_SRC = editor_initial_flow.c editor_initial_flow.h
-EDITOR_INITIAL_FLOW_OBJ = initial_flow.o points.o jb_xml.o jb_win.o jb_math.o \
-	jb_def.o
+EDITOR_INITIAL_FLOW_OBJ = initial_flow.o $(POINTS_OBJ)
 
 editor-initial-flow: $(EDITOR_INITIAL_FLOW_SRC) $(EDITOR_INITIAL_FLOW_OBJ)
 	$(CC) -Wall $(CPPFLAGS) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
@@ -426,8 +427,7 @@ editor-initial-flow: $(EDITOR_INITIAL_FLOW_SRC) $(EDITOR_INITIAL_FLOW_OBJ)
 
 EDITOR_INITIAL_TRANSPORT_SRC = editor_initial_transport.c \
 	editor_initial_transport.h
-EDITOR_INITIAL_TRANSPORT_OBJ = initial_transport.o points.o jb_xml.o jb_win.o \
-	jb_math.o jb_def.o
+EDITOR_INITIAL_TRANSPORT_OBJ = initial_transport.o $(POINTS_OBJ)
 
 editor-initial-transport: $(EDITOR_INITIAL_TRANSPORT_SRC) \
 	$(EDITOR_INITIAL_TRANSPORT_OBJ)
@@ -438,8 +438,7 @@ editor-initial-transport: $(EDITOR_INITIAL_TRANSPORT_SRC) \
 
 EDITOR_BOUNDARY_TRANSPORT_SRC = editor_boundary_transport.c \
 	editor_boundary_transport.h
-EDITOR_BOUNDARY_TRANSPORT_OBJ = boundary_transport.o points.o jb_xml.o \
-	jb_win.o jb_math.o jb_def.o
+EDITOR_BOUNDARY_TRANSPORT_OBJ = boundary_transport.o $(POINTS_OBJ)
 
 editor-boundary-transport: $(EDITOR_BOUNDARY_TRANSPORT_SRC) \
 	$(EDITOR_BOUNDARY_TRANSPORT_OBJ)
@@ -462,3 +461,11 @@ editor-channel: $(EDITOR_CHANNEL_SRC) $(EDITOR_CHANNEL_OBJ)
 		editor_cross_section.c editor_transient_section.c \
 		$(EDITOR_CHANNEL_OBJ) $(LDFLAGS) -DTEST_EDITOR_CHANNEL=1 \
 		-o editor-channel
+
+EDITOR_TRANSPORT_SRC = editor_transport.c editor_transport.h
+EDITOR_TRANSPORT_OBJ = transport.o $(JB_OBJ)
+
+editor-transport: $(EDITOR_TRANSPORT_SRC) $(EDITOR_TRANSPORT_OBJ)
+	$(CC) -Wall $(CPPFLAGS) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
+		@PNG_CFLAGS@ @GTK_CFLAGS@ editor_transport.c $(EDITOR_TRANSPORT_OBJ) \
+		$(LDFLAGS) -DTEST_EDITOR_TRANSPORT=1 -o editor-transport

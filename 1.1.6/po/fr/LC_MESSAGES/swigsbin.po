@@ -5,7 +5,7 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: swigs 1.1.5\n"
+"Project-Id-Version: swigs 1.1.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-30 19:53+0100\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
@@ -132,7 +132,7 @@ msgstr "Données de l_iaison"
 
 #: junction_data.h:183
 msgid "Not channel"
-msgstr "Canal indéfini"
+msgstr "Canal indéfinie"
 
 #: junction_data.h:196
 msgid "Not initial section"
@@ -162,7 +162,7 @@ msgstr "Liaison erronée"
 
 #: boundary_flow.h:782
 msgid "Not hydrogram"
-msgstr "Hydrogramme indéfini"
+msgstr ""
 
 #: boundary_flow.h:814 boundary_flow.h:933
 msgid "Bad time"
@@ -187,11 +187,11 @@ msgstr "Nom indéfini"
 
 #: transport.h:221
 msgid "Bad solubility"
-msgstr "Solubilité incorrecte"
+msgstr "Solubilité erronée"
 
 #: transport.h:232
 msgid "Bad danger concentration"
-msgstr "Concentration dangereuse incorrecte"
+msgstr "Concentration de danger erronée"
 
 #: channel_transport.h:85 channel.h:561
 msgid "Channel transport"
@@ -290,7 +290,7 @@ msgstr "Temps final de simulation erroné"
 
 #: system.h:783
 msgid "Final time lower than initial time"
-msgstr "Temps final plus petit que le temps final"
+msgstr ""
 
 #: system.h:789
 msgid "Bad CFL"
@@ -310,7 +310,7 @@ msgstr "Intervalle de temps de mesure erroné"
 
 #: system.h:817
 msgid "Bad minimum cross section width"
-msgstr "La plus petite largeur de la section de canal incorrecte"
+msgstr ""
 
 #: system.h:824
 msgid "Bad minimum depth"
@@ -397,7 +397,7 @@ msgstr "Solution"
 
 #: system.c:246 mesh.c:212 init.c:619 init.c:658
 msgid "Usage is"
-msgstr "Usage est"
+msgstr ""
 
 #: system.c:246 mesh.c:212
 msgid "swigs simulation_file"
@@ -413,7 +413,7 @@ msgstr "Attention!"
 
 #: simulate.c:92
 msgid "Calculating geometrical parameters"
-msgstr "En calculant paramètres géometriques"
+msgstr ""
 
 #: simulate.c:99
 msgid "Opening mesh"
@@ -533,7 +533,7 @@ msgstr "Ouvrir sistème"
 #: dialog_system.c:55 dialog_graphical_options.c:412
 #: dialog_save_solution.c:114 dialog_simulator.c:65
 msgid "_Cancel"
-msgstr "_Annuler"
+msgstr ""
 
 #: dialog_graphical_options.c:37
 msgid "Discharge"
@@ -799,9 +799,6 @@ msgstr "Temps de simulation"
 #: dialog_simulator.c:378
 msgid "Computational time"
 msgstr "Temps de computation"
-
-#~ msgid "Boundary flow"
-#~ msgstr "Limit d'écoulemnt"
 
 #~ msgid "Bad section number"
 #~ msgstr "Nombre de section erroné"

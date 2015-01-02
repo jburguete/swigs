@@ -102,7 +102,6 @@ int editor_transport_get(EditorTransport *editor)
  */
 void editor_transport_open(EditorTransport *editor)
 {
-	int i;
 	Transport *transport;
 	#if DEBUG_EDITOR_TRANSPORT_OPEN
 		fprintf(stderr, "editor_transport_open: start\n");
@@ -159,13 +158,15 @@ void editor_transport_new(EditorTransport *editor, GtkNotebook *notebook)
 	editor->label_solubility = (GtkLabel*)gtk_label_new(gettext("Solubility"));
 	gtk_grid_attach
 		(editor->grid, GTK_WIDGET(editor->label_solubility), 0, 1, 1, 1);
-	editor->entry_solubility = (GtkEntry*)gtk_spin_button_new(0., 1000., 1e-6);
+	editor->entry_solubility
+		= (GtkSpinButton*)gtk_spin_button_new_with_range(0., 1000., 1e-6);
 	gtk_grid_attach
 		(editor->grid, GTK_WIDGET(editor->entry_solubility), 1, 1, 1, 1);
 	editor->label_danger = (GtkLabel*)gtk_label_new(gettext("Danger"));
 	gtk_grid_attach
 		(editor->grid, GTK_WIDGET(editor->label_danger), 0, 2, 1, 1);
-	editor->entry_danger = (GtkEntry*)gtk_spin_button_new(0., 1000., 1e-6);
+	editor->entry_danger
+		= (GtkSpinButton*)gtk_spin_button_new_with_range(0., 1000., 1e-9);
 	gtk_grid_attach
 		(editor->grid, GTK_WIDGET(editor->entry_danger), 1, 2, 1, 1);
 	#if DEBUG_EDITOR_TRANSPORT_NEW
@@ -186,7 +187,7 @@ void ok(char *name)
 	transport_save_xml(editor->transport, node);
 	xmlSaveFormatFile(name, doc, 1);
 	xmlFree(doc);
-	glutLeaveMainLoop();
+	gtk_main_quit();
 }
 
 int main(int argn, char **argc)
@@ -198,13 +199,12 @@ int main(int argn, char **argc)
 	GtkDialog *dlg;
 	xmlKeepBlanksDefault(0);
 	if (!jbw_graphic_init(&argn, &argc)) return 1;
-	glutIdleFunc((void(*))&gtk_main_iteration);
 	notebook = (GtkNotebook*)gtk_notebook_new();
 	editor_transport_new(editor, notebook);
 	doc = xmlParseFile(argc[1]);
 	if (!doc) return 2;
 	node = xmlDocGetRootElement(doc);
-	if (!transport_open_xml(editor->transport, -1, node)) return 3;
+	if (!transport_open_xml(editor->transport, node)) return 3;
 	xmlFreeDoc(doc);
 	dlg = (GtkDialog*)gtk_dialog_new();
 	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg)),
@@ -218,7 +218,7 @@ int main(int argn, char **argc)
 	g_signal_connect(button_cancel, "clicked", &glutLeaveMainLoop, NULL);
 	gtk_widget_show_all(GTK_WIDGET(dlg));
 	editor_transport_open(editor);
-	glutMainLoop();
+	gtk_main();
 	editor_transport_destroy(editor);
 	gtk_widget_destroy(GTK_WIDGET(dlg));
 	return 0;

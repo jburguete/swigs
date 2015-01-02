@@ -36,9 +36,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef POINTS__H
 #define POINTS__H 1
 
-#include "def.h"
 #include "jb/jb_win.h"
 #include "jb/jb_xml.h"
+#include "def.h"
 
 /**
  * \struct Point2

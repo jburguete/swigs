@@ -37,6 +37,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef EDITOR_TRANSPORT__H
 #define EDITOR_TRANSPORT__H 1
 
+#include "jb/jb_win.h"
 #include "transport.h"
 
 /**
