@@ -89,13 +89,13 @@ void editor_control_update(EditorControl *control)
  * \brief new number of channels.
  */
 void editor_control_update_channels
-	(EditorControl *control, char **channel_name, int channels)
+	(EditorControl *control, char **channel_name, int nchannels)
 {
 	#if DEBUG_EDITOR_CONTROL_UPDATE_CHANNELS
 		fprintf(stderr, "editor_control_update_channels: start\n");
 	#endif
 	control->channel_name = channel_name;
-	control->nchanels = nchannels;
+	control->nchannels = nchannels;
 	editor_control_update(control);
 	#if DEBUG_EDITOR_CONTROL_UPDATE_CHANNELS
 		fprintf(stderr, "editor_control_update_channels: end\n");
