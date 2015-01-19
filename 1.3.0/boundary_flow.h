@@ -420,6 +420,7 @@ static inline int _boundary_flow_insert_junction(BoundaryFlow *bf, int position)
 		if (!junction_data_copy(jd, jd - 1)) goto error_insert;
 	}
 	#if DEBUG_BOUNDARY_FLOW_INSERT_JUNCTION
+		boundary_flow_print(bf, stderr);
 		fprintf(stderr, "boundary_flow_insert_junction: end\n");
 	#endif
 	return 1;
@@ -471,7 +472,7 @@ static inline void _boundary_flow_remove_junction
 
 static inline int _boundary_flow_copy(BoundaryFlow *bf, BoundaryFlow *bf_copy)
 {
-	int i, j;
+	int i;
 	#if DEBUG_BOUNDARY_FLOW_COPY
 		fprintf(stderr, "boundary_flow_copy: start\n");
 		boundary_flow_print(bf_copy, stderr);
@@ -505,23 +506,24 @@ static inline int _boundary_flow_copy(BoundaryFlow *bf, BoundaryFlow *bf_copy)
 	bf->type = bf_copy->type;
 	if (bf->type == BOUNDARY_FLOW_TYPE_SUPERCRITICAL) goto exit0;
 	bf->n = bf_copy->n;
+	i = bf->n + 1;
 	if (bf_copy->t)
 	{
-		bf->t = (JBDOUBLE*)g_try_malloc(j * sizeof(JBDOUBLE));
+		bf->t = (JBDOUBLE*)g_try_malloc(i * sizeof(JBDOUBLE));
 		if (!bf->t) goto exit1;
-		memcpy(bf->t, bf_copy->t, j * sizeof(JBDOUBLE));
+		memcpy(bf->t, bf_copy->t, i * sizeof(JBDOUBLE));
 	}
 	if (bf_copy->p1)
 	{
-		bf->p1 = (JBFLOAT*)g_try_malloc(j * sizeof(JBFLOAT));
+		bf->p1 = (JBFLOAT*)g_try_malloc(i * sizeof(JBFLOAT));
 		if (!bf->p1) goto exit1;
-		memcpy(bf->p1, bf_copy->p1, j * sizeof(JBFLOAT));
+		memcpy(bf->p1, bf_copy->p1, i * sizeof(JBFLOAT));
 	}
 	if (bf_copy->p2)
 	{
-		bf->p2 = (JBFLOAT*)g_try_malloc(j * sizeof(JBFLOAT));
+		bf->p2 = (JBFLOAT*)g_try_malloc(i * sizeof(JBFLOAT));
 		if (!bf->p2) goto exit1;
-		memcpy(bf->p2, bf_copy->p2, j * sizeof(JBFLOAT));
+		memcpy(bf->p2, bf_copy->p2, i * sizeof(JBFLOAT));
 	}
 	switch (bf->type)
 	{
@@ -1046,7 +1048,7 @@ static inline void _boundary_flow_save_xml(BoundaryFlow *bf, xmlNode *node)
 	xmlNode *child;
 	static const xmlChar *bftype[N_BOUNDARY_FLOW_TYPES] = {XML_Q, XML_H, XML_Z,
 		XML_Q_H, XML_Q_Z, XML_QT, XML_HT, XML_ZT, XML_QT_HT, XML_QT_ZT, XML_QH,
-		XML_QZ, XML_SUPERCRITICAL, XML_DAM, XML_PIPE, XML_JUNCTION};
+		XML_QZ, XML_SUPERCRITICAL, XML_DAM, XML_PIPE, XML_GATE, XML_JUNCTION};
 
 	#if DEBUG_BOUNDARY_FLOW_SAVE_XML
 		fprintf(stderr, "boundary_flow_save_xml: start\n");
@@ -1089,12 +1091,13 @@ static inline void _boundary_flow_save_xml(BoundaryFlow *bf, xmlNode *node)
 		case BOUNDARY_FLOW_TYPE_HT:
 		case BOUNDARY_FLOW_TYPE_ZT:
 		case BOUNDARY_FLOW_TYPE_PIPE:
+		case BOUNDARY_FLOW_TYPE_GATE:
 			buffer = NULL;
 			for (i = 0; i <= bf->n; ++i)
 			{
 				buffer2 = jb_set_time(bf->t[i]);
 				snprintf
-					(str, JB_BUFFER_SIZE, "\n    %s "FWF, buffer2, bf->p2[i]);
+					(str, JB_BUFFER_SIZE, "\n    %s "FWF, buffer2, bf->p1[i]);
 				g_free(buffer2);
 				if (!i) buffer2 = g_strdup(str);
 				else buffer2 = g_strconcat(buffer, str, NULL);
@@ -1146,6 +1149,11 @@ static inline void _boundary_flow_save_xml(BoundaryFlow *bf, xmlNode *node)
 				child = xmlNewChild(node, 0, XML_JUNCTION, 0);
 				junction_data_save_xml(JUNCTION_DATA(bf, i), child);
 			}
+	}
+	if (bf->type == BOUNDARY_FLOW_TYPE_GATE)
+	{
+		jb_xml_node_set_float(node, XML_HEIGHT, GATE_HEIGHT(bf));
+		jb_xml_node_set_float(node, XML_WIDTH, GATE_WIDTH(bf));
 	}
 
 	#if DEBUG_BOUNDARY_FLOW_SAVE_XML

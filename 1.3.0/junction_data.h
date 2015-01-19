@@ -61,7 +61,9 @@ typedef struct
 static inline void _junction_data_print(JunctionData *data, FILE *file)
 {
 	fprintf(file, "junction_data_print: start\n");
-	fprintf(file, "JDP channel=%s section=%s\n",
+	fprintf(file, "JDP channel=%d pos=%d pos2=%d\n",
+		data->channel, data->pos, data->pos2);
+	fprintf(file, "JDP channel_name=%s section=%s\n",
 		data->channel_name, data->section);
 	if (data->section2) fprintf(file, "JDP section2=%s\n", data->section2);
 	fprintf(file, "junction_data_print: end\n");
@@ -96,13 +98,13 @@ static inline void _junction_data_error(char *m)
 static inline void _junction_data_delete(JunctionData *data)
 {
 	#if DEBUG_JUNCTION_DATA_DELETE
-		fprintf(file, "junction_data_delete: start\n");
+		fprintf(stderr, "junction_data_delete: start\n");
 	#endif
 	jb_free_null((void**)&data->channel_name);
 	jb_free_null((void**)&data->section);
 	jb_free_null((void**)&data->section2);
 	#if DEBUG_JUNCTION_DATA_DELETE
-		fprintf(file, "junction_data_delete: end\n");
+		fprintf(stderr, "junction_data_delete: end\n");
 	#endif
 }
 
@@ -115,11 +117,11 @@ static inline void _junction_data_delete(JunctionData *data)
 static inline void _junction_data_init_empty(JunctionData *data)
 {
 	#if DEBUG_JUNCTION_DATA_INIT_EMPTY
-		fprintf(file, "junction_data_init_empty: start\n");
+		fprintf(stderr, "junction_data_init_empty: start\n");
 	#endif
 	data->channel_name = data->section = data->section2 = NULL;
 	#if DEBUG_JUNCTION_DATA_INIT_EMPTY
-		fprintf(file, "junction_data_init_empty: end\n");
+		fprintf(stderr, "junction_data_init_empty: end\n");
 	#endif
 }
 
@@ -133,8 +135,8 @@ static inline int
 	_junction_data_copy(JunctionData *data, JunctionData *data_copy)
 {
 	#if DEBUG_JUNCTION_DATA_COPY
-		fprintf(file, "junction_data_copy: start\n");
-		junction_data_print(data, stderr);
+		fprintf(stderr, "junction_data_copy: start\n");
+		junction_data_print(data_copy, stderr);
 	#endif
 	junction_data_init_empty(data);
 	memcpy(data, data_copy, JB_POINTER_SIZE(data->channel_name, data->channel));
@@ -147,7 +149,7 @@ static inline int
 		if (!data->section2) goto copy_error;
 	}
 	#if DEBUG_JUNCTION_DATA_COPY
-		fprintf(file, "junction_data_copy: end\n");
+		fprintf(stderr, "junction_data_copy: end\n");
 	#endif
 	return 1;
 
@@ -155,7 +157,7 @@ copy_error:
 	junction_data_error(gettext("Not enough memory"));
 	junction_data_delete(data);
 	#if DEBUG_JUNCTION_DATA_COPY
-		fprintf(file, "junction_data_copy: end\n");
+		fprintf(stderr, "junction_data_copy: end\n");
 	#endif
 	return 0;
 }
@@ -170,7 +172,7 @@ static inline int _junction_data_open_xml(JunctionData *data, xmlNode *node)
 {
 	char *buffer;
 	#if DEBUG_JUNCTION_DATA_OPEN_XML
-		fprintf(file, "junction_data_open_xml: start\n");
+		fprintf(stderr, "junction_data_open_xml: start\n");
 	#endif
 	junction_data_init_empty(data);
 	if (xmlStrcmp(node->name, XML_JUNCTION))
@@ -216,14 +218,14 @@ static inline int _junction_data_open_xml(JunctionData *data, xmlNode *node)
 		}
 	}
 	#if DEBUG_JUNCTION_DATA_OPEN_XML
-		fprintf(file, "junction_data_open_xml: end\n");
+		fprintf(stderr, "junction_data_open_xml: end\n");
 	#endif
 	return 1;
 
 exit0:
 	junction_data_delete(data);
 	#if DEBUG_JUNCTION_DATA_OPEN_XML
-		fprintf(file, "junction_data_open_xml: end\n");
+		fprintf(stderr, "junction_data_open_xml: end\n");
 	#endif
 	return 0;
 }
@@ -237,14 +239,14 @@ exit0:
 static inline void _junction_data_save_xml(JunctionData *data, xmlNode *node)
 {
 	#if DEBUG_JUNCTION_DATA_SAVE_XML
-		fprintf(file, "junction_data_save_xml: start\n");
+		fprintf(stderr, "junction_data_save_xml: start\n");
 	#endif
 	xmlSetProp(node, XML_CHANNEL, (const xmlChar*)data->channel_name);
 	xmlSetProp(node, XML_INITIAL, (const xmlChar*)data->section);
 	if (data->section2)
 		xmlSetProp(node, XML_FINAL, (const xmlChar*)data->section2);
 	#if DEBUG_JUNCTION_DATA_SAVE_XML
-		fprintf(file, "junction_data_save_xml: end\n");
+		fprintf(stderr, "junction_data_save_xml: end\n");
 	#endif
 }
 

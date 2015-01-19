@@ -161,6 +161,10 @@ typedef struct
  * \brief GtkGrid to pack the junction buttons.
  * \var notebook
  * \brief GtkNotebook to put the widgets.
+ * \var id_junction
+ * \brief identifier number of the combo_junction signals handler.
+ * \var ijunction
+ * \brief active junction data index.
  */
 	EditorJunction editor_junction[1];
 	BoundaryFlow bf[1];
@@ -179,7 +183,7 @@ typedef struct
 	GtkFrame *frame_type;
 	GtkGrid *grid, *grid_type, *grid_junction;
 	GtkNotebook *notebook;
-	int id_junction;
+	int id_junction, ijunction;
 } EditorBoundaryFlow;
 
 void editor_junction_update(EditorJunction *junction);
@@ -193,6 +197,7 @@ void editor_junction_destroy(EditorJunction *editor);
 void editor_junction_new(EditorJunction *junction, char **channel_name,
 	int nchannels, char ***section_name, int *nsections);
 
+void editor_boundary_flow_update_junction(EditorBoundaryFlow *editor);
 void editor_boundary_flow_update(EditorBoundaryFlow *editor);
 int editor_boundary_flow_get_junction(EditorBoundaryFlow *editor);
 int editor_boundary_flow_get(EditorBoundaryFlow *editor);

@@ -43,34 +43,34 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 /**
- * \fn void editor_junction_update(EditorJunction *junction)
+ * \fn void editor_junction_update(EditorJunction *editor)
  * \brief Function to update the view of a junction editor.
- * \param junction
+ * \param editor
  * \brief editor parameters of a junction.
  */
-void editor_junction_update(EditorJunction *junction)
+void editor_junction_update(EditorJunction *editor)
 {
 	int i;
 	#if DEBUG_EDITOR_JUNCTION_UPDATE
 		fprintf(stderr, "editor_junction_update: start\n");
 	#endif
-	i = gtk_combo_box_get_active(GTK_COMBO_BOX(junction->combo_channel));
-	jbw_combo_box_set_strings(junction->combo_initial,
-		junction->section_name[i], junction->nsections[i]);
-	gtk_combo_box_set_active(GTK_COMBO_BOX(junction->combo_initial), 0);
-	jbw_combo_box_set_strings(junction->combo_final,
-		junction->section_name[i], junction->nsections[i]);
-	gtk_combo_box_set_active(GTK_COMBO_BOX(junction->combo_final), 0);
+	i = gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_channel));
+	jbw_combo_box_set_strings(editor->combo_initial,
+		editor->section_name[i], editor->nsections[i]);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_initial), 0);
+	jbw_combo_box_set_strings(editor->combo_final,
+		editor->section_name[i], editor->nsections[i]);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_final), 0);
 	#if DEBUG_EDITOR_JUNCTION_UPDATE
 		fprintf(stderr, "editor_junction_update: end\n");
 	#endif
 }
 
 /**
- * \fn void editor_junction_update_channels(EditorJunction *junction, \
+ * \fn void editor_junction_update_channels(EditorJunction *editor, \
  *   char **channel_name, int nchannels)
  * \brief Function to update the channel names in a junction editor.
- * \param junction
+ * \param editor
  * \brief editor parameters of a junction.
  * \param channel_name
  * \brief new array of channel names.
@@ -78,25 +78,25 @@ void editor_junction_update(EditorJunction *junction)
  * \brief new number of channels.
  */
 void editor_junction_update_channels
-	(EditorJunction *junction, char **channel_name, int nchannels)
+	(EditorJunction *editor, char **channel_name, int nchannels)
 {
 	#if DEBUG_EDITOR_JUNCTION_UPDATE_CHANNELS
 		fprintf(stderr, "editor_junction_update_channels: start\n");
 	#endif
-	junction->channel_name = channel_name;
-	junction->nchannels = nchannels;
-	editor_junction_update(junction);
+	editor->channel_name = channel_name;
+	editor->nchannels = nchannels;
+	editor_junction_update(editor);
 	#if DEBUG_EDITOR_JUNCTION_UPDATE_CHANNELS
 		fprintf(stderr, "editor_junction_update_channels: end\n");
 	#endif
 }
 
 /**
- * \fn void editor_junction_update_sections(EditorJunction *junction, \
+ * \fn void editor_junction_update_sections(EditorJunction *editor, \
  *   int channel, char **section_name, int nsections)
  * \brief Function to update the cross section names of a channel in a junction
  *   editor.
- * \param junction
+ * \param editor
  * \brief editor parameters of a junction.
  * \param channel
  * \brief number of channel.
@@ -106,14 +106,14 @@ void editor_junction_update_channels
  * \brief new number of cross sections.
  */
 void editor_junction_update_sections
-	(EditorJunction *junction, int channel, char **section_name, int nsections)
+	(EditorJunction *editor, int channel, char **section_name, int nsections)
 {
 	#if DEBUG_EDITOR_JUNCTION_UPDATE_SECTIONS
 		fprintf(stderr, "editor_junction_update_sections: start\n");
 	#endif
-	junction->section_name[channel] = section_name;
-	junction->nsections[channel] = nsections;
-	editor_junction_update(junction);
+	editor->section_name[channel] = section_name;
+	editor->nsections[channel] = nsections;
+	editor_junction_update(editor);
 	#if DEBUG_EDITOR_JUNCTION_UPDATE_SECTIONS
 		fprintf(stderr, "editor_junction_update_sections: end\n");
 	#endif
@@ -172,9 +172,9 @@ void editor_junction_open(EditorJunction *editor)
 	#endif
 	jd = editor->jd;
 	gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_channel), jd->channel);
+	editor_junction_update(editor);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_initial), jd->pos);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_final), jd->pos2);
-	editor_junction_update(editor);
 	#if DEBUG_EDITOR_JUNCTION_OPEN
 		fprintf(stderr, "editor_junction_open: end\n");
 	#endif
@@ -249,10 +249,35 @@ void editor_junction_new(EditorJunction *editor, char **channel_name,
 	editor->frame = (GtkFrame*)gtk_frame_new(gettext("Junction"));
 	gtk_container_add
 		(GTK_CONTAINER(editor->frame), GTK_WIDGET(editor->grid));
-	g_signal_connect_swapped(editor->combo_channel, "changed",
-		(void(*))&editor_junction_update, editor);
 	#if DEBUG_EDITOR_JUNCTION_NEW
 		fprintf(stderr, "editor_junction_new: end\n");
+	#endif
+}
+
+/**
+ * \fn void editor_boundary_flow_update_junction(EditorBoundaryFlow *editor)
+ * \brief Function to update the junction data in the editor.
+ * \param editor
+ * \brief flow boundary conditions editor.
+ */
+void editor_boundary_flow_update_junction(EditorBoundaryFlow *editor)
+{
+	int i;
+	EditorJunction *editor_junction;
+	#if DEBUG_EDITOR_BOUNDARY_FLOW_UPDATE_JUNCTION
+		fprintf(stderr, "editor_boundary_flow_update_junction: start\n");
+	#endif
+	editor_junction = editor->editor_junction;
+	editor_junction_update(editor_junction);
+	i = gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_junction));
+	g_signal_handler_block(editor->combo_junction, editor->id_junction);
+	gtk_combo_box_text_remove(editor->combo_junction, i);
+	gtk_combo_box_text_insert_text(editor->combo_junction, i,
+		gtk_combo_box_text_get_active_text(editor_junction->combo_channel));
+	gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_junction), i);
+	g_signal_handler_unblock(editor->combo_junction, editor->id_junction);
+	#if DEBUG_EDITOR_BOUNDARY_FLOW_UPDATE_JUNCTION
+		fprintf(stderr, "editor_boundary_flow_update_junction: end\n");
 	#endif
 }
 
@@ -265,7 +290,10 @@ void editor_junction_new(EditorJunction *editor, char **channel_name,
 void editor_boundary_flow_update(EditorBoundaryFlow *editor)
 {
 	int type;
+	char *buffer;
+	JunctionData *jd;
 	BoundaryFlow *bf;
+	EditorJunction *editor_junction;
 	static int show_discharge[N_BOUNDARY_FLOW_TYPES] =
 		{1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 	show_depth[N_BOUNDARY_FLOW_TYPES] =
@@ -355,10 +383,44 @@ void editor_boundary_flow_update(EditorBoundaryFlow *editor)
 	}
 	if (type == BOUNDARY_FLOW_TYPE_JUNCTION)
 	{
+		editor_junction = editor->editor_junction;
 		gtk_widget_show(GTK_WIDGET(editor->grid_junction));
-		editor_junction_update(editor->editor_junction);
+		buffer = gtk_combo_box_text_get_active_text(editor->combo_junction);
+		if (!buffer)
+		{
+			bf->data
+				= jb_realloc(bf->data, 2 * sizeof(int) + sizeof(JunctionData));
+			JUNCTION_N(bf) = 0;
+			jd = JUNCTION_DATA(bf, 0);
+			jd->channel_name = jb_strdup(editor_junction->channel_name[0]);
+			jd->section = jb_strdup(editor_junction->section_name[0][0]);
+			jd->section2 = NULL;
+			jd->channel = jd->pos = jd->pos2 = 0;
+			g_signal_handler_block(editor->combo_junction, editor->id_junction);
+			gtk_combo_box_text_insert_text
+				(editor->combo_junction, 0, jd->channel_name);
+			gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_junction), 0);
+			g_signal_handler_unblock
+				(editor->combo_junction, editor->id_junction);
+			gtk_widget_set_sensitive(GTK_WIDGET(editor_junction->grid), 0);
+			gtk_widget_set_sensitive
+				(GTK_WIDGET(editor->button_remove_junction), 0);
+		}
+		else
+		{
+			gtk_widget_set_sensitive(GTK_WIDGET(editor_junction->grid), 1);
+			gtk_widget_set_sensitive(GTK_WIDGET(editor->button_remove_junction),
+				JUNCTION_N(editor->bf) > 0);
+			g_free(buffer);
+		}
 	}
-	else gtk_widget_hide(GTK_WIDGET(editor->grid_junction));
+	else
+	{
+		g_signal_handler_block(editor->combo_junction, editor->id_junction);
+		gtk_combo_box_text_remove_all(editor->combo_junction);
+		g_signal_handler_unblock(editor->combo_junction, editor->id_junction);
+		gtk_widget_hide(GTK_WIDGET(editor->grid_junction));
+	}
 	jbw_array_editor_set_title(editor->array, 0, gettext("Time"));
 	jbw_graphic_set_xlabel(editor->graphic, gettext("Time"));
 	jbw_array_editor_set_title(editor->array, 1, gettext("Discharge"));
@@ -392,8 +454,12 @@ void editor_boundary_flow_update(EditorBoundaryFlow *editor)
 		case BOUNDARY_FLOW_TYPE_GATE:
 			jbw_array_editor_set_title(editor->array, 1, gettext("Opening"));
 			jbw_graphic_set_ylabel(editor->graphic, gettext("Opening"));
+		case BOUNDARY_FLOW_TYPE_DAM:
+			bf->data = jb_realloc(bf->data, 2 * sizeof(JBFLOAT));
 	}
+	bf->type = type;
 	#if DEBUG_EDITOR_BOUNDARY_FLOW_UPDATE
+		boundary_flow_print(bf, stderr);
 		fprintf(stderr, "editor_boundary_flow_update: end\n");
 	#endif
 }
@@ -408,25 +474,41 @@ void editor_boundary_flow_update(EditorBoundaryFlow *editor)
 int editor_boundary_flow_get_junction(EditorBoundaryFlow *editor)
 {
 	int i;
+	char *buffer;
 	JunctionData *jd;
 	#if DEBUG_EDITOR_BOUNDARY_FLOW_GET_JUNCTION
 		fprintf(stderr, "editor_boundary_flow_get_junction: start\n");
 	#endif
-	i = gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_junction));
+	buffer = gtk_combo_box_text_get_active_text(editor->combo_junction);
+	if (!buffer)
+	{
+		boundary_flow_error(editor->bf, gettext("No junctions"));
+		goto error_get_junction;
+	}
+	g_free(buffer);
+	i = editor->ijunction;
+	#if DEBUG_EDITOR_BOUNDARY_FLOW_GET_JUNCTION
+		boundary_flow_print(editor->bf, stderr);
+	#endif
 	jd = JUNCTION_DATA(editor->bf, i);
+	#if DEBUG_EDITOR_BOUNDARY_FLOW_GET_JUNCTION
+		junction_data_print(jd, stderr);
+	#endif
 	junction_data_delete(jd);
 	if (!editor_junction_get(editor->editor_junction)
 		|| !junction_data_copy(jd, editor->editor_junction->jd))
-	{
-		#if DEBUG_EDITOR_BOUNDARY_FLOW_GET_JUNCTION
-			fprintf(stderr, "editor_boundary_flow_get_junction: end\n");
-		#endif
-		return 0;
-	}
+			goto error_get_junction;
 	#if DEBUG_EDITOR_BOUNDARY_FLOW_GET_JUNCTION
+		boundary_flow_print(editor->bf, stderr);
 		fprintf(stderr, "editor_boundary_flow_get_junction: end\n");
 	#endif
 	return 1;
+
+error_get_junction:
+	#if DEBUG_EDITOR_BOUNDARY_FLOW_GET_JUNCTION
+		fprintf(stderr, "editor_boundary_flow_get_junction: end\n");
+	#endif
+	return 0;
 }
 
 /**
@@ -441,11 +523,25 @@ int editor_boundary_flow_get(EditorBoundaryFlow *editor)
 {
 	int i, j;
 	JBWArrayEditor *array;
-	BoundaryFlow *bf;
+	BoundaryFlow *bf, bf_copy[1];
 	#if DEBUG_EDITOR_BOUNDARY_FLOW_GET
 		fprintf(stderr, "editor_boundary_flow_get: start\n");
 	#endif
+	editor_boundary_flow_update(editor);
 	bf = editor->bf;
+	bf->type = boundary_flow_type(bf,
+		jbw_array_radio_buttons_get_active(editor->array_type));
+	if (bf->type == BOUNDARY_FLOW_TYPE_JUNCTION)
+	{
+		editor->ijunction
+			= gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_junction));
+		if (!editor_boundary_flow_get_junction(editor))
+		{
+			boundary_flow_error(bf, message);
+			goto error_get;
+		}
+		boundary_flow_copy(bf_copy, bf);
+	}
 	boundary_flow_delete(bf);
 	bf->name = g_strdup(gtk_entry_get_text(editor->entry_name));
 	if (!bf->name) goto error_memory;
@@ -473,8 +569,6 @@ int editor_boundary_flow_get(EditorBoundaryFlow *editor)
 		}
 	}
 	bf->delay = gtk_spin_button_get_value(editor->entry_delay);
-	bf->type = boundary_flow_type(bf,
-		jbw_array_radio_buttons_get_active(editor->array_type));
 	array = editor->array;
 	switch (bf->type)
 	{
@@ -519,8 +613,18 @@ int editor_boundary_flow_get(EditorBoundaryFlow *editor)
 			bf->n = array->n - 1;
 			break;
 		case BOUNDARY_FLOW_TYPE_JUNCTION:
-			editor_boundary_flow_get_junction(editor);
-			break;
+			bf->data = g_try_malloc(2 * sizeof(int)
+				+ (1 + JUNCTION_N(bf_copy)) * sizeof(JunctionData));
+			if (!bf->data) goto error_memory;
+			JUNCTION_N(bf) = JUNCTION_N(bf_copy);
+			for (i = 0; i <= JUNCTION_N(bf); ++i)
+				if (!junction_data_copy
+					(JUNCTION_DATA(bf, i), JUNCTION_DATA(bf_copy, i)))
+				{
+					boundary_flow_error(bf, message);
+					goto error_get;
+				}
+			boundary_flow_delete(bf_copy);
 	}
 	switch (bf->type)
 	{
@@ -580,15 +684,18 @@ void editor_boundary_flow_open_junction(EditorBoundaryFlow *editor)
 {
 	int i;
 	EditorJunction *editor_junction;
-	#if DEBUG_EDITOR_BOUNDARY_FLOW_OPEN_TRANSIENT
+	#if DEBUG_EDITOR_BOUNDARY_FLOW_OPEN_JUNCTION
 		fprintf(stderr, "editor_boundary_flow_open_junction: start\n");
 	#endif
+	editor_boundary_flow_get_junction(editor);
 	editor_junction = editor->editor_junction;
 	i = gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_junction));
 	junction_data_delete(editor_junction->jd);
 	junction_data_copy(editor_junction->jd, JUNCTION_DATA(editor->bf, i));
 	editor_junction_open(editor_junction);
-	#if DEBUG_EDITOR_BOUNDARY_FLOW_OPEN_TRANSIENT
+	editor_boundary_flow_update(editor);
+	editor->ijunction = i;
+	#if DEBUG_EDITOR_BOUNDARY_FLOW_OPEN_JUNCTION
 		fprintf(stderr, "editor_boundary_flow_open_junction: end\n");
 	#endif
 }
@@ -734,23 +841,32 @@ void editor_boundary_flow_insert_junction(EditorBoundaryFlow *editor)
 {
 	int i;
 	JunctionData *jd;
+	BoundaryFlow *bf;
 	EditorJunction *editor_junction;
 	#if DEBUG_EDITOR_BOUNDARY_FLOW_INSERT_JUNCTION
 		fprintf(stderr, "editor_boundary_flow_insert_junction: start\n");
 	#endif
-	i = 1 + gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_junction));
-	boundary_flow_insert_junction(editor->bf, i);
-	jd = JUNCTION_DATA(editor->bf, i);
-	gtk_combo_box_text_insert_text(editor->combo_junction, i, jd->channel_name);
-	editor_boundary_flow_update(editor);
+	bf = editor->bf;
 	editor_junction = editor->editor_junction;
+	editor->ijunction
+		= gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_junction));
+	editor_boundary_flow_get_junction(editor);
+	i = 1 + editor->ijunction;
+	boundary_flow_insert_junction(bf, i);
+	jd = JUNCTION_DATA(bf, i);
+	g_signal_handler_block(editor->combo_junction, editor->id_junction);
+	gtk_combo_box_text_insert_text(editor->combo_junction, i, jd->channel_name);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_junction), i);
+	g_signal_handler_unblock(editor->combo_junction, editor->id_junction);
+	editor_boundary_flow_update(editor);
 	junction_data_delete(editor_junction->jd);
 	junction_data_copy(editor_junction->jd, jd);
 	editor_junction_open(editor_junction);
-	gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_junction), i);
 	#if DEBUG_EDITOR_BOUNDARY_FLOW_INSERT_JUNCTION
+		boundary_flow_print(bf, stderr);
 		fprintf(stderr, "editor_boundary_flow_insert_junction: end\n");
 	#endif
+	return;
 }
 
 /**
@@ -881,6 +997,7 @@ void editor_boundary_flow_new(EditorBoundaryFlow *editor, GtkNotebook *notebook,
 	int i, ntypes;
 	char **label_type;
 	BoundaryFlow *bf;
+	EditorJunction *editor_junction;
 	const char *label_type_extern[N_BOUNDARY_FLOW_EXTERN_TYPES] = {
 		gettext("Constant discharge"),
 		gettext("Constant depth"),
@@ -911,10 +1028,13 @@ void editor_boundary_flow_new(EditorBoundaryFlow *editor, GtkNotebook *notebook,
 		fprintf(stderr, "editor_boundary_flow_new: start\n");
 	#endif
 	bf = editor->bf;
+	editor_junction = editor->editor_junction;
 	editor->notebook = notebook;
 	boundary_flow_init_empty(bf);
-	editor_junction_new(editor->editor_junction, channel_name, nchannels,
+	editor_junction_new(editor_junction, channel_name, nchannels,
 		section_name, nsections);
+	g_signal_connect_swapped(editor_junction->combo_channel, "changed",
+		(void(*))&editor_boundary_flow_update_junction, editor);
 	editor->grid = (GtkGrid*)gtk_grid_new();
 	editor->label_name = (GtkLabel*)gtk_label_new(gettext("Name"));
 	gtk_grid_attach(editor->grid, GTK_WIDGET(editor->label_name), 0, 0, 1, 1);
@@ -1053,8 +1173,8 @@ void editor_boundary_flow_new(EditorBoundaryFlow *editor, GtkNotebook *notebook,
 		(gettext("Remove junction data"));
 	gtk_grid_attach(editor->grid_junction,
 		GTK_WIDGET(editor->button_remove_junction), 1, 0, 1, 1);
-	g_signal_connect_swapped(editor->button_remove, "clicked",
-		(void(*))&editor_boundary_flow_remove_point, editor);
+	g_signal_connect_swapped(editor->button_remove_junction, "clicked",
+		(void(*))&editor_boundary_flow_remove_junction, editor);
 	editor->label_junction = (GtkLabel*)gtk_label_new(gettext("Junction data"));
 	gtk_grid_attach(editor->grid_junction, GTK_WIDGET(editor->label_junction),
 		0, 1, 1, 1);
