@@ -388,6 +388,7 @@ void editor_boundary_flow_update(EditorBoundaryFlow *editor)
 		buffer = gtk_combo_box_text_get_active_text(editor->combo_junction);
 		if (!buffer)
 		{
+			editor->ijunction = 0;
 			bf->data
 				= jb_realloc(bf->data, 2 * sizeof(int) + sizeof(JunctionData));
 			JUNCTION_N(bf) = 0;
@@ -851,7 +852,8 @@ void editor_boundary_flow_insert_junction(EditorBoundaryFlow *editor)
 	editor->ijunction
 		= gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_junction));
 	editor_boundary_flow_get_junction(editor);
-	i = 1 + editor->ijunction;
+	++editor->ijunction;
+	i = editor->ijunction;
 	boundary_flow_insert_junction(bf, i);
 	jd = JUNCTION_DATA(bf, i);
 	g_signal_handler_block(editor->combo_junction, editor->id_junction);
