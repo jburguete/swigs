@@ -1,0 +1,482 @@
+bindir = @bindir@
+etcdir = @etcdir@
+libdir = @libdir@
+localdir = @localdir@
+mandir = manual/
+es = es/LC_MESSAGES/
+fr = fr/LC_MESSAGES/
+
+objects = jb_def.o jb_math.o jb_win.o jb_xml.o \
+	points.o transient_section.o cross_section.o channel_geometry.o \
+	initial_flow.o initial_transport.o junction_data.o boundary_flow.o \
+	boundary_transport.o transport.o channel_transport.o channel.o system.o \
+	section.o channel_segment.o section_changes.o mesh.o model.o \
+	parameters.o flow_scheme.o diffusion_scheme.o transport_scheme.o \
+	transport_simulate.o write.o simulate.o \
+	dialog_position.o \
+	dialog_system.o dialog_graphical_options.o \
+	dialog_save_solution.o dialog_mass.o dialog_save_graphical.o \
+	dialog_simulator.o draw.o @icon@ init.o
+
+objectsbin = jb_def_bin.o jb_math_bin.o jb_win_bin.o jb_xml_bin.o \
+	points_bin.o transient_section_bin.o cross_section_bin.o \
+	channel_geometry_bin.o initial_flow_bin.o initial_transport_bin.o \
+	junction_data_bin.o boundary_flow_bin.o boundary_transport_bin.o \
+	transport_bin.o channel_transport_bin.o channel_bin.o system_bin.o \
+	section_bin.o channel_segment_bin.o section_changes_bin.o mesh_bin.o \
+	model_bin.o parameters_bin.o flow_scheme_bin.o diffusion_scheme_bin.o \
+	transport_scheme_bin.o transport_simulate_bin.o write_bin.o simulate_bin.o \
+	draw_bin.o init_bin.o
+
+jb = jb/jb_config.h jb/jb_def.h jb/jb_math.h jb/jb_win.h \
+	jb/jb_xml.h jb/jb_def.c jb/jb_math.c jb/jb_win.c jb/jb_xml.c
+
+srcbin = config.h def.h \
+	points.h transient_section.h cross_section.h channel_geometry.h \
+	initial_flow.h initial_transport.h junction_data.h boundary_flow.h \
+	boundary_transport.h transport.h channel_transport.h channel.h system.h \
+	section.h channel_segment.h section_changes.h mesh.h model.h \
+	parameters.h flow_scheme.h diffusion_scheme.h transport_scheme.h \
+	transport_simulate.h write.h simulate.h draw.h \
+	points.c transient_section.c cross_section.c channel_geometry.c \
+	initial_flow.c initial_transport.c junction_data.c boundary_flow.c \
+	boundary_transport.c transport.c channel_transport.c channel.c \
+	variables_system.c system.c section.c channel_segment.c \
+	section_changes.c variables_mesh.c mesh.c model.c parameters.c \
+	flow_scheme.c diffusion_scheme.c transport_scheme.c transport_simulate.c \
+	write.c simulate.c draw.c init.c
+
+src = $(srcbin) dialog_position.h dialog_system.h dialog_graphical_options.h \
+	dialog_save_solution.h dialog_mass.h dialog_save_graphical.h \
+	dialog_simulator.h \
+	dialog_position.c dialog_system.c dialog_graphical_options.c \
+	dialog_save_solution.c dialog_mass.c dialog_save_graphical.c \
+	dialog_simulator.c
+
+configs = jb/jb_config.h config.h def.h Makefile
+
+CPPFLAGS = @CPPFLAGS@ -DJBW=2 -DJBW_DRAW=2 -DJBW_GRAPHIC=2
+CFLAGS = -c -Wall $(CPPFLAGS) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
+	@PNG_CFLAGS@ @GTK_CFLAGS@
+LDFLAGS = @LDFLAGS@ @LIBS@ @XML_LIBS@ @GTHREAD_LIBS@ @GLIB_LIBS@ @PNG_LIBS@ \
+	@GTK_LIBS@
+flags_fast = $(CFLAGS) -O3
+flags_default = $(CFLAGS) -O2
+flags_small = $(CFLAGS) -Os
+name = swigs
+
+CPPFLAGSBIN = @CPPFLAGS@ -DJBW=1
+CFLAGSBIN = -c -Wall $(CPPFLAGSBIN) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ 
+LDFLAGSBIN = @LDFLAGS@ @LIBS@ @XML_LIBS@ @GTHREAD_LIBS@ @GLIB_LIBS@
+flags_fastbin = $(CFLAGSBIN) -O3
+flags_defaultbin = $(CFLAGSBIN) -O2
+flags_smallbin = $(CFLAGSBIN) -Os
+namebin = swigsbin
+
+CC = @CC@ -std=gnu99 -flto @ccflags@
+
+all: $(name) $(namebin) po/swigs.pot po/swigsbin.pot \
+	$(localdir)$(es)swigs.mo $(localdir)$(es)swigsbin.mo \
+	$(localdir)$(fr)swigs.mo $(localdir)$(fr)swigsbin.mo
+
+editors: editor-transient-section editor-cross-section editor-initial-flow \
+	editor-initial-transport editor-boundary-flow editor-boundary-transport \
+	editor-channel 
+
+$(name): $(objects)
+	$(CC) $(objects) $(LDFLAGS) -o $(name)
+
+$(namebin): $(objectsbin)
+	$(CC) $(objectsbin) $(LDFLAGSBIN) -o $(namebin)
+
+jb_def.o: jb/jb_def.c jb/jb_def.h $(configs)
+	$(CC) jb/jb_def.c -o jb_def.o $(flags_small)
+
+jb_def_bin.o: jb/jb_def.c jb/jb_def.h $(configs)
+	$(CC) jb/jb_def.c -o jb_def_bin.o $(flags_smallbin)
+
+jb_math.o: jb/jb_math.c jb/jb_math.h jb_def.o
+	$(CC) jb/jb_math.c -o jb_math.o $(flags_fast)
+
+jb_math_bin.o: jb/jb_math.c jb/jb_math.h jb_def_bin.o
+	$(CC) jb/jb_math.c -o jb_math_bin.o $(flags_fastbin)
+
+jb_win.o: jb/jb_win.c jb/jb_win.h jb_math.o
+	$(CC) jb/jb_win.c -o jb_win.o $(flags_small)
+
+jb_win_bin.o: jb/jb_win.c jb/jb_win.h jb_math_bin.o
+	$(CC) jb/jb_win.c -o jb_win_bin.o $(flags_smallbin)
+
+jb_xml.o: jb/jb_xml.c jb/jb_xml.h jb_def.o
+	$(CC) jb/jb_xml.c -o jb_xml.o $(flags_small)
+
+jb_xml_bin.o: jb/jb_xml.c jb/jb_xml.h jb_def_bin.o
+	$(CC) jb/jb_xml.c -o jb_xml_bin.o $(flags_smallbin)
+
+points.o: points.c points.h jb_win.o jb_xml.o
+	$(CC) points.c -o points.o $(flags_default)
+
+points_bin.o: points.c points.h jb_win_bin.o jb_xml_bin.o
+	$(CC) points.c -o points_bin.o $(flags_defaultbin)
+
+transient_section.o: transient_section.c transient_section.h points.o jb_xml.o
+	$(CC) transient_section.c -o transient_section.o $(flags_default)
+
+transient_section_bin.o: transient_section.c transient_section.h points_bin.o \
+	jb_xml_bin.o
+	$(CC) transient_section.c -o transient_section_bin.o $(flags_defaultbin)
+
+initial_flow.o: initial_flow.c initial_flow.h points.o
+	$(CC) initial_flow.c -o initial_flow.o $(flags_default)
+
+initial_flow_bin.o: initial_flow.c initial_flow.h points_bin.o
+	$(CC) initial_flow.c -o initial_flow_bin.o $(flags_defaultbin)
+
+initial_transport.o: initial_transport.c initial_transport.h points.o
+	$(CC) initial_transport.c -o initial_transport.o $(flags_default)
+
+initial_transport_bin.o: initial_transport.c initial_transport.h points_bin.o
+	$(CC) initial_transport.c -o initial_transport_bin.o $(flags_defaultbin)
+
+cross_section.o: cross_section.c cross_section.h transient_section.o
+	$(CC) cross_section.c -o cross_section.o $(flags_default)
+
+cross_section_bin.o: cross_section.c cross_section.h transient_section_bin.o
+	$(CC) cross_section.c -o cross_section_bin.o $(flags_defaultbin)
+
+channel_geometry.o: channel_geometry.c channel_geometry.h cross_section.o
+	$(CC) channel_geometry.c -o channel_geometry.o $(flags_default)
+
+channel_geometry_bin.o: channel_geometry.c channel_geometry.h \
+	cross_section_bin.o
+	$(CC) channel_geometry.c -o channel_geometry_bin.o $(flags_defaultbin)
+
+junction_data.o: junction_data.c junction_data.h jb_win.o jb_xml.o
+	$(CC) junction_data.c -o junction_data.o $(flags_default)
+
+junction_data_bin.o: junction_data.c junction_data.h jb_win_bin.o jb_xml_bin.o
+	$(CC) junction_data.c -o junction_data_bin.o $(flags_defaultbin)
+
+boundary_flow.o: boundary_flow.c boundary_flow.h points.o junction_data.o
+	$(CC) boundary_flow.c -o boundary_flow.o $(flags_default)
+
+boundary_flow_bin.o: boundary_flow.c boundary_flow.h points_bin.o \
+	junction_data_bin.o
+	$(CC) boundary_flow.c -o boundary_flow_bin.o $(flags_defaultbin)
+
+boundary_transport.o: boundary_transport.c boundary_transport.h points.o
+	$(CC) boundary_transport.c -o boundary_transport.o $(flags_default)
+
+boundary_transport_bin.o: boundary_transport.c boundary_transport.h points_bin.o
+	$(CC) boundary_transport.c -o boundary_transport_bin.o $(flags_defaultbin)
+
+transport.o: transport.c transport.h jb_xml.o
+	$(CC) transport.c -o transport.o $(flags_default)
+
+transport_bin.o: transport.c transport.h jb_xml_bin.o
+	$(CC) transport.c -o transport_bin.o $(flags_defaultbin)
+
+channel_transport.o: channel_transport.c channel_transport.h \
+	initial_transport.o boundary_transport.o transport.o
+	$(CC) channel_transport.c -o channel_transport.o $(flags_default)
+
+channel_transport_bin.o: channel_transport.c channel_transport.h \
+	initial_transport_bin.o boundary_transport_bin.o transport_bin.o
+	$(CC) channel_transport.c -o channel_transport_bin.o $(flags_defaultbin)
+
+channel.o: channel.c channel.h channel_geometry.o initial_flow.o \
+	boundary_flow.o channel_transport.o
+	$(CC) channel.c -o channel.o $(flags_default)
+
+channel_bin.o: channel.c channel.h channel_geometry_bin.o initial_flow_bin.o \
+	boundary_flow_bin.o channel_transport_bin.o
+	$(CC) channel.c -o channel_bin.o $(flags_defaultbin)
+
+system.o: system.c system.h channel.o
+	$(CC) system.c -o system.o $(flags_default)
+
+system_bin.o: system.c system.h channel_bin.o
+	$(CC) system.c -o system_bin.o $(flags_defaultbin)
+
+section.o: section.c section.h system.o
+	$(CC) section.c -o section.o $(flags_default)
+
+section_bin.o: section.c section.h system_bin.o
+	$(CC) section.c -o section_bin.o $(flags_defaultbin)
+
+channel_segment.o: channel_segment.c channel_segment.h section.o
+	$(CC) channel_segment.c -o channel_segment.o $(flags_default)
+
+channel_segment_bin.o: channel_segment.c channel_segment.h section_bin.o
+	$(CC) channel_segment.c -o channel_segment_bin.o $(flags_defaultbin)
+
+section_changes.o: section_changes.c section_changes.h channel_geometry.o
+	$(CC) section_changes.c -o section_changes.o $(flags_default)
+
+section_changes_bin.o: section_changes.c section_changes.h \
+	channel_geometry_bin.o
+	$(CC) section_changes.c -o section_changes_bin.o $(flags_defaultbin)
+
+mesh.o: mesh.c mesh.h channel.o channel_segment.o section_changes.o
+	$(CC) mesh.c -o mesh.o $(flags_default)
+
+mesh_bin.o: mesh.c mesh.h channel_bin.o channel_segment_bin.o \
+	section_changes_bin.o
+	$(CC) mesh.c -o mesh_bin.o $(flags_defaultbin)
+
+model.o: model.c model.h mesh.o
+	$(CC) model.c -o model.o $(flags_fast)
+
+model_bin.o: model.c model.h mesh_bin.o
+	$(CC) model.c -o model_bin.o $(flags_fastbin)
+
+parameters.o: parameters.c parameters.h model.o
+	$(CC) parameters.c -o parameters.o $(flags_fast)
+
+parameters_bin.o: parameters.c parameters.h model_bin.o
+	$(CC) parameters.c -o parameters_bin.o $(flags_fastbin)
+
+diffusion_scheme.o: diffusion_scheme.c diffusion_scheme.h mesh.o
+	$(CC) diffusion_scheme.c -o diffusion_scheme.o $(flags_fast)
+
+diffusion_scheme_bin.o: diffusion_scheme.c diffusion_scheme.h mesh_bin.o
+	$(CC) diffusion_scheme.c -o diffusion_scheme_bin.o $(flags_fastbin)
+
+transport_scheme.o: transport_scheme.c transport_scheme.h diffusion_scheme.o
+	$(CC) transport_scheme.c -o transport_scheme.o $(flags_fast)
+
+transport_scheme_bin.o: transport_scheme.c transport_scheme.h \
+	diffusion_scheme_bin.o
+	$(CC) transport_scheme.c -o transport_scheme_bin.o $(flags_fastbin)
+
+flow_scheme.o: flow_scheme.c flow_scheme.h transport_scheme.o parameters.o
+	$(CC) flow_scheme.c -o flow_scheme.o $(flags_fast)
+
+flow_scheme_bin.o: flow_scheme.c flow_scheme.h transport_scheme_bin.o \
+	parameters_bin.o
+	$(CC) flow_scheme.c -o flow_scheme_bin.o $(flags_fastbin)
+
+transport_simulate.o: transport_simulate.c transport_simulate.h \
+	diffusion_scheme.o transport_scheme.o
+	$(CC) transport_simulate.c -o transport_simulate.o $(flags_fast)
+
+transport_simulate_bin.o: transport_simulate.c transport_simulate.h \
+	diffusion_scheme_bin.o transport_scheme_bin.o
+	$(CC) transport_simulate.c -o transport_simulate_bin.o $(flags_fastbin)
+
+write.o: write.c write.h flow_scheme.o
+	$(CC) write.c -o write.o $(flags_small)
+
+write_bin.o: write.c write.h flow_scheme_bin.o
+	$(CC) write.c -o write_bin.o $(flags_smallbin)
+
+simulate.o: simulate.c simulate.h transport_simulate.o write.o \
+	dialog_simulator.h
+	$(CC) simulate.c -o simulate.o $(flags_fast)
+
+simulate_bin.o: simulate.c simulate.h transport_simulate_bin.o write_bin.o \
+	dialog_simulator.h
+	$(CC) simulate.c -o simulate_bin.o $(flags_fastbin)
+
+dialog_position.o: dialog_position.c dialog_position.h jb_win.o
+	$(CC) dialog_position.c -o dialog_position.o $(flags_small)
+
+#editor_channel.o: editor_channel.c editor_channel.h dialog_simulator.h \
+#	dialog_position.o channel.o simulate.h
+#	$(CC) editor_channel.c -o editor_channel.o $(flags_small)
+
+dialog_system.o: dialog_system.c dialog_system.h dialog_simulator.h \
+	flow_scheme.o write.o simulate.h
+	$(CC) dialog_system.c -o dialog_system.o $(flags_small)
+
+dialog_graphical_options.o: dialog_graphical_options.c \
+	dialog_graphical_options.h flow_scheme.o write.o simulate.h
+	$(CC) dialog_graphical_options.c -o dialog_graphical_options.o \
+		$(flags_small)
+
+dialog_save_solution.o: dialog_save_solution.c dialog_save_solution.h \
+	dialog_simulator.h write.o
+	$(CC) dialog_save_solution.c -o dialog_save_solution.o \
+		$(flags_small)
+
+dialog_mass.o: dialog_mass.c dialog_mass.h dialog_simulator.h mesh.o
+	$(CC) dialog_mass.c -o dialog_mass.o $(flags_small)
+
+dialog_save_graphical.o: dialog_save_graphical.c dialog_save_graphical.h \
+	dialog_simulator.h write.o
+	$(CC) dialog_save_graphical.c -o dialog_save_graphical.o \
+		$(flags_small)
+
+dialog_simulator.o: dialog_simulator.c dialog_system.o dialog_mass.o \
+	dialog_save_graphical.o
+	$(CC) dialog_simulator.c -o dialog_simulator.o $(flags_small)
+
+draw.o: draw.c draw.h simulate.o
+	$(CC) draw.c -o draw.o $(flags_small)
+
+draw_bin.o: draw.c draw.h simulate_bin.o
+	$(CC) draw.c -o draw_bin.o $(flags_smallbin)
+
+init.o: init.c variables_system.c variables_mesh.c draw.o
+	$(CC) init.c -o init.o $(flags_small)
+
+init_bin.o: init.c variables_system.c variables_mesh.c draw_bin.o
+	$(CC) init.c -o init_bin.o $(flags_smallbin)
+
+@icon@: swigs.rc swigs.ico
+	@WINDRES@ swigs.rc -o @icon@
+
+po/swigs.pot: Makefile $(src) $(jb)
+	xgettext -d swigs -o po/swigs.pot --from-code=UTF-8 $(src)
+#	msginit -l es -o po/$(es)swigs.po -i po/swigs.pot --no-translator
+#	msginit -l fr -o po/$(fr)swigs.po -i po/swigs.pot --no-translator
+	msgmerge -U po/$(es)swigs.po po/swigs.pot
+	msgmerge -U po/$(fr)swigs.po po/swigs.pot
+	vim -p */*/*/swigs.po
+
+po/swigsbin.pot: Makefile $(srcbin) $(jb)
+	xgettext -d swigsbin -o po/swigsbin.pot --from-code=UTF-8 $(src)
+#	msginit -l es -o po/$(es)swigsbin.po -i po/swigsbin.pot --no-translator
+#	msginit -l fr -o po/$(fr)swigsbin.po -i po/swigsbin.pot --no-translator
+	msgmerge -U po/$(es)swigsbin.po po/swigsbin.pot
+	msgmerge -U po/$(fr)swigsbin.po po/swigsbin.pot
+	vim -p */*/*/swigsbin.po
+
+$(localdir)$(es)swigs.mo: po/$(es)swigs.po po/swigs.pot
+	msgfmt -c -v -o $(localdir)$(es)swigs.mo po/$(es)swigs.po
+
+$(localdir)$(es)swigsbin.mo: po/$(es)swigsbin.po po/swigsbin.pot
+	msgfmt -c -v -o $(localdir)$(es)swigsbin.mo po/$(es)swigsbin.po
+
+$(localdir)$(fr)swigs.mo: po/$(fr)swigs.po po/swigs.pot
+	msgfmt -c -v -o $(localdir)$(fr)swigs.mo po/$(fr)swigs.po
+
+$(localdir)$(fr)swigsbin.mo: po/$(fr)swigsbin.po po/swigsbin.pot
+	msgfmt -c -v -o $(localdir)$(fr)swigsbin.mo po/$(fr)swigsbin.po
+
+## Making Microsoft Windows distribution
+basedir = @basedir@
+sysdir = @sysdir@
+dlldir = $(sysdir)bin/
+dll = $(dlldir)libatk-1.0-0.dll $(dlldir)libcairo-2.dll \
+	$(dlldir)libffi-6.dll $(dlldir)libfontconfig-1.dll \
+	$(dlldir)libfreetype-6.dll $(dlldir)@libgcc@.dll \
+	$(dlldir)libgdk_pixbuf-2.0-0.dll $(dlldir)libgdk-win32-2.0-0.dll \
+	$(dlldir)libgio-2.0-0.dll $(dlldir)libglib-2.0-0.dll \
+	$(dlldir)libglut-0.dll $(dlldir)libgmodule-2.0-0.dll \
+	$(dlldir)libgobject-2.0-0.dll $(dlldir)libgthread-2.0-0.dll \
+	$(dlldir)libgtk-win32-2.0-0.dll $(dlldir)libiconv-2.dll \
+	$(dlldir)libintl-8.dll $(dlldir)libpango-1.0-0.dll \
+	$(dlldir)libpangocairo-1.0-0.dll $(dlldir)libpangowin32-1.0-0.dll \
+	$(dlldir)libpixman-1-0.dll $(dlldir)libpng16-16.dll $(dlldir)libxml2-2.dll \
+	$(dlldir)zlib1.dll
+modir = $(sysdir)share/locale/
+dist: $(name) $(dll) $(manuals)
+	cp $(dll) $(png) $(bindir)
+	cp $(sysdir)lib/gdk-pixbuf-2.0/2.10.0/loaders.cache \
+		$(libdir)gdk-pixbuf-2.0/2.10.0
+	cp $(sysdir)lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-png.dll \
+		$(libdir)gdk-pixbuf-2.0/2.10.0/loaders
+	cp $(sysdir)etc/pango/pango.modules $(etcdir)pango
+	cp $(sysdir)lib/pango/1.8.0/modules/*.dll \
+		$(libdir)pango/1.8.0/modules
+	strip $(bindir)*.dll $(libdir)gdk-pixbuf-2.0/2.10.0/loaders/*.dll \
+		$(libdir)pango/1.8.0/modules/*.dll
+	cp $(modir)$(es)atk10.mo $(modir)$(es)gdk-pixbuf.mo \
+		$(modir)$(es)gettext-runtime.mo $(modir)$(es)glib20.mo \
+		$(modir)$(es)gtk20.mo $(modir)$(es)gtk20-properties.mo \
+		$(localdir)$(es)
+	cp $(modir)$(fr)atk10.mo $(modir)$(fr)gdk-pixbuf.mo \
+		$(modir)$(fr)gettext-runtime.mo $(modir)$(fr)glib20.mo \
+		$(modir)$(fr)gtk20.mo $(modir)$(fr)gtk20-properties.mo \
+		$(localdir)$(fr)
+	zip -r surcos $(bindir)*.exe $(bindir)*.dll $(bindir)*.png \
+		$(localdir)*/*/*.mo $(basedir)*.pdf $(etcdir) $(libdir)
+
+JB_OBJ = jb_xml.o jb_win.o jb_math.o jb_def.o
+POINTS_OBJ = points.o $(JB_OBJ)
+
+EDITOR_TRANSIENT_SECTION_SRC = editor_transient_section.c \
+	editor_transient_section.h
+EDITOR_TRANSIENT_SECTION_OBJ = transient_section.o $(POINTS_OBJ)
+
+editor-transient-section: $(EDITOR_TRANSIENT_SECTION_SRC) \
+	$(EDITOR_TRANSIENT_SECTION_OBJ)
+	$(CC) -Wall $(CPPFLAGS) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
+		@PNG_CFLAGS@ @GTK_CFLAGS@ editor_transient_section.c \
+		$(EDITOR_TRANSIENT_SECTION_OBJ) $(LDFLAGS) \
+		-DTEST_EDITOR_TRANSIENT_SECTION=1 -o editor-transient-section
+
+EDITOR_CROSS_SECTION_SRC = editor_cross_section.c editor_cross_section.h \
+	$(EDITOR_TRANSIENT_SECTION_SRC)
+EDITOR_CROSS_SECTION_OBJ = cross_section.o $(EDITOR_TRANSIENT_SECTION_OBJ)
+
+editor-cross-section: $(EDITOR_CROSS_SECTION_SRC) $(EDITOR_CROSS_SECTION_OBJ)
+	$(CC) -Wall $(CPPFLAGS) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
+		@PNG_CFLAGS@ @GTK_CFLAGS@ editor_cross_section.c \
+		editor_transient_section.c $(EDITOR_CROSS_SECTION_OBJ) $(LDFLAGS) \
+		-DTEST_EDITOR_CROSS_SECTION=1 -o editor-cross-section
+
+EDITOR_INITIAL_FLOW_SRC = editor_initial_flow.c editor_initial_flow.h
+EDITOR_INITIAL_FLOW_OBJ = initial_flow.o $(POINTS_OBJ)
+
+editor-initial-flow: $(EDITOR_INITIAL_FLOW_SRC) $(EDITOR_INITIAL_FLOW_OBJ)
+	$(CC) -Wall $(CPPFLAGS) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
+		@PNG_CFLAGS@ @GTK_CFLAGS@ editor_initial_flow.c \
+		$(EDITOR_INITIAL_FLOW_OBJ) $(LDFLAGS) -DTEST_EDITOR_INITIAL_FLOW=1 \
+		-o editor-initial-flow
+
+EDITOR_INITIAL_TRANSPORT_SRC = editor_initial_transport.c \
+	editor_initial_transport.h
+EDITOR_INITIAL_TRANSPORT_OBJ = initial_transport.o $(POINTS_OBJ)
+
+editor-initial-transport: $(EDITOR_INITIAL_TRANSPORT_SRC) \
+	$(EDITOR_INITIAL_TRANSPORT_OBJ)
+	$(CC) -Wall $(CPPFLAGS) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
+		@PNG_CFLAGS@ @GTK_CFLAGS@ editor_initial_transport.c \
+		$(EDITOR_INITIAL_TRANSPORT_OBJ) $(LDFLAGS) \
+		-DTEST_EDITOR_INITIAL_TRANSPORT=1 -o editor-initial-transport
+
+EDITOR_BOUNDARY_TRANSPORT_SRC = editor_boundary_transport.c \
+	editor_boundary_transport.h
+EDITOR_BOUNDARY_TRANSPORT_OBJ = boundary_transport.o $(POINTS_OBJ)
+
+editor-boundary-transport: $(EDITOR_BOUNDARY_TRANSPORT_SRC) \
+	$(EDITOR_BOUNDARY_TRANSPORT_OBJ)
+	$(CC) -Wall $(CPPFLAGS) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
+		@PNG_CFLAGS@ @GTK_CFLAGS@ editor_boundary_transport.c \
+		$(EDITOR_BOUNDARY_TRANSPORT_OBJ) $(LDFLAGS) \
+		-DTEST_EDITOR_BOUNDARY_TRANSPORT=1 -o editor-boundary-transport
+
+EDITOR_BOUNDARY_FLOW_SRC = editor_boundary_flow.c editor_boundary_flow.h
+EDITOR_BOUNDARY_FLOW_OBJ = boundary_flow.o junction_data.o $(POINTS_OBJ)
+
+editor-boundary-flow: $(EDITOR_BOUNDARY_FLOW_SRC) $(EDITOR_BOUNDARY_FLOW_OBJ)
+	$(CC) -Wall $(CPPFLAGS) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
+		@PNG_CFLAGS@ @GTK_CFLAGS@ editor_boundary_flow.c \
+		$(EDITOR_BOUNDARY_FLOW_OBJ) $(LDFLAGS) -DTEST_EDITOR_BOUNDARY_FLOW=1 \
+		-o editor-boundary-flow
+
+EDITOR_CHANNEL_SRC = editor_channel.c editor_channel.h \
+	$(EDITOR_CROSS_SECTION_SRC) $(EDITOR_INITIAL_FLOW_SRC) \
+	$(EDITOR_BOUNDARY_FLOW_SRC) $(EDITOR_INITIAL_TRANSPORT_SRC) \
+	$(EDITOR_BOUNDARY_TRANSPORT_SRC)
+EDITOR_CHANNEL_OBJ = channel.o channel_geometry.o initial_flow.o \
+	initial_transport.o junction_data.o boundary_flow.o boundary_transport.o \
+	transport.o channel_transport.o $(EDITOR_CROSS_SECTION_OBJ)
+
+editor-channel: $(EDITOR_CHANNEL_SRC) $(EDITOR_CHANNEL_OBJ)
+	$(CC) -Wall $(CPPFLAGS) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
+		@PNG_CFLAGS@ @GTK_CFLAGS@ editor_channel.c editor_boundary_transport.c \
+		editor_initial_transport.c editor_boundary_flow.c \
+		editor_initial_flow.c editor_cross_section.c \
+		editor_transient_section.c $(EDITOR_CHANNEL_OBJ) $(LDFLAGS) \
+		-DTEST_EDITOR_CHANNEL=1 -o editor-channel
+
+EDITOR_TRANSPORT_SRC = editor_transport.c editor_transport.h
+EDITOR_TRANSPORT_OBJ = transport.o $(JB_OBJ)
+
+editor-transport: $(EDITOR_TRANSPORT_SRC) $(EDITOR_TRANSPORT_OBJ)
+	$(CC) -Wall $(CPPFLAGS) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
+		@PNG_CFLAGS@ @GTK_CFLAGS@ editor_transport.c $(EDITOR_TRANSPORT_OBJ) \
+		$(LDFLAGS) -DTEST_EDITOR_TRANSPORT=1 -o editor-transport
