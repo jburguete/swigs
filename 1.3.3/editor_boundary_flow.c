@@ -460,7 +460,6 @@ void editor_boundary_flow_update(EditorBoundaryFlow *editor)
 	}
 	bf->type = type;
 	#if DEBUG_EDITOR_BOUNDARY_FLOW_UPDATE
-		boundary_flow_print(bf, stderr);
 		fprintf(stderr, "editor_boundary_flow_update: end\n");
 	#endif
 }
