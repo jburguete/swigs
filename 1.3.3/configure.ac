@@ -33,7 +33,7 @@
 # ./configure
 # make
 
-AC_PREREQ([2.69])
+AC_PREREQ([2.68])
 AC_INIT([SWIGS], [1.3.3])
 
 # Checks for operative systems
