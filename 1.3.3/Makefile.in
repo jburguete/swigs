@@ -56,9 +56,9 @@ src = $(srcbin) dialog_position.h dialog_system.h dialog_graphical_options.h \
 configs = jb/jb_config.h config.h def.h Makefile
 
 CPPFLAGS = @CPPFLAGS@ -DJBW=2 -DJBW_DRAW=2 -DJBW_GRAPHIC=2
-CFLAGS = -c -Wall $(CPPFLAGS) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
+CFLAGS = -c -Wall $(CPPFLAGS) @XML_CFLAGS@ @GLIB_CFLAGS@ @GTHREAD_CFLAGS@ \
 	@PNG_CFLAGS@ @GTK_CFLAGS@
-LDFLAGS = @LDFLAGS@ @LIBS@ @XML_LIBS@ @GTHREAD_LIBS@ @GLIB_LIBS@ @PNG_LIBS@ \
+LDFLAGS = @LDFLAGS@ @LIBS@ @XML_LIBS@ @GLIB_LIBS@ @GTHREAD_LIBS@ @PNG_LIBS@ \
 	@GTK_LIBS@
 flags_fast = $(CFLAGS) -O3
 flags_default = $(CFLAGS) -O2
@@ -66,8 +66,8 @@ flags_small = $(CFLAGS) -Os
 name = swigs
 
 CPPFLAGSBIN = @CPPFLAGS@ -DJBW=1
-CFLAGSBIN = -c -Wall $(CPPFLAGSBIN) @XML_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ 
-LDFLAGSBIN = @LDFLAGS@ @LIBS@ @XML_LIBS@ @GTHREAD_LIBS@ @GLIB_LIBS@
+CFLAGSBIN = -c -Wall $(CPPFLAGSBIN) @XML_CFLAGS@ @GLIB_CFLAGS@ @GTHREAD_CFLAGS@
+LDFLAGSBIN = @LDFLAGS@ @LIBS@ @XML_LIBS@ @GLIB_LIBS@ @GTHREAD_LIBS@
 flags_fastbin = $(CFLAGSBIN) -O3
 flags_defaultbin = $(CFLAGSBIN) -O2
 flags_smallbin = $(CFLAGSBIN) -Os

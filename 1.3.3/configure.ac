@@ -109,10 +109,13 @@ AC_SEARCH_LIBS([textdomain], [intl])
 PKG_CHECK_MODULES([GLIB], [glib-2.0])
 PKG_CHECK_MODULES([GTHREAD], [gthread-2.0])
 PKG_CHECK_MODULES([XML], [libxml-2.0])
-PKG_CHECK_MODULES([GTK], [gtk+-3.0])
-AC_SEARCH_LIBS([glutInit], [freeglut glut])
-AC_SEARCH_LIBS([glEnd], [GL opengl32])
-PKG_CHECK_MODULES([PNG], [libpng])
+
+AC_ARG_WITH([gtk], AS_HELP_STRING([--without-gtk], [Build without GTK+]))
+AS_IF([test "x$with_gtk" == "xyes"],
+	PKG_CHECK_MODULES([PNG], [libpng])
+	PKG_CHECK_MODULES([GTK], [gtk+-3.0])
+	AC_SEARCH_LIBS([glEnd], [GL opengl32])
+	AC_SEARCH_LIBS([glutInit], [freeglut glut]))
 
 # Checks for header files.
 AC_CHECK_HEADERS([locale.h unistd.h libintl.h GL/freeglut.h])
