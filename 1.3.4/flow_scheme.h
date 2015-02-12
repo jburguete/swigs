@@ -1269,7 +1269,7 @@ static inline void _flow_inner_boundary(BoundaryFlow *bf)
 	#if DEBUG_FLOW_INNER_BOUNDARY
 		if (t>=DEBUG_TIME)
 		{
-			fprintf(stderr,"flow_inner_boundary: end\n");
+			fprintf(stderr,"flow_inner_boundary: start\n");
 			fprintf(stderr,"FIB i=%d type=%d\n",bf->i,bf->type);
 		}
 	#endif

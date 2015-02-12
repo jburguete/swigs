@@ -1295,8 +1295,8 @@ static inline JBDOUBLE _boundary_flow_integral
 		fprintf(stderr, "boundary_flow_integral: start\n");
 		fprintf(stderr, "BFI t="FWL" tmax="FWL"\n", t, tmax);
 		for (i = 0; i <= bf->n; ++i)
-			fprintf(stderr, "BFI i=%d p1="FWF" p2="FWF"\n",
-				i, bf->p1[i], bf->p2[i]);
+			fprintf(stderr, "BFI i=%d t="FWL" p1="FWF"\n",
+				i, bf->t[i], bf->p1[i]);
 	#endif
 	switch (bf->type)
 	{
@@ -1305,10 +1305,10 @@ static inline JBDOUBLE _boundary_flow_integral
 		case BOUNDARY_FLOW_TYPE_ZT:
 		case BOUNDARY_FLOW_TYPE_QT_HT:
 		case BOUNDARY_FLOW_TYPE_QT_ZT:
-			if (!simulating) return bf->p2[0] * (tmax - t);
+			if (!simulating) return bf->p1[0] * (tmax - t);
 			t -= bf->delay;
 	}
-	k = jbm_farray_integral(bf->p1, bf->p2, bf->n, t, tmax);
+	k = jbm_darray_farray_integral(bf->t, bf->p1, bf->n, t, tmax);
 	#if DEBUG_BOUNDARY_FLOW_INTEGRAL
 		fprintf(stderr, "boundary_flow_integral: end\n");
 	#endif
