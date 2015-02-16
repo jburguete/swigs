@@ -1,27 +1,18 @@
 # To work in:
-#   - Debian Linux 7.7
-#   - Debian kFreeBSD 7.7
-#   - Debian Hurd 7.7
-#	- DragonFly BSD 4.0.1
-#   - FreeBSD 10.0
-#   - Microsoft Windows XP 32 bits
-#   - Microsoft Windows 7 32 bits
-#   - NetBSD 6.1.5 (with modular xorg)
+#   - Debian Linux 7.8
+#   - Debian kFreeBSD 7.8
+#   - Debian Hurd 7.8
+#	- DragonFly BSD 4.0.3
+#   - FreeBSD 10.1
+#   - Microsoft Windows 7 32 bits + MSYS2
+#   - Microsoft Windows 7 64 bits + MSYS2
+#   - Microsoft Windows 8.1 64 bits + MSYS2
+#   - NetBSD 6.1.5 + modular xorg
 #
 # aclocal
 # autoconf
 # automake --add-missing
-# ./configure
-# make
-
-# To work in:
-#   - Microsoft Windows XP 64 bits
-#   - Microsoft Windows 7 64 bits
-#
-# aclocal
-# autoconf
-# automake --add-missing
-# ./configure --host=x86_64-w64-mingw32
+# ./configure --with-gtk
 # make
 
 # To work in OpenBSD 5.6:
@@ -30,7 +21,7 @@
 # aclocal
 # autoconf
 # automake --add-missing
-# ./configure
+# ./configure --with-gtk
 # make
 
 AC_PREREQ([2.68])
@@ -109,13 +100,18 @@ AC_SEARCH_LIBS([textdomain], [intl])
 PKG_CHECK_MODULES([GLIB], [glib-2.0])
 PKG_CHECK_MODULES([GTHREAD], [gthread-2.0])
 PKG_CHECK_MODULES([XML], [libxml-2.0])
+AS_IF([test -d "jb"],
+	  AC_MSG_NOTICE([jb installed]),
+	  AC_MSG_ERROR([jb not installed]))
 
+# Checks for GTK+ to build the GUI version
 AC_ARG_WITH([gtk], AS_HELP_STRING([--without-gtk], [Build without GTK+]))
 AS_IF([test "x$with_gtk" == "xyes"],
 	PKG_CHECK_MODULES([PNG], [libpng])
 	PKG_CHECK_MODULES([GTK], [gtk+-3.0])
 	AC_SEARCH_LIBS([glEnd], [GL opengl32])
-	AC_SEARCH_LIBS([glutInit], [freeglut glut]))
+	AC_SEARCH_LIBS([glutInit], [freeglut glut])
+	AC_SUBST(swigs, "swigs"))
 
 # Checks for header files.
 AC_CHECK_HEADERS([locale.h unistd.h libintl.h GL/freeglut.h])

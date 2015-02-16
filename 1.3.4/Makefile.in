@@ -63,7 +63,7 @@ LDFLAGS = @LDFLAGS@ @LIBS@ @XML_LIBS@ @GLIB_LIBS@ @GTHREAD_LIBS@ @PNG_LIBS@ \
 flags_fast = $(CFLAGS) -O3
 flags_default = $(CFLAGS) -O2
 flags_small = $(CFLAGS) -Os
-name = swigs
+name = @swigs@
 
 CPPFLAGSBIN = @CPPFLAGS@ -DJBW=1
 CFLAGSBIN = -c -Wall $(CPPFLAGSBIN) @XML_CFLAGS@ @GLIB_CFLAGS@ @GTHREAD_CFLAGS@
