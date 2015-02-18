@@ -223,13 +223,11 @@ int main(int argn, char **argc)
 	#if DEBUG_MAIN
 		fprintf(stderr, "Main\n");
 	#endif
-	g_thread_init(NULL);
 	#ifdef G_OS_WIN32
 		nthreads=4;
 	#else
 		nthreads=(int)sysconf(_SC_NPROCESSORS_CONF);
 	#endif
-	mutex=g_mutex_new();
 	xmlKeepBlanksDefault(0);
 	xmlSetCompressMode(9);
 	setlocale(LC_ALL, "");

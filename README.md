@@ -1,4 +1,4 @@
-SWIGS (1.3.4 version)
+SWIGS (1.3.5 version)
 ====================
 
 SWIGS (Shallow Water in Irregular Geometries Simulator): a software to simulate
@@ -49,74 +49,54 @@ FILES
 BUILDING INSTRUCTIONS
 ---------------------
 
-Debian Linux 7.7
-________________
-Debian kFreeBSD 7.7
+Debian 7.8 (Linux, kFreeBSD or Hurd)
+____________________________________
+DragonFly BSD 4.0.3
 ___________________
-Debian Hurd 7.7
-_______________
-DragonFly BSD 4.0.1
-___________________
-FreeBSD 10.0
+FreeBSD 10.1
 ____________
 NetBSD 6.1.5 (with modular xorg)
 ________________________________
 
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 1.3.4
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.6 jb)
+* cd 1.3.5
+* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.14.1 jb)
 * aclocal
 * autoconf
 * automake --add-missing
-* ./configure
+* ./configure --with-gtk
 * make
 * strip swigs swigsbin (optional: to make a final version)
 
 Microsoft Windows 7 32 bits
 ___________________________
-Microsoft Windows XP 32 bits
-____________________________
-
-* install [MSYS/MinGW](http://www.mingw.org) and the required libraries and
-utilities. You can follow detailed instructions in
-[MinGW-64-Make](https://github.com/jburguete/MinGW-64-Make)
-* download the latest [JB library](https://github.com/jburguete/jb)
-* cd 1.3.4
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.6 jb)
-* aclocal
-* autoconf
-* automake --add-missing
-* make
-* strip win32/bin/*.exe (optional: to make a final version)
-
 Microsoft Windows 7 64 bits
 ___________________________
-Microsoft Windows XP 64 bits
-____________________________
+Microsoft Windows 8.1 64 bits
+___________________________
 
-* install [MSYS/MinGW](http://www.mingw.org) and the required libraries and
-utilities. You can follow detailed instructions in
-[MinGW-64-Make](https://github.com/jburguete/MinGW-64-Make)
+* install [MSYS2](http://sourceforge.net/projects/msys2) and the required
+libraries and utilities.
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 1.3.4
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.6 jb)
+* cd 1.3.5
+* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.14.1 jb)
 * aclocal
 * autoconf
 * automake --add-missing
-* configure --host=x86_64-w64-mingw32
+* ./configure --with-gtk
 * make
-* strip win64/bin/*.exe (optional: to make a final version)
+* strip win*/bin/*.exe (optional: to make a final version)
 
 OpenBSD 5.6
 ___________
 
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 1.3.4
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.8.6 jb)
+* cd 1.3.5
+* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.14.1 jb)
 * export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
 * aclocal
 * autoconf
 * automake --add-missing
-* ./configure
+* ./configure --with-gtk
 * make
 * strip swigs swigsbin (optional: to make a final version)

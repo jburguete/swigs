@@ -6,7 +6,7 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: swigs 1.3.4\n"
+"Project-Id-Version: swigs 1.3.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-01-20 06:08+0100\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
@@ -500,7 +500,7 @@ msgstr "Fichero XML de simulación incorrecto"
 
 #: init.c:608
 msgid "Unable to open the external libraries"
-msgstr "No se pudieron abrir las librerías externas"
+msgstr "No se pudo abrir las librerías externas"
 
 #: init.c:620
 msgid "swigs [-np number_of_processors]"
@@ -667,7 +667,7 @@ msgid ""
 "channel networks and rivers"
 msgstr ""
 "SWIGS (Shallow Water in Irregular Geometries Simulator): un programa para "
-"simular flujos transitorios o estacionarios con tranporte de solute en "
+"simular flujos estacionarios o transitorios con transporte de soluto en "
 "canales, redes de canales y ríos"
 
 #: dialog_simulator.c:156 dialog_simulator.c:205
@@ -760,7 +760,7 @@ msgstr "Salir"
 
 #: dialog_simulator.c:275
 msgid "New system"
-msgstr "Nuevo sistema"
+msgstr "Nuevo istema"
 
 #: dialog_simulator.c:275
 msgid "Edit system"
@@ -806,7 +806,7 @@ msgstr "Tiempo de cálculo"
 #~ msgstr "Entrada de flujo"
 
 #~ msgid "Not hydrogram"
-#~ msgstr "Falta el hidrograma"
+#~ msgstr "Hidrograma no definido"
 
 #~ msgid "Boundary flow"
 #~ msgstr "Contorno de flujo"

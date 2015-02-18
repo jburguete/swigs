@@ -15,17 +15,12 @@
 # ./configure --with-gtk
 # make
 
-# To work in OpenBSD 5.6:
+# To work in OpenBSD 5.6 prepend:
 #
 # export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
-# aclocal
-# autoconf
-# automake --add-missing
-# ./configure --with-gtk
-# make
 
-AC_PREREQ([2.68])
-AC_INIT([SWIGS], [1.3.4])
+AC_PREREQ([2.67])
+AC_INIT([SWIGS], [1.3.5])
 
 # Checks for operative systems
 AC_CANONICAL_HOST
@@ -34,24 +29,24 @@ AC_MSG_NOTICE([Build: $build])
 AC_MSG_NOTICE([Host: $host])
 if test $host = "x86_64-w64-mingw32"; then
 	AC_MSG_NOTICE([Microsoft Windows 64 bits])
-	AC_SUBST(bindir, [../0.0.0/win64/bin/])
-	AC_SUBST(etcdir, [../0.0.0/win64/etc/])
-	AC_SUBST(libdir, [../0.0.0/win64/lib/])
-	AC_SUBST(localdir, [../0.0.0/win64/share/locale/])
+	AC_SUBST(bindir, [../1.2.0/win64/bin/])
+	AC_SUBST(etcdir, [../1.2.0/win64/etc/])
+	AC_SUBST(libdir, [../1.2.0/win64/lib/])
+	AC_SUBST(localdir, [../1.2.0/win64/share/locale/])
 	AC_SUBST(sysdir, [/mingw/])
-	AC_SUBST(basedir, [../0.0.0/win64/])
+	AC_SUBST(basedir, [../1.2.0/win64/])
 	AC_SUBST(icon, [logo.o])
 	AC_SUBST(ccflags, "-march=corei7 -mfpmath=sse -msse3")
 	AC_SUBST(libgcc, "libgcc_s_seh-1")
 	win=1
 elif test $host = "i686-pc-win32"; then
 	AC_MSG_NOTICE([Microsoft Windows 32 bits])
-	AC_SUBST(bindir, [../0.0.0/win32/bin/])
-	AC_SUBST(etcdir, [../0.0.0/win32/etc/])
-	AC_SUBST(libdir, [../0.0.0/win32/lib/])
-	AC_SUBST(localdir, [../0.0.0/win32/share/locale/])
+	AC_SUBST(bindir, [../1.2.0/win32/bin/])
+	AC_SUBST(etcdir, [../1.2.0/win32/etc/])
+	AC_SUBST(libdir, [../1.2.0/win32/lib/])
+	AC_SUBST(localdir, [../1.2.0/win32/share/locale/])
 	AC_SUBST(sysdir, [/mingw/])
-	AC_SUBST(basedir, [../0.0.0/win32/])
+	AC_SUBST(basedir, [../1.2.0/win32/])
 	AC_SUBST(icon, [logo.o])
 	AC_SUBST(ccflags, "-march=pentium4 -mfpmath=sse -msse2")
 	AC_SUBST(libgcc, "libgcc_s_dw2-1")
@@ -82,6 +77,19 @@ AC_PROG_CC([gcc49 gcc48 egcc gcc clang])
 AC_PROG_MAKE_SET
 AC_LANG([C])
 PKG_PROG_PKG_CONFIG
+
+# Checks for compiler flags
+compiler=$CC
+CC="$CC -flto"
+AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [lto=1], [lto=0])
+CC=$compiler
+if test $lto = 0; then
+	AC_MSG_NOTICE("checking for -flto... no")
+	AC_SUBST(LTO, "")
+else
+	AC_MSG_NOTICE("checking for -flto... yes")
+	AC_SUBST(LTO, "-flto")
+fi
 
 # Checks for libraries.
 if test $win = 0; then

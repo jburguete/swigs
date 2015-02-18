@@ -96,7 +96,7 @@ typedef struct
  * \var *plumes_path
  * \brief plumes solution file path.
  * \var *contributions_path
- * \brief contributions soltuion file path.
+ * \brief contributions solution file path.
  */
 	int n, nt;
 	JBDOUBLE initial_time, observation_time, final_time, measured_interval;
@@ -178,8 +178,11 @@ static inline void _system_delete(System *s)
 	jb_free_null((void**)&s->solution_name);
 	jb_free_null((void**)&s->solution_path);
 	jb_free_null((void**)&s->advances_name);
+	jb_free_null((void**)&s->advances_path);
 	jb_free_null((void**)&s->plumes_name);
+	jb_free_null((void**)&s->plumes_path);
 	jb_free_null((void**)&s->contributions_name);
+	jb_free_null((void**)&s->contributions_path);
 	s->n = s->nt = -1;
 	#if DEBUG_SYSTEM_DELETE
 		fprintf(stderr, "system_delete: end\n");
@@ -200,7 +203,8 @@ static inline void _system_init_empty(System *s)
 	s->transport = NULL;
 	s->channel = NULL;
 	s->name = s->directory = s->solution_name = s->solution_path
-		= s->advances_name = s->plumes_name = s->contributions_name = NULL;
+		= s->advances_name = s->plumes_name = s->contributions_name
+		= s->advances_path = s->plumes_path = s->contributions_path = NULL;
 	s->n = s->nt = -1;
 	#if DEBUG_SYSTEM_INIT_EMPTY
 		fprintf(stderr, "system_init_empty: end\n");

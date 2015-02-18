@@ -389,6 +389,7 @@ exit:
 void simulate()
 {
 	int i, j;
+	char *overflow_path;
 	#if GUAD2D
 		int iRec, iEnv;
 	#endif
@@ -559,7 +560,12 @@ exit:
 	}
 	if (sys->plumes_path) fclose(file3);
 	if (sys->contributions_path) fclose(file4);
+	overflow_path = g_strconcat(sys->directory, "/overflow", NULL);
+	file2 = fopen(overflow_path, "w");
+	g_free(overflow_path);
 	if (channel_overflow) jbw_show_warning(gettext("Channel overflow"));
+	fprintf(file2, "%d", channel_overflow);
+	fclose(file2);
 	simulated = 1;
 exit2:
 	simulating = started = 0;
