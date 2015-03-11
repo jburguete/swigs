@@ -131,7 +131,7 @@ void dialog_simulator_about(DialogSimulator *dlg)
 		"authors",
 		authors,
 		"version",
-		"1.3.6",
+		"1.3.7",
 		"copyright",
 		"Copyright 2011-2015 Javier Burguete Tolosa",
 		"logo",

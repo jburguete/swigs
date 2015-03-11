@@ -1307,9 +1307,11 @@ static inline JBDOUBLE _boundary_flow_integral
 		case BOUNDARY_FLOW_TYPE_QT_ZT:
 			if (!simulating) return bf->p1[0] * (tmax - t);
 			t -= bf->delay;
+			tmax -= bf->delay;
 	}
 	k = jbm_darray_farray_integral(bf->t, bf->p1, bf->n, t, tmax);
 	#if DEBUG_BOUNDARY_FLOW_INTEGRAL
+		fprintf(stderr, "BFI m="FWL"\n", k);
 		fprintf(stderr, "boundary_flow_integral: end\n");
 	#endif
 	return k;
