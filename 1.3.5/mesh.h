@@ -1786,6 +1786,10 @@ static inline int _mesh_open
 		{
 			bf->i = cs[bf->pos].i;
 			bf->i2 = cs[bf->pos2].i;
+			#if DEBUG_MESH_OPEN
+				fprintf(stderr,"MO channel=%d pos=%d pos2=%d i=%d i2=%d\n",
+					i, bf->pos, bf->pos2, bf->i, bf->i2);
+			#endif
 		}
 		#if DEBUG_MESH_OPEN
 			bf = channel->bf;

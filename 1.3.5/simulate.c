@@ -214,7 +214,7 @@ void simulate_steady()
 		#if MODEL_PRESSURE == MODEL_PRESSURE_HIGH_ORDER
 			dt2v = dt2;
 		#endif
-		tsteady+=dtmax;
+		tsteady += dtmax;
 		#if DEBUG_SIMULATE_STEADY
 			fprintf(stderr, "SS e1="FWL" e2="FWL" tsteady="FWL"\n",
 				e1, e2, tsteady);
