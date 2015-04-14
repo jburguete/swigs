@@ -363,6 +363,7 @@ int simulate_start()
 		fprintf(stderr, "SS drawing\n");
 	#endif
 	draw();
+	channel_overflow = 0;
 	started = 1;
 	#if DEBUG_SIMULATE_START
 		fprintf(stderr, "SS tf="FWL"\n", tf);

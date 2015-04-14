@@ -6,9 +6,9 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: swigs 1.3.8\n"
+"Project-Id-Version: swigs 1.3.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-24 11:13+0100\n"
+"POT-Creation-Date: 2015-04-14 15:49+0200\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -406,7 +406,7 @@ msgstr "swigs fichero_de_simulación"
 msgid "This abort the program! Do you like to continue?"
 msgstr "¡Esto aborta el programa! ¿Desea continuar?"
 
-#: simulate.c:79 simulate.c:422
+#: simulate.c:79 simulate.c:423
 msgid "Warning!"
 msgstr "¡Ojo!"
 
@@ -434,11 +434,11 @@ msgstr "Máximo error en caudal inicial estacionario"
 msgid "Flow initial conditions"
 msgstr "Condiciones iniciales de flujo"
 
-#: simulate.c:421
+#: simulate.c:422
 msgid "Do you want to overwrite the solution file?"
 msgstr "¿Desea sobreescribir el fichero de solución"
 
-#: simulate.c:566
+#: simulate.c:567
 msgid "Channel overflow"
 msgstr "Se produjo desbordamiento del cauce"
 
@@ -500,7 +500,7 @@ msgstr "Fichero XML de simulación incorrecto"
 
 #: init.c:608
 msgid "Unable to open the external libraries"
-msgstr "No se pudo abrir las librerías externas"
+msgstr "No se pudieron abrir las librerías externas"
 
 #: init.c:620
 msgid "swigs [-np number_of_processors]"
@@ -667,7 +667,7 @@ msgid ""
 "channel networks and rivers"
 msgstr ""
 "SWIGS (Shallow Water in Irregular Geometries Simulator): un programa para "
-"simular flujos estacionarios o transitorios con transporte de soluto en "
+"simular flujos transitorios o estacionarios con tranporte de solute en "
 "canales, redes de canales y ríos"
 
 #: dialog_simulator.c:156 dialog_simulator.c:205
@@ -760,7 +760,7 @@ msgstr "Salir"
 
 #: dialog_simulator.c:275
 msgid "New system"
-msgstr "Nuevo istema"
+msgstr "Nuevo sistema"
 
 #: dialog_simulator.c:275
 msgid "Edit system"
@@ -806,7 +806,7 @@ msgstr "Tiempo de cálculo"
 #~ msgstr "Entrada de flujo"
 
 #~ msgid "Not hydrogram"
-#~ msgstr "Hidrograma no definido"
+#~ msgstr "Falta el hidrograma"
 
 #~ msgid "Boundary flow"
 #~ msgstr "Contorno de flujo"
