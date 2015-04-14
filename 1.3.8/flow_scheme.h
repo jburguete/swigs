@@ -395,7 +395,8 @@ static inline void _part_parameters2(int thread)
 			g_mutex_lock(mutex);
 			channel_overflow=1;
 			g_mutex_unlock(mutex);
-			printf("overflow in node %d: A="FWF" Amax="FWF"\n", i, A, Amax);
+			printf("overflow in node %d: A="FWF" Amax="FWF"\n",
+				i, pv->A, pv->s->Amax);
 			break;
 		}
 	}
