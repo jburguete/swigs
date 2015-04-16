@@ -411,6 +411,7 @@ void simulate()
 		goto exit2;
 	}
 
+	printf("channel_overflow=%d\n", channel_overflow);
 	#if JBW == JBW_GTK
 		sys->solution_file = g_fopen(sys->solution_path, "rb");
 		if (sys->solution_file)
@@ -561,6 +562,7 @@ exit:
 	}
 	if (sys->plumes_path) fclose(file3);
 	if (sys->contributions_path) fclose(file4);
+	printf("channel_overflow=%d\n", channel_overflow);
 	overflow_path = g_strconcat(sys->directory, "/overflow", NULL);
 	file2 = fopen(overflow_path, "w");
 	g_free(overflow_path);
