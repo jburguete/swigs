@@ -2,7 +2,12 @@
 <simulate>
 	<system name="Violada.xml">
 		<evolution name="Inlet.evo" channel="1" section="1"/>
-		<evolution name="Alumudevar.evo" channel="1" section="2"/>
+		<evolution name="Almudevar.evo" channel="1" section="2"/>
 		<evolution name="Outlet.evo" channel="1" section="5"/>
+	</system>
+	<system name="Violada-optimized.xml">
+		<evolution name="Inlet-o.evo" channel="1" section="1"/>
+		<evolution name="Almudevar-o.evo" channel="1" section="2"/>
+		<evolution name="Outlet-o.evo" channel="1" section="5"/>
 	</system>
 </simulate>
