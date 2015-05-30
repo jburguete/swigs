@@ -73,7 +73,7 @@ flags_defaultbin = $(CFLAGSBIN) -O2
 flags_smallbin = $(CFLAGSBIN) -Os
 namebin = swigsbin
 
-CC = @CC@ -std=gnu99 @LTO@ @ccflags@
+CC = @CC@ @STD@ @LTO@ @ccflags@
 
 all: $(name) $(namebin) po/swigs.pot po/swigsbin.pot \
 	$(localdir)$(es)swigs.mo $(localdir)$(es)swigsbin.mo \

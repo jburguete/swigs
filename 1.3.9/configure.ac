@@ -78,17 +78,54 @@ AC_PROG_MAKE_SET
 AC_LANG([C])
 PKG_PROG_PKG_CONFIG
 
-# Checks for compiler flags
+# Checking -march=native compiler flag
+compiler=$CC
+CC="$CC -march=native"
+AC_TRY_LINK([],
+	[int main(int argc, char **argv){return 0;}], [arch=1], [arch=0])
+CC=$compiler
+if test $arch = 0; then
+	AC_MSG_NOTICE([checking for -march=native... no])
+	AC_SUBST(ARCH, "")
+else
+	AC_MSG_NOTICE([checking for -march=native... yes])
+	AC_SUBST(ARCH, "-march=native")
+fi
+
+# Checking -flto compiler flag
 compiler=$CC
 CC="$CC -flto"
 AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [lto=1], [lto=0])
 CC=$compiler
 if test $lto = 0; then
-	AC_MSG_NOTICE("checking for -flto... no")
+	AC_MSG_NOTICE([checking for -flto... no])
 	AC_SUBST(LTO, "")
 else
-	AC_MSG_NOTICE("checking for -flto... yes")
+	AC_MSG_NOTICE([checking for -flto... yes])
 	AC_SUBST(LTO, "-flto")
+fi
+
+# Checking -std compiler flag
+compiler=$CC
+CC="$CC -std=gnu11"
+AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [std=1], [std=0])
+CC=$compiler
+if test $std = 0; then
+	AC_MSG_NOTICE("checking for -std=gnu11... no")
+	CC="$CC -std=gnu99"
+	AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [std=1],
+		[std=0])
+	CC=$compiler
+	if test $std = 0; then
+		AC_MSG_NOTICE("checking for -std=gnu99... no")
+		AC_SUBST(STD, "")
+	else
+		AC_MSG_NOTICE("checking for -std=gnu99... yes")
+		AC_SUBST(STD, "-std=gnu99")
+	fi
+else
+	AC_MSG_NOTICE("checking for -std=gnu11... yes")
+	AC_SUBST(STD, "-std=gnu11")
 fi
 
 # Checks for libraries.
@@ -113,7 +150,7 @@ AS_IF([test -d "jb"],
 	  AC_MSG_ERROR([jb not installed]))
 
 # Checks for GTK+ to build the GUI version
-AC_ARG_WITH([gtk], AS_HELP_STRING([--without-gtk], [Build without GTK+]))
+AC_ARG_WITH([gtk], AS_HELP_STRING([--with-gtk], [Build with GTK+ interface]))
 AS_IF([test "x$with_gtk" == "xyes"],
 	PKG_CHECK_MODULES([PNG], [libpng])
 	PKG_CHECK_MODULES([GTK], [gtk+-3.0])
