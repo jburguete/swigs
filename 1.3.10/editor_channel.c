@@ -86,6 +86,8 @@ void editor_channel_update(EditorChannel *editor)
 		(GTK_WIDGET(editor->button_remove), editor->channel->cg->n > 0);
 	gtk_widget_set_sensitive
 		(GTK_WIDGET(editor->button_remove_inner), editor->channel->n > 1);
+	gtk_widget_set_sensitive
+		(GTK_WIDGET(editor->editor_inner->grid), editor->channel->n > 1);
 	#if DEBUG_EDITOR_CHANNEL_UPDATE
 		fprintf(stderr, "editor_channel_update: end\n");
 	#endif

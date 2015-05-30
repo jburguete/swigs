@@ -1044,16 +1044,18 @@ void editor_boundary_flow_new(EditorBoundaryFlow *editor, GtkNotebook *notebook,
 	bf->position = position;
 	if (position < 0)
 	{
+		editor->label_type = (GtkLabel*)gtk_label_new(gettext("Inlet"));
 		gtk_notebook_append_page(notebook,
-			GTK_WIDGET(editor->grid), gtk_label_new(gettext("Inlet")));
+			GTK_WIDGET(editor->grid), GTK_WIDGET(editor->label_type));
 		bf->pos = bf->pos2 = 0;
 		ntypes = N_BOUNDARY_FLOW_EXTERN_TYPES;
 		label_type = (char**)label_type_extern;
 	}
 	else if (position > 0)
 	{
+		editor->label_type = (GtkLabel*)gtk_label_new(gettext("Outlet"));
 		gtk_notebook_append_page(notebook,
-			GTK_WIDGET(editor->grid), gtk_label_new(gettext("Outlet")));
+			GTK_WIDGET(editor->grid), GTK_WIDGET(editor->label_type));
 		bf->pos = bf->pos2 = nsections[channel] - 1;
 		ntypes = N_BOUNDARY_FLOW_EXTERN_TYPES;
 		label_type = (char**)label_type_extern;
@@ -1062,8 +1064,10 @@ void editor_boundary_flow_new(EditorBoundaryFlow *editor, GtkNotebook *notebook,
 	{
 		ntypes = N_BOUNDARY_FLOW_INNER_TYPES;
 		label_type = (char**)label_type_inner;
-		gtk_notebook_append_page(notebook, GTK_WIDGET(editor->grid),
-			gtk_label_new(gettext("Boundary condition")));
+		editor->label_type
+			= (GtkLabel*)gtk_label_new(gettext("Inner boundary condition"));
+		gtk_notebook_append_page(notebook,
+			GTK_WIDGET(editor->grid), GTK_WIDGET(editor->label_type));
 		editor->label_initial
 			= (GtkLabel*)gtk_label_new(gettext("Initial cross section"));
 		gtk_grid_attach

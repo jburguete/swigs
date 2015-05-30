@@ -93,6 +93,8 @@ typedef struct
  * \brief JBWArrayEditor to define the data points.
  * \var graphic
  * \brief JBWGraphic to show the flow boundary condition graphic.
+ * \var label_type
+ * \brief GtkLabel to show a label of the flow boundary condition type.
  * \var label_name
  * \brief GtkLabel to show a label of the flow boundary condition name.
  * \var label_initial
@@ -170,9 +172,9 @@ typedef struct
 	BoundaryFlow bf[1];
 	JBWArrayEditor *array;
 	JBWGraphic *graphic;
-	GtkLabel *label_name, *label_initial, *label_final, *label_delay,
-		*label_discharge, *label_depth, *label_level, *label_roughness,
-		*label_height, *label_width, *label_junction;
+	GtkLabel *label_type, *label_name, *label_initial, *label_final,
+		*label_delay, *label_discharge, *label_depth, *label_level,
+		*label_roughness, *label_height, *label_width, *label_junction;
 	GtkEntry *entry_name;
 	GtkSpinButton *entry_delay, *entry_discharge, *entry_depth, *entry_level,
 		*entry_roughness, *entry_height, *entry_width;

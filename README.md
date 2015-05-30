@@ -1,4 +1,4 @@
-SWIGS (1.3.9 version)
+SWIGS (1.3.10 version)
 ====================
 
 SWIGS (Shallow Water in Irregular Geometries Simulator): a software to simulate
@@ -59,7 +59,7 @@ NetBSD 6.1.5 (with modular xorg)
 ________________________________
 
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 1.3.9
+* cd 1.3.10
 * link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.14.1 jb)
 * aclocal
 * autoconf
@@ -78,7 +78,7 @@ ___________________________
 * install [MSYS2](http://sourceforge.net/projects/msys2) and the required
 libraries and utilities.
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 1.3.9
+* cd 1.3.10
 * link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.14.1 jb)
 * aclocal
 * autoconf
@@ -91,7 +91,7 @@ OpenBSD 5.6
 ___________
 
 * download the latest [JB library](https://github.com/jburguete/jb)
-* cd 1.3.9
+* cd 1.3.10
 * link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.14.1 jb)
 * export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
 * aclocal
