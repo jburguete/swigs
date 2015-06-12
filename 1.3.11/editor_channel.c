@@ -241,6 +241,7 @@ int editor_channel_get(EditorChannel *editor)
 		#endif
 		return 0;
 	}
+	jbw_graphic_set_title(editor->graphic, channel->name);
 	#if DEBUG_EDITOR_CHANNEL_GET
 		fprintf(stderr, "editor_channel_get: end\n");
 	#endif
@@ -512,16 +513,17 @@ void editor_channel_remove_inner(EditorChannel *editor)
  */
 void editor_channel_draw(EditorChannel *editor)
 {
+	#if DEBUG_EDITOR_CHANNEL_DRAW
+		fprintf(stderr,"editor_channel_draw: start\n");
+	#endif
+
+	editor_channel_get(editor);
 	int i, j, n = editor->channel->cg->n;
 	TransientSection *ts;
 	CrossSection *cs;
 	JBDOUBLE k1, k2, xmax, xmin;
 	JBWGraphic *graphic;
 	JBFLOAT x[n + n + 2], y[n + n + 2], x2[n + 1], y2[n + 1], *xx, *yy;
-
-	#if DEBUG_EDITOR_CHANNEL_DRAW
-		fprintf(stderr,"editor_channel_draw: start\n");
-	#endif
 
 	graphic = editor->graphic;
 	for (i = 0, cs = editor->channel->cg->cs, xx = x, yy = y; i <= n;
@@ -736,7 +738,6 @@ void editor_channel_new(EditorChannel *editor,
 	editor->id_inner = g_signal_connect_swapped(editor->combo_inner,
 		"changed", (void(*))&editor_channel_open_inner, editor);
 	editor->graphic = jbw_graphic_new(NULL, 6, 6, 0, &editor_draw);
-	jbw_graphic_set_title(editor->graphic, gettext("Channel"));
 	jbw_graphic_set_logo(editor->graphic, "swigs.png");
 	jbw_graphic_set_xlabel(editor->graphic, "x (m)");
 	jbw_graphic_set_ylabel(editor->graphic, "y (m)");
@@ -889,6 +890,7 @@ int main(int argn, char **argc)
 	if (!jbw_graphic_init(&argn, &argc)) return 1;
 	glutIdleFunc((void(*))&gtk_main_iteration);
 	notebook = (GtkNotebook*)gtk_notebook_new();
+	gtk_notebook_set_tab_pos(notebook, GTK_POS_LEFT);
 	g_signal_connect_swapped(notebook, "switch-page",
 		(void(*))&change_current_page, editor);
 	g_signal_connect_after(notebook, "switch-page", &editor_draw, NULL);
@@ -909,8 +911,8 @@ int main(int argn, char **argc)
 	button_cancel = (GtkButton*)gtk_dialog_add_button
 		(dlg, gettext("_Cancel"), GTK_RESPONSE_CANCEL);
 	g_signal_connect(button_cancel, "clicked", &glutLeaveMainLoop, NULL);
-	gtk_widget_show_all(GTK_WIDGET(dlg));
 	editor_channel_open(editor);
+	gtk_widget_show_all(GTK_WIDGET(dlg));
 	glutMainLoop();
 	editor_channel_destroy(editor);
 	gtk_widget_destroy(GTK_WIDGET(dlg));

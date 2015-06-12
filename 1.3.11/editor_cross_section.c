@@ -261,6 +261,9 @@ int editor_cross_section_get_transient(EditorCrossSection *editor)
 	#endif
 	i = gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_transient));
 	ts = editor->cs->ts + i;
+	#if DEBUG_EDITOR_CROSS_SECTION_GET_TRANSIENT
+		fprintf(stderr, "ECSGT: i=%d\n", i);
+	#endif
 	transient_section_delete(ts);
 	if (!editor_transient_section_get(editor->editor_transient)
 		|| !transient_section_copy(ts, editor->editor_transient->ts))
@@ -326,6 +329,7 @@ int editor_cross_section_get(EditorCrossSection *editor)
 		cs->section
 			= gtk_combo_box_text_get_active_text(control->combo_section);
 	}
+	jbw_graphic_set_title(editor->graphic, cs->name);
 	#if DEBUG_EDITOR_CROSS_SECTION_GET
 		fprintf(stderr, "editor_cross_section_get: end\n");
 	#endif
@@ -485,6 +489,9 @@ void editor_cross_section_draw(EditorCrossSection *editor)
 	#if DEBUG_EDITOR_CROSS_SECTION_DRAW
 		fprintf(stderr,"editor_cross_section_draw: start\n");
 	#endif
+
+	// Getting data
+	editor_cross_section_get(editor);
 
 	// Getting extreme values
 	nmax = ts->n;
@@ -694,7 +701,6 @@ void editor_cross_section_new(EditorCrossSection *editor, GtkNotebook *notebook,
 	gtk_grid_attach
 		(editor->grid, GTK_WIDGET(editor->control->frame), 0, 7, 3, 1);
 	editor->graphic = jbw_graphic_new(NULL, 6, 6, 0, &editor_draw);
-	jbw_graphic_set_title(editor->graphic, gettext("Cross section"));
 	jbw_graphic_set_logo(editor->graphic, "swigs.png");
 	jbw_graphic_set_xlabel(editor->graphic, "y (m)");
 	jbw_graphic_set_ylabel(editor->graphic, "z (m)");
@@ -777,6 +783,7 @@ int main(int argn, char **argc)
 	if (!jbw_graphic_init(&argn, &argc)) return 1;
 	glutIdleFunc((void(*))&gtk_main_iteration);
 	notebook = (GtkNotebook*)gtk_notebook_new();
+	gtk_notebook_set_tab_pos(notebook, GTK_POS_LEFT);
 	g_signal_connect_swapped(notebook, "switch-page",
 		(void(*))&change_current_page, editor);
 	g_signal_connect_after(notebook, "switch-page", &editor_draw, NULL);
@@ -797,8 +804,8 @@ int main(int argn, char **argc)
 	button_cancel = (GtkButton*)gtk_dialog_add_button
 		(dlg, gettext("_Cancel"), GTK_RESPONSE_CANCEL);
 	g_signal_connect(button_cancel, "clicked", &glutLeaveMainLoop, NULL);
-	gtk_widget_show_all(GTK_WIDGET(dlg));
 	editor_cross_section_open(editor);
+	gtk_widget_show_all(GTK_WIDGET(dlg));
 	glutMainLoop();
 	editor_cross_section_destroy(editor);
 	gtk_widget_destroy(GTK_WIDGET(dlg));

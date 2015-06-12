@@ -130,6 +130,7 @@ int editor_transient_section_get(EditorTransientSection *editor)
 	ts->hmax = gtk_spin_button_get_value(editor->entry_hmax);
 	if (ts->hmax == 0.)
 		ts->hmax = fminl(ts->sp[0].z, ts->sp[ts->n].z) - ts->zmin;
+	jbw_graphic_set_title(editor->graphic, editor->ts->name);
 	#if DEBUG_EDITOR_TRANSIENT_SECTION_GET
 		transient_section_print(ts, stderr);
 		fprintf(stderr, "editor_transient_section_get: end\n");
@@ -386,7 +387,6 @@ void editor_transient_section_new
 	gtk_grid_attach
 		(editor->grid, GTK_WIDGET(editor->array->scrolled), 0, 8, 3, 1);
 	editor->graphic = jbw_graphic_new(NULL, 6, 6, 0, &editor_draw);
-	jbw_graphic_set_title(editor->graphic, gettext("Transient section"));
 	jbw_graphic_set_logo(editor->graphic, "swigs.png");
 	jbw_graphic_set_xlabel(editor->graphic, "y (m)");
 	jbw_graphic_set_ylabel(editor->graphic, "z (m)");
@@ -427,6 +427,7 @@ int main(int argn, char **argc)
 	if (!jbw_graphic_init(&argn, &argc)) return 1;
 	glutIdleFunc((void(*))&gtk_main_iteration);
 	notebook = (GtkNotebook*)gtk_notebook_new();
+	gtk_notebook_set_tab_pos(notebook, GTK_POS_LEFT);
 	editor_transient_section_new(editor, notebook);
 	doc = xmlParseFile(argc[1]);
 	if (!doc) return 2;
@@ -447,8 +448,8 @@ int main(int argn, char **argc)
 	button_cancel = (GtkButton*)gtk_dialog_add_button
 		(dlg, gettext("_Cancel"), GTK_RESPONSE_CANCEL);
 	g_signal_connect(button_cancel, "clicked", &glutLeaveMainLoop, NULL);
-	gtk_widget_show_all(GTK_WIDGET(dlg));
 	editor_transient_section_open(editor);
+	gtk_widget_show_all(GTK_WIDGET(dlg));
 	glutMainLoop();
 	editor_transient_section_destroy(editor);
 	gtk_widget_destroy(GTK_WIDGET(dlg));

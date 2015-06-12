@@ -658,6 +658,7 @@ int editor_boundary_flow_get(EditorBoundaryFlow *editor)
 				= gtk_spin_button_get_value(editor->entry_width);
 			break;
 	}
+	jbw_graphic_set_title(editor->graphic, bf->name);
 	#if DEBUG_EDITOR_BOUNDARY_FLOW_GET
 		boundary_flow_print(bf, stderr);
 		fprintf(stderr, "editor_boundary_flow_get: end\n");
@@ -943,7 +944,6 @@ void editor_boundary_flow_draw(EditorBoundaryFlow *editor)
 			p1 = g_alloca(n * sizeof(JBFLOAT));
 			for (i = 0; i < n; ++i) t[i] = bf->t[i];
 			memcpy(p1, bf->p1, n * sizeof(JBFLOAT));
-			break;
 		default:
 			jbw_graphic_draw_lines(editor->graphic, t, p1, p2, NULL, NULL, n);
 	}
@@ -1050,6 +1050,7 @@ void editor_boundary_flow_new(EditorBoundaryFlow *editor, GtkNotebook *notebook,
 		bf->pos = bf->pos2 = 0;
 		ntypes = N_BOUNDARY_FLOW_EXTERN_TYPES;
 		label_type = (char**)label_type_extern;
+		gtk_widget_set_sensitive(GTK_WIDGET(editor->entry_name), 0);
 	}
 	else if (position > 0)
 	{
@@ -1059,6 +1060,7 @@ void editor_boundary_flow_new(EditorBoundaryFlow *editor, GtkNotebook *notebook,
 		bf->pos = bf->pos2 = nsections[channel] - 1;
 		ntypes = N_BOUNDARY_FLOW_EXTERN_TYPES;
 		label_type = (char**)label_type_extern;
+		gtk_widget_set_sensitive(GTK_WIDGET(editor->entry_name), 0);
 	}
 	else
 	{
@@ -1193,7 +1195,6 @@ void editor_boundary_flow_new(EditorBoundaryFlow *editor, GtkNotebook *notebook,
 	gtk_grid_attach
 		(editor->grid, GTK_WIDGET(editor->grid_junction), 0, 12, 3, 1);
 	editor->graphic = jbw_graphic_new(NULL, 6, 6, 0, &editor_draw);
-	jbw_graphic_set_title(editor->graphic, gettext("Boundary condition"));
 	jbw_graphic_set_logo(editor->graphic, "swigs.png");
 	jbw_graphic_set_xlabel(editor->graphic, gettext("Time (s)"));
 	gtk_widget_show_all(GTK_WIDGET(editor->grid));

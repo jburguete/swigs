@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<simulate>
-	<system name="test/confluence.xml">
-		<profile name="p1" channel="1" time="1"/>
-		<profile name="p2" channel="2" time="1"/>
-	</system>
-</simulate>
-
