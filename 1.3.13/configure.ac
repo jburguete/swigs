@@ -20,7 +20,7 @@
 # export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
 
 AC_PREREQ([2.67])
-AC_INIT([SWIGS], [1.3.12])
+AC_INIT([SWIGS], [1.3.13])
 
 # Checks for operative systems
 AC_CANONICAL_HOST

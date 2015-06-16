@@ -465,6 +465,7 @@ void editor_channel_insert_inner(EditorChannel *editor)
 	i = 2 + gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_inner));
 	channel_insert_bf(channel, i);
 	bf = channel->bf + i;
+	gtk_combo_box_text_insert_text(editor->combo_inner, i - 1, bf->name);
 	editor_channel_update(editor);
 	editor_inner = editor->editor_inner;
 	boundary_flow_delete(editor_inner->bf);
@@ -780,7 +781,7 @@ void editor_draw()
 
 void change_current_page(EditorChannel *editor)
 {
-	int i, j;
+	int is, it, ib;
 	CrossSection *cs;
 	TransientSection *ts;
 	InitialFlow *ifc;
@@ -789,37 +790,34 @@ void change_current_page(EditorChannel *editor)
 	EditorTransientSection *editor_transient;
 	EditorInitialFlow *editor_initial;
 	EditorBoundaryFlow *editor_boundary;
+	editor_section = editor->editor_section;
+	editor_boundary = editor->editor_inner;
+	is = gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_section));
+	it = gtk_combo_box_get_active
+		(GTK_COMBO_BOX(editor_section->combo_transient));
+	ib = gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_inner));
+printf("ib=%d\n", ib);
 	switch (gtk_notebook_get_current_page(editor->notebook))
 	{
 		case EDITOR_CROSS_SECTION:
-			editor_section = editor->editor_section;
 			if (!editor_cross_section_get(editor_section))
 			{
 				jbw_show_error(message);
 				break;
 			}
-			i = gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_section));
-			j = gtk_combo_box_get_active
-				(GTK_COMBO_BOX(editor_section->combo_transient));
-			cs = editor->channel->cg->cs + i;
+			cs = editor->channel->cg->cs + is;
 			cross_section_delete(cs);
 			cross_section_copy(cs, editor_section->cs);
 			editor_channel_open(editor);
-			gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_section), i);
-			gtk_combo_box_set_active
-				(GTK_COMBO_BOX(editor_section->combo_transient), j);
 			break;
 		case EDITOR_TRANSIENT_SECTION:
-			editor_section = editor->editor_section;
 			editor_transient = editor_section->editor_transient;
 			if (!editor_transient_section_get(editor_transient))
 			{
 				jbw_show_error(message);
 				break;
 			}
-			i = gtk_combo_box_get_active
-				(GTK_COMBO_BOX(editor_section->combo_transient));
-			ts = editor_section->cs->ts + i;
+			ts = editor_section->cs->ts + it;
 			transient_section_delete(ts);
 			transient_section_copy(ts, editor_transient->ts);
 			editor_cross_section_get(editor_section);
@@ -828,8 +826,6 @@ void change_current_page(EditorChannel *editor)
 			cross_section_delete(cs);
 			cross_section_copy(cs, editor_section->cs);
 			editor_cross_section_open(editor_section);
-			gtk_combo_box_set_active
-				(GTK_COMBO_BOX(editor_section->combo_transient), i);
 			break;
 		case EDITOR_INITIAL_FLOW:
 			editor_initial = editor->editor_initial;
@@ -841,7 +837,11 @@ void change_current_page(EditorChannel *editor)
 			break;
 		case EDITOR_INLET:
 			editor_boundary = editor->editor_inlet;
-			editor_boundary_flow_get(editor_boundary);
+			if (!editor_boundary_flow_get(editor_boundary))
+			{
+				jbw_show_error(message);
+				break;
+			}
 			bf = editor->channel->bf;
 			boundary_flow_delete(bf);
 			boundary_flow_copy(bf, editor_boundary->bf);
@@ -849,23 +849,34 @@ void change_current_page(EditorChannel *editor)
 			break;
 		case EDITOR_OUTLET:
 			editor_boundary = editor->editor_outlet;
-			editor_boundary_flow_get(editor_boundary);
+			if (!editor_boundary_flow_get(editor_boundary))
+			{
+				jbw_show_error(message);
+				break;
+			}
 			bf = editor->channel->bf + editor->channel->n;
 			boundary_flow_delete(bf);
 			boundary_flow_copy(bf, editor_boundary->bf);
 			editor_channel_open(editor);
 			break;
 		case EDITOR_INNER:
-			editor_boundary = editor->editor_inner;
-			editor_boundary_flow_get(editor_boundary);
-			i = gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_inner));
-			bf = editor->channel->bf + i + 1;
+			if (editor->channel->n < 2) break;
+			if (!editor_boundary_flow_get(editor_boundary))
+			{
+				jbw_show_error(message);
+				break;
+			}
+			bf = editor->channel->bf + ib + 1;
 			boundary_flow_delete(bf);
 			boundary_flow_copy(bf, editor_boundary->bf);
 			editor_channel_open(editor);
-			gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_inner), i);
 			break;
 	}
+	gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_section), is);
+	gtk_combo_box_set_active
+		(GTK_COMBO_BOX(editor_section->combo_transient), it);
+printf("ib=%d\n", ib);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_inner), ib);
 }
 
 void ok(char *name)
