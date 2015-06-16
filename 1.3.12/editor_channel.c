@@ -780,7 +780,7 @@ void editor_draw()
 
 void change_current_page(EditorChannel *editor)
 {
-	int i;
+	int i, j;
 	CrossSection *cs;
 	TransientSection *ts;
 	InitialFlow *ifc;
@@ -793,18 +793,30 @@ void change_current_page(EditorChannel *editor)
 	{
 		case EDITOR_CROSS_SECTION:
 			editor_section = editor->editor_section;
-			editor_cross_section_get(editor_section);
+			if (!editor_cross_section_get(editor_section))
+			{
+				jbw_show_error(message);
+				break;
+			}
 			i = gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_section));
+			j = gtk_combo_box_get_active
+				(GTK_COMBO_BOX(editor_section->combo_transient));
 			cs = editor->channel->cg->cs + i;
 			cross_section_delete(cs);
 			cross_section_copy(cs, editor_section->cs);
 			editor_channel_open(editor);
 			gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_section), i);
+			gtk_combo_box_set_active
+				(GTK_COMBO_BOX(editor_section->combo_transient), j);
 			break;
 		case EDITOR_TRANSIENT_SECTION:
 			editor_section = editor->editor_section;
 			editor_transient = editor_section->editor_transient;
-			editor_transient_section_get(editor_transient);
+			if (!editor_transient_section_get(editor_transient))
+			{
+				jbw_show_error(message);
+				break;
+			}
 			i = gtk_combo_box_get_active
 				(GTK_COMBO_BOX(editor_section->combo_transient));
 			ts = editor_section->cs->ts + i;
