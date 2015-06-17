@@ -462,16 +462,16 @@ void editor_channel_insert_inner(EditorChannel *editor)
 		fprintf(stderr, "editor_channel_insert_inner: start\n");
 	#endif
 	channel = editor->channel;
-	i = 2 + gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_inner));
-	channel_insert_bf(channel, i);
-	bf = channel->bf + i;
-	gtk_combo_box_text_insert_text(editor->combo_inner, i - 1, bf->name);
+	i = 1 + gtk_combo_box_get_active(GTK_COMBO_BOX(editor->combo_inner));
+	channel_insert_bf(channel, i + 1);
+	bf = channel->bf + i + 1;
+	gtk_combo_box_text_insert_text(editor->combo_inner, i, bf->name);
 	editor_channel_update(editor);
 	editor_inner = editor->editor_inner;
 	boundary_flow_delete(editor_inner->bf);
 	boundary_flow_copy(editor_inner->bf, bf);
 	editor_boundary_flow_open(editor_inner);
-	gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_inner), i - 1);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(editor->combo_inner), i);
 	gtk_notebook_set_current_page(editor->notebook, EDITOR_INNER);
 	#if DEBUG_EDITOR_CHANNEL_INSERT_INNER
 		fprintf(stderr, "editor_channel_insert_inner: end\n");
