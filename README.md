@@ -49,54 +49,51 @@ FILES
 BUILDING INSTRUCTIONS
 ---------------------
 
-Debian 7.8 (Linux, kFreeBSD or Hurd)
+This software has been built and tested in the following operative systems.
+Probably, it can be built in other systems, distributions, or versions but it
+has not been tested.
+
+Debian 8.2 (Linux, kFreeBSD or Hurd)
 ____________________________________
-DragonFly BSD 4.0.3
+DragonFly BSD 4.2.4
 ___________________
-FreeBSD 10.1
+FreeBSD 10.2
 ____________
 NetBSD 6.1.5 (with modular xorg)
 ________________________________
 
-* download the latest [JB library](https://github.com/jburguete/jb)
-* cd 1.3.13
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.14.1 jb)
-* aclocal
-* autoconf
-* automake --add-missing
-* ./configure --with-gtk
-* make
-* strip swigs swigsbin (optional: to make a final version)
+1. Download the latest [JB library](https://github.com/jburguete/jb) doing on
+a terminal:
+> $ git clone https://github.com/jburguete/jb.git
 
-Microsoft Windows 7 32 bits
-___________________________
-Microsoft Windows 7 64 bits
-___________________________
-Microsoft Windows 8.1 64 bits
-___________________________
+2. Download this repository:
+> $ git clone https://github.com/jburguete/swigs.git
 
-* install [MSYS2](http://sourceforge.net/projects/msys2) and the required
-libraries and utilities.
-* download the latest [JB library](https://github.com/jburguete/jb)
-* cd 1.3.13
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.14.1 jb)
-* aclocal
-* autoconf
-* automake --add-missing
-* ./configure --with-gtk
-* make
-* strip win*/bin/*.exe (optional: to make a final version)
+3. Link the latest JB library to jb:
+> $ cd swigs/1.3.13
+>
+> $ ln -s ../../jb/1.14.2 jb
 
-OpenBSD 5.6
+4. Build doing on a terminal:
+> $ ./build
+
+Microsoft Windows 7 (with MSYS2)
+________________________________
+Microsoft Windows 8.1 (with MSYS2)
+__________________________________
+
+1. Install [MSYS2](http://sourceforge.net/projects/msys2) and the required
+libraries and utilities. You can follow detailed instructions in
+[install-unix]
+(https://github.com/jburguete/install-unix/blob/master/tutorial.pdf)
+
+2. Then, in a MSYS2 terminal, follow steps 1 to 4 of the previous Debian 8.2
+section.
+
+OpenBSD 5.7
 ___________
 
-* download the latest [JB library](https://github.com/jburguete/jb)
-* cd 1.3.13
-* link the latest JB library to jb (i.e. ln -s PATH_TO_THE_JB_LIBRARY/1.14.1 jb)
-* export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
-* aclocal
-* autoconf
-* automake --add-missing
-* ./configure --with-gtk
-* make
-* strip swigs swigsbin (optional: to make a final version)
+1. Select adequate versions:
+> $ export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.15
+
+2. Then, in a terminal, follow steps 1 to 4 of the previous Debian 8.2 section.
