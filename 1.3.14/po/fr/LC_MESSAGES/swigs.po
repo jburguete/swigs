@@ -292,7 +292,7 @@ msgstr "Temps final plus petit que le temps final"
 
 #: system.h:793
 msgid "Bad CFL"
-msgstr "CFL number erroné"
+msgstr "Nombre CFL erroné"
 
 #: system.h:800
 msgid "Bad implicit number"
