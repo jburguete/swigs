@@ -154,6 +154,7 @@ AC_ARG_WITH([gtk], AS_HELP_STRING([--with-gtk], [Build with GTK+ interface]))
 AS_IF([test "x$with_gtk" == "xyes"],
 	PKG_CHECK_MODULES([PNG], [libpng])
 	PKG_CHECK_MODULES([GTK], [gtk+-3.0])
+	PKG_CHECK_MODULES([GLEW], [glew])
 	AC_SEARCH_LIBS([glEnd], [GL opengl32])
 	AC_SEARCH_LIBS([glutInit], [freeglut glut])
 	AC_SUBST(swigs, "swigs"))

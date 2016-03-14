@@ -55,11 +55,11 @@ src = $(srcbin) dialog_position.h dialog_system.h dialog_graphical_options.h \
 
 configs = jb/jb_config.h config.h def.h Makefile
 
-CPPFLAGS = @CPPFLAGS@ -DJBW=2 -DJBW_DRAW=2 -DJBW_GRAPHIC=2
+CPPFLAGS = @CPPFLAGS@ -DJBW=2 -DJBW_GRAPHIC=1
 CFLAGS = -c -Wall $(CPPFLAGS) @XML_CFLAGS@ @GLIB_CFLAGS@ @GTHREAD_CFLAGS@ \
-	@PNG_CFLAGS@ @GTK_CFLAGS@
+	@PNG_CFLAGS@ @GTK_CFLAGS@ @GLEW_CFLAGS@
 LDFLAGS = @LDFLAGS@ @LIBS@ @XML_LIBS@ @GLIB_LIBS@ @GTHREAD_LIBS@ @PNG_LIBS@ \
-	@GTK_LIBS@
+	@GTK_LIBS@ @GLEW_LIBS@
 flags_fast = $(CFLAGS) -O3
 flags_default = $(CFLAGS) -O2
 flags_small = $(CFLAGS) -Os
