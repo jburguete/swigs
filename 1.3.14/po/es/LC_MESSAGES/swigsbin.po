@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: swigs 1.3.14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-13 04:01+0100\n"
+"POT-Creation-Date: 2016-07-04 13:15+0200\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
-"Language: spanish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: transient_section.h:188 transient_section.h:227 transient_section.h:333
@@ -82,8 +82,8 @@ msgstr "Cauce del control incorrecto"
 msgid "Bad control cross section"
 msgstr "Sección transversal del control incorrecta"
 
-#: cross_section.h:453 initial_flow.h:237 initial_transport.h:228 channel.h:517
-#: channel.h:555
+#: cross_section.h:453 initial_flow.h:237 initial_transport.h:228
+#: channel.h:517 channel.h:555
 msgid "Bad order"
 msgstr "Orden incorrecto"
 
@@ -389,8 +389,8 @@ msgstr "Guardar solución"
 msgid "Time evolution"
 msgstr "Evolución temporal"
 
-#: write.h:256 draw.h:93 init.c:304 init.c:310 init.c:322 init.c:330 init.c:360
-#: init.c:365 init.c:475 dialog_save_solution.c:47
+#: write.h:256 draw.h:93 init.c:304 init.c:310 init.c:322 init.c:330
+#: init.c:360 init.c:365 init.c:475 dialog_save_solution.c:47
 msgid "Solution"
 msgstr "Solución"
 
@@ -529,8 +529,8 @@ msgstr "Fichero de sistema XML (*.xml, *.XML)"
 msgid "Open system"
 msgstr "Abrir sistema"
 
-#: dialog_system.c:57 dialog_graphical_options.c:425 dialog_save_solution.c:118
-#: dialog_simulator.c:70
+#: dialog_system.c:57 dialog_graphical_options.c:425
+#: dialog_save_solution.c:118 dialog_simulator.c:70
 msgid "_Cancel"
 msgstr "_Cancelar"
 

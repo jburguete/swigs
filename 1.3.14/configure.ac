@@ -1,24 +1,3 @@
-# To work in:
-#   - Debian Linux 7.8
-#   - Debian kFreeBSD 7.8
-#   - Debian Hurd 7.8
-#	- DragonFly BSD 4.0.3
-#   - FreeBSD 10.1
-#   - Microsoft Windows 7 32 bits + MSYS2
-#   - Microsoft Windows 7 64 bits + MSYS2
-#   - Microsoft Windows 8.1 64 bits + MSYS2
-#   - NetBSD 6.1.5 + modular xorg
-#
-# aclocal
-# autoconf
-# automake --add-missing
-# ./configure --with-gtk
-# make
-
-# To work in OpenBSD 5.6 prepend:
-#
-# export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
-
 AC_PREREQ([2.67])
 AC_INIT([SWIGS], [1.3.14])
 
@@ -151,7 +130,7 @@ AS_IF([test -d "jb"],
 
 # Checks for GTK+ to build the GUI version
 AC_ARG_WITH([gtk], AS_HELP_STRING([--with-gtk], [Build with GTK+ interface]))
-AS_IF([test "x$with_gtk" == "xyes"],
+AS_IF([test "x$with_gtk" = "xyes"],
 	PKG_CHECK_MODULES([PNG], [libpng])
 	PKG_CHECK_MODULES([GTK], [gtk+-3.0])
 	PKG_CHECK_MODULES([GLEW], [glew])

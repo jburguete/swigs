@@ -53,13 +53,13 @@ This software has been built and tested in the following operative systems.
 Probably, it can be built in other systems, distributions, or versions but it
 has not been tested.
 
-Debian 8.2 (Linux, kFreeBSD or Hurd)
+Debian 8 (Linux, kFreeBSD or Hurd)
 ____________________________________
-DragonFly BSD 4.2.4
+DragonFly BSD 4.4
 ___________________
-FreeBSD 10.2
+FreeBSD 10.3
 ____________
-NetBSD 6.1.5 (with modular xorg)
+NetBSD 7.0 (with modular xorg)
 ________________________________
 
 1. Download the latest [JB library](https://github.com/jburguete/jb) doing on
@@ -90,10 +90,10 @@ libraries and utilities. You can follow detailed instructions in
 2. Then, in a MSYS2 terminal, follow steps 1 to 4 of the previous Debian 8.2
 section.
 
-OpenBSD 5.7
+OpenBSD 5.9
 ___________
 
 1. Select adequate versions:
 > $ export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.15
 
-2. Then, in a terminal, follow steps 1 to 4 of the previous Debian 8.2 section.
+2. Then, in a terminal, follow steps 1 to 4 of the previous Debian 8 section.
