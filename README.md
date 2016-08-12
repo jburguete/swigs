@@ -55,7 +55,7 @@ has not been tested.
 
 Debian 8 (Linux, kFreeBSD or Hurd)
 ____________________________________
-DragonFly BSD 4.4
+DragonFly BSD 4.6
 ___________________
 FreeBSD 10.3
 ____________
