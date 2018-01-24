@@ -404,9 +404,9 @@ _boundary_flow_insert_junction (BoundaryFlow * bf, int position)
 #if DEBUG_BOUNDARY_FLOW_INSERT_JUNCTION
   fprintf (stderr, "boundary_flow_insert_junction: start\n");
 #endif
-  bf->data = jb_realloc (bf->data,
-                         2 * sizeof (int) + (JUNCTION_N (bf) +
-                                             2) * sizeof (JunctionData));
+  bf->data
+    = jb_realloc (bf->data, 2 * sizeof (int)
+                  + (JUNCTION_N (bf) + 2) * sizeof (JunctionData));
   if (!bf->data)
     {
       message = gettext ("Not enough memory");
@@ -554,13 +554,15 @@ _boundary_flow_copy (BoundaryFlow * bf, BoundaryFlow * bf_copy)
 #if DEBUG_BOUNDARY_FLOW_COPY
       fprintf (stderr, "BFC n=%d\n", JUNCTION_N (bf_copy));
 #endif
-      i = 2 * sizeof (int) + (1 + JUNCTION_N (bf_copy)) * sizeof (JunctionData);
+      i =
+        2 * sizeof (int) + (1 + JUNCTION_N (bf_copy)) * sizeof (JunctionData);
       bf->data = g_try_malloc (i);
       if (!bf->data)
         goto exit1;
       memcpy (bf->data, bf_copy->data, i);
       for (i = 0; i <= JUNCTION_N (bf_copy); ++i)
-        junction_data_copy (JUNCTION_DATA (bf, i), JUNCTION_DATA (bf_copy, i));
+        junction_data_copy (JUNCTION_DATA (bf, i),
+                            JUNCTION_DATA (bf_copy, i));
     }
 
 exit0:
@@ -1037,7 +1039,8 @@ exit0:
       bf->data = g_try_malloc (sizeof (JBFLOAT));
       if (!bf->data)
         goto exit1;
-      bf->delay = jb_xml_node_get_float_with_default (node, XML_DELAY, &i, 0.);
+      bf->delay =
+        jb_xml_node_get_float_with_default (node, XML_DELAY, &i, 0.);
       if (!i)
         {
           boundary_flow_error (bf, gettext ("Bad delay"));
@@ -1235,7 +1238,8 @@ _boundary_flow_parameter (BoundaryFlow * bf, JBDOUBLE t)
   fprintf (stderr, "boundary_flow_parameter: start\n");
   fprintf (stderr, "BFP t=" FWL " type=%d n=%d\n", t, bf->type, bf->n);
   for (i = 0; i <= bf->n; ++i)
-    fprintf (stderr, "BFP i=%d t=" FWL " p1=" FWF "\n", i, bf->t[i], bf->p1[i]);
+    fprintf (stderr, "BFP i=%d t=" FWL " p1=" FWF "\n", i, bf->t[i],
+             bf->p1[i]);
 #endif
   if (!simulating)
     k = bf->p1[0];
@@ -1338,7 +1342,8 @@ static inline JBDOUBLE _boundary_flow_integral
   fprintf (stderr, "boundary_flow_integral: start\n");
   fprintf (stderr, "BFI t=" FWL " tmax=" FWL "\n", t, tmax);
   for (i = 0; i <= bf->n; ++i)
-    fprintf (stderr, "BFI i=%d t=" FWL " p1=" FWF "\n", i, bf->t[i], bf->p1[i]);
+    fprintf (stderr, "BFI i=%d t=" FWL " p1=" FWF "\n", i, bf->t[i],
+             bf->p1[i]);
 #endif
   switch (bf->type)
     {
