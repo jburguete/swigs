@@ -1,5 +1,5 @@
 AC_PREREQ([2.67])
-AC_INIT([SWIGS], [1.3.14])
+AC_INIT([SWIGS], [1.3.15])
 
 # Checks for operative systems
 AC_CANONICAL_HOST

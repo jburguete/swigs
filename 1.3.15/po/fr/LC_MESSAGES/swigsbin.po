@@ -1,28 +1,27 @@
-# Spanish translations for swigs package
-# Traducciones al español para el paquete swigs.
+# French translations for swigs package.
 # Copyright (C) 2006 THE swigs'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the swigs package.
 # Automatically generated, 2006.
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: swigs 1.3.14\n"
+"Project-Id-Version: swigs 1.3.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-04 12:10+0200\n"
+"POT-Creation-Date: 2018-01-24 03:02+0100\n"
 "PO-Revision-Date: 2006-09-01 15:05+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: french\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: spanish\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: transient_section.h:188 transient_section.h:227 transient_section.h:333
 #: transient_section.h:344 dialog_graphical_options.c:306
 #: dialog_graphical_options.c:366 dialog_graphical_options.c:382
 msgid "Transient section"
-msgstr "Sección transitoria"
+msgstr "Section transitoire"
 
 #: transient_section.h:228 transient_section.h:345 transient_section.h:390
 #: transient_section.h:421 transient_section.h:470 transient_section.h:499
@@ -48,16 +47,16 @@ msgstr "Sección transitoria"
 #: mesh.h:1059 mesh.h:1105 mesh.h:1155 mesh.h:1198 mesh.h:1307 mesh.h:1406
 #: mesh.h:1500 mesh.h:1569 mesh.h:1709 write.h:164 write.h:207 write.h:278
 msgid "Not enough memory"
-msgstr "Falta memoria"
+msgstr "Mémoire insuffisante"
 
 #: transient_section.h:334 cross_section.h:492 boundary_flow.h:614
 #: boundary_transport.h:290 transport.h:215 channel.h:780
 msgid "Not name"
-msgstr "Nombre no definido"
+msgstr "Nom indéfini"
 
 #: transient_section.h:363
 msgid "Unknown type"
-msgstr "Tipo desconocido"
+msgstr "Type inconnu"
 
 #: transient_section.h:518 cross_section.h:511 cross_section.h:517
 #: cross_section.h:523 cross_section.h:529 cross_section.h:545
@@ -67,25 +66,25 @@ msgstr "Tipo desconocido"
 #: boundary_flow.h:979 boundary_flow.h:1006 boundary_transport.h:365
 #: boundary_transport.h:372 channel_transport.h:320 channel.h:598 system.h:934
 msgid "Bad defined"
-msgstr "Mal definido"
+msgstr "Erroné"
 
 #: cross_section.h:156 cross_section.h:234 cross_section.h:491
 #: cross_section.h:503 dialog_save_solution.c:90
 msgid "Cross section"
-msgstr "Sección de cauce"
+msgstr "Section de canal"
 
 #: cross_section.h:388 system.h:657
 msgid "Bad control channel"
-msgstr "Cauce del control incorrecto"
+msgstr "Canal du contrôle erroné"
 
 #: cross_section.h:422 system.h:668
 msgid "Bad control cross section"
-msgstr "Sección transversal del control incorrecta"
+msgstr "Section du contrôle erronée"
 
-#: cross_section.h:453 initial_flow.h:237 initial_transport.h:228
-#: channel.h:517 channel.h:555
+#: cross_section.h:453 initial_flow.h:237 initial_transport.h:228 channel.h:517
+#: channel.h:555
 msgid "Bad order"
-msgstr "Orden incorrecto"
+msgstr "Ordre erroné"
 
 #: cross_section.h:584 initial_flow.h:276 initial_flow.h:300
 #: initial_transport.h:267 initial_transport.h:285 boundary_flow.h:663
@@ -95,249 +94,249 @@ msgstr "Orden incorrecto"
 #: boundary_flow.h:974 boundary_flow.h:999 boundary_flow.h:1024
 #: boundary_transport.h:342 boundary_transport.h:428
 msgid "Unknow type"
-msgstr "Tipo desconocido"
+msgstr "Type inconnu"
 
 #: cross_section.h:594
 msgid "Not control channel"
-msgstr "Cauce del control incorrecto"
+msgstr "Canal du contrôle erroné"
 
 #: cross_section.h:607
 msgid "Not control section"
-msgstr "Sección del control no definida"
+msgstr "Section du contrôle indéfinie"
 
 #: cross_section.h:621
 msgid "Bad integration time"
-msgstr "Tiempo de integración incorrecto"
+msgstr "Temps d'integration erroné"
 
 #: cross_section.h:628
 msgid "Bad tolerance"
-msgstr "Tolerancia incorrecta"
+msgstr "Tolérance erronée"
 
 #: channel_geometry.h:84
 msgid "Geometry"
-msgstr "Geometría"
+msgstr "Géométrie"
 
 #: initial_flow.h:125
 msgid "Initial flow conditions"
-msgstr "Condiciones iniciales de flujo"
+msgstr "Conditions initiales d'écoulement"
 
 #: initial_transport.h:116
 msgid "Initial transport conditions"
-msgstr "Condiciones ininiciales de transporte"
+msgstr "Conditions initiales de transport"
 
 #: junction_data.h:88
 msgid "Junction data"
-msgstr "Datos de confluencia"
+msgstr "Données de l_iaison"
 
 #: junction_data.h:193
 msgid "Not channel"
-msgstr "Cauce no definido"
+msgstr "Canal indéfinie"
 
 #: junction_data.h:206
 msgid "Not initial section"
-msgstr "Sección inicial no definida"
+msgstr "Section initiale indéfinie"
 
 #: boundary_flow.h:333 boundary_flow.h:613 boundary_flow.h:622
 msgid "Flow boundary condition"
-msgstr "Condición de contorno de flujo"
+msgstr "Condition au limit d'écoulement"
 
 #: boundary_flow.h:606
 msgid "Inlet"
-msgstr "Entrada"
+msgstr "Entrée"
 
 #: boundary_flow.h:608
 msgid "Outlet"
-msgstr "Salida"
+msgstr "Sortie"
 
 #: boundary_flow.h:631 boundary_flow.h:639 boundary_flow.h:652
 #: boundary_transport.h:310 boundary_transport.h:317 boundary_transport.h:331
 #: channel.h:666 channel.h:733 dialog_position.h:68
 msgid "Bad position"
-msgstr "Posición incorrecta"
+msgstr "Position erronée"
 
 #: boundary_flow.h:830 system.h:580
 msgid "Bad junction"
-msgstr "Confluencia incorrecta"
+msgstr "Liaison erronée"
 
 #: boundary_flow.h:864 boundary_flow.h:919
 msgid "Bad time"
-msgstr "Tiempo incorrecto"
+msgstr "Temps erroné"
 
 #: boundary_flow.h:1043 boundary_transport.h:353
 msgid "Bad delay"
-msgstr "Retraso incorrecto"
+msgstr "Retard erroné"
 
 #: boundary_transport.h:154 boundary_transport.h:289 boundary_transport.h:297
 msgid "Transport boundary condition"
-msgstr "Condición de contorno de transporte"
+msgstr "Condition au limit de transport"
 
 #: transport.h:83 transport.h:141 transport.h:214 transport.h:221
 #: transport.h:229 transport.h:236 channel.h:816 system.h:890
 msgid "Transport"
-msgstr "Transporte"
+msgstr "Transport"
 
 #: transport.h:222 channel.h:787
 msgid "Bad name"
-msgstr "Nombre no definido"
+msgstr "Nom indéfini"
 
 #: transport.h:230
 msgid "Bad solubility"
-msgstr "Solubilidad incorrecta"
+msgstr "Solubilité erronée"
 
 #: transport.h:237
 msgid "Bad danger concentration"
-msgstr "Concentración de peligro incorrecta"
+msgstr "Concentration de danger erronée"
 
 #: channel_transport.h:88 channel.h:585
 msgid "Channel transport"
-msgstr "Cauce de transporte"
+msgstr "Canal de transport"
 
 #: channel.h:125 channel.h:349 channel.h:766 channel.h:773 channel.h:780
 #: channel.h:787 system.h:577 system.h:579 system.h:591 system.h:593
 #: system.h:597 system.h:917
 msgid "Channel"
-msgstr "Cauce"
+msgstr "Canal"
 
 #: channel.h:491 channel.h:546
 msgid "Duplicated definition"
-msgstr "Definición duplicada"
+msgstr "Définition dupliquée"
 
 #: channel.h:499 channel.h:516 channel.h:527 channel.h:554 channel.h:809
 msgid "Flow boundary conditions"
-msgstr "Condiciones de contorno de flujo"
+msgstr "Conditions aux limites d'écoulement"
 
 #: channel.h:545 channel.h:564
 msgid "Outlet flow"
-msgstr "Salida de flujo"
+msgstr "Sortie d'écoulement"
 
 #: channel.h:767
 msgid "Not cell size"
-msgstr "Tamaño de celda no definido"
+msgstr "Longueur de cellule indéfinie"
 
 #: channel.h:774
 msgid "Bad cell size"
-msgstr "Tamaño de celda incorrecto"
+msgstr "Longueur de cellule erronée"
 
 #: channel.h:810
 msgid "Undefined"
-msgstr "No definido"
+msgstr "Indéfini"
 
 #: channel.h:817
 msgid "Bad number of solutes"
-msgstr "Número de solutos incorrecto"
+msgstr "Nombre de solutés erroné"
 
 #: system.h:156 system.h:384 system.h:722
 msgid "System"
-msgstr "Sistema"
+msgstr "Sistème"
 
 #: system.h:545
 msgid "Bad channel"
-msgstr "Cauce incorrecto"
+msgstr "Canal erroné"
 
 #: system.h:555 system.h:568
 msgid "Bad cross section"
-msgstr "Sección de cauce incorrecta"
+msgstr "Section de canal erronée"
 
 #: system.h:600
 msgid "Mixing frontal and lateral junctions"
-msgstr "Mezcla de confluencias frontales y laterales"
+msgstr ""
 
 #: system.h:722 write.h:256 draw.h:93 init.c:475 dialog_system.c:81
 #: dialog_save_solution.c:47 dialog_save_solution.c:167
 msgid "Unable to open the file"
-msgstr "No se pudo abrir el fichero"
+msgstr "Impossible d'ouvrir le fichier"
 
 #: system.h:735
 msgid "Bad XML system"
-msgstr "Sistema XML incorrecto"
+msgstr "XML sistème erroné"
 
 #: system.h:742
 msgid "Bad measured time"
-msgstr "Tiempo de medida incorrecto"
+msgstr "Intervalle de temps de mesure erroné"
 
 #: system.h:749 system.h:756
 msgid "No solution file"
-msgstr "Fichero de solución no definido"
+msgstr "Fichier de solution indéfini"
 
 #: system.h:766
 msgid "Bad advances file"
-msgstr "Fichero de avances incorrecto"
+msgstr "Fichier d'avances erroné"
 
 #: system.h:779
 msgid "Bad plumes file"
-msgstr "Fichero de plumas de peligro incorrecto"
+msgstr "Fichier de plumes de danger erroné"
 
 #: system.h:792
 msgid "Bad contributions file"
-msgstr "Fichero de contribuciones incorrecto"
+msgstr "Fichier d'apports erroné"
 
 #: system.h:802
 msgid "Bad initial time"
-msgstr "Tiempo inicial de simulación incorrecto"
+msgstr "Temps initial de simulation erroné"
 
 #: system.h:809
 msgid "Bad observation time"
-msgstr "Tiempo de observación incorrecto"
+msgstr "Temps d'observation erroné"
 
 #: system.h:814
 msgid "Observation time lower than initial time"
-msgstr "Tiempo de observación menor que el inicial"
+msgstr "Temps d'observation inférieur au temps initial"
 
 #: system.h:821
 msgid "Bad final time"
-msgstr "Tiempo final de simulación incorrecto"
+msgstr "Temps final de simulation erroné"
 
 #: system.h:826
 msgid "Final time lower than initial time"
-msgstr "Tiempo final menor que el tiempo inicial"
+msgstr ""
 
 #: system.h:832
 msgid "Bad CFL"
-msgstr "Número CFL incorrecto"
+msgstr "CFL number erroné"
 
 #: system.h:839
 msgid "Bad implicit number"
-msgstr "Número implícito incorrecto"
+msgstr "Nombre implicite erroné"
 
 #: system.h:846
 msgid "Bad steady error"
-msgstr "Error estacionario incorrecto"
+msgstr "Error stationnaire erroné"
 
 #: system.h:853
 msgid "Bad maximum steady time"
-msgstr "Tiempo máximo estacionario incorrecto"
+msgstr "Intervalle de temps de mesure erroné"
 
 #: system.h:860
 msgid "Bad minimum cross section width"
-msgstr "Mínima anchura de sección transversal incorrecta"
+msgstr ""
 
 #: system.h:867
 msgid "Bad minimum depth"
-msgstr "Calado mínimo incorrecto"
+msgstr "Profondeur minimale erronée"
 
 #: system.h:874
 msgid "Bad granulometric coefficient"
-msgstr "Coeficiente granulométrico incorrecto"
+msgstr "Coefficient granulométrique erroné"
 
 #: section.h:478 section.h:514 section.h:1411 section.h:1423 section.h:1627
 msgid "Section"
-msgstr "Sección"
+msgstr "Section"
 
 #: channel_segment.h:226
 msgid "Channel segment"
-msgstr "Segmento de cauce"
+msgstr "Segment de canal"
 
 #: section_changes.h:163
 msgid "Section changes list"
-msgstr "Lista de cambios de sección"
+msgstr "Liste de changes de section"
 
 #: section_changes.h:279
 msgid "Gauge sections list"
-msgstr "Lista de secciones de aforo"
+msgstr "Liste de sections de jaugeage"
 
 #: section_changes.h:322
 msgid "Variable sections list"
-msgstr "Lista de secciones variables"
+msgstr "Liste de sections variables"
 
 #: mesh.h:409
 msgid "Variables"
@@ -345,324 +344,324 @@ msgstr "Variables"
 
 #: mesh.h:661
 msgid "Transport initial conditions"
-msgstr "Condiciones iniciales de transporte"
+msgstr "Conditions initiales de transport"
 
 #: mesh.h:1059
 msgid "Junction"
-msgstr "Confluencia"
+msgstr "L_iaison"
 
 #: mesh.h:1105 mesh.h:1155 mesh.h:1198
 msgid "Junctions"
-msgstr "Confluencias"
+msgstr "Con_fluences"
 
 #: mesh.h:1307 mesh.h:1406
 msgid "Volume of junctions"
-msgstr "Volumen de las confluencias"
+msgstr "Volume des confluences"
 
 #: mesh.h:1499
 msgid "Tributary junctions"
-msgstr "Confluencias laterales"
+msgstr "Confluences latérales"
 
 #: mesh.h:1568
 msgid "Frontal junctions"
-msgstr "Confluencias frontales"
+msgstr "Confluences frontales"
 
 #: mesh.h:1609
 msgid "Parallel junction"
-msgstr "Confluencia lateral"
+msgstr "Confluences parallèles"
 
 #: mesh.h:1610
 msgid "Not yet implemented"
-msgstr "Todavía no implementado"
+msgstr "Pas établi encore"
 
 #: mesh.h:2075
 msgid "Mesh"
-msgstr "Malla"
+msgstr "Maille"
 
 #: write.h:163 dialog_save_solution.c:114 dialog_save_solution.c:167
 #: dialog_simulator.c:315
 msgid "Save solution"
-msgstr "Guardar solución"
+msgstr "Enregistrer solution"
 
 #: write.h:207 write.h:278 dialog_graphical_options.c:380
 #: dialog_save_solution.c:100
 msgid "Time evolution"
-msgstr "Evolución temporal"
+msgstr "Évolution temporelle"
 
-#: write.h:256 draw.h:93 init.c:304 init.c:310 init.c:322 init.c:330
-#: init.c:360 init.c:365 init.c:475 dialog_save_solution.c:47
+#: write.h:256 draw.h:93 init.c:304 init.c:310 init.c:322 init.c:330 init.c:360
+#: init.c:365 init.c:475 dialog_save_solution.c:47
 msgid "Solution"
-msgstr "Solución"
+msgstr "Solution"
 
 #: system.c:297 mesh.c:313 init.c:639 init.c:680
 msgid "Usage is"
-msgstr "El uso es"
+msgstr ""
 
 #: system.c:297 mesh.c:313
 msgid "swigs simulation_file"
-msgstr "swigs fichero_de_simulación"
+msgstr "swigs fichier_de_simulation"
 
 #: simulate.c:93
 msgid "This abort the program! Do you like to continue?"
-msgstr "¡Esto aborta el programa! ¿Desea continuar?"
+msgstr "Ça finie le programme! Vous voulez continuer?"
 
 #: simulate.c:94 simulate.c:461
 msgid "Warning!"
-msgstr "¡Ojo!"
+msgstr "Attention!"
 
 #: simulate.c:109
 msgid "Calculating geometrical parameters"
-msgstr "Calculando parámetros geométricos"
+msgstr ""
 
 #: simulate.c:116
 msgid "Opening mesh"
-msgstr "Abriendo malla"
+msgstr "En ouvrant la maille"
 
 #: simulate.c:118 simulate.c:176
 msgid "_Stop"
-msgstr "_Parar"
+msgstr "_Arrêter"
 
 #: simulate.c:163
 msgid "Calculating steady initial conditions ..."
-msgstr "Calculando condiciones iniciales estacionarias ..."
+msgstr "En calculant les conditions initiales stationnaires ..."
 
 #: simulate.c:165
 msgid "Maximum steady initial discharge error"
-msgstr "Máximo error en caudal inicial estacionario"
+msgstr "Erreur maximal en débit initial stationnaire"
 
 #: simulate.c:174
 msgid "Flow initial conditions"
-msgstr "Condiciones iniciales de flujo"
+msgstr "Conditions initiales d'écoulement"
 
 #: simulate.c:460
 msgid "Do you want to overwrite the solution file?"
-msgstr "¿Desea sobreescribir el fichero de solución"
+msgstr ""
 
 #: simulate.c:622
 msgid "Channel overflow"
-msgstr "Se produjo desbordamiento del cauce"
+msgstr "Débordement du canal"
 
 #: init.c:295
 msgid "Bad profile"
-msgstr "Perfil incorrecto"
+msgstr "Profile erroné"
 
 #: init.c:311
 msgid "Bad channel number"
-msgstr "Número de cauce incorrecto"
+msgstr "Nombre de canal erroné"
 
 #: init.c:342
 msgid "Bad write XML node"
-msgstr "Nodo XML de solución incorrecto"
+msgstr "Node XML de solution erroné"
 
 #: init.c:360 init.c:365
 msgid "Bad evolution"
-msgstr "Evolución temporal incorrecta"
+msgstr "Évolution temporelle erroné"
 
 #: init.c:403
 msgid "Bad q error"
-msgstr "q error incorrecto"
+msgstr "q error erroné"
 
 #: init.c:408
 msgid "High q error"
-msgstr "q error alto"
+msgstr "q error haut"
 
 #: init.c:417
 msgid "Bad h error"
-msgstr "h error incorrecto"
+msgstr "h error erroné"
 
 #: init.c:422
 msgid "High h error"
-msgstr "h error alto"
+msgstr "h error haut"
 
 #: init.c:431
 msgid "Bad s error"
-msgstr "s error incorrecto"
+msgstr "s error erroné"
 
 #: init.c:436
 msgid "High s error"
-msgstr "s error alto"
+msgstr "s error haut"
 
 #: init.c:447
 msgid "Solution file"
-msgstr "Fichero de solución"
+msgstr "Fichier de solution"
 
 #: init.c:447
 msgid "No name"
-msgstr "Nombre no definido"
+msgstr "Nom indéfini"
 
 #: init.c:507
 msgid "Unable to open the parameters"
-msgstr "No se pudo abrir el fichero"
+msgstr "Impossible d'ouvrir le fichier"
 
 #: init.c:513 init.c:520
 msgid "Bad simulation XML file"
-msgstr "Fichero XML de simulación incorrecto"
+msgstr "Fichier XML de simulation erroné"
 
 #: init.c:627
 msgid "Unable to open the external libraries"
-msgstr "No se pudieron abrir las librerías externas"
+msgstr "Impossible d'ouvrir les librairies externes"
 
 #: init.c:640
 msgid "swigs [-np number_of_processors]"
-msgstr "swigs [-np número_de_procesadores]"
+msgstr "swigs [-np nombre_de_processeurs]"
 
 #: init.c:682
 msgid "swigs [-np number_of_processors] simulation_file"
-msgstr "swigs [-np número_de_procesadores] fichero_de_simulación"
+msgstr "swigs [-np nombre_de_processeurs] fichier_de_simulation"
 
 #: dialog_position.h:49
 #, c-format
 msgid "Position (1-%d)"
-msgstr "Posición (1-%d)"
+msgstr "Position (1-%d)"
 
 #: dialog_position.h:57 dialog_system.c:56 dialog_graphical_options.c:424
 #: dialog_save_solution.c:117 dialog_mass.c:102 dialog_simulator.c:71
 msgid "_OK"
-msgstr "_Aceptar"
+msgstr "_Accepter"
 
 #: dialog_system.c:45
 msgid "XML system file (*.xml, *.XML)"
-msgstr "Fichero de sistema XML (*.xml, *.XML)"
+msgstr "XML fichier de sistème (*.xml, *.XML)"
 
 #: dialog_system.c:47 dialog_system.c:53 dialog_system.c:80
 #: dialog_simulator.c:311
 msgid "Open system"
-msgstr "Abrir sistema"
+msgstr "Ouvrir sistème"
 
-#: dialog_system.c:57 dialog_graphical_options.c:425
-#: dialog_save_solution.c:118 dialog_simulator.c:70
+#: dialog_system.c:57 dialog_graphical_options.c:425 dialog_save_solution.c:118
+#: dialog_simulator.c:70
 msgid "_Cancel"
-msgstr "_Cancelar"
+msgstr ""
 
 #: dialog_graphical_options.c:38
 msgid "Discharge"
-msgstr "Caudal"
+msgstr "Débit"
 
 #: dialog_graphical_options.c:39
 msgid "Depth"
-msgstr "Calado"
+msgstr "Profondeur"
 
 #: dialog_graphical_options.c:40 dialog_graphical_options.c:360
 #: dialog_simulator.c:224
 msgid "Level"
-msgstr "Cota"
+msgstr "Cote"
 
 #: dialog_graphical_options.c:41
 msgid "Velocity"
-msgstr "Velocidad"
+msgstr "Vitesse"
 
 #: dialog_graphical_options.c:42
 msgid "Froude number"
-msgstr "Número de Froude"
+msgstr "Nombre de Froude"
 
 #: dialog_graphical_options.c:43
 msgid "Area"
-msgstr "Área"
+msgstr "Aire"
 
 #: dialog_graphical_options.c:44
 msgid "Top width"
-msgstr "Anchura superficial"
+msgstr "Largeur superfitielle"
 
 #: dialog_graphical_options.c:120
 msgid "_No animation"
-msgstr "_No animación"
+msgstr "_Sans animation"
 
 #: dialog_graphical_options.c:120
 msgid "_Fast"
-msgstr "_Rápida"
+msgstr "_Rapide"
 
 #: dialog_graphical_options.c:120
 msgid "_Detailed"
-msgstr "_Detallada"
+msgstr "_Detaillée"
 
 #: dialog_graphical_options.c:130
 msgid "_Manual adjust"
-msgstr "A_juste manual"
+msgstr "Réglage _manual"
 
 #: dialog_graphical_options.c:136
 msgid "_Show grid"
-msgstr "_Mostrar rejilla"
+msgstr "Montrer maille"
 
 #: dialog_graphical_options.c:138 dialog_graphical_options.c:161
 #: dialog_graphical_options.c:186 dialog_graphical_options.c:235
 #: dialog_graphical_options.c:258 dialog_graphical_options.c:283
 #: dialog_graphical_options.c:324 dialog_graphical_options.c:344
 msgid "Maximum"
-msgstr "Máximo"
+msgstr "Maximum"
 
 #: dialog_graphical_options.c:141 dialog_graphical_options.c:164
 #: dialog_graphical_options.c:189 dialog_graphical_options.c:238
 #: dialog_graphical_options.c:261 dialog_graphical_options.c:286
 #: dialog_graphical_options.c:327 dialog_graphical_options.c:347
 msgid "Minimum"
-msgstr "Mínimo"
+msgstr "Minimum"
 
 #: dialog_graphical_options.c:154 dialog_graphical_options.c:340
 #: dialog_simulator.c:191
 msgid "Position"
-msgstr "Posición"
+msgstr "Position"
 
 #: dialog_graphical_options.c:179 dialog_graphical_options.c:276
 msgid "Parameter 1"
-msgstr "Parámetro 1"
+msgstr "Paramètre 1"
 
 #: dialog_graphical_options.c:204 dialog_graphical_options.c:301
 msgid "Parameter 2"
-msgstr "Parámetro 2"
+msgstr "Paramètre 2"
 
 #: dialog_graphical_options.c:225 dialog_graphical_options.c:251
 #: dialog_save_solution.c:84 dialog_simulator.c:209
 msgid "Time"
-msgstr "Tiempo"
+msgstr "Temps"
 
 #: dialog_graphical_options.c:379 dialog_save_solution.c:99
 msgid "Longitudinal profile"
-msgstr "Perfil longitudinal"
+msgstr "Profil longitudinal"
 
 #: dialog_graphical_options.c:404
 msgid "Animation"
-msgstr "Animación"
+msgstr "Animation"
 
 #: dialog_graphical_options.c:422 dialog_simulator.c:316
 msgid "Graphical options"
-msgstr "Opciones gráficas"
+msgstr "Options graphiques"
 
 #: dialog_mass.c:36
 msgid "Initial mass"
-msgstr "Masa inicial"
+msgstr "Masse initiale"
 
 #: dialog_mass.c:37
 msgid "Final mass"
-msgstr "Masa final"
+msgstr "Masse finale"
 
 #: dialog_mass.c:39
 msgid "Inlet contributions"
-msgstr "Contribuciones de la entrada"
+msgstr "Apports de l'entrée"
 
 #: dialog_mass.c:41
 msgid "Inner contributions"
-msgstr "Contribuciones internas"
+msgstr "Apports internes"
 
 #: dialog_mass.c:43
 msgid "Oulet contributions"
-msgstr "Contribuciones de la salida"
+msgstr "Apports de la sortie"
 
 #: dialog_mass.c:45 dialog_mass.c:100 dialog_simulator.c:314
 #: dialog_simulator.c:424
 msgid "Conservation error"
-msgstr "Error de conservación"
+msgstr "Erreur de conservation"
 
 #: dialog_mass.c:90
 msgid "Flow"
-msgstr "Flujo"
+msgstr "Écoulement"
 
 #: dialog_simulator.c:67 dialog_simulator.c:313
 msgid "Save system as"
-msgstr "Guardar sistema _como"
+msgstr "Enre_gistrer sistème sous"
 
 #: dialog_simulator.c:131
 msgid "user-manual.pdf"
-msgstr "manual-de-usuario.pdf"
+msgstr ""
 
 #: dialog_simulator.c:151
 msgid ""
@@ -670,283 +669,274 @@ msgid ""
 "simulate transient or steady flows with solute transport in channels, "
 "channel networks and rivers"
 msgstr ""
-"SWIGS (Shallow Water in Irregular Geometries Simulator): un programa para "
-"simular flujos transitorios o estacionarios con tranporte de solute en "
-"canales, redes de canales y ríos"
 
 #: dialog_simulator.c:171 dialog_simulator.c:225
 msgid "Bed level"
-msgstr "Fondo"
+msgstr "Cote du fond"
 
 #: dialog_simulator.c:172
 msgid "Critical velocity"
-msgstr "Velocidad crítica"
+msgstr "Vitesse critique"
 
 #: dialog_simulator.c:289
 msgid "_Channel"
-msgstr "_Cauce"
+msgstr "_Canal"
 
 #: dialog_simulator.c:290
 msgid "_Simulate"
-msgstr "_Simular"
+msgstr "_Simuler"
 
 #: dialog_simulator.c:290
 msgid "_Graphical"
-msgstr "_Gráficas"
+msgstr "_Graphique"
 
 #: dialog_simulator.c:290 dialog_simulator.c:307
 msgid "_Help"
-msgstr "A_yuda"
+msgstr "_Aide"
 
 #: dialog_simulator.c:293
 msgid "_New"
-msgstr "_Nuevo"
+msgstr "_Nouveau"
 
 #: dialog_simulator.c:294
 msgid "_Open"
-msgstr "_Abrir"
+msgstr "_Ouvrir"
 
 #: dialog_simulator.c:294
 msgid "_Edit"
-msgstr "_Editar"
+msgstr "É_diter"
 
 #: dialog_simulator.c:294
 msgid "_Save"
-msgstr "_Guardar"
+msgstr "En_registrer"
 
 #: dialog_simulator.c:295
 msgid "S_ave as"
-msgstr "Guardar _como"
+msgstr "Enre_gistrer sous"
 
 #: dialog_simulator.c:295
 msgid "E_xit"
-msgstr "_Salir"
+msgstr "_Quitter"
 
 #: dialog_simulator.c:298
 msgid "_Start"
-msgstr "_Iniciar"
+msgstr "_Démarrer"
 
 #: dialog_simulator.c:298
 msgid "Sto_p"
-msgstr "_Parar"
+msgstr "A_rrêter"
 
 #: dialog_simulator.c:299
 msgid "Conse_rvation error"
-msgstr "E_rror de conservación"
+msgstr "E_rreur de conservation"
 
 #: dialog_simulator.c:300
 msgid "Sa_ve solution"
-msgstr "_Guardar solución"
+msgstr "Enre_gistrer solution"
 
 #: dialog_simulator.c:300
 msgid "Save _graphical"
-msgstr "Guardar grá_fica"
+msgstr "Enregistrer gra_phique"
 
 #: dialog_simulator.c:303
 msgid "_Options"
-msgstr "_Opciones"
+msgstr "_Options"
 
 #: dialog_simulator.c:304
 msgid "_View animation"
-msgstr "_Ver animación"
+msgstr "_Voir animation"
 
 #: dialog_simulator.c:304
 msgid "_Stop animation"
-msgstr "_Parar animación"
+msgstr "A_rrêter animation"
 
 #: dialog_simulator.c:307
 msgid "_About"
-msgstr "_Acerca"
+msgstr "_Apropos"
 
 #: dialog_simulator.c:310
 msgid "Exit"
-msgstr "Salir"
+msgstr "Quitter"
 
 #: dialog_simulator.c:311
 msgid "New system"
-msgstr "Nuevo sistema"
+msgstr "Nouveau sistème"
 
 #: dialog_simulator.c:312
 msgid "Edit system"
-msgstr "Editar sistema"
+msgstr "Éditer sistème"
 
 #: dialog_simulator.c:312
 msgid "Save system"
-msgstr "Guardar sistema"
+msgstr "Enregistrer sistème"
 
 #: dialog_simulator.c:313
 msgid "Start simulation"
-msgstr "Iniciar simulación"
+msgstr "Démarrer simulation"
 
 #: dialog_simulator.c:314
 msgid "Stop simulation"
-msgstr "Parar simulación"
+msgstr "Arrêter simulation"
 
 #: dialog_simulator.c:315
 msgid "Save graphical"
-msgstr "Guardar gráfica"
+msgstr "Enregistrer graphique"
 
 #: dialog_simulator.c:316
 msgid "View animation"
-msgstr "Ver animación"
+msgstr "Voir animation"
 
 #: dialog_simulator.c:317
 msgid "Stop animation"
-msgstr "Parar animación"
+msgstr "Arrêter animation"
 
 #: dialog_simulator.c:317
 msgid "Help"
-msgstr "Ayuda"
+msgstr "Aide"
 
 #: dialog_simulator.c:317
 msgid "About"
-msgstr "Acerca"
+msgstr "Apropos"
 
 #: dialog_simulator.c:416
 msgid "Simulation time"
-msgstr "Tiempo de simulación"
+msgstr "Temps de simulation"
 
 #: dialog_simulator.c:419
 msgid "Computational time"
-msgstr "Tiempo de cálculo"
+msgstr "Temps de computation"
 
 #~ msgid "Inlet flow"
-#~ msgstr "Entrada de flujo"
-
-#~ msgid "Not hydrogram"
-#~ msgstr "Falta el hidrograma"
-
-#~ msgid "Boundary flow"
-#~ msgstr "Contorno de flujo"
+#~ msgstr "Entrée d'écoulement"
 
 #~ msgid "Bad section number"
-#~ msgstr "Número de sección incorrecto"
+#~ msgstr "Nombre de section erroné"
 
 #~ msgid "Unable to open the graphical librery (OpenGL)"
-#~ msgstr "No se pudo abrir la librería gráfica (OpenGL)"
+#~ msgstr "Impossible d'ouvrir la librairie graphique (OpenGL)"
 
 #~ msgid "Please, delete solution file"
-#~ msgstr "Por favor, borre el fichero de solución"
+#~ msgstr "S'il vous plat, éraser le fichier de solution"
 
 #~ msgid "Minimum width coefficient"
-#~ msgstr "Coeficiente de anchura mínima"
+#~ msgstr "Coefficient de largeur minimale"
 
 #~ msgid "Depth accuracy"
-#~ msgstr "Precisión en calado"
+#~ msgstr "Précision de profondeur"
 
 #~ msgid "Advanced options"
-#~ msgstr "Opciones avanzadas"
+#~ msgstr "Options avancées"
 
 #~ msgid "_Advanced options"
-#~ msgstr "Opciones _avanzadas"
+#~ msgstr "Options _avancées"
 
 #~ msgid "Error!"
-#~ msgstr "¡Error!"
+#~ msgstr "Erreur!"
 
 #~ msgid "Bad mesh cell size"
-#~ msgstr "Máximo tamaño de celda"
+#~ msgstr "Maximum longueur de cellule"
 
 #~ msgid "Friction coefficient"
-#~ msgstr "Coeficiente de fricción"
+#~ msgstr "Coefficient de friction"
 
 #~ msgid "Steady disc_harge"
-#~ msgstr "Caudal fi_jo"
+#~ msgstr "_Débit stationnaire"
 
 #~ msgid "Stead_y depth"
-#~ msgstr "Calado _fijo"
+#~ msgstr "Pro_fondeur stationnaire"
 
 #~ msgid "S_teady level"
-#~ msgstr "Co_ta fija"
+#~ msgstr "Co_te stationnaire"
 
 #~ msgid "_Steady discharge and depth"
-#~ msgstr "Caudal y calado fijo_s"
+#~ msgstr "Débit et profondeur _stationnaires"
 
 #~ msgid "Ste_ady discharge and level"
-#~ msgstr "Caudal _y cota fijos"
+#~ msgstr "Débit et c_ote _stationnaires"
 
 #~ msgid "Va_riable discharge Q(t)"
-#~ msgstr "Caudal va_riable Q(t)"
+#~ msgstr "Débit va_riable Q(h)"
 
 #~ msgid "_Variable depth h(t)"
-#~ msgstr "Calado _variable h(t)"
+#~ msgstr "Profondeur _variable h(t)"
 
 #~ msgid "Variable level _z(t)"
-#~ msgstr "Cota variable _z(t)"
+#~ msgstr "Cote variable _z(t)"
 
 #~ msgid "Variab_le discharge and depth Q(t), h(t)"
-#~ msgstr "Caudal y calado variab_les Q(t), h(t)"
+#~ msgstr "Débit et profondeur variab_les Q(t), h(t)"
 
 #~ msgid "Variable _discharge and level Q(t), z(t)"
-#~ msgstr "Caudal y cota variables _Q(t), z(t)"
+#~ msgstr "Débit et cote variables _Q(t), h(t)"
 
 #~ msgid "_Gauge discharge Q(h)"
-#~ msgstr "Cau_dal de aforo Q(h)"
+#~ msgstr "Débit de _jaugeage Q(h)"
 
 #~ msgid "Gaug_e discharge Q(z)"
-#~ msgstr "Caudal d_e aforo Q(z)"
+#~ msgstr "Débit de jau_geage Q(z)"
 
 #~ msgid "Su_percritical"
-#~ msgstr "S_upercrítica"
+#~ msgstr "Su_percritique"
 
 #~ msgid "Da_m"
-#~ msgstr "_Presa"
+#~ msgstr "_Barrage"
 
 #~ msgid "_Pipe"
-#~ msgstr "Tub_o"
+#~ msgstr "Tu_be"
 
 #~ msgid "Type"
-#~ msgstr "Tipo"
+#~ msgstr "Type"
 
 #~ msgid "Insert _point"
-#~ msgstr "Insertar _punto"
+#~ msgstr "Insérer _point"
 
 #~ msgid "Delete poi_nt"
-#~ msgstr "Borrar pu_nto"
+#~ msgstr "Effacer poi_nt"
 
 #~ msgid "Actualize p_lot"
-#~ msgstr "Actualizar _gráfica"
+#~ msgstr "Actualize p_lot"
 
 #~ msgid "Insert point"
-#~ msgstr "Insertar punto"
+#~ msgstr "Insérer point"
 
 #~ msgid "Delete point"
-#~ msgstr "Borrar punto"
+#~ msgstr "Effacer point"
 
 #~ msgid "New transient section"
-#~ msgstr "Nueva sección transitoria"
+#~ msgstr "Nouvelle section transitoire"
 
 #~ msgid "Delete transient section"
-#~ msgstr "Borrar sección transitoria"
+#~ msgstr "Effacer section transitoire"
 
 #~ msgid "Delete cross section"
-#~ msgstr "Borrar sección de cauce"
+#~ msgstr "Effacer section de canal"
 
 #~ msgid "t"
 #~ msgstr "t"
 
 #~ msgid "Expansion/contraction coefficient"
-#~ msgstr "Coeficiente de expansión/contracción"
+#~ msgstr "Coefficient d'expansion/contraction"
 
 #~ msgid "_Normal"
 #~ msgstr "_Normal"
 
 #~ msgid "Discharge _gauge"
-#~ msgstr "Cont_rol de caudal"
+#~ msgstr "Jau_geage de débit"
 
 #~ msgid "De_pth gauge"
-#~ msgstr "Control de ca_lado"
+#~ msgstr "Jaugeage de _profondeur"
 
 #~ msgid "Le_vel gauge"
-#~ msgstr "Control de co_ta"
+#~ msgstr "_Jaugeage de cote"
 
 #~ msgid "x"
 #~ msgstr "x"
 
 #~ msgid "_Dry channel"
-#~ msgstr "Cauce _seco"
+#~ msgstr "_Canal sec"
 
 #~ msgid "_Steady"
-#~ msgstr "_Estacionario"
+#~ msgstr "_Stationnaires"
 
 #~ msgid "Variables (x, Q, _h)"
 #~ msgstr "Variables (x, Q, _h)"
@@ -955,10 +945,10 @@ msgstr "Tiempo de cálculo"
 #~ msgstr "Variables (x, Q, _z)"
 
 #~ msgid "_Pointwise"
-#~ msgstr "_Puntual"
+#~ msgstr "_Ponctuel"
 
 #~ msgid "_Discharge"
-#~ msgstr "_Caudal"
+#~ msgstr "_Débit"
 
 #~ msgid "y"
 #~ msgstr "y"
@@ -967,76 +957,76 @@ msgstr "Tiempo de cálculo"
 #~ msgstr "z"
 
 #~ msgid "Friction model"
-#~ msgstr "Modelo de fricción"
+#~ msgstr "Modèle de friction"
 
 #~ msgid "_Insert cross section"
-#~ msgstr "_Insertar sección de cauce"
+#~ msgstr "_Insérer section de canal"
 
 #~ msgid "_Delete cross section"
-#~ msgstr "_Borrar sección de cauce"
+#~ msgstr "_Effacer section de canal"
 
 #~ msgid "_Insert transient section"
-#~ msgstr "_Insertar sección transitoria"
+#~ msgstr "_Insérer section transitoire"
 
 #~ msgid "_Delete transient section"
-#~ msgstr "_Borrar sección transitoria"
+#~ msgstr "_Effacer section transitoire"
 
 #~ msgid "Angle (°)"
-#~ msgstr "Ángulo (°)"
+#~ msgstr "Angle (°)"
 
 #~ msgid "Gauge section"
-#~ msgstr "Sección de control"
+#~ msgstr "Section de jaugeage"
 
 #~ msgid "Cross section variations"
-#~ msgstr "Variaciones de sección de cauce"
+#~ msgstr "Changes de section de canal"
 
 #~ msgid "z initial"
-#~ msgstr "z inicial"
+#~ msgstr "z initiale"
 
 #~ msgid "z final"
-#~ msgstr "z final"
+#~ msgstr "z finale"
 
 #~ msgid "_Insert"
-#~ msgstr "_Insertar"
+#~ msgstr "_Insérer"
 
 #~ msgid "_Delete"
-#~ msgstr "_Borrar"
+#~ msgstr "_Effacer"
 
 #~ msgid "Final section"
-#~ msgstr "Sección final"
+#~ msgstr "Section finale"
 
 #~ msgid "Mass"
-#~ msgstr "Masa"
+#~ msgstr "Masse"
 
 #~ msgid "Cross sections"
-#~ msgstr "Secciones de cauce"
+#~ msgstr "Sections de canal"
 
 #~ msgid "Transient sections"
-#~ msgstr "Secciones transitorias"
+#~ msgstr "Sections transitoires"
 
 #~ msgid "Channel editor: %s/%s"
-#~ msgstr "Editor de cauces: %s/%s"
+#~ msgstr "É_diteur de canals: %s/%s"
 
 #~ msgid "Open channel"
-#~ msgstr "Abrir cauce"
+#~ msgstr "Ouvrir canal"
 
 #~ msgid "_Specify roughness"
-#~ msgstr "_Especificar rugosidad"
+#~ msgstr "_Spécifier rugosité"
 
 #~ msgid "CFL number"
-#~ msgstr "Número CFL"
+#~ msgstr "Nombre CFL"
 
 #~ msgid "Simulating options"
-#~ msgstr "Opciones de simulación"
+#~ msgstr "Options de simulation"
 
 #~ msgid "Simulating _options"
-#~ msgstr "_Opciones de simulación"
+#~ msgstr "_Options de simulation"
 
 #~ msgid "Save channel"
-#~ msgstr "Guardar cauce"
+#~ msgstr "Enregistrer canal"
 
 #~ msgid "Unable to write the file"
-#~ msgstr "No se pudo abrir el fichero"
+#~ msgstr "Impossible d'ouvrir le fichier"
 
 #~ msgid "swigs channel_file parameters_file output_file"
-#~ msgstr "swigs fichero_de_cauce fichero_de_parámetros"
+#~ msgstr "swigs fichier_de_canal fichier_de_sortie"

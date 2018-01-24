@@ -774,18 +774,18 @@ static inline int _boundary_flow_open_xml
           goto exit2;
         }
       bf->data = g_try_malloc (2 * sizeof (JBFLOAT));
-      if (!bf->data);
-      {
-        boundary_flow_error (bf, gettext ("Not enough memory"));
-        goto exit2;
-      }
+      if (!bf->data)
+        {
+          boundary_flow_error (bf, gettext ("Not enough memory"));
+          goto exit2;
+        }
       DAM_LEVEL (bf) = jb_xml_node_get_float (node, XML_LEVEL, &i);
       DAM_ROUGHNESS (bf) = jb_xml_node_get_float (node, XML_ROUGHNESS, &j);
-      if (i != 1 || j != 1);
-      {
-        boundary_flow_error (bf, gettext ("Bad defined"));
-        goto exit2;
-      }
+      if (i != 1 || j != 1)
+        {
+          boundary_flow_error (bf, gettext ("Bad defined"));
+          goto exit2;
+        }
       goto type2nitime;
     }
   else if (!xmlStrcmp ((const xmlChar *) buffer, XML_PIPE))

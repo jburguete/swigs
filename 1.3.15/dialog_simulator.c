@@ -132,7 +132,7 @@ dialog_simulator_help (DialogSimulator * dlg)
   g_free (buffer);
   buffer = g_filename_to_uri (buffer2, NULL, NULL);
   g_free (buffer2);
-  gtk_show_uri (NULL, buffer, GDK_CURRENT_TIME, NULL);
+  gtk_show_uri_on_window (window_parent, buffer, GDK_CURRENT_TIME, NULL);
   g_free (buffer);
 }
 
@@ -151,7 +151,7 @@ dialog_simulator_about (DialogSimulator * dlg)
                          ("SWIGS (Shallow Water in Irregular Geometries Simulator): "
                           "a software to simulate transient or steady flows with solute "
                           "transport in channels, channel networks and rivers"),
-                         "authors", authors, "version", "1.3.14", "copyright",
+                         "authors", authors, "version", "1.3.15", "copyright",
                          "Copyright 2011-2015 Javier Burguete Tolosa", "logo",
                          dlg->pixbuf, "website-label", "Website", "website",
                          "https://github.com/jburguete/swigs", NULL);
@@ -486,9 +486,9 @@ dialog_simulator_new ()
                             (void *) dialog_simulator_animate, dlg);
   g_signal_connect (dlg->item_graphic[3], "activate", dialog_simulator_stop, 0);
   g_signal_connect_swapped
-    (dlg->item_help[0], "activate", dialog_simulator_help, dlg);
+    (dlg->item_help[0], "activate", (void *) dialog_simulator_help, dlg);
   g_signal_connect_swapped
-    (dlg->item_help[1], "activate", dialog_simulator_about, dlg);
+    (dlg->item_help[1], "activate", (void *) dialog_simulator_about, dlg);
 
   g_signal_connect (dlg->button[0], "clicked", (void (*)) exit, 0);
   g_signal_connect (dlg->button[2], "clicked", dialog_simulator_new_system, 0);

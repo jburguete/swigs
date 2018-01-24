@@ -2722,22 +2722,22 @@ static inline void _part_simulate_step2 (int thread)
   Parameters *pv;
 #if DEBUG_PART_SIMULATE_STEP2
   if (t >= DEBUG_TIME)
-      fprintf (stderr, "part_simulate_step2: start\n");
+    fprintf (stderr, "part_simulate_step2: start\n");
 #endif
-    i = cell_thread[thread];
-    i2 = cell_thread[thread + 1] - 1;
+  i = cell_thread[thread];
+  i2 = cell_thread[thread + 1] - 1;
 #if DEBUG_PART_SIMULATE_STEP2
   if (t >= DEBUG_TIME)
-      fprintf (stderr, "PSS2 i=%d i2=%d\n", i, i2);
+    fprintf (stderr, "PSS2 i=%d i2=%d\n", i, i2);
 #endif
   if (sys->nt >= 0)
     for (j = i, pv = p + i; j <= i2; ++j, ++pv)
-        pv->DD += pv->V;
-    part_parameters (thread);
+      pv->DD += pv->V;
+  part_parameters (thread);
 
-    k = fo * dt2;
-    pv = p + i;
-    channel = pv->channel;
+  k = fo * dt2;
+  pv = p + i;
+  channel = pv->channel;
   if (i != channel->i)
     {
       k2 = k * pv->gm * pv->dzb;
